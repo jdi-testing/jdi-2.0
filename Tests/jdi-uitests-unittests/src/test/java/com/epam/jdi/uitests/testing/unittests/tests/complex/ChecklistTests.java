@@ -12,13 +12,14 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import static com.epam.jdi.tools.LinqUtils.first;
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInState;
 import static com.epam.jdi.uitests.testing.unittests.enums.Nature.*;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.actionsLog;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActionsData.checkAction;
-import static com.epam.jdi.uitests.web.settings.WebSettings.getDriver;
+import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriver;
 import static com.epam.web.matcher.testng.Assert.*;
 import static java.util.Arrays.asList;
 
@@ -71,7 +72,7 @@ public class ChecklistTests extends InitTests {
     public void select2StringTest() {
         nature().select("Water", "Fire");
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.getTextList().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
 
     }
 
@@ -79,14 +80,14 @@ public class ChecklistTests extends InitTests {
     public void select2IndexTest() {
         nature().select(1, 4);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.getTextList().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
     }
 
     @Test
     public void select2EnumTest() {
         nature().select(WATER, FIRE);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.getTextList().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
     }
 
     @Test
@@ -111,7 +112,7 @@ public class ChecklistTests extends InitTests {
     public void check2StringTest() {
         nature().check("Water", "Fire");
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.getTextList().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
 
     }
 
@@ -119,20 +120,20 @@ public class ChecklistTests extends InitTests {
     public void check2IndexTest() {
         nature().check(1, 4);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.getTextList().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
     }
 
     @Test
     public void check2EnumTest() {
         nature().check(WATER, FIRE);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.getTextList().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
     }
 
     @Test
     public void selectAllTest() {
         nature().selectAll();
-        List<String> log = actionsLog.getTextList();
+        List<String> log = actionsLog.asText();
         assertContains(log.get(3), "Water: condition changed to true");
         assertContains(log.get(2), "Earth: condition changed to true");
         assertContains(log.get(1), "Wind: condition changed to true");
@@ -143,7 +144,7 @@ public class ChecklistTests extends InitTests {
     @Test
     public void checkAllTest() {
         nature().checkAll();
-        List<String> log = actionsLog.getTextList();
+        List<String> log = actionsLog.asText();
         assertContains(log.get(3), "Water: condition changed to true");
         assertContains(log.get(2), "Earth: condition changed to true");
         assertContains(log.get(1), "Wind: condition changed to true");

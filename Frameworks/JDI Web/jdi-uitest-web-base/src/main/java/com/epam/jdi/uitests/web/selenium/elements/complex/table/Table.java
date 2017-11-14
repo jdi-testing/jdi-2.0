@@ -29,9 +29,10 @@ import com.epam.jdi.tools.func.JFunc;
 import com.epam.jdi.uitests.core.interfaces.ISetup;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ICell;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
-import com.epam.jdi.uitests.core.templates.base.TTable;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.TableRow;
+import com.epam.jdi.uitests.core.interfaces.complex.tables.TableVerify;
 import com.epam.jdi.uitests.core.templates.base.LinkedElements;
+import com.epam.jdi.uitests.core.templates.base.TTable;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Selector;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JTable;
@@ -57,8 +58,11 @@ public class Table extends Element implements ITable, ISetup {
     public <T> T validation(JFunc<T> results) {
         return tTable.validation(results);
     }
-    public ITable waitWhile(int timeoutSec) {
+    public TableVerify waitWhile(int timeoutSec) {
         return tTable.waitWhile(timeoutSec);
+    }
+    public TableVerify assertThat(int timeoutSec) {
+        return tTable.assertThat(timeoutSec);
     }
     public TableRow rows() {
         return tTable.rows();

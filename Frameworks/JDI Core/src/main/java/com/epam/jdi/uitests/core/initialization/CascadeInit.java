@@ -27,12 +27,13 @@ package com.epam.jdi.uitests.core.initialization;
 /**
  * Created by Roman Iovlev on 10.03.2017
  */
+
 import com.epam.jdi.uitests.core.interfaces.ISetup;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IComposite;
-import com.epam.jdi.uitests.core.templates.base.ETable;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
 import com.epam.jdi.uitests.core.interfaces.composite.IPage;
+import com.epam.jdi.uitests.core.templates.base.ETable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;

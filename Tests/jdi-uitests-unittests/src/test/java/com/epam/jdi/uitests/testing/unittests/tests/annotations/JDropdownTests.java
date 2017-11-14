@@ -19,9 +19,9 @@ public class JDropdownTests extends InitTests {
     @Test(dataProvider = "dropdownData", dataProviderClass = JDropdownDP.class)
     public void dropdown(IDropDown dropdown, Boolean selectResult, String text, String options) {
         dropdown.expand();
-        new Check().isTrue(dropdown.isDisplayed());
+        new Check().isTrue(dropdown.displayed());
         dropdown.close();
-        new Check().isFalse(dropdown.isDisplayed());
+        new Check().isFalse(dropdown.displayed());
 
         new Check().isTrue(dropdown.getText().equals(text));
         new Check().areEquals(dropdown.getOptions(), options);

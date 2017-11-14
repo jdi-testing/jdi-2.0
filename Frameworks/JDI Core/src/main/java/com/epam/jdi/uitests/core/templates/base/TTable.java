@@ -6,13 +6,13 @@ import com.epam.jdi.tools.func.JFunc;
 import com.epam.jdi.uitests.core.interfaces.base.IElement;
 import com.epam.jdi.uitests.core.interfaces.complex.IBaseSelector;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.*;
-import com.epam.jdi.uitests.core.templates.base.TBaseElement;
 
 import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.map;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.toCell;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.TableHeaderTypes.COLUMNS_HEADERS;
+import static com.epam.jdi.uitests.core.settings.JDISettings.asserter;
 
 /**
  * Created by Roman_Iovlev on 11/5/2017.
@@ -66,12 +66,19 @@ public class TTable extends TBaseElement implements ITable {
         if (result != null) return result;
         return getCell( rowIndex, columnIndex);
     }
-    public ITable waitWhile(int timeoutSec) {
+    public TableVerify waitWhile(int timeoutSec) {
         validationTimeout = timeoutSec;
-        return this;
+        return new TableVerify(this, r -> validation(() -> r));
     }
-    @Override
-    public ITable waitWhile() {
+    public TableVerify waitWhile() {
+        return waitWhile(waitTimeout);
+    }
+
+    public TableVerify assertThat(int timeoutSec) {
+        validationTimeout = timeoutSec;
+        return new TableVerify(this, r -> { asserter.isTrue(validation(() -> r)); return r; });
+    }
+    public TableVerify assertThat() {
         return waitWhile(waitTimeout);
     }
     public TableRow rows() {

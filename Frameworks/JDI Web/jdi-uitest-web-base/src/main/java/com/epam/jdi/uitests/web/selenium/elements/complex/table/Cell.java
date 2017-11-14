@@ -7,8 +7,6 @@ import com.epam.jdi.uitests.core.interfaces.complex.tables.NameNum;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 
-import java.util.List;
-
 import static com.epam.jdi.uitests.core.initialization.MapInterfaceToElement.getClassFromInterface;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 

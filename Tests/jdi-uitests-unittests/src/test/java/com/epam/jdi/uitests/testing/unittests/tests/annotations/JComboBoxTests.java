@@ -26,9 +26,9 @@ public class JComboBoxTests extends InitTests {
 
 
         comboBox.expand();
-        new Check().isTrue(comboBox.isDisplayed());
+        new Check().isTrue(comboBox.displayed());
         comboBox.close();
-        new Check().isFalse(comboBox.isDisplayed());
+        new Check().isFalse(comboBox.displayed());
 
         comboBox.select("Blue");
         new Check().areEquals(comboBox.getSelected(), "Blue");

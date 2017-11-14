@@ -3,7 +3,7 @@ package com.epam.jdi.uitests.testing.unittests.pageobjects.sections;
 import com.epam.jdi.uitests.core.interfaces.common.IButton;
 import com.epam.jdi.uitests.core.interfaces.common.IImage;
 import com.epam.jdi.uitests.core.interfaces.common.ITextField;
-import com.epam.jdi.uitests.core.templates.base.Section;
+import com.epam.jdi.uitests.web.selenium.elements.composite.Section;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 
 /**

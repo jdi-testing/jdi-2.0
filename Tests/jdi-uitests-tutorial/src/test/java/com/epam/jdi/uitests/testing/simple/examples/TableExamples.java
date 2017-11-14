@@ -1,8 +1,7 @@
 package com.epam.jdi.uitests.testing.simple.examples;
 
-import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
-import com.epam.jdi.uitests.core.interfaces.complex.tables.interfaces.ICell;
+import com.epam.jdi.uitests.core.interfaces.complex.tables.TableLine;
 import com.epam.jdi.uitests.testing.TestsBase;
 import com.epam.web.matcher.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -12,8 +11,8 @@ import java.lang.reflect.Method;
 
 import static com.epam.jdi.site.epam.EpamSite.jobDescriptionPage;
 import static com.epam.jdi.site.epam.EpamSite.jobListingPage;
-import static com.epam.jdi.uitests.core.interfaces.complex.tables.interfaces.Column.inColumn;
-import static com.epam.jdi.uitests.core.interfaces.complex.tables.interfaces.WithValue.withValue;
+import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.inColumn;
+import static com.epam.jdi.uitests.core.utils.common.Filters.*;
 
 
 public class TableExamples extends TestsBase {
@@ -51,19 +50,16 @@ public class TableExamples extends TestsBase {
     @Test
     public void searchContainsInTable() {
         Assert.isFalse(jobsTable()::isEmpty);
-        jobsTable()
-            .rowContains("front-end", inColumn("name"))
+        jobsTable().row(contains("front-end"), inColumn("name"))
             .get("apply").select();
-        jobsTable()
-                .rowContains("front-end", inColumn("name"))
+        jobsTable().row(contains("front-end"), inColumn("name"))
                 .get("apply").select();
         jobDescriptionPage.checkOpened();
     }
     @Test
     public void searchMatchInTable() {
         Assert.isFalse(jobsTable()::isEmpty);
-        jobsTable()
-                .rowMatch(".+front-end.*", inColumn("name"))
+        jobsTable().row(match(".+front-end.*"), inColumn("name"))
                 .get("apply").select();
 
         jobDescriptionPage.checkOpened();
@@ -71,7 +67,7 @@ public class TableExamples extends TestsBase {
     @Test
     public void searchContainsListInTable() {
         Assert.isFalse(jobsTable()::isEmpty);
-        MapArray<String, ICell> firstRow = jobsTable().rows(
+        TableLine firstRow = jobsTable().rows(
                 "name~=front-end",
                 "category*=.*Test Engineering")
                 .first().value;
@@ -83,7 +79,7 @@ public class TableExamples extends TestsBase {
     @Test
     public void searchByMultiCriteriaInTable() {
         Assert.isFalse(jobsTable()::isEmpty);
-        MapArray<String, ICell> firstRow = jobsTable().rows(
+        TableLine firstRow = jobsTable().rows(
                 "name=Test Automation Engineer (back-end)",
                 "category=Software Test Engineering")
                 .first().value;

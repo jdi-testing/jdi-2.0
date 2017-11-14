@@ -1,16 +1,13 @@
 package com.epam.jdi.uitests.testing.unittests.pageobjects;
 
-import com.epam.jdi.uitests.core.interfaces.complex.IList;
+import com.epam.jdi.uitests.core.interfaces.complex.ITextList;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.pages.*;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.Footer;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.Header;
-import com.epam.jdi.uitests.web.selenium.elements.common.Text;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JPage;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
-
-import java.util.List;
 
 
 /**
@@ -38,9 +35,9 @@ public class EpamJDISite extends WebSite {
     @FindBy(css = ".footer-content")
     public static Footer footer;
     @FindBy(css = ".logs li")
-    public static IList<Text> actionsLog;
+    public static ITextList actionsLog;
     @FindBy(css = ".results")
-    public static List<Text> resultsLog;
+    public static ITextList resultsLog;
 
 
 

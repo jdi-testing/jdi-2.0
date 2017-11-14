@@ -6,7 +6,6 @@ import com.epam.jdi.tools.func.JAction2;
 import static com.epam.jdi.tools.EnumUtils.getEnumValue;
 import static com.epam.jdi.tools.LinqUtils.last;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
-import static java.util.Arrays.copyOfRange;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**

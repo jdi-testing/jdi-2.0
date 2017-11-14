@@ -1,6 +1,6 @@
 package com.epam.jdi.enums;
 
-import com.epam.jdi.tools.linqinterfaces.JAction;
+import com.epam.jdi.tools.func.JAction;
 import com.epam.jdi.uitests.web.selenium.preconditions.WebPreconditions;
 
 import java.util.function.Supplier;
@@ -30,7 +30,7 @@ public enum Preconditions implements WebPreconditions {
         return checkAction.get();
     }
     public void moveToAction() {
-        moveToAction.invoke();
+        moveToAction.execute();
     }
 
 }

@@ -3,12 +3,11 @@ package com.epam.jdi.uitests.testing.unittests.pageobjects.pages;
 import com.epam.jdi.uitests.core.interfaces.complex.ISelector;
 import com.epam.jdi.uitests.testing.unittests.enums.RowNumbers;
 import com.epam.jdi.uitests.web.selenium.elements.common.TextField;
-import com.epam.jdi.uitests.web.selenium.elements.complex.table.Table;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Pagination;
+import com.epam.jdi.uitests.web.selenium.elements.complex.table.Table;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JPagination;
-import org.openqa.selenium.By;
 
 
 /**

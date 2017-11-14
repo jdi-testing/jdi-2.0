@@ -5,7 +5,6 @@ import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.tools.func.JFunc2;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ICell;
-import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.TableLine;
 import com.epam.jdi.uitests.core.templates.base.ETable;
 

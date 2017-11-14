@@ -34,4 +34,5 @@ public interface ICell extends IButton {
     <T extends IBaseElement> T getAs(Class<T> clazz);
     NameNum column();
     NameNum row();
+    default void select() { click(); }
 }

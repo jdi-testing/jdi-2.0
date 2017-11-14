@@ -38,9 +38,7 @@ import static com.epam.jdi.tools.EnumUtils.getEnumValue;
 import static com.epam.jdi.tools.LinqUtils.*;
 import static com.epam.jdi.tools.PrintUtils.print;
 import static com.epam.jdi.uitests.core.actions.base.ElementActions.*;
-import static com.epam.jdi.uitests.core.actions.complex.SelectActions.getOptions;
-import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelected;
-import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelectedByIndex;
+import static com.epam.jdi.uitests.core.actions.complex.SelectActions.*;
 import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 

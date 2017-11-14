@@ -54,8 +54,11 @@ public class EntityTable<Data, Row> extends Element implements IEntityTable<Data
     public <T> T validation(JFunc<T> results) {
         return eTable.validation(results);
     }
-    public ITable waitWhile(int timeoutSec) {
+    public TableVerify waitWhile(int timeoutSec) {
         return eTable.waitWhile(timeoutSec);
+    }
+    public TableVerify assertThat(int timeoutSec) {
+        return eTable.assertThat(timeoutSec);
     }
     public TableRow rows() {
         return eTable.rows();

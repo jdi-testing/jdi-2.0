@@ -8,18 +8,17 @@ import org.testng.annotations.BeforeMethod;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import static com.epam.jdi.uitests.web.selenium.driver.DriverTypes.CHROME;
+import static com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes.CHROME;
 import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.init;
-import static com.epam.jdi.uitests.web.settings.WebSettings.initFromProperties;
-import static com.epam.jdi.uitests.web.settings.WebSettings.useDriver;
-
+import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.initFromProperties;
+import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.useDriver;
 
 public class MultipleSitesExample {
     @BeforeMethod
     public void before(Method method) throws IOException {
         initFromProperties();
-        init(useDriver(CHROME), YandexSite.class);
-        init(useDriver(CHROME), GoogleSite.class);
+        init(YandexSite.class, useDriver(CHROME));
+        init(GoogleSite.class, useDriver(CHROME));
     }
     //@Test
     public void twoSiteExample() {

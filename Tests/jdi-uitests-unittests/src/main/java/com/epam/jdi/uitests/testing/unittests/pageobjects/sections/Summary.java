@@ -1,12 +1,11 @@
 package com.epam.jdi.uitests.testing.unittests.pageobjects.sections;
 
-import com.epam.jdi.uitests.core.interfaces.base.IComposite;
 import com.epam.jdi.uitests.core.interfaces.common.IButton;
-import com.epam.jdi.uitests.core.templates.base.Section;
 import com.epam.jdi.uitests.testing.unittests.enums.Even;
 import com.epam.jdi.uitests.testing.unittests.enums.Odds;
 import com.epam.jdi.uitests.web.selenium.elements.complex.RadioButtons;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Selector;
+import com.epam.jdi.uitests.web.selenium.elements.composite.Section;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

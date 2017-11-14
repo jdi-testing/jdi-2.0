@@ -3,7 +3,7 @@ package com.epam.jdi.site.google.custom;
 import com.epam.jdi.uitests.core.interfaces.common.ILabel;
 import com.epam.jdi.uitests.core.interfaces.common.ILink;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
-import com.epam.jdi.uitests.core.templates.base.Section;
+import com.epam.jdi.uitests.web.selenium.elements.composite.Section;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Tag;
 

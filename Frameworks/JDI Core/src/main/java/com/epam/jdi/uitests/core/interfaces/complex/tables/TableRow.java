@@ -34,7 +34,7 @@ import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
-import com.epam.jdi.uitests.core.utils.common.IStringFilter;
+import com.epam.jdi.uitests.core.utils.common.IFilter;
 
 import java.util.List;
 
@@ -122,7 +122,7 @@ public class TableRow {
     public MapArray<String, String> getAsText(int num) {
         return get(num).toMapArray((k,v) -> k, (k,v) -> v.getText());
     }
-    public TableLines get(IStringFilter filter) {
+    public TableLines get(IFilter<String> filter) {
         return (TableLines) table.validation(
             () -> where(getAll(),
                 line -> line.value.any(

@@ -8,13 +8,12 @@ import com.epam.jdi.uitests.web.selenium.elements.common.Link;
 import com.epam.jdi.uitests.web.selenium.elements.common.TextArea;
 import com.epam.jdi.uitests.web.selenium.elements.common.TextField;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
-import com.epam.jdi.uitests.web.selenium.settings.WebSettings;
 import org.openqa.selenium.JavascriptExecutor;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.*;
+import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getJSExecutor;
 
 /**
  * Created by Dmitry_Lebedev1 on 10/16/2015.

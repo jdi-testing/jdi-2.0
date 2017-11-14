@@ -29,7 +29,10 @@ package com.epam.jdi.uitests.core.actions.complex;
  * Created by Roman Iovlev on 10.03.2017
  */
 
-import com.epam.jdi.tools.func.*;
+import com.epam.jdi.tools.func.JAction2;
+import com.epam.jdi.tools.func.JFunc1;
+import com.epam.jdi.tools.func.JFunc2;
+import com.epam.jdi.tools.func.JFunc4;
 import com.epam.jdi.uitests.core.interfaces.base.IClickable;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ICell;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;

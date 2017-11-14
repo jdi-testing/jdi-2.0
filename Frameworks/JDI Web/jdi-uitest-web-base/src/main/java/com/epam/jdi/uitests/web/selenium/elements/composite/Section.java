@@ -1,4 +1,4 @@
-package com.epam.jdi.uitests.core.templates.base;
+package com.epam.jdi.uitests.web.selenium.elements.composite;
 /*
  * Copyright 2004-2016 EPAM Systems
  *
@@ -19,9 +19,10 @@ package com.epam.jdi.uitests.core.templates.base;
 
 
 import com.epam.jdi.uitests.core.interfaces.base.IComposite;
+import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 
 /**
  * Created by Roman_Iovlev on 7/10/2015.
  */
-public class Section extends TBaseElement implements IComposite {
+public class Section extends Element implements IComposite {
 }

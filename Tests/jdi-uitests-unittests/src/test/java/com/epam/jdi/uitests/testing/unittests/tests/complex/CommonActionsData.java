@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.*;
+import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriver;
 import static com.epam.web.matcher.testng.Assert.areEquals;
 import static com.epam.web.matcher.testng.Assert.assertContains;
 
@@ -71,26 +72,22 @@ public class CommonActionsData {
         return _name;
     }
 
-    @Step
     public static void checkAction(String text) {
-        assertContains(actionsLog::getFirstText, text);
+        assertContains(actionsLog::firstText, text);
     }
 
     public static void looseFocus() {
         getDriver().findElement(By.className("footer-content")).click();
     }
 
-    @Step
     public static void checkText(Supplier<String> func, String expected) {
         areEquals(func.get(), expected);
     }
 
-    @Step
     public static void checkCalculate(String text) {
        assertContains(metalsColorsPage.calculateText::getText, text);
     }
 
-    @Step
     public static void checkResult(String text) {
         assertContains(contactFormPage.result::getText, text);
     }

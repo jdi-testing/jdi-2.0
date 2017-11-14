@@ -29,7 +29,7 @@ package com.epam.jdi.uitests.core.interfaces.complex.tables;
  * Created by Roman Iovlev on 10.03.2017
  */
 
-import com.epam.jdi.uitests.core.utils.common.IStringFilter;
+import com.epam.jdi.uitests.core.utils.common.IFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +39,9 @@ import static com.epam.jdi.uitests.core.utils.common.Filters.*;
 
 public class TableFilter {
     private String name;
-    private IStringFilter filter;
+    private IFilter<String> filter;
     public String getName() { return name; }
-    public IStringFilter getFilter() { return filter; }
+    public IFilter<String> getFilter() { return filter; }
 
     public TableFilter(String template) {
         String[] split;
@@ -66,7 +66,7 @@ public class TableFilter {
         if (template.matches("[^=]+!=[^=]*")) {
             split = template.split("!=");
             name = split[0];
-            filter = isNot(split[1]);
+            filter = not(equalsTo(split[1]));
             return;
         }
         throw exception("Wrong searchCriteria for Cells: " + template);

@@ -12,9 +12,9 @@ import java.lang.reflect.Method;
 
 import static com.epam.jdi.site.epam.EpamSite.jobDescriptionPage;
 import static com.epam.jdi.site.epam.EpamSite.jobListingPage;
-import static com.epam.jdi.uitests.core.interfaces.complex.tables.interfaces.Column.inColumn;
-import static com.epam.jdi.uitests.core.interfaces.complex.tables.interfaces.WithValue.withValue;
-import static com.epam.jdi.uitests.web.selenium.elements.complex.table.FilterDsl.textOf;
+import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.inColumn;
+import static com.epam.jdi.uitests.core.interfaces.complex.tables.TextOf.textOf;
+import static com.epam.jdi.uitests.core.utils.common.Filters.*;
 
 
 public class EntityTableExamples extends TestsBase {
@@ -47,8 +47,8 @@ public class EntityTableExamples extends TestsBase {
     public void searchInTable() {
         jobListingPage.shouldBeOpened();
         Assert.isFalse(jobsTable()::isEmpty);
-        jobsTable()
-            .getRow(withValue("Test Automation Engineer (back-end)"), inColumn("name")).apply.click();
+        jobsTable() .line(withValue("Test Automation Engineer (back-end)"), inColumn("name"))
+            .apply.click();
 
         jobDescriptionPage.checkOpened();
     }
@@ -64,9 +64,8 @@ public class EntityTableExamples extends TestsBase {
     public void searchContainsInTable() {
         jobListingPage.shouldBeOpened();
         Assert.isFalse(jobsTable()::isEmpty);
-        jobsTable()
-                .rowContains("back-end", inColumn("name")) //TODO
-                .get("apply").select();
+        jobsTable().line(contains("back-end"), inColumn("name"))
+                .apply.click();
 
         jobDescriptionPage.checkOpened();
     }
@@ -74,9 +73,8 @@ public class EntityTableExamples extends TestsBase {
     public void searchMatchInTableExample() {
         jobListingPage.shouldBeOpened();
         Assert.isFalse(jobsTable()::isEmpty);
-        jobsTable()
-                .rowMatch(".+back-end.*", inColumn("name")) //TODO
-                .get("apply").select();
+        jobsTable().line(match(".+back-end.*"), inColumn("name"))
+            .apply.click();
 
         jobDescriptionPage.checkOpened();
     }
@@ -97,7 +95,7 @@ public class EntityTableExamples extends TestsBase {
     public void searchByMultiCriteriaInTableExample() {
         jobListingPage.shouldBeOpened();
         Assert.isFalse(jobsTable()::isEmpty);
-        JobRecord firstRow = jobsTable().firstRow(r ->
+        JobRecord firstRow = jobsTable().firstLine(r ->
                 textOf(r.name).equals("Test Automation Engineer (back-end)") &&
                 textOf(r.category).equals("Software Test Engineering"));
 
@@ -109,7 +107,7 @@ public class EntityTableExamples extends TestsBase {
     public void complexTableExample() {
         jobListingPage.shouldBeOpened();
         Assert.isFalse(jobsTable()::isEmpty);
-        JobRecord firstRow = jobsTable().firstRow(r ->
+        JobRecord firstRow = jobsTable().firstLine(r ->
             r.name.getText().equals("Test Automation Engineer (back-end)") &&
             r.category.getText().equals("Software Test Engineering"));
         firstRow.apply.click();

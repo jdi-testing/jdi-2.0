@@ -19,11 +19,6 @@ package com.epam.jdi.uitests.web.selenium.elements.complex;
 
 
 import com.epam.jdi.uitests.core.interfaces.complex.ICheckList;
-import com.epam.jdi.uitests.web.selenium.elements.actions.WebActions;
-import com.epam.jdi.uitests.web.selenium.elements.actions.WebStatic;
-import org.openqa.selenium.WebElement;
-
-import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelected;
 
 /**
  * Select control implementation

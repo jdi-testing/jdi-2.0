@@ -2,9 +2,8 @@ package com.epam.jdi.site.epam.pages;
 
 import com.epam.jdi.entities.Job;
 import com.epam.jdi.site.epam.CustomElements.JobRecord;
-import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
-import com.epam.jdi.uitests.core.interfaces.complex.tables.interfaces.ICell;
+import com.epam.jdi.uitests.core.interfaces.complex.tables.TableLine;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.EntityTable;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
@@ -12,7 +11,8 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.object
 
 import static com.epam.jdi.enums.JobListHeaders.apply;
 import static com.epam.jdi.enums.JobListHeaders.name;
-import static com.epam.jdi.uitests.core.interfaces.complex.tables.interfaces.Column.column;
+import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.column;
+import static com.epam.jdi.uitests.core.utils.common.Filters.equalsTo;
 
 /**
  * Created by Roman_Iovlev on 10/22/2015.
@@ -33,14 +33,14 @@ public class JobListingPage extends WebPage {
             column = @FindBy(xpath = ".//li//div[%s]"),
             //cell = @FindBy(xpath = ".//li[{1}]//div[{0}]"),
             header = {"name", "category", "location", "apply"})
-    public EntityTable<Job, JobRecord> jobsListEntity = new EntityTable<>(Job.class, JobRecord.class);
+    public EntityTable<Job, JobRecord> jobsListEntity;
 
     public void getJobRowByName(String jobName) {
-        JobRecord row = jobsListEntity.getRow(jobName, column(name));
+        JobRecord row = jobsListEntity.line(equalsTo(jobName), column(name));
         row.apply.click();
     }
     public void getJobRow(String jobName) {
-        MapArray<String, ICell> row = jobsList.row(jobName, column(name));
+        TableLine row = jobsList.row(equalsTo(jobName), column(name));
         row.get(apply.toString()).select();
     }
 }

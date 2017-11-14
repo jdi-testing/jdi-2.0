@@ -65,14 +65,14 @@ public class TextTests extends InitTests {
 
     @Test
     public void waitMatchText() {
-        areEquals(textItem.get().waitMatchText(regEx), expectedText);
+        areEquals(textItem.get().waitTextMatch(regEx), expectedText);
     }
 
     @Test
     public void waitMatchTextParallel() {
         isInState(SUPPORT_PAGE);
         runParallel(page::open);
-        areEquals(textItem.get().waitMatchText(regEx), expectedText);
+        areEquals(textItem.get().waitTextMatch(regEx), expectedText);
         isTrue(timer.timePassedInMSec() > waitTimeOut);
     }
 

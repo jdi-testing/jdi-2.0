@@ -1,7 +1,7 @@
 package com.epam.jdi.uitests.testing.unittests.pageobjects.w3cSite;
 
-import com.epam.jdi.uitests.core.templates.base.Section;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
+import com.epam.jdi.uitests.web.selenium.elements.composite.Section;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 
 /**

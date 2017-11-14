@@ -84,7 +84,7 @@ public class ETable<Row, Data> extends TTable implements IEntityTable<Data, Row>
     public boolean contains(Object o) {
         return o.getClass().isAssignableFrom(rowClass)
             && LinqUtils.first(rows().headers(),
-                h -> getLine(h).equals(o)) == null;
+                h -> line(h).equals(o)) == null;
     }
     public Iterator<Data> iterator() {
         return getAll().iterator();

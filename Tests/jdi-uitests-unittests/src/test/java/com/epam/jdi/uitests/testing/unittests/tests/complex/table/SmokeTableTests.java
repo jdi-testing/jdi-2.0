@@ -4,6 +4,9 @@ import com.epam.jdi.uitests.testing.unittests.tests.complex.table.base.SupportTa
 import com.epam.web.matcher.testng.Check;
 import org.testng.annotations.Test;
 
+import static com.epam.jdi.tools.PrintUtils.print;
+import static com.epam.web.matcher.testng.Assert.isFalse;
+
 /**
  * Created by Natalia_Grebenshchik on 10/21/2015.
  */

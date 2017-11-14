@@ -32,7 +32,7 @@ import com.epam.jdi.tools.func.JFunc;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.base.IElement;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
-import com.epam.jdi.uitests.core.utils.common.IStringFilter;
+import com.epam.jdi.uitests.core.utils.common.IFilter;
 
 import java.util.List;
 
@@ -101,7 +101,7 @@ public interface ITable extends IText {
      * Get all Cells with values satisfied to filter
      */
     @JDIAction("Get cells matches")
-    default List<ICell> cells(IStringFilter filter) {
+    default List<ICell> cells(IFilter<String> filter) {
         return validation(() -> where(allCells(),
                 cell -> filter.execute(cell.getText())));
     }
@@ -112,7 +112,7 @@ public interface ITable extends IText {
      * or   cells(matchesRegEx(".*uccess.*"), row(5))
      */
     @JDIAction("Get cells in row {1}")
-    default List<ICell> cells(IStringFilter filter, Row row) {
+    default List<ICell> cells(IFilter<String> filter, Row row) {
         return validation(() -> where(rows().get(row.getIndex(rows().headers())).values(),
                 cell -> filter.execute(cell.getText())));
     }
@@ -123,7 +123,7 @@ public interface ITable extends IText {
      * or   cells(matchesRegEx("Roma.*"), column(3))
      */
     @JDIAction("Get cells in column {1}")
-    default List<ICell> cells(IStringFilter filter, Column column){
+    default List<ICell> cells(IFilter<String> filter, Column column){
         return validation(() -> where(columns().get(column.getIndex(headers())).values(),
                 cell -> filter.execute(cell.getText())));
     }
@@ -131,7 +131,7 @@ public interface ITable extends IText {
      * Get first Cell with values satisfied to filter
      */
     @JDIAction("Get first cell match")
-    default ICell cell(IStringFilter filter) {
+    default ICell cell(IFilter<String> filter) {
         return validation(() -> first(allCells(),
                 cell -> filter.execute(cell.getText())));
     }
@@ -142,7 +142,7 @@ public interface ITable extends IText {
      * or   cell(equalsTo("100"), inRow(5))
      */
     @JDIAction("Get first cell match in row {1}")
-    default ICell cell(IStringFilter filter, Row row) {
+    default ICell cell(IFilter<String> filter, Row row) {
         return validation(() -> first(rows().get(row.getIndex(rows().headers())).values(),
                 cell -> filter.execute(cell.getText())));
     }
@@ -153,7 +153,7 @@ public interface ITable extends IText {
      * or   cell(equalsTo("Roman"), inColumn(3))
      */
     @JDIAction("Get first cell match in column {1}")
-    default ICell cell(IStringFilter filter, Column column) {
+    default ICell cell(IFilter<String> filter, Column column) {
         return validation(() -> first(columns().get(column.getIndex(headers())).values(),
                 cell -> filter.execute(cell.getText())));
     }
@@ -173,7 +173,7 @@ public interface ITable extends IText {
     }
 
     @JDIAction("Get rows matches in column {1}")
-    default TableLines rows(IStringFilter filter, Column column) {
+    default TableLines rows(IFilter<String> filter, Column column) {
         TableLine colLine = column(column.getIndex(columns().headers()));
         TableLines result = new TableLines();
         for (ICell cell : colLine.values())
@@ -196,7 +196,7 @@ public interface ITable extends IText {
     }
 
     @JDIAction("Get columns matches in row {1}")
-    default TableLines columns(IStringFilter filter, Row row) {
+    default TableLines columns(IFilter<String> filter, Row row) {
         return validation(() -> {
             TableLine column = row(row.getIndex(rows().headers()));
             TableLines result = new TableLines();
@@ -214,14 +214,21 @@ public interface ITable extends IText {
      * e.g. waitWhile().colums(equalsTo("100"), row("Total")) <br>
      * or   waitWhile().rows(equalsTo("100"), row(5))
      */
-    default ITable waitWhile() { return waitWhile(timeouts.getCurrentTimeoutSec()); }
-    ITable waitWhile(int timeoutSec);
+    default TableVerify waitWhile() { return waitWhile(timeouts.getCurrentTimeoutSec()); }
+    TableVerify waitWhile(int timeoutSec);
 
+    default TableVerify assertThat() { return waitWhile(timeouts.getCurrentTimeoutSec()); }
+    TableVerify assertThat(int timeoutSec);
     /**
      * Indicates that no rows in table. Check immediately
      */
     @JDIAction("Is table empty")
     default boolean isEmpty() { return validation(() -> rows().size() == 0); }
+    /**
+     * Indicates table size
+     */
+    @JDIAction("Is table empty")
+    default int size() { return rows().size(); }
 
     /**
      * Indicates are any rows in table. Check immediately
@@ -236,7 +243,7 @@ public interface ITable extends IText {
      * Each Row is map: columnName:cell
      */
     @JDIAction("Get first row match in column {1}")
-    default TableLine row(IStringFilter filter, Column column) {
+    default TableLine row(IFilter<String> filter, Column column) {
         TableLine colLine = column(column.getIndex(columns().headers()));
         ICell cell = first(colLine.values(), c -> filter.execute(c.getText()));
         return cell != null ? row(cell.row().name) : null;
@@ -249,7 +256,7 @@ public interface ITable extends IText {
      * Each Column is map: rowName:cell
      */
     @JDIAction("Get first column match in row {1}")
-    default TableLine column(IStringFilter filter, Row row){
+    default TableLine column(IFilter<String> filter, Row row){
         TableLine rowLine = row(row.getIndex(rows().headers()));
         ICell cell = first(rowLine.values(), c -> filter.execute(c.getText()));
         return cell != null ? column(cell.column().name) : null;

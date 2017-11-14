@@ -47,8 +47,8 @@ public interface IText extends IHasValue, IElement {
      * @return Wait while Element’s text contains expected text. Returns Element’s text
      */
     @JDIAction
-    default void waitText(String text) {
-        wait(() -> getText().equals(text));
+    default String waitText(String text) {
+        return wait(this::getText, t -> t.equals(text));
     }
 
     /**

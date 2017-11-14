@@ -31,7 +31,6 @@ import java.util.List;
 import static com.epam.jdi.tools.ReflectionUtils.newEntity;
 import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
-import static com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils.fillByTemplate;
 
 /**
  * Base Element control implementation

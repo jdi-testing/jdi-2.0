@@ -3,7 +3,6 @@ package com.epam.jdi.uitests.web.selenium.elements.base;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.Input;
-import com.epam.jdi.uitests.web.selenium.elements.common.Label;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Selector;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import org.openqa.selenium.By;

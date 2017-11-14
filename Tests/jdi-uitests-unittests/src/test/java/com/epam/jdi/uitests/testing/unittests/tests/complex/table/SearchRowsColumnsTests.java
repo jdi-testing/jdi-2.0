@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 
 import static com.epam.jdi.tools.PrintUtils.print;
-import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.column;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.inColumn;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Row.inRow;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Row.row;

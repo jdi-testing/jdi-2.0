@@ -24,26 +24,24 @@ package com.epam.jdi.uitests.core.interfaces.complex.tables;
 
  */
 
+import static com.epam.jdi.tools.EnumUtils.getEnumValue;
+
 /**
  * Created by Roman Iovlev on 10.03.2017
  */
 public class Row extends NameNum {
-    public Row(int num) {
-        super(); set(r -> r.num = num);
-    }
-    public Row(String name) {
-        super(); set(r -> r.name = name);
-    }
     public static Row row(int num) {
-        return new Row(num);
+        return (Row)new Row().set(row -> row.num = num);
     }
     public static Row row(String name) {
-        return new Row(name);
+        return (Row)new Row().set(row -> row.name = name);
     }
+    public static Row row(Enum name) { return row(getEnumValue(name)); }
     public static Row inRow(int num) {
-        return new Row(num);
+        return row(num);
     }
     public static Row inRow(String name) {
-        return new Row(name);
+        return row(name);
     }
+    public static Row inRow(Enum name) { return row(getEnumValue(name)); }
 }

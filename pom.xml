@@ -35,7 +35,6 @@
         <!--module>Tests/jdi-uitests-mobile</module-->
         <module>Tests/jdi-uitests-tutorial</module>
         <module>Tests/jdi-uitests-unittests</module>
-        <module>Tests/jdi-uitests-web-examples</module>
         <!--module>Tests/jdi-uitests-win-sikuli</module-->
         <!--module>Tests/jdi-uitests-win-winnium</module-->
     </modules>

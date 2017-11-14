@@ -2,7 +2,6 @@ package com.epam.jdi.uitests.core.interfaces.complex.tables;
 
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.utils.common.IFilter;
-import com.epam.jdi.uitests.core.utils.common.IStringFilter;
 
 import java.util.List;
 
@@ -20,6 +19,7 @@ public interface IEntityTable<Data, Row> extends ITable, List<Data> {
         return map(rows().getAll(), row -> (Row) castToRow.execute(this, row.value));
     }
 
+    default int size() { return rows().size(); }
     @JDIAction("Get table lines matches filter")
     default List<Row> getLines(IFilter<Row> filter) {
         List<Row> rows = filter(getLines(), filter);
@@ -37,18 +37,22 @@ public interface IEntityTable<Data, Row> extends ITable, List<Data> {
         return null;
     }
     @JDIAction("Get lines matches in column {1}")
-    default Row firstLine(IStringFilter filter, Column column) {
+    default Row firstLine(IFilter<String> filter, Column column) {
         return (Row) castToRow.execute(this, row(filter, column));
     }
     @JDIAction("Get line {0}")
-    default Row getLine(int index) {
+    default Row line(int index) {
         return (Row) castToRow.execute(this, row(index));
     }
     @JDIAction("Get line {0}")
-    default Row getLine(String name) {
+    default Row line(String name) {
         return (Row) castToRow.execute(this, row(name));
     }
 
+    @JDIAction("Get line {0}")
+    default Row line(IFilter<String> filter, Column column) {
+        return (Row) castToRow.execute(this, row(filter, column));
+    }
     @JDIAction("Get all entities")
     default List<Data> entities(String... colNames) {
         return select(colNames, colName
@@ -67,7 +71,7 @@ public interface IEntityTable<Data, Row> extends ITable, List<Data> {
         return null;
     }
     @JDIAction("Get entity matches filter in column {0}")
-    default Data entity(IStringFilter filter, Column column) {
+    default Data entity(IFilter<String> filter, Column column) {
         return (Data) rowToEntity.execute(this, row(filter, column));
     }
     @JDIAction("Get entity {0}")

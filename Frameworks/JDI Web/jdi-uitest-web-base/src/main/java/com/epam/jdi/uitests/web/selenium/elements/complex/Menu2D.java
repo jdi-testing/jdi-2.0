@@ -4,19 +4,17 @@ import com.epam.jdi.tools.func.JAction1;
 import com.epam.jdi.tools.func.JAction2;
 import com.epam.jdi.uitests.core.interfaces.complex.IMenu;
 import com.epam.jdi.uitests.core.interfaces.complex.IMenu2D;
-import com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JMenu;
 import org.openqa.selenium.By;
-import org.openqa.selenium.interactions.Actions;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.map;
-import static com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils.*;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils.fillByTemplate;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;
 
 public class Menu2D<TEnum extends Enum> extends Selector<TEnum> implements IMenu2D<TEnum> {

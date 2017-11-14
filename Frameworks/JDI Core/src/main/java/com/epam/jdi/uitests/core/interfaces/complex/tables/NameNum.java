@@ -42,13 +42,7 @@ public class NameNum extends DataClass<NameNum> {
 
     public boolean hasName() {
         return isNotBlank(name);
-    }/* TODO remove
-    public <T> T get(Function<NameNum, T> action) {
-        return action.apply(this);
     }
-    public <T> T get(Function<String, T> nameAction, Function<Integer, T> numAction) {
-        return hasName() ? nameAction.apply(name) : numAction.apply(num);
-    }*/
     @Override
     public String toString() {
         return hasName()

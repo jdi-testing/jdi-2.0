@@ -29,7 +29,6 @@ package com.epam.jdi.uitests.core.interfaces.composite;
  */
 
 import com.epam.jdi.tools.LinqUtils;
-import com.epam.jdi.tools.func.JAction2;
 import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.annotations.Mandatory;

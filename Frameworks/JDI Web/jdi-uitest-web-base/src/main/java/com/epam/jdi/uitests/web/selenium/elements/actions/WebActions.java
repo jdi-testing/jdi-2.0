@@ -1,7 +1,6 @@
 package com.epam.jdi.uitests.web.selenium.elements.actions;
 
 import com.epam.jdi.uitests.core.actions.base.ElementActions;
-import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.Cell;
 import org.openqa.selenium.Dimension;

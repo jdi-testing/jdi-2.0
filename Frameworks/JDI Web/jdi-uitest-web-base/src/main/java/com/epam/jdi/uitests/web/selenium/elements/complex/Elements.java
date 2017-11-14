@@ -20,7 +20,6 @@ package com.epam.jdi.uitests.web.selenium.elements.complex;
 
 import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.annotations.Title;
-import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 import com.epam.jdi.uitests.core.interfaces.complex.IList;
 import com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit;
