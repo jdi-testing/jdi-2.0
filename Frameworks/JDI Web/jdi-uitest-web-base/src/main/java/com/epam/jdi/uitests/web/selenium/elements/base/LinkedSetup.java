@@ -25,7 +25,7 @@ public class LinkedSetup {
         }
         if (list != null)
             el.linked().add("list", new Selector()
-                    .setLocator(value).setParent(el));
+                    .setLocator(list).setParent(el));
         if (expand != null) {
             Button eExpand = new Button().setLocator(expand).setParent(el);
             el.linked().add("expander", eExpand);

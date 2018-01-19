@@ -26,7 +26,6 @@ import com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.Text;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Field;
@@ -45,11 +44,10 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
     public String titleFieldName = null;
     public static final String NO_TITLE_FIELD = "NO TITLE FIELD";
 
-    public Elements(By byLocator, Class<T> classType) {
-        setLocator(byLocator);
+    public Elements(Class<T> classType) {
         this.classType = classType != null ? classType : (Class<T>) Button.class;
         elements = new MapArray<>();
-        setUseCache(false);
+        setUseCache(true);
     }
     private List<WebElement> getWebElements() {
         return getElements();
@@ -82,8 +80,8 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
         try {
             T element = classType.newInstance();
             element.setEngine(el);
+            element.setUseCache(true);
             element.setParent(null);
-            // TODO remove or implement element useCache = useCache;
             new WebCascadeInit().initElements(element, engine().getDriverName());
             return element;
         } catch (Exception ex) {

@@ -3,8 +3,8 @@ package com.epam.jdi.uitests.testing.unittests.pageobjects.pages;
 import com.epam.jdi.uitests.core.interfaces.base.IClickable;
 import com.epam.jdi.uitests.core.interfaces.common.IButton;
 import com.epam.jdi.uitests.core.interfaces.common.ITextField;
-import com.epam.jdi.uitests.core.templates.base.Form;
 import com.epam.jdi.uitests.testing.unittests.entities.User;
+import com.epam.jdi.uitests.web.selenium.elements.composite.Form;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 
 /**

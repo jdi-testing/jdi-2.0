@@ -81,8 +81,7 @@ public class WinCascadeInit extends CascadeInit {
             instance.avatar.setByLocator(newLocator);
         }
         if (instance == null)
-            throw exception("Unknown interface of field %s. Add relation interface -> class in VIElement.InterfaceTypeMap",
-                    fieldName);
+            throw noInterfaceException(type, fieldName);
         instance.avatar.setDriverName(driverName);
         return instance;
     }

@@ -228,13 +228,22 @@ public abstract class BaseMatcher implements IChecker {
         boolean result;
         if (expected.getClass() == String.class) {
             String actualString = toUtf8(actual.toString());
+            String expectedString = toUtf8(expected.toString());
             result = ignoreCase
-                    ? actualString.equalsIgnoreCase((String) expected)
-                    : actualString.equals(expected);
+                    ? actualString.equalsIgnoreCase(expectedString)
+                    : actualString.equals(expectedString);
         } else result = actual.equals(expected);
         assertAction(format("Check that '%s' equals to '%s'", actual, expected), result, failMessage);
     }
 
+    public void areEquals(String actual, String expected, String failMessage) {
+        String actualString = toUtf8(actual);
+        String expectedString = toUtf8(expected);
+        Boolean result = ignoreCase
+                ? actualString.equalsIgnoreCase(expectedString)
+                : actualString.equals(expectedString);
+        assertAction(format("Check that '%s' equals to '%s'", actual, expected), result, failMessage);
+    }
     public <T> void areEquals(T actual, T expected) { areEquals(actual, expected, null); }
 
     public void matches(String actual, String regEx, String failMessage) {

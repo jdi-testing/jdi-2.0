@@ -7,6 +7,7 @@ import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Elements;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Menu;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Menu2D;
+import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JPage;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
@@ -23,7 +24,7 @@ import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.MAT
  * Created by Roman_Iovlev on 8/30/2015.
  */
 @JSite("https://www.epam.com")
-public class EpamSite {
+public class EpamSite extends WebSite {
     @JPage(url = "/", title = "EPAM|Software Product Development Services")
     public static HomePage homePage;
     @JPage(url = "/careers", title = "Careers")
@@ -52,10 +53,10 @@ public class EpamSite {
     public static Menu<HeaderSolutionsMenu> headerSolutionsMenu = new Menu<HeaderSolutionsMenu>() {
         @Override
         public void select(String name) {
-            Actions action = new Actions(getDriver());
-            WebElement el = getDriver().findElements(By.cssSelector(".tile-menu a")).get(0);
-            action.moveToElement(el).build().perform();
-            super.select(name);
+        Actions action = new Actions(getDriver());
+        WebElement el = getDriver().findElements(By.cssSelector(".tile-menu a")).get(0);
+        action.moveToElement(el).build().perform();
+        super.select(name);
         }
     };
 

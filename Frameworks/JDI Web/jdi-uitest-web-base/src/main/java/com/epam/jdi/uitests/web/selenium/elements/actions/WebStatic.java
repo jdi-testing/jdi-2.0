@@ -18,7 +18,7 @@ public class WebStatic {
     public static Element element(Object o) { return (Element) o; }
     public static WebElement webElement(Object o, Object... args) {
         return base(o).engine().getWebElement(args); }
-    public static List<WebElement> webElements(Object o, Object... args) { return base(o).engine().findElements(); }
+    public static List<WebElement> webElements(Object o) { return base(o).engine().findElements(); }
     public static WebDriver driver(Object o) { return base(o).getDriver(); }
     public static JavascriptExecutor js(Object o) { return (JavascriptExecutor)driver(o); }
     public static String attribute(Object o, String name) { return webElement(o).getAttribute(name); }

@@ -194,12 +194,12 @@ public class WebDriverFactory {
         int numerator = 2;
         String driverName = driverType.toString();
         // TODO correct constant 100
-        while (!drivers.keys().contains(driverName) && numerator < 100)
+        while (drivers.keys().contains(driverName)){
             driverName = driverType.toString() + numerator++;
-        if (numerator < 100)
-            drivers.add(driverName, driver);
-        else
-            throw exception("Can't register driver " + driverType);
+            if (numerator == 100)
+                throw exception("Can't register driver " + driverType);
+        }
+        drivers.add(driverName, driver);
         currentDriverName = driverName;
         return driverName;
     }

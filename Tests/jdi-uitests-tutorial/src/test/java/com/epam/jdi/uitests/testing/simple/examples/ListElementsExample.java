@@ -20,7 +20,6 @@ public class ListElementsExample extends GoogleTestsBase {
                 "https://www.google.");
         homePage.search("jdi");
         List<SearchResult> jobs = searchPage.jobsL;
-//        Assert.areEquals(jobs.size(), 10);
         for (SearchResult job : jobs)
             System.out.println(job.print());
     }
@@ -32,7 +31,6 @@ public class ListElementsExample extends GoogleTestsBase {
         homePage.search("jdi");
         Assert.isTrue(searchPage.gitHubJdi.displayed());
         Elements<SearchResult> jobs = searchPage.jobsE;
-//        Assert.areEquals(jobs.size(), 10);
         for (SearchResult job : jobs)
             System.out.println(job.print());
     }

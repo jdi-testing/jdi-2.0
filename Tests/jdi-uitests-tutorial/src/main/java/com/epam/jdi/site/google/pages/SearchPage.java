@@ -5,7 +5,7 @@ import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Elements;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Text;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.WithText;
 
 import java.util.List;
 
@@ -15,6 +15,6 @@ import java.util.List;
 public class SearchPage extends WebPage {
     @FindBy(css = ".srg>.g") public List<SearchResult> jobsL;
     @FindBy(css = ".srg>.g") public Elements<SearchResult> jobsE;
-    @Text("GitHub - epam/JDI: JDI") public Element gitHubJdi;
+    @WithText("GitHub - epam/JDI: JDI") public Element gitHubJdi;
 
 }

@@ -20,6 +20,7 @@ package com.epam.jdi.uitests.web.selenium.elements.composite;
 
 import com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit;
 
+import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.domain;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriverFactory;
 
 /**
@@ -32,5 +33,13 @@ public class WebSite {
     }
     public static void init(Class<?> site, String driverName) {
         WebCascadeInit.initSite(site, driverName);
+    }
+
+    public static void open(){
+        new WebPage(domain).open();
+    }
+    public static void shouldBeOpened(){
+        if (!new WebPage(domain).url().check())
+            open();
     }
 }

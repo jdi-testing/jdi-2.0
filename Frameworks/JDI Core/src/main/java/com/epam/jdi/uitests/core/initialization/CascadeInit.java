@@ -31,17 +31,21 @@ package com.epam.jdi.uitests.core.initialization;
 import com.epam.jdi.uitests.core.interfaces.ISetup;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IComposite;
-import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
+import com.epam.jdi.uitests.core.interfaces.complex.IList;
+import com.epam.jdi.uitests.core.interfaces.complex.tables.IEntityTable;
 import com.epam.jdi.uitests.core.interfaces.composite.IPage;
-import com.epam.jdi.uitests.core.templates.base.ETable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
+import static com.epam.jdi.tools.LinqUtils.Switch;
 import static com.epam.jdi.tools.LinqUtils.foreach;
 import static com.epam.jdi.tools.ReflectionUtils.*;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
+import static com.epam.jdi.tools.Switch.Condition;
+import static com.epam.jdi.tools.Switch.Else;
 import static com.epam.jdi.tools.TryCatchUtil.tryGetResult;
 import static com.epam.jdi.uitests.core.initialization.MapInterfaceToElement.getClassFromInterface;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
@@ -59,9 +63,7 @@ public abstract class CascadeInit {
 
     protected abstract Class<?>[] stopTypes();
     protected abstract IBaseElement fillInstance(IBaseElement instance, Field field);
-    protected abstract IBaseElement getElementsRules(Field field, String driverName, Class<?> type, String fieldName) throws IllegalAccessException, InstantiationException;
     protected abstract <T> T getNewLocatorFromField(Field field);
-    protected abstract IBaseElement initElements(Field field, Class<IBaseElement> genericClass);
     protected abstract void fillPageFromAnnotation(Field field, IBaseElement instance, Class<?> parentType);
 
     // Init Site as static class
@@ -137,11 +139,10 @@ public abstract class CascadeInit {
 
     private IBaseElement getElementInstance(Field field, String driverName, Object parent) {
         Class<?> type = field.getType();
-        String fieldName = field.getName();
-        try { return getElementsRules(field, driverName, type, fieldName);
+        try { return getElementsRules(field, driverName, type);
         } catch (Exception ex) {
             throw exception("Error in getElementInstance for field '%s'%s with type '%s'",
-                    fieldName,
+                    field.getName(),
                     parent != null ? "in " + parent.getClass().getSimpleName() : "",
                     type.getSimpleName() + LINE_BREAK + ex.getMessage());
         }
@@ -154,35 +155,42 @@ public abstract class CascadeInit {
                     + LINE_BREAK + ex.getMessage());
         }
     }
-    protected IBaseElement getInstance(Field field, Class<?> type, String fieldName)
-            throws IllegalAccessException, InstantiationException {
-        IBaseElement instance = null;
-        if (isClass(type, ETable.class)) {
-            java.lang.reflect.Type[] types =((ParameterizedType) field.getGenericType())
-                    .getActualTypeArguments();
-            instance = new ETable((Class<?>) types[0], (Class<?>) types[1]);
-        }
-        if (instance == null && isInterface(type, List.class)) {
-            Class<?> elementClass = (Class<?>) ((ParameterizedType) field.getGenericType())
-                    .getActualTypeArguments()[0];
-            if (elementClass.isInterface())
-                elementClass = getClassFromInterface(type);
-            if (elementClass != null && !isClass(elementClass, ITable.class) && elementClass.isAssignableFrom(IBaseElement.class))
-                instance = initElements(field, (Class<IBaseElement>) elementClass);
-        }
-        if (instance == null) {
-            if (type.isInterface())
-                type = getClassFromInterface(type);
-            instance = (IBaseElement) type.newInstance();
-        }
-        if (instance == null)
-            throw exception(
-                    "Unknown interface: %s (%s). Add relation interface -> class in VIElement.InterfaceTypeMap",
-                    type, fieldName);
+    protected IBaseElement getElementsRules(Field field, String driverName, Class<?> type) {
+        IBaseElement instance = Switch(type).get(
+            Condition(isClass(type, IEntityTable.class),
+                t -> initEntityTable(field)),
+            Condition(isInterface(type, List.class),
+                t -> initList(t, field)),
+            Else(t -> initElement(t, field)));
+        instance.engine().setDriverName(driverName);
         return instance;
     }
+    private IBaseElement initEntityTable(Field field) {
+        Type[] types = ((ParameterizedType) field.getGenericType())
+                .getActualTypeArguments();
+        try {
+            return (IBaseElement) getClassFromInterface(IEntityTable.class, field.getName())
+                    .getDeclaredConstructor(Class.class, Class.class).newInstance(types[0], types[1]);
+        } catch (Exception ex) { throw exception("Can't init EntityTable for %s. Exception: %s", field.getName(), ex.getMessage()); }
+    }
 
-    private static void fillFromAnnotation(IBaseElement instance, Field field) {
+    private IBaseElement initElement(Class<?> type, Field field) {
+        Class<?> elType = type.isInterface() ? getClassFromInterface(type, field.getName()) : type;
+        try {
+            return (IBaseElement) elType.newInstance();
+        } catch (Exception ex) { throw exception("Can't init common element for %s. Exception: %s", field.getName(), ex.getMessage()); }
+    }
+    private IBaseElement initList(Class<?> type, Field field) {
+        Class<?> elementClass = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+        if (elementClass.isInterface())
+            elementClass = getClassFromInterface(type, field.getName());
+        try {
+            return (IBaseElement) getClassFromInterface(IList.class, field.getName())
+                    .getDeclaredConstructor(Class.class).newInstance(elementClass);
+        } catch (Exception ex) { throw exception("Can't init List element for %s. Exception: %s", field.getName(), ex.getMessage()); }
+    }
+
+    protected static void fillFromAnnotation(IBaseElement instance, Field field) {
         try {
             ISetup setup = (ISetup) instance;
             setup.setup(field);

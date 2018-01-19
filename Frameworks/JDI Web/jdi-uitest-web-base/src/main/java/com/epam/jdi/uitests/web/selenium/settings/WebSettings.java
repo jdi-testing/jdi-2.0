@@ -23,6 +23,7 @@ import com.epam.jdi.uitests.core.initialization.MapInterfaceToElement;
 import com.epam.jdi.uitests.core.interfaces.base.IElement;
 import com.epam.jdi.uitests.core.interfaces.common.*;
 import com.epam.jdi.uitests.core.interfaces.complex.*;
+import com.epam.jdi.uitests.core.interfaces.complex.tables.IEntityTable;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
 import com.epam.jdi.uitests.core.logger.JDILogger;
 import com.epam.jdi.uitests.core.settings.JDISettings;
@@ -32,6 +33,7 @@ import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import com.epam.jdi.uitests.web.selenium.elements.base.J;
 import com.epam.jdi.uitests.web.selenium.elements.common.*;
 import com.epam.jdi.uitests.web.selenium.elements.complex.*;
+import com.epam.jdi.uitests.web.selenium.elements.complex.table.EntityTable;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.Table;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -151,6 +153,8 @@ public class WebSettings extends JDISettings {
             {IMenu.class, Menu.class},
             {IFileInput.class, FileInput.class},
             {IDatePicker.class, DatePicker.class},
+            {IEntityTable.class, EntityTable.class},
+            {IList.class, Elements.class}
     };
     public static void initDriver() {
         if (!initialized)

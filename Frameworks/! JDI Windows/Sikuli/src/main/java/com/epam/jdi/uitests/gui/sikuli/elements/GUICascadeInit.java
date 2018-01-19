@@ -31,7 +31,6 @@ import org.sikuli.script.Pattern;
 import java.lang.reflect.Field;
 
 import static com.epam.jdi.uitests.core.settings.JDIData.APP_VERSION;
-import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
 public class GUICascadeInit extends CascadeInit {
 
@@ -79,8 +78,7 @@ public class GUICascadeInit extends CascadeInit {
             instance.avatar.setDriverName(driverName);
             return instance;
         }
-        throw exception("Unknown interface: " + type
-                + ". Add relation interface -> class in VIElement.InterfaceTypeMap");
+        throw noInterfaceException();
     }
 
     protected Pattern getNewLocatorFromField(Field field) {

@@ -76,9 +76,9 @@ public class TableRow {
         this.getHeader = getHeader;
         this.getFooter = getFooter;
         count.useCache = useCache;
-        headers = new CacheValue<>(() -> map(headersCells.get(),
-                IText::getText));
-        if (!named) headers.set(map(listOfRange(1,count()), i -> i+""));
+        headers = new CacheValue<>(named
+            ? () -> map(headersCells.get(), IText::getText)
+            : () -> map(listOfRange(1,count()), i -> i+""));
         headers.useCache = useCache;
         foundLines = new TableLines();
     }

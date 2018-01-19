@@ -46,7 +46,6 @@ import java.util.List;
 import static com.epam.jdi.tools.ReflectionUtils.isInterface;
 import static com.epam.jdi.uitests.core.interfaces.MapInterfaceToElement.getClassFromInterface;
 import static com.epam.jdi.uitests.core.settings.JDIData.APP_VERSION;
-import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.mobile.appium.elements.pageobjects.annotations.AppiumAnnotationsUtil.findByToBy;
 import static com.epam.jdi.uitests.mobile.appium.elements.pageobjects.annotations.AppiumAnnotationsUtil.getFrame;
 import static com.epam.jdi.uitests.mobile.appium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.*;
@@ -103,8 +102,7 @@ public class AppiumCascadeInit extends CascadeInit {
             }
         }
         if (instance == null)
-            throw exception("Unknown interface: %s (%s). Add relation interface -> class in VIElement.InterfaceTypeMap",
-                    type, fieldName);
+            throw noInterfaceException(type, fieldName);
         instance.avatar.setDriverName(driverName);
         return instance;
     }

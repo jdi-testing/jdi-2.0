@@ -21,7 +21,6 @@ package com.epam.jdi.uitests.web.selenium.elements.apiInteract;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IEngine;
-import com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import org.openqa.selenium.By;
@@ -41,6 +40,7 @@ import static com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils.*;
 import static com.epam.jdi.uitests.web.selenium.elements.apiInteract.LocatorType.DEFAULT;
 import static com.epam.jdi.uitests.web.selenium.elements.apiInteract.LocatorType.FRAME;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriverFactory;
+import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.hasDomain;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
@@ -108,7 +108,7 @@ public class WebEngine implements IEngine {
         return getLocator() != null;
     }
     public By getFrame() { return locatorType == FRAME ? byLocator : null; }
-    public boolean isFrame() { return getFrame() != null; }
+    public boolean hasFrame() { return getFrame() != null; }
     public void setFrame(By frame) { locatorType = FRAME; byLocator = frame; }
     private Object[] locatorArgs;
 
@@ -190,17 +190,23 @@ public class WebEngine implements IEngine {
 
     // print text
     private String printFullLocator() {
-        if (!hasLocator())
-            return "No Locators";
-        return element.printContext() + "; " + printShortBy(getLocator());
+        String isFrame = "";
+        By locator = getLocator();
+        if (hasFrame()) {
+            isFrame = "Frame:";
+            locator = getFrame();
+        }
+        return element.printContext() + "; " + isFrame + printShortBy(locator);
     }
 
     private String printShortBy(By by) {
-        return String.format("%s='%s'", getByName(by), WebDriverByUtils.getByLocator(by));
+        return String.format("%s='%s'", getByName(by), getByLocator(by));
     }
 
     @Override
     public String toString() {
+        if (!hasDomain() && !hasFrame())
+            return "No Locators";
         return shortLogMessagesFormat
                 ? printFullLocator()
                 : format("Locator: '%s'", getLocator())

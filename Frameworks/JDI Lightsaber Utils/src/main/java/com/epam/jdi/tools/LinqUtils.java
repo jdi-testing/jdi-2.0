@@ -436,4 +436,11 @@ public final class LinqUtils {
     public static <T> T get(T[] array, int i) {
         return asList(array).get(i);
     }
+
+    public static <T> Switch<T> Switch() {
+        return new Switch<>();
+    }
+    public static <T> Switch<T> Switch(T value) {
+        return new Switch<>(value);
+    }
 }

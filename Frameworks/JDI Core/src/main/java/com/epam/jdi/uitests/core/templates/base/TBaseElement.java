@@ -132,9 +132,12 @@ public abstract class TBaseElement extends Named implements IBaseElement {
 
     @Override
     public String toString() {
+        String path = linked().isEmpty()
+                ? engine.toString()
+                : linked().toString();
         return MessageFormat.format(shortLogMessagesFormat
-                        ? "{1} ''{0}'' ({2}.{3}; {4})"
-                        : "Name: ''{0}'', Type: ''{1}'' In: ''{2}'', {4}",
-                getName(), getTypeName(), getParentName(), getFieldName(), engine);
+                ? "{1} {0} ({2}.{3}; {4})"
+                : "Name: '{0}', Type: '{1}' In: '{2}', {4}",
+            getName(), getTypeName(), getParentName(), getFieldName(), path);
     }
 }

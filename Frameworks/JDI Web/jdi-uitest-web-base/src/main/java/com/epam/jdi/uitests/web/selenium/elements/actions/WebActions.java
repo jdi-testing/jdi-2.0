@@ -53,10 +53,10 @@ public abstract class WebActions {
         setAttribute = (o, name, value) -> js(o).executeScript(
             "arguments[0].setAttribute('"+name+"',arguments[1]);", webElement(o), value);
         getElement = WebStatic::webElement;
-        wait = (o, condition) -> element(o).timer().getResult(condition);
+        wait = (o, condition) -> base(o).timer().getResult(condition);
         getResultWithCondition = (o, get, condition) ->
-                element(o).timer().getResultByCondition(get, condition);
-        getElements = (o, args) -> map(webElements(o, args), w -> (Object)w);
+                base(o).timer().getResultByCondition(get, condition);
+        getElements = (o, args) -> map(webElements(o), w -> (Object)w);
         ElementActions.focus = o -> {
             Dimension size = webElement(o).getSize(); //for scroll to object
             actions(o).moveToElement(webElement(o), size.width / 2, size.height / 2)
@@ -69,10 +69,11 @@ public abstract class WebActions {
         getRef = o -> attribute(o, "href");
         getTooltip = o -> attribute(o, "title");
         getText = o -> {
-            String value = attribute(o, "value");
-            if (isBlank(value))
+            WebElement el = webElement(o);
+            String value = el.getAttribute("value");
+            if (!isBlank(value))
                 return value;
-            String text = webElement(o).getText();
+            String text = el.getText();
             return text != null ? text : value;
         };
         input = (o, keys) -> webElement(o).sendKeys(keys);

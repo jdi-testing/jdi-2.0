@@ -28,8 +28,11 @@ import org.openqa.selenium.Cookie;
 
 import java.util.function.Supplier;
 
-import static com.epam.jdi.uitests.core.settings.JDISettings.asserter;
-import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
+import static com.epam.jdi.tools.LinqUtils.Switch;
+import static com.epam.jdi.tools.Switch.Else;
+import static com.epam.jdi.tools.Switch.Value;
+import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.*;
+import static com.epam.jdi.uitests.core.settings.JDISettings.*;
 import static java.lang.String.format;
 
 /**
@@ -39,8 +42,8 @@ public class WebPage extends BaseElement implements IPage {
     public static boolean checkAfterOpen = false;
     public String url;
     public String title;
-    public CheckTypes checkUrlType = CheckTypes.EQUAL;
-    public CheckTypes checkTitleType = CheckTypes.EQUAL;
+    public CheckTypes checkUrlType = EQUAL;
+    public CheckTypes checkTitleType = EQUAL;
     public String urlTemplate;
     public static WebPage currentPage;
 
@@ -96,26 +99,21 @@ public class WebPage extends BaseElement implements IPage {
     }
     @Override
     public boolean isOpened() {
-        boolean result = false;
-        switch (checkUrlType) {
-            case EQUAL:
-                result = url().check(); break;
-            case MATCH:
-                result = url().match(); break;
-            case CONTAINS:
-                result = url().contains(); break;
-        }
-        if (!result)
+        if (!WebSettings.getDriverFactory().hasRunDrivers())
             return false;
-        switch (checkTitleType) {
-            case EQUAL:
-                return title().check();
-            case MATCH:
-                return title().match();
-            case CONTAINS:
-                return title().contains();
-        }
-        return false;
+        boolean result = Switch(checkUrlType).get(
+            Value(EQUAL, url().check()),
+            Value(MATCH, url().match()),
+            Value(CONTAINS, url().contains()),
+            Else(false)
+        );
+        if (!result) return false;
+        return Switch(checkTitleType).get(
+            Value(EQUAL, title().check()),
+            Value(MATCH, title().match()),
+            Value(CONTAINS, title().contains()),
+            Else(false)
+        );
     }
 
     /**
@@ -132,7 +130,14 @@ public class WebPage extends BaseElement implements IPage {
         return (T) this;
     }
     public void shouldBeOpened() {
-        isOpened();
+        try {
+            logger.info(format("Page '%s' should be opened", getName()));
+            if (isOpened()) return;
+            open();
+            checkOpened();
+        } catch (Exception ex) {
+            throw exception(format("Can't open page '%s'. Reason: %s", getName(), ex.getMessage()));
+        }
     }
 
     /**

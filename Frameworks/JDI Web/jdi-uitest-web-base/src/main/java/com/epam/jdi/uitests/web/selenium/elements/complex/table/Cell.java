@@ -24,7 +24,7 @@ public class Cell extends Button implements ICell {
     public <T extends IBaseElement> T getAs(Class<T> clazz) {
         try {
             T instance = (clazz.isInterface()
-                    ? (Class<T>)getClassFromInterface(clazz)
+                    ? (Class<T>)getClassFromInterface(clazz, clazz.getSimpleName())
                     : clazz).newInstance();
             Element el = (Element)instance;
             el.setWebElement(getWebElement()).setParent(getParent());

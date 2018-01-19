@@ -19,17 +19,12 @@ package com.epam.jdi.uitests.web.selenium.elements;
 
 
 import com.epam.jdi.uitests.core.initialization.CascadeInit;
-import com.epam.jdi.uitests.core.interfaces.ISetup;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes;
 import com.epam.jdi.uitests.web.selenium.elements.actions.WebActions;
 import com.epam.jdi.uitests.web.selenium.elements.apiInteract.WebEngine;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
-import com.epam.jdi.uitests.web.selenium.elements.base.J;
-import com.epam.jdi.uitests.web.selenium.elements.complex.Elements;
-import com.epam.jdi.uitests.web.selenium.elements.complex.table.EntityTable;
-import com.epam.jdi.uitests.web.selenium.elements.complex.table.Table;
 import com.epam.jdi.uitests.web.selenium.elements.composite.Section;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
@@ -41,17 +36,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.any;
 import static com.epam.jdi.tools.LinqUtils.first;
-import static com.epam.jdi.tools.ReflectionUtils.isClass;
-import static com.epam.jdi.tools.ReflectionUtils.isInterface;
-import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
-import static com.epam.jdi.uitests.core.initialization.MapInterfaceToElement.getClassFromInterface;
 import static com.epam.jdi.uitests.core.settings.JDIData.APP_VERSION;
-import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.currentDriverName;
 import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.currentSite;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.*;
@@ -79,9 +68,6 @@ public class WebCascadeInit extends CascadeInit {
         if (!element.hasLocator())
             element.setEngine(new WebEngine(element, getNewLocator(field)));
         return element;
-    }
-    protected IBaseElement initElements(Field field, Class<IBaseElement> genericClass) {
-        return new Elements(getNewLocatorFromField(field), genericClass);
     }
 
     public static void initSite(Class<?> site, String driverName) {
@@ -142,48 +128,17 @@ public class WebCascadeInit extends CascadeInit {
     @Override
     protected IBaseElement specificAction(IBaseElement instance, Field field, Object parent, Class<?> type) {
         BaseElement element = (BaseElement) instance;
+        By locator = getNewLocator(field);
+        locator = locator != null ? locator : element.getLocator();
+        element.setEngine(element.engine() != null && locator == null
+            ? new WebEngine(element)
+            : new WebEngine(element, locator));
         if (parent != null && type == null)
             return element;
         By frameBy = getFrame(field.getDeclaredAnnotation(Frame.class));
         if (frameBy != null)
             element.engine().setFrame(frameBy);
         return element;
-    }
-    protected IBaseElement getElementsRules(Field field, String driverName, Class<?> type, String fieldName) throws IllegalAccessException, InstantiationException {
-        By newLocator = getNewLocator(field);
-        BaseElement instance = null;
-        if (isClass(type, EntityTable.class))
-            throw exception(
-            "Entity table should have constructor for correct initialization." + LINE_BREAK +
-                "Use following initialization: 'public EntityTable<Entity, Row> jobsListEntity = new EntityTable<>(Entity.class, Row.class);'" + LINE_BREAK +
-                "Or short: 'public EntityTable<Entity, ?> simpleTable = new EntityTable<>(Entity.class)' if you have flat table");
-        if (isInterface(type, List.class)) {
-            Class<?> elementClass = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
-            if (isClass(elementClass, WebElement.class))
-                elementClass = J.class;
-            else if (elementClass.isInterface())
-                elementClass = getClassFromInterface(type);
-            if (elementClass != null && !isClass(elementClass, Table.class))
-                instance = new Elements(newLocator, elementClass);
-        }
-        if (instance == null) {
-            if (type.isInterface())
-                type = getClassFromInterface(type);
-            if (type != null) {
-                instance = (BaseElement) type.newInstance();
-                if (newLocator == null)
-                    newLocator = instance.getLocator();
-                if (instance.engine() != null && newLocator == null)
-                    instance.setEngine(new WebEngine(instance));
-                else
-                    instance.setEngine(new WebEngine(instance, newLocator));
-            }
-        }
-        if (instance == null)
-            throw exception("Unknown interface: %s (%s). Add relation interface -> class using MapInterfaceToElement.update(...)",
-                    type, fieldName);
-        instance.engine().setDriverName(driverName);
-        return instance;
     }
 
     protected By getNewLocatorFromField(Field field) {
@@ -225,12 +180,6 @@ public class WebCascadeInit extends CascadeInit {
         if (field.isAnnotationPresent(ByValue.class))
             return findByToBy(field.getAnnotation(ByValue.class));
         return null;
-    }
-    private static void fillFromAnnotation(BaseElement instance, Field field) {
-        try {
-            ISetup setup = (ISetup) instance;
-            setup.setup(field);
-        } catch (Exception ignore) {}
     }
 
 }

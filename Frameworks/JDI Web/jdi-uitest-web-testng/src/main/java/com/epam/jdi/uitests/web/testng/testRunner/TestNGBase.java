@@ -38,7 +38,7 @@ import static com.epam.jdi.uitests.web.settings.JDITestNGSettings.initFromProper
  * Created by Roman_Iovlev on 9/3/2015.
  */
 public class TestNGBase {
-    protected static Timer timer;
+    protected static Timer timer = new Timer();
 
     public static long getTestRunTime() {
         return timer.timePassedInMSec();
@@ -52,7 +52,7 @@ public class TestNGBase {
             killAllRunWebBrowsers();
         if (!getDriverFactory().hasDrivers())
             useDriver(DriverTypes.CHROME);
-        timer = new Timer();
+        timer.restart();
     }
 
     @AfterSuite(alwaysRun = true)

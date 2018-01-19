@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.epam.jdi.tools.LinqUtils.foreach;
+import static com.epam.jdi.tools.PrintUtils.print;
 
 /**
  * Created by Roman_Iovlev on 11/10/2017.
@@ -27,7 +28,14 @@ public class LinkedElements {
     public boolean isAny() {
         return !isEmpty();
     }
+    public boolean has(String name) {
+        return linkedElements.containsKey(name);
+    }
     public void add(String name, IBaseElement element) {
         linkedElements.put(name.toLowerCase(), element);
+    }
+    @Override
+    public String toString() {
+        return print(linkedElements);
     }
 }

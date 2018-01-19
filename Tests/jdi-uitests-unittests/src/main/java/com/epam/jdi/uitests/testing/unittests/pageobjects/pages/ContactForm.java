@@ -1,12 +1,12 @@
 package com.epam.jdi.uitests.testing.unittests.pageobjects.pages;
 
 import com.epam.jdi.uitests.core.interfaces.common.IButton;
-import com.epam.jdi.uitests.core.templates.base.Form;
 import com.epam.jdi.uitests.testing.unittests.entities.Contact;
 import com.epam.jdi.uitests.testing.unittests.utils.JSLoader;
 import com.epam.jdi.uitests.web.selenium.elements.common.Link;
 import com.epam.jdi.uitests.web.selenium.elements.common.TextArea;
 import com.epam.jdi.uitests.web.selenium.elements.common.TextField;
+import com.epam.jdi.uitests.web.selenium.elements.composite.Form;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import org.openqa.selenium.JavascriptExecutor;
 
