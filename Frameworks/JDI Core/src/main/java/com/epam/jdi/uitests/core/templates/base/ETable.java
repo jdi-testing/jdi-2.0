@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.core.templates.base;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ICell;
@@ -17,9 +22,6 @@ import static com.epam.jdi.tools.LinqUtils.filter;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
-/**
- * Created by Roman_Iovlev on 11/5/2017.
- */
 public class ETable<Row, Data> extends TTable implements IEntityTable<Data, Row> {
     public Class<Row> rowClass;
     public Class<Data> dataClass;

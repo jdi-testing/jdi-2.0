@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.web.selenium.elements.composite;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.uitests.core.interfaces.base.IComposite;
 import com.epam.jdi.uitests.core.interfaces.base.ISetValue;
 import com.epam.jdi.uitests.core.interfaces.complex.FormFilters;
@@ -8,14 +13,11 @@ import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 
 import static com.epam.jdi.uitests.core.interfaces.complex.FormFilters.ALL;
 
-/**
- * Created by Roman_Iovlev on 10/30/2017.
- */
 public class Form<T> extends BaseElement implements IForm<T>, IComposite {
     public void fillAction(ISetValue element, String value) {
         element.setValue(value);
     }
-    private FormFilters filter;
+    private FormFilters filter = ALL;
     public FormFilters getFilter() {
         return filter;
     }

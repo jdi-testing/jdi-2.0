@@ -1,8 +1,10 @@
 package com.epam.jdi.uitests.testing.simple.examples;
 
-import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
-import com.epam.jdi.uitests.core.interfaces.complex.tables.TableLine;
+import com.epam.jdi.site.epam.sections.JobTitle;
+import com.epam.jdi.tools.map.MapArray;
+import com.epam.jdi.uitests.core.interfaces.complex.tables.ICell;
 import com.epam.jdi.uitests.testing.TestsBase;
+import com.epam.jdi.uitests.web.selenium.elements.complex.table.Table;
 import com.epam.web.matcher.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -12,79 +14,92 @@ import java.lang.reflect.Method;
 import static com.epam.jdi.site.epam.EpamSite.jobDescriptionPage;
 import static com.epam.jdi.site.epam.EpamSite.jobListingPage;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.inColumn;
-import static com.epam.jdi.uitests.core.utils.common.Filters.*;
+import static com.epam.jdi.uitests.core.interfaces.complex.tables.Row.inRow;
+import static com.epam.jdi.uitests.core.utils.common.Filters.withValue;
+import static com.epam.web.matcher.testng.Assert.areEquals;
 
 
 public class TableExamples extends TestsBase {
-    private ITable jobsTable() {
-        return jobListingPage.jobsList;
+    private Table table() {
+        return jobListingPage.jobs;
     }
-    
+
     @BeforeMethod
     public void before(Method method) {
         jobListingPage.shouldBeOpened();
-        Assert.isFalse(jobsTable()::isEmpty);
+        Assert.isFalse(table()::isEmpty);
     }
     @Test
     public void getTableInfo() {
-        Assert.isFalse(jobsTable()::isEmpty);
-        Assert.areEquals(jobsTable().columns().count(), 4);
-        Assert.areEquals(jobsTable().rows().count(), 4);
-        Assert.areEquals(jobsTable().getValue(),
-    "||X||name|category|location|apply||\n" +
-            "||1||Senior Software Testing Engineer|Software Test Engineering|St-Petersburg, Russia|Apply||\n" +
-            "||2||Software Test Automation Engineer (front-end)|Software Test Engineering|St-Petersburg, Russia|Apply||\n" +
-            "||3||Software Testing Engineer (Life Science Department)|Software Test Engineering|St-Petersburg, Russia|Apply||\n"+
-            "||4||Test Automation Engineer (back-end)|Software Test Engineering|St-Petersburg, Russia|Apply||");
+        areEquals(table().columns().size(), 3);
+        areEquals(table().rows().size(), 2);
+        areEquals(table().getValue(),
+    "||X||name|description|apply||\n" +
+            "||1||Test Automation Engineer (back-end)\n" +
+            "ST-PETERSBURG, RUSSIA|Currently we are looking for a Test Automation Engineer (back-end) for our St. Petersburg office to make the team even stronger.|APPLY||\n" +
+            "||2||Software Test Automation Engineer (front-end)\n" +
+            "ST-PETERSBURG, RUSSIA|Currently we are looking for a Software Test Automation Engineer (front-end) for our St. Petersburg office to make the team even stronger.|APPLY||");
     }
 
     @Test
     public void searchInTable() {
-        Assert.isFalse(jobsTable()::isEmpty);
-        jobsTable()
-            .row(withValue("Test Automation Engineer (back-end)"), inColumn("name"))
-            .get("apply").select();
+        table().row(withValue("Test Automation Engineer (back-end)\nST-PETERSBURG, RUSSIA"),
+            inColumn("name")).get("apply").click();
 
         jobDescriptionPage.checkOpened();
+    }
+    @Test
+    public void findEntity() {
+        MapArray<String, String> column =
+            new MapArray<>(table().column(withValue("APPLY"), inRow("1")),
+                p -> p.key, p -> p.value.getText());
+        Assert.areEquals(column.size(), 2);
     }
     @Test
     public void searchContainsInTable() {
-        Assert.isFalse(jobsTable()::isEmpty);
-        jobsTable().row(contains("front-end"), inColumn("name"))
-            .get("apply").select();
-        jobsTable().row(contains("front-end"), inColumn("name"))
-                .get("apply").select();
+        table().rows("name~=back-end")
+            .get(0).value.get("apply").click();
         jobDescriptionPage.checkOpened();
     }
     @Test
-    public void searchMatchInTable() {
-        Assert.isFalse(jobsTable()::isEmpty);
-        jobsTable().row(match(".+front-end.*"), inColumn("name"))
-                .get("apply").select();
+    public void searchMatchInTableExample() {
+        table().rows("name*=.*back-end.*\n.*")
+            .get(0).value.get("apply").click();
 
         jobDescriptionPage.checkOpened();
     }
     @Test
-    public void searchContainsListInTable() {
-        Assert.isFalse(jobsTable()::isEmpty);
-        TableLine firstRow = jobsTable().rows(
-                "name~=front-end",
-                "category*=.*Test Engineering")
-                .first().value;
+    public void searchContainsListInTableExample() {
+        MapArray<String, ICell> firstRow =
+            table().rows("name~=Automation Engineer",
+                                      "description*=.*back-end.*").get(0).value;
 
-        Assert.areEquals(firstRow.get("name").getText(), "Software Test Automation Engineer (front-end)");
-        Assert.areEquals(firstRow.get("category").getText(), "Software Test Engineering");
+        areEquals(firstRow.get("name").getText(), "Test Automation Engineer (back-end)\nST-PETERSBURG, RUSSIA");
+        areEquals(firstRow.get("description").getText(), "Currently we are looking for a Test Automation Engineer (back-end) for our St. Petersburg office to make the team even stronger.");
     }
 
     @Test
-    public void searchByMultiCriteriaInTable() {
-        Assert.isFalse(jobsTable()::isEmpty);
-        TableLine firstRow = jobsTable().rows(
-                "name=Test Automation Engineer (back-end)",
-                "category=Software Test Engineering")
-                .first().value;
+    public void complexTableExample() {
+        MapArray<String, ICell> firstRow =
+            table().rows("name~=Automation Engineer",
+                                      "description*=.*back-end.*")
+                    .get(0).value;
+        firstRow.get("apply").click();
 
-        Assert.areEquals(firstRow.get("name").getText(), "Test Automation Engineer (back-end)");
-        Assert.areEquals(firstRow.get("category").getText(), "Software Test Engineering");
+        jobDescriptionPage.checkOpened();
+    }
+    @Test
+    public void cellTest() {
+        ICell cell = table().cell(1,1);
+        Assert.areEquals(cell.getText(), "Test Automation Engineer (back-end)\nST-PETERSBURG, RUSSIA");
+        table().cell("apply",1).click();
+        jobDescriptionPage.checkOpened();
+    }
+    @Test
+    public void cellTestSection() {
+        ICell cell = table().cell(1,1);
+        JobTitle jobTitle = cell.getAs(JobTitle.class);
+        Assert.areEquals(jobTitle.name.getText(), "Test Automation Engineer (back-end)");
+        Assert.areEquals(jobTitle.location.getText(), "ST-PETERSBURG, RUSSIA");
     }
 }

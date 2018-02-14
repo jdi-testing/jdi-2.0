@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.core.interfaces.complex.tables;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.utils.common.IFilter;
 
@@ -10,9 +15,6 @@ import static com.epam.jdi.uitests.core.actions.complex.TableActions.castToRow;
 import static com.epam.jdi.uitests.core.actions.complex.TableActions.rowToEntity;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 
-/**
- * Created by Roman_Iovlev on 11/12/2017.
- */
 public interface IEntityTable<Data, Row> extends ITable, List<Data> {
     @JDIAction("Get table lines")
     default List<Row> getLines() {

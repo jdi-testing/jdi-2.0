@@ -1,23 +1,9 @@
 package com.epam.jdi.uitests.web.selenium.elements.base;
-// TODO CHANGE TO MIT
-/*
- * Copyright 2004-2016 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * JDI is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * JDI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with JDI. If not, see <http://www.gnu.org/licenses/>.
- */
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
 
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
@@ -33,12 +19,9 @@ import org.openqa.selenium.WebElement;
 import static com.epam.jdi.tools.ReflectionUtils.isClass;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 import static com.epam.jdi.uitests.core.settings.JDISettings.timeouts;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils.shortBy;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.SEARCH_CONDITION;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
-/**
- * Created by Roman_Iovlev on 6/10/2015.
- */
 public abstract class BaseElement extends TBaseElement {
     public JFunc1<WebElement, Boolean> localSearchCondition = null;
     public JFunc1<WebElement, Boolean> getSearchCriteria() {
@@ -108,7 +91,6 @@ public abstract class BaseElement extends TBaseElement {
     @Override
     public void setWaitTimeout(int sec) {
         logger.debug("Set wait timeout to " + sec);
-        getDriver().manage().timeouts().implicitlyWait(sec, SECONDS);
         timeouts.setCurrentTimeoutSec(sec);
     }
 
@@ -120,7 +102,7 @@ public abstract class BaseElement extends TBaseElement {
                 || (locator = (parent = (BaseElement)getParent()).getLocator()) == null
             ? ""
             : (parentContext = parent.printContext()).equals("")
-                ? locator.toString()
+                ? shortBy(locator)
                 : locator + "; " + parentContext;
     }
 }

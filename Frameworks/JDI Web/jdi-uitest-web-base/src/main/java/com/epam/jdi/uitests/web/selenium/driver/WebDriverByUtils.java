@@ -1,23 +1,11 @@
 package com.epam.jdi.uitests.web.selenium.driver;
-/*
- * Copyright 2004-2016 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * JDI is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * JDI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with JDI. If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-
+import com.epam.jdi.tools.map.MapArray;
 import org.openqa.selenium.By;
 
 import java.text.MessageFormat;
@@ -32,9 +20,6 @@ import static com.epam.jdi.tools.LinqUtils.select;
 import static com.epam.jdi.tools.PrintUtils.print;
 import static java.lang.String.format;
 
-/**
- * Created by roman.i on 30.09.2014.
- */
 public final class WebDriverByUtils {
 
     private WebDriverByUtils() { }
@@ -82,17 +67,22 @@ public final class WebDriverByUtils {
         return getByFunc(by).apply(byLocator);
     }
 
-
     public static String getByLocator(By by) {
         String byAsString = by.toString();
         int index = byAsString.indexOf(": ") + 2;
         return byAsString.substring(index);
     }
-
+    private static MapArray<String, String> byReplace = new MapArray<>(new Object[][] {
+            {"cssSelector", "css"},
+            {"tagName", "tag"},
+            {"className", "class"}
+    });
     public static String getByName(By by) {
         Matcher m = Pattern.compile("By\\.(?<locator>.*):.*").matcher(by.toString());
-        if (m.find())
-            return m.group("locator");
+        if (m.find()) {
+            String result = m.group("locator");
+            return byReplace.keys().contains(result) ? byReplace.get(result) : result;
+        }
         throw new RuntimeException("Can't get By name for: " + by);
     }
 
@@ -102,7 +92,11 @@ public final class WebDriverByUtils {
                 .replaceFirst("/", "./"))
                 : byValue;
     }
-
+    public static String shortBy(By by) {
+        return by == null
+                ? "No locator"
+                : format("%s='%s'", getByName(by), getByLocator(by));
+    }
     public static By getByFromString(String stringLocator) {
         if (stringLocator == null || stringLocator.equals(""))
             throw new RuntimeException("Can't get By locator from string empty or null string");

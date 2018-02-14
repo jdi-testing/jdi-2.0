@@ -1,14 +1,17 @@
 package com.epam.jdi.uitests.core.logger;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.func.JAction;
+import com.epam.jdi.tools.logger.LogLevels;
 import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Logger in XML format class.
- */
 public class XMLLogger {
 
     private Logger log;

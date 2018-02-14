@@ -1,5 +1,10 @@
 package com.epam.page.object.generator.parser;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.page.object.generator.model.SearchRule;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

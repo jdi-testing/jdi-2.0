@@ -1,5 +1,10 @@
 package com.epam.page.object.generator.builder;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import com.epam.page.object.generator.model.Pairs;
 import com.epam.page.object.generator.model.SearchRule;
@@ -10,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.page.object.generator.builder.StringUtils.splitCamelCase;
+import static com.epam.jdi.tools.StringUtils.splitCamelCase;
 import static com.squareup.javapoet.AnnotationSpec.builder;
 import static java.lang.String.format;
 

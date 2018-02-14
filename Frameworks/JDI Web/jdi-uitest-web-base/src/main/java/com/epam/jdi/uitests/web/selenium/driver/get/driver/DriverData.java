@@ -1,10 +1,12 @@
 package com.epam.jdi.uitests.web.selenium.driver.get.driver;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import java.io.File;
 
-/**
- * Created by Roman_Iovlev on 6/22/2017.
- */
 public class DriverData {
     //TODO GET LATEST DRIVER USING OPEN SOURCE SOLUTION https://github.com/epam/JDI/issues/82
     public static final String FOLDER_PATH = new File("").getAbsolutePath() + "\\src\\main\\resources\\driver\\";

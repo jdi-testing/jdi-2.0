@@ -3,7 +3,6 @@ package com.epam.jdi.site.google;
 import com.epam.jdi.site.google.pages.HomePage;
 import com.epam.jdi.site.google.pages.SearchPage;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JPage;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
 
 /**
@@ -11,6 +10,6 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
  */
 @JSite("http://google.com")
 public class GoogleSite extends WebSite {
-    @JPage(url = "/") public static HomePage homePage;
-    @JPage(url = "/search") public static SearchPage searchPage;
+    public static HomePage homePage;
+    public static SearchPage searchPage;
 }

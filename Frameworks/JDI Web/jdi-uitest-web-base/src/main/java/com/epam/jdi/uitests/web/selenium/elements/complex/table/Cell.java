@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.web.selenium.elements.complex.table;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ICell;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
@@ -10,9 +15,6 @@ import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import static com.epam.jdi.uitests.core.initialization.MapInterfaceToElement.getClassFromInterface;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
-/**
- * Created by Roman_Iovlev on 11/14/2017.
- */
 public class Cell extends Button implements ICell {
     private NameNum column;
     private NameNum row;

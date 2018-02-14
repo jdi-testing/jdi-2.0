@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.core.actions.complex;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.tools.func.JFunc2;
@@ -18,9 +23,6 @@ import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
-/**
- * Created by Roman_Iovlev on 11/14/2017.
- */
 public class TableActions {
     public static JFunc2<Object, TableLine, Object> castToRow =
             (o, row) -> {

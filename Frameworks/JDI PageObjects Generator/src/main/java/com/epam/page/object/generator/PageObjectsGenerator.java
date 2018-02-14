@@ -1,5 +1,10 @@
 package com.epam.page.object.generator;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.CheckBox;
 import com.epam.jdi.uitests.web.selenium.elements.common.Image;
@@ -27,7 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.epam.page.object.generator.builder.StringUtils.*;
+import static com.epam.jdi.tools.StringUtils.splitCamelCase;
+import static com.epam.page.object.generator.builder.StringUtils.firstLetterDown;
+import static com.epam.page.object.generator.builder.StringUtils.firstLetterUp;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 

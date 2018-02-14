@@ -17,7 +17,6 @@
 		<testng.version>6.11</testng.version>
 		<aspectj.version>1.8.3</aspectj.version>
 		<junit.version>LATEST</junit.version>
-		<log4j.version>LATEST</log4j.version>
     </properties>
 
     <modules>

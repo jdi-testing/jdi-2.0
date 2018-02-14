@@ -1,13 +1,15 @@
 package com.epam.jdi.tools;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.func.JFunc1;
 
 import static com.epam.jdi.tools.LinqUtils.filter;
 import static com.epam.jdi.tools.LinqUtils.foreach;
 
-/**
- * Created by Roman_Iovlev on 1/14/2018.
- */
 public class Switch<T> {
     private T value;
     Switch() { }

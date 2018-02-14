@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.core.interfaces.complex.tables;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.func.JFunc;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.tools.map.MapArray;
@@ -13,9 +18,6 @@ import static com.epam.jdi.uitests.core.interfaces.complex.tables.TableFilter.ge
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static java.lang.String.format;
 
-/**
- * Created by Roman_Iovlev on 10/31/2017.
- */
 public class TableLines extends MapArray<String, TableLine> {
     TableLines(Collection<String> headers, JFunc1<String, TableLine> func) {
         super(headers, h -> h, func);

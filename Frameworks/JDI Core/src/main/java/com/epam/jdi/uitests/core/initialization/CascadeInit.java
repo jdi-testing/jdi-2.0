@@ -1,33 +1,11 @@
 package com.epam.jdi.uitests.core.initialization;
-/* The MIT License
- *
- * Copyright 2004-2017 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in the
- * Software without restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the
- * following conditions:
-
- * The above copyright notice and this permission notice shall be included in all copies
- * or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- */
 
 /**
- * Created by Roman Iovlev on 10.03.2017
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+import com.epam.jdi.uitests.core.annotations.Root;
 import com.epam.jdi.uitests.core.interfaces.ISetup;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IComposite;
@@ -122,16 +100,18 @@ public abstract class CascadeInit {
     }
     private IBaseElement createChildFromFieldStatic(Object parent, Class<?> parentClass, Field field, Class<?> type, String driverName) {
         IBaseElement instance = (IBaseElement) getValueField(field, parent);
-        if (instance == null)
-            try {
-                instance = getElementInstance(field, driverName, parent);
-            } catch (Exception ex) {
-                throw exception(
-                        format("Can't create child for parent '%s' with type '%s'. Exception: %s",
-                                parentClass.getSimpleName(), field.getType().getSimpleName(), ex.getMessage()));
-            }
-        else instance = fillInstance(instance, field);
-        instance.setParent(parent);
+        try {
+            instance = instance == null
+                    ? getElementInstance(field, driverName, parent)
+                    : fillInstance(instance, field);
+        } catch (Exception ex) {
+            throw exception(format("Can't create child for parent '%s' with type '%s'. Exception: %s",
+                parentClass.getSimpleName(), field.getType().getSimpleName(),
+                ex.getMessage()));
+        }
+        instance.setParent(field.isAnnotationPresent(Root.class)
+                ? null
+                : parent);
         instance = fillFromJDIAnnotation(instance, field);
         instance = specificAction(instance, field, parent, type);
         return instance;
@@ -156,8 +136,10 @@ public abstract class CascadeInit {
         }
     }
     protected IBaseElement getElementsRules(Field field, String driverName, Class<?> type) {
+        if (field.getName().equals("jobsAsData"))
+            new Object();
         IBaseElement instance = Switch(type).get(
-            Condition(isClass(type, IEntityTable.class),
+            Condition(isInterface(type, IEntityTable.class),
                 t -> initEntityTable(field)),
             Condition(isInterface(type, List.class),
                 t -> initList(t, field)),

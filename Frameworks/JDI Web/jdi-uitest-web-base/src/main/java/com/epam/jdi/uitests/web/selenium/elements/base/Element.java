@@ -1,22 +1,9 @@
 package com.epam.jdi.uitests.web.selenium.elements.base;
-/*
- * Copyright 2004-2016 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * JDI is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * JDI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with JDI. If not, see <http://www.gnu.org/licenses/>.
- */
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
 
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
@@ -29,18 +16,9 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.List;
 
 import static com.epam.jdi.tools.ReflectionUtils.newEntity;
-import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
+import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
-/**
- * Base Element control implementation
- *
- * @author Alexeenko Yan
- * @author Belin Yury
- * @author Belousov Andrey
- * @author Shubin Konstantin
- * @author Zharov Alexandr
- */
 public class Element extends BaseElement implements IElement, IHasElement {
 
     @JDIAction(level = DEBUG)
@@ -49,7 +27,13 @@ public class Element extends BaseElement implements IElement, IHasElement {
     }
     @JDIAction(level = DEBUG)
     public WebElement getNowWebElement() {
-        return getDriver().findElement(getLocator());
+        setWaitTimeout(0);
+        WebElement el = null;
+        try {
+            el = getDriver().findElement(getLocator());
+        } catch (Exception ignore) {}
+        restoreWaitTimeout();
+        return el;
     }
     @JDIAction(level = DEBUG)
     public WebElement firstWebElement() {

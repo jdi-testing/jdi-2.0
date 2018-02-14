@@ -4,44 +4,50 @@ import com.epam.jdi.entities.JobSearchFilter;
 import com.epam.jdi.enums.Locations;
 import com.epam.jdi.site.epam.CustomElements.JTree;
 import com.epam.jdi.site.epam.CustomElements.TreeDropdown;
-import com.epam.jdi.uitests.core.interfaces.base.ISetValue;
 import com.epam.jdi.uitests.core.interfaces.common.IButton;
-import com.epam.jdi.uitests.core.interfaces.common.ILabel;
 import com.epam.jdi.uitests.core.interfaces.common.ITextField;
 import com.epam.jdi.uitests.core.interfaces.complex.IDropDown;
 import com.epam.jdi.uitests.web.selenium.elements.composite.Form;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JDropdown;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.ByClass;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.ByValue;
-
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
 
 /**
  * Created by Roman_Iovlev on 10/22/2015.
  */
 public class JobFilter extends Form<JobSearchFilter> {
-    @ByClass("job-search-input") ITextField keywords;
+    //Keyword or Vacancy ID
+    @Css(".job-search__input")
+    public ITextField keywords;
+
+    //Skills
     @JDropdown(
-        root = @FindBy(css = ".multi-select-department"),
-        expand = @FindBy(css = ".default-label"),
-        list = @FindBy(css = ".multi-select-dropdown li"))
-    IDropDown category;
+            root = @FindBy(css = ".multi-select-filter"),
+            expand = @FindBy(css = ".default-label"),
+            list = @FindBy(css = ".multi-select-dropdown li"))
+    IDropDown skills;
 
     @JTree(
-        select = @FindBy(className = "career-location-box"),
-        levels = {@FindBy(css = ".location-dropdown .optgroup"),
+            select = @FindBy(css = ".job-search__location"),
+            levels = {@FindBy(css = "[role=tree]>li"),
                     @FindBy(xpath = "//..//li")}
     ) TreeDropdown<Locations> location;
 
-    @ByValue("search")
-    IButton selectButton;
 
-    @ByClass("job-search-title")
-    public ILabel label;
 
-    @Override
-    public void fillAction(ISetValue element, String text) {
-        element.setValue(text);
-        label.click();
-    }
+    //Submit button
+    @Css(".job-search__submit")
+    public IButton selectButton;
+
+    //Title
+    //@Css(".job-search-title")
+    //public Label label;
+
+//    @Override
+//    protected void setValueAction(String text, ISetValue element) {
+//        element.setValue(text);
+//        label.click();
+//    }
 }
+
+

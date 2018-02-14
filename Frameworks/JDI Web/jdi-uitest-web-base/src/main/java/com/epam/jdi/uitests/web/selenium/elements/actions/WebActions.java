@@ -1,14 +1,21 @@
 package com.epam.jdi.uitests.web.selenium.elements.actions;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.uitests.core.actions.base.ElementActions;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.Cell;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.*;
+import static com.epam.jdi.tools.LinqUtils.select;
 import static com.epam.jdi.uitests.core.actions.base.ElementActions.*;
 import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.isChecked;
 import static com.epam.jdi.uitests.core.actions.common.ClickActions.click;
@@ -28,11 +35,9 @@ import static com.epam.jdi.uitests.core.actions.composite.PageActions.openPage;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.web.selenium.elements.actions.WebStatic.*;
 import static com.epam.jdi.uitests.web.selenium.elements.actions.WebStatic.isSelected;
+import static jdk.nashorn.internal.objects.Global.print;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
-/**
- * Created by Roman_Iovlev on 8/24/2017.
- */
 public abstract class WebActions {
     private static boolean firstInit = true;
     public static void Init() {
@@ -47,7 +52,10 @@ public abstract class WebActions {
     public static void initCommonActions() {
         eDisplayed = e -> we(e).isDisplayed();
         eGetText = e -> we(e).getText();
-        displayed = o -> element(o).getNowWebElement().isDisplayed();
+        displayed = o -> {
+            WebElement el = element(o).getNowWebElement();
+            return el != null && el.isDisplayed();
+        };
         enabled = o -> webElement(o).isEnabled();
         getAttribute = (o, name) -> webElement(o).getAttribute(name);
         setAttribute = (o, name, value) -> js(o).executeScript(
@@ -81,8 +89,12 @@ public abstract class WebActions {
         getClickable = (o, name) -> {
             List<WebElement> els = webElements(o);
             WebElement element;
-            if (els.size() == 0 || (element = first(els, e -> e.getText().equals(name))) == null)
-                throw exception("Can't find clickable element '%s'", name);
+            if (els.size() == 0)
+                throw exception("Can't find clickable element '%s'. Correct locator no elements found", name);
+            if (els.size() == 1 && els.get(0).getTagName().equals("ul"))
+                els = els.get(0).findElements(By.tagName("li"));
+            if ((element = first(els, e -> e.getText().equals(name))) == null)
+                throw exception("Can't find clickable element '%s'. No names match (%s)", name, print(select(els, WebElement::getText)));
             return new Button().setWebElement(element);
         };
         getClickableByIndex = (o, index) -> {

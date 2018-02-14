@@ -13,17 +13,11 @@
     <name>JDI UI Testing Framework Core</name>
     <packaging>jar</packaging>
 
-
     <dependencies>
         <dependency>
             <groupId>com.epam.jdi.tools</groupId>
             <artifactId>jdi-light-saber</artifactId>
             <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${log4j.version}</version>
         </dependency>
 
         <!--AOP Spring -->
@@ -31,6 +25,16 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>${aspectj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>joor</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.yandex.qatools.allure</groupId>
+            <artifactId>allure-java-annotations</artifactId>
+            <version>RELEASE</version>
         </dependency>
     </dependencies>
 

@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.web.selenium.elements.complex;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.uitests.core.interfaces.ISetup;
 import com.epam.jdi.uitests.core.interfaces.complex.IDropDown;
 import com.epam.jdi.uitests.core.interfaces.complex.IPagination;
@@ -13,9 +18,6 @@ import static com.epam.jdi.uitests.web.selenium.elements.base.LinkedSetup.setUpL
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;
 
-/**
- * Created by Roman_Iovlev on 11/14/2017.
- */
 public class Pagination extends Element implements IPagination, ISetup {
 
     public void setup(Field field) {

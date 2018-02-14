@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.core.interfaces.complex;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.func.JAction1;
 import com.epam.jdi.tools.func.JAction2;
 
@@ -8,9 +13,6 @@ import static com.epam.jdi.tools.LinqUtils.last;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
-/**
- * Created by Roman_Iovlev on 10/15/2017.
- */
 public interface IMenu2D<TEnum extends Enum> extends IMenu<TEnum> {
     String NULL_OR_EMPTY_MSG = "Can't perform select menu '%s'. Value is null or empty";
 

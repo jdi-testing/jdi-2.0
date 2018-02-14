@@ -1,22 +1,9 @@
 package com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations;
-/*
- * Copyright 2004-2016 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * JDI is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * JDI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with JDI. If not, see <http://www.gnu.org/licenses/>.
- */
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
 
 import com.epam.jdi.uitests.core.annotations.AnnotationsUtil;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes;
@@ -31,15 +18,10 @@ import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.CON
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.EQUAL;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.domain;
 import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
-/**
- * Created by roman.i on 25.09.2014.
- */
 public class WebAnnotationsUtil extends AnnotationsUtil {
 
-    private static void initDomain(Class<?> parentClass) {
-
-    }
     public static String getUrlFromUri(String uri, Class<?> parentClass) {
         String siteDomain = domain;
         if (parentClass.isAnnotationPresent(JSite.class))
@@ -50,7 +32,9 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
     }
 
     public static void fillPageFromAnnotaiton(WebPage page, JPage pageAnnotation, Class<?> parentClass) {
-        String url = pageAnnotation.url();
+        String url = !isBlank(pageAnnotation.value())
+                ? pageAnnotation.value()
+                : pageAnnotation.url();
         if (!url.contains("://"))
             url = getUrlFromUri(url, parentClass);
         String title = pageAnnotation.title();
@@ -80,8 +64,6 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
             return By.xpath(".//*/text()[normalize-space(.) = " +
                     Quotes.escape(frame.text()) + "]/parent::*");
 
-        if (!"".equals(frame.attribute().name()))
-            return getAttribute(frame.attribute().name(), frame.attribute().value());
         if (!"".equals(frame.id()))
             return By.id(frame.id());
         if (!"".equals(frame.className()))
@@ -148,8 +130,6 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
             return By.xpath(".//*/text()[normalize-space(.) = " +
                 Quotes.escape(locator.text()) + "]/parent::*");
 
-        if (!"".equals(locator.attribute().name()))
-            return getAttribute(locator.attribute().name(), locator.attribute().value());
         if (!"".equals(locator.id()))
             return By.id(locator.id());
         if (!"".equals(locator.className()))
@@ -180,36 +160,12 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
         return By.cssSelector(locator.value());
     }
 
-    public static By findByToBy(Attribute locator){
-        if (locator == null) return null;
-        return getAttribute(locator.name(), locator.value());
-    }
-
-    public static By findByToBy(ByClass locator){
-        if (locator == null) return null;
-        return By.className(locator.value());
-    }
-
-    public static By findByToBy(Id locator){
+    public static By findByToBy(ById locator){
         if (locator == null) return null;
         return By.id(locator.value());
     }
 
-    public static By findByToBy(ByName locator){
-        if (locator == null) return null;
-        return By.name(locator.value());
-    }
-
-    public static By findByToBy(Tag locator){
-        if (locator == null) return null;
-        return By.tagName(locator.value());
-    }
-    public static By findByToBy(ByType locator){
-        if (locator == null) return null;
-        return getAttribute("type", locator.value());
-    }
-
-    public static By findByToBy(Text locator){
+    public static By findByToBy(ByText locator){
         if (locator == null) return null;
         return By.xpath(".//*/text()[normalize-space(.) = " +
                 Quotes.escape(locator.value()) + "]/parent::*");
@@ -219,30 +175,6 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
         if (locator == null) return null;
         return By.xpath(".//*/text()[contains(normalize-space(.), "+
                 Quotes.escape(locator.value())+")]/parent::*");
-    }
-
-    public static By findByToBy(NgModel locator){
-        if (locator == null) return null;
-        return getAttribute("ng-model", locator.value());
-    }
-    public static By findByToBy(NgBinding locator){
-        if (locator == null) return null;
-        return getAttribute("ng-binding", locator.value());
-    }
-
-    public static By findByToBy(NgRepeat locator){
-        if (locator == null) return null;
-        return getAttribute("ng-repeat", locator.value());
-    }
-
-    public static By findByToBy(ByTitle locator){
-        if (locator == null) return null;
-        return getAttribute("title", locator.value());
-    }
-
-    public static By findByToBy(ByValue locator){
-        if (locator == null) return null;
-        return getAttribute("value", locator.value());
     }
 
     public static By findByToBy(XPath locator){

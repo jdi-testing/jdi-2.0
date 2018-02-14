@@ -1,45 +1,34 @@
 package com.epam.jdi.uitests.web.selenium.elements.complex;
-/*
- * Copyright 2004-2016 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * JDI is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * JDI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with JDI. If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-
+import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.annotations.Title;
+import com.epam.jdi.uitests.core.interfaces.common.ILabel;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 import com.epam.jdi.uitests.core.interfaces.complex.IList;
 import com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
+import com.epam.jdi.uitests.web.selenium.elements.common.Label;
 import com.epam.jdi.uitests.web.selenium.elements.common.Text;
 import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.jdi.tools.EnumUtils.getEnumValue;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
-/**
- * Created by Roman_Iovlev on 7/8/2015.
- */
 public class Elements<T extends BaseElement> extends BaseElement implements IList<T> {
     private MapArray<String, T> elements;
+    private List<T> values;
     private Class<T> classType;
     public String titleFieldName = null;
     public static final String NO_TITLE_FIELD = "NO TITLE FIELD";
@@ -47,20 +36,39 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
     public Elements(Class<T> classType) {
         this.classType = classType != null ? classType : (Class<T>) Button.class;
         elements = new MapArray<>();
+        values = new ArrayList<>();
         setUseCache(true);
     }
     private List<WebElement> getWebElements() {
         return getElements();
     }
+    public List<T> values() {
+        if (isUseCache()) {
+            if (!values.isEmpty())
+                return values;
+            if (!elements.isEmpty())
+                return elements.values();
+        } else values.clear();
+        return values = LinqUtils.select(getWebElements(), this::initElement);
+    }
     public MapArray<String, T> getAll() {
         if (isUseCache())
-            if (!elements.isEmpty() && elements.get(0).value.displayed())
+            if (!elements.isEmpty())
                 return elements;
-        else elements.clear();
-        return elements = new MapArray<>(getWebElements(),
+        else  { elements.clear(); values.clear(); }
+        return elements = values.isEmpty()
+            ? new MapArray<>(getWebElements(),
                 this::elementTitle,
-                this::initElement);
+                this::initElement)
+            : new MapArray<>(
+                LinqUtils.select(getWebElements(), this::elementTitle),
+                values);
     }
+    @Override
+    public boolean isEmpty() {
+        return getWebElements().size() == 0;
+    }
+
     private String elementTitle(WebElement el) {
         if (titleFieldName == null)
             identifyTitleField();
@@ -81,7 +89,7 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
             T element = classType.newInstance();
             element.setEngine(el);
             element.setUseCache(true);
-            element.setParent(null);
+            element.setParent(this);
             new WebCascadeInit().initElements(element, engine().getDriverName());
             return element;
         } catch (Exception ex) {
@@ -95,32 +103,32 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
     private boolean isTextElement(Field field) {
         return field.getType().equals(Text.class) || field.getType().equals(IText.class);
     }
+    private boolean isLabelElement(Field field) {
+        return field.getType().equals(Label.class) || field.getType().equals(ILabel.class);
+    }
     public T get(String name) {
         return getAll().get(name);
     }
     private void identifyTitleField() {
-        Field titleField = null;
-        boolean textFieldIsTitle = true;
         Field[] fields = classType.getFields();
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(Title.class)) {
-                titleFieldName = field.getName();
-                return;
-            }
-            if (textFieldIsTitle && isTextElement(field)) {
-                if (titleField == null)
-                    titleField = field;
-                else
-                    textFieldIsTitle = false;
-            }
+
+        // Get title from annotation
+        List<Field> expectedFields = LinqUtils.where(fields, f -> f.isAnnotationPresent(Title.class));
+        switch (expectedFields.size()) {
+            case 0: break;
+            case 1: titleFieldName = expectedFields.get(0).getName(); return;
+            default: exception("Entity should have only 1 @Title annotation. Please correct '%s' class", classType.getSimpleName());
         }
-        if (titleField != null && textFieldIsTitle)
-            titleFieldName = titleField.getName();
-        titleFieldName = NO_TITLE_FIELD;
+        // Get title from Label field
+        expectedFields = LinqUtils.where(fields, this::isLabelElement);
+        titleFieldName = expectedFields.size() == 1
+            ? expectedFields.get(0).getName()
+            : NO_TITLE_FIELD;
     }
 
     public T get(Enum name) {
         return get(getEnumValue(name));
     }
+
 
 }

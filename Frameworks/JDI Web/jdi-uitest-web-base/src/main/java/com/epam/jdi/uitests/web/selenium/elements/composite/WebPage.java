@@ -1,22 +1,9 @@
 package com.epam.jdi.uitests.web.selenium.elements.composite;
-/*
- * Copyright 2004-2016 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * JDI is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * JDI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with JDI. If not, see <http://www.gnu.org/licenses/>.
- */
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
 
 import com.epam.jdi.tools.Timer;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
@@ -31,13 +18,11 @@ import java.util.function.Supplier;
 import static com.epam.jdi.tools.LinqUtils.Switch;
 import static com.epam.jdi.tools.Switch.Else;
 import static com.epam.jdi.tools.Switch.Value;
+import static com.epam.jdi.tools.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.*;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
 import static java.lang.String.format;
 
-/**
- * Created by Roman_Iovlev on 7/17/2015.
- */
 public class WebPage extends BaseElement implements IPage {
     public static boolean checkAfterOpen = false;
     public String url;
@@ -93,9 +78,9 @@ public class WebPage extends BaseElement implements IPage {
     /**
      * Check that page opened
      */
+    @JDIAction
     public void checkOpened() {
-        asserter.isTrue(isOpened(),
-                format("Page '%s' is not opened", toString()));
+        asserter.isTrue(isOpened(), format("Page '%s' is not opened", toString()));
     }
     @Override
     public boolean isOpened() {
@@ -119,15 +104,17 @@ public class WebPage extends BaseElement implements IPage {
     /**
      * Opens url specified for page
      */
-    public <T extends IPage> T open() {
-        //TODO
-        // invoker.doJAction(format("Open page '%s' by url %s", getName(), url),
-        //        () -> getDriver().navigate().to(url));
-        getDriver().navigate().to(url);
+    @JDIAction("open {url}")
+    public void open() {
+        try {
+            getDriver().navigate().to(url);
+        } catch (Exception ex) {
+            logger.debug("Second try open page: " + toString());
+            getDriver().navigate().to(url);
+        }
         if (checkAfterOpen)
             checkOpened();
         currentPage = this;
-        return (T) this;
     }
     public void shouldBeOpened() {
         try {
@@ -197,7 +184,10 @@ public class WebPage extends BaseElement implements IPage {
 
     @Override
     public String toString() {
-        return getName() + "(" + url + ")";
+        String result = getName();
+        if (!logger.getLogLevel().equalOrMoreThan(STEP))
+            result += format(" (url=%s, title=%s)", url, title);
+        return result;
     }
 
     public class StringCheckType {

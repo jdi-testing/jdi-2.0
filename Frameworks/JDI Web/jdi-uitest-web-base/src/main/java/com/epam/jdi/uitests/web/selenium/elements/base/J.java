@@ -1,10 +1,12 @@
 package com.epam.jdi.uitests.web.selenium.elements.base;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import org.openqa.selenium.*;
 
-/**
- * Created by Sergey_Mishanin on 12/14/16.
- */
 public class J extends Element implements WebElement {
     public void click() {
         getWebElement().click();

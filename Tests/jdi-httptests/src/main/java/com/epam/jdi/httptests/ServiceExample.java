@@ -1,9 +1,10 @@
 package com.epam.jdi.httptests;
 
-import com.epam.jdi.http.annotations.*;
-import com.epam.jdi.http.requests.RestMethod;
+import com.epam.http.annotations.*;
+import com.epam.http.requests.RestMethod;
 
-import static com.jayway.restassured.http.ContentType.JSON;
+import static io.restassured.http.ContentType.HTML;
+import static io.restassured.http.ContentType.JSON;
 
 /**
  * Created by Roman_Iovlev on 9/25/2016.
@@ -15,7 +16,7 @@ public class ServiceExample {
         @Header(name = "Name", value = "Roman"),
         @Header(name = "Id", value = "Test")
     })
-    static RestMethod getMethod;
+    static RestMethod<Info> getInfo;
 
     @Header(name = "Type", value = "Test")
     @POST("/post")
@@ -26,4 +27,6 @@ public class ServiceExample {
     @DELETE("/delete") RestMethod delete;
     @GET("/status/%s") RestMethod status;
 
+    @ContentType(HTML) @GET("/html")
+    RestMethod getHTMLMethod;
 }

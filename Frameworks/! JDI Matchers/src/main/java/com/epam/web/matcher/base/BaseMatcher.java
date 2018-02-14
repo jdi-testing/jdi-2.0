@@ -1,39 +1,17 @@
 package com.epam.web.matcher.base;
-/* The MIT License
- *
- * Copyright 2004-2017 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in the
- * Software without restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the
- * following conditions:
-
- * The above copyright notice and this permission notice shall be included in all copies
- * or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- */
 
 /**
- * Created by Roman Iovlev on 10.03.2017
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
 import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.tools.Timer;
 import com.epam.jdi.tools.func.JAction;
 import com.epam.jdi.tools.func.JFunc;
+import com.epam.jdi.tools.logger.ILogger;
+import com.epam.jdi.tools.logger.JDILogger;
 import com.epam.jdi.tools.map.MapArray;
-import org.slf4j.Logger;
 
 import java.util.Collection;
 import java.util.List;
@@ -54,11 +32,10 @@ import static java.lang.reflect.Array.get;
 import static java.lang.reflect.Array.getLength;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.slf4j.LoggerFactory.getLogger;
 
 public abstract class BaseMatcher implements IChecker {
-    private static Logger logger = getLogger("JDI Logger");
-    public void setLogger(Logger logger) { BaseMatcher.logger = logger; }
+    private static ILogger logger = JDILogger.instance("JDI Logger");
+    public void setLogger(ILogger logger) { BaseMatcher.logger = logger; }
     private static long waitTimeout = 10;
     private static long defaultTimeout = 10;
     private static DoScreen defaultDoScreenType = NO_SCREEN;

@@ -1,8 +1,5 @@
 package com.epam.jdi.cucumber;
 
-/**
- * Created by Dmitry_Lebedev1 on 1/19/2016.
- */
 public enum FormActions {
 
     SUBMIT("submit"), FILL("fill"), CHECK("check");

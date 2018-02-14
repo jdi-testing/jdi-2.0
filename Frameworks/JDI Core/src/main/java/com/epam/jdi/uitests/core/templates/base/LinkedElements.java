@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.core.templates.base;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 
 import java.util.HashMap;
@@ -8,9 +13,6 @@ import java.util.Map;
 import static com.epam.jdi.tools.LinqUtils.foreach;
 import static com.epam.jdi.tools.PrintUtils.print;
 
-/**
- * Created by Roman_Iovlev on 11/10/2017.
- */
 public class LinkedElements {
     public LinkedElements() {
         linkedElements = new HashMap<>();}

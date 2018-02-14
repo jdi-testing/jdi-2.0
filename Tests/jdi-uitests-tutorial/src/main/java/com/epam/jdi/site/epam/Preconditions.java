@@ -5,7 +5,6 @@ import com.epam.jdi.uitests.core.preconditions.IPreconditions;
 import com.epam.web.matcher.testng.Assert;
 import com.google.common.base.Supplier;
 
-import static com.epam.jdi.site.epam.EpamSite.jobListingPage;
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.alwaysMoveToCondition;
 import static com.epam.jdi.uitests.web.selenium.preconditions.WebPreconditions.checkUrl;
 import static com.epam.jdi.uitests.web.selenium.preconditions.WebPreconditions.openUri;
@@ -15,10 +14,10 @@ import static com.epam.jdi.uitests.web.selenium.preconditions.WebPreconditions.o
  */
 public enum Preconditions implements IPreconditions {
     JOBS_LIST_SHOWN(
-        () -> jobListingPage.isOpened() && !jobListingPage.jobsList.isEmpty(),
+        () -> EpamSite.jobListingPage.isOpened() && !EpamSite.jobListingPage.jobsList.isEmpty(),
         () -> {
-            jobListingPage.shouldBeOpened();
-            Assert.isFalse(() -> jobListingPage.jobsList.isEmpty());
+            EpamSite.jobListingPage.shouldBeOpened();
+            Assert.isFalse(() -> EpamSite.jobListingPage.jobsList.isEmpty());
         }
     ),
     CAREERS_PAGE("/careers");

@@ -1,47 +1,24 @@
 package com.epam.jdi.uitests.core.templates.base;
-/* The MIT License
- *
- * Copyright 2004-2017 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in the
- * Software without restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the
- * following conditions:
-
- * The above copyright notice and this permission notice shall be included in all copies
- * or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- */
 
 /**
- * Created by Roman Iovlev on 10.03.2017
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
 import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.tools.Timer;
+import com.epam.jdi.tools.logger.LogLevels;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IEngine;
 import com.epam.jdi.uitests.core.interfaces.base.IHasValue;
-import com.epam.jdi.uitests.core.logger.LogLevels;
 
 import java.lang.reflect.Field;
-import java.text.MessageFormat;
 
 import static com.epam.jdi.tools.LinqUtils.foreach;
 import static com.epam.jdi.tools.ReflectionUtils.*;
 import static com.epam.jdi.tools.StringUtils.namesEqual;
-import static com.epam.jdi.uitests.core.logger.LogLevels.INFO;
+import static com.epam.jdi.tools.logger.LogLevels.INFO;
+import static com.epam.jdi.tools.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
 import static java.lang.String.format;
 
@@ -132,12 +109,14 @@ public abstract class TBaseElement extends Named implements IBaseElement {
 
     @Override
     public String toString() {
+        if (logger.getLogLevel().equalOrMoreThan(STEP))
+            return getName();
         String path = linked().isEmpty()
                 ? engine.toString()
                 : linked().toString();
-        return MessageFormat.format(shortLogMessagesFormat
-                ? "{1} {0} ({2}.{3}; {4})"
-                : "Name: '{0}', Type: '{1}' In: '{2}', {4}",
-            getName(), getTypeName(), getParentName(), getFieldName(), path);
+        return format(shortLogMessagesFormat
+                ? "%s '%s' (%s.%s; %s)"
+                : "Type:'%s', Name:'%s', In: '%s.%s', Path: '%s'",
+                getTypeName(), getName(), getParentName(), getFieldName(), path);
     }
 }

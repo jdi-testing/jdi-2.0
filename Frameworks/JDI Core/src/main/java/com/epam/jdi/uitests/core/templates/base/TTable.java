@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.core.templates.base;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.CacheValue;
 import com.epam.jdi.tools.Timer;
 import com.epam.jdi.tools.func.JFunc;
@@ -14,9 +19,6 @@ import static com.epam.jdi.uitests.core.actions.complex.SelectActions.toCell;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.TableHeaderTypes.COLUMNS_HEADERS;
 import static com.epam.jdi.uitests.core.settings.JDISettings.asserter;
 
-/**
- * Created by Roman_Iovlev on 11/5/2017.
- */
 public class TTable extends TBaseElement implements ITable {
     public TableHeaderTypes headerType = COLUMNS_HEADERS;
     protected ICell getCell(int x, int y) { return toCell.execute(

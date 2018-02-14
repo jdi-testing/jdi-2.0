@@ -22,11 +22,9 @@ package com.epam.jdi.site.epam.CustomElements;
  * Contacts:
  */
 
-import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.uitests.core.interfaces.ISetup;
-import com.epam.jdi.uitests.core.interfaces.common.IButton;
 import com.epam.jdi.uitests.core.interfaces.complex.IDropDown;
-import com.epam.jdi.uitests.web.selenium.elements.apiInteract.WebEngine;
+import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Dropdown;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import org.openqa.selenium.By;
@@ -37,6 +35,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.jdi.tools.LinqUtils.any;
 import static com.epam.jdi.tools.LinqUtils.first;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils.correctXPaths;
@@ -46,17 +45,15 @@ import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations
 public class TreeDropdown<T extends Enum> extends Dropdown<T> implements ISetup {
     private List<By> treeLocators;
 
-    protected void expandAction() {
-        setWaitTimeout(0);
-        List<WebElement> els = getDriver().findElements(treeLocators.get(0));
-        restoreWaitTimeout();
-        if (treeLocators != null && els.size() == 0)
-            ((IButton)linked().get("value")).click();
+    @Override
+    public void expand() {
+        Button btn = new Button().setLocator(getLocator());
+        btn.click();
     }
 
     @Override
     public void select(String name) {
-        expandAction();
+        expand();
         String[] nodes = name.split(" > ");
         SearchContext context = getDriver();
         if (treeLocators.size() < nodes.length) return;
@@ -64,14 +61,15 @@ public class TreeDropdown<T extends Enum> extends Dropdown<T> implements ISetup 
             String value = nodes[i];
             List<WebElement> els = context.findElements(correctXPaths(treeLocators.get(i)));
             if (els.size() == 0)
-                throw exception("No elements found for locator: " + treeLocators.get(i) + "in TreeDropdown " + this);
+                throw exception("No elements found for locator: " + treeLocators.get(i) + " in TreeDropdown " + this);
             context = first(els, el -> el.getText().equals(value));
             if (context == null)
                 throw exception("Can't find: " + value + "in TreeDropdown " + this);
             if (i < nodes.length - 1) {
                 int next = i + 1;
-                boolean nextValue =
-                        LinqUtils.any(context.findElements(correctXPaths(treeLocators.get(next))), el -> el.getText().equals(nodes[next]));
+                boolean nextValue = any(context.findElements(
+                        correctXPaths(treeLocators.get(next))),
+                        el -> el.getText().equals(nodes[next]));
                 if (nextValue) continue;
             }
             ((WebElement) context).click();
@@ -82,10 +80,7 @@ public class TreeDropdown<T extends Enum> extends Dropdown<T> implements ISetup 
         if (!fieldHasAnnotation(field, JTree.class, IDropDown.class))
             return;
         JTree jTree = field.getAnnotation(JTree.class);
-        By selectLocator = findByToBy(jTree.select());
-        setEngine(new WebEngine(this, selectLocator));
-        //element = new GetElementType(selectLocator, this);
-        //expander = new GetElementType(selectLocator, this);
+        setLocator(findByToBy(jTree.select()));
         treeLocators = new ArrayList<>();
         for (FindBy fBy : jTree.levels())
             treeLocators.add(findByToBy(fBy));

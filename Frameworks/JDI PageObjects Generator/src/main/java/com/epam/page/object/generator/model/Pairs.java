@@ -1,5 +1,10 @@
 package com.epam.page.object.generator.model;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -8,9 +13,6 @@ import static com.epam.jdi.tools.LinqUtils.select;
 import static java.lang.String.format;
 import static java.lang.String.join;
 
-/**
- * Created by Roman_Iovlev on 10/16/2017.
- */
 public class Pairs extends ArrayList<ElementAttribute>{
 
     public Pairs() { }

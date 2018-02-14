@@ -1,15 +1,13 @@
 package com.epam.jdi.uitests.testing;
 
 import com.epam.jdi.site.epam.EpamSite;
-import com.epam.jdi.uitests.core.logger.JDILogger;
-import com.epam.jdi.uitests.core.logger.LogLevels;
-import com.epam.jdi.uitests.web.selenium.settings.WebSettings;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGBase;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import java.io.IOException;
 
+import static com.epam.jdi.tools.logger.LogLevels.INFO;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverUtils.killAllRunWebBrowsers;
 import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.init;
@@ -20,10 +18,10 @@ import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.init;
 public abstract class TestsBase extends TestNGBase {
     @BeforeSuite(alwaysRun = true)
     public static void setUp() {
+        logger.setLogLevel(INFO);
         init(EpamSite.class);
         EpamSite.open();
-        ((JDILogger) WebSettings.logger).setLogLevel(LogLevels.INFO);
-        logger.info("Run Tests");
+        logger.step("Run Tests");
     }
 
     @AfterSuite(alwaysRun = true)

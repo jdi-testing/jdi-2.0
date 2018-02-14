@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.web.selenium.elements.complex;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.func.JAction1;
 import com.epam.jdi.tools.func.JAction2;
 import com.epam.jdi.uitests.core.interfaces.complex.IMenu;

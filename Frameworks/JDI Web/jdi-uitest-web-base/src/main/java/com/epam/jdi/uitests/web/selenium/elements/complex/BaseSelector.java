@@ -1,5 +1,11 @@
 package com.epam.jdi.uitests.web.selenium.elements.complex;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
+import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.complex.IBaseSelector;
 import com.epam.jdi.uitests.web.selenium.elements.actions.WebStatic;
@@ -8,14 +14,10 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.epam.jdi.tools.LinqUtils.first;
-import static com.epam.jdi.tools.LinqUtils.firstIndex;
-import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
-import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
+import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
+import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelected;
+import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelectedByIndex;
 
-/**
- * Created by Roman_Iovlev on 11/14/2017.
- */
 public class BaseSelector extends BaseElement implements IBaseSelector {
     @JDIAction(level = DEBUG)
     public List<WebElement> getWebElements(Object... args) {
@@ -27,26 +29,20 @@ public class BaseSelector extends BaseElement implements IBaseSelector {
     }
     @Override
     public boolean isSelected(String name) {
-
-        WebElement element = first(getWebElements(), this::isSelected);
-        if (element == null)
-            throw exception("No elements selected (search for '%s'). Override getSelectedAction or place locator to <select> tag", name);
-        // TODO DEMO MODE
-        // new Element().setWebElement(element).invoker.processDemoMode();
-        return element.getText().equals(name);
+        return isSelected.execute(this, name);
     }
     @Override
     public boolean isSelected(int index) {
-        if (index <= 0)
-            throw exception("Check isSelected by index failed. Index '%s' must be more than 0", index);
-        List<WebElement> els = getWebElements();
-        if (index > els.size())
-            throw exception("Check isSelected by index failed. Index '%s' more than amount of found element '%s' less than ", index, els.size());
-        int firstIndex = firstIndex(els, this::isSelected) + 1;
-        if (firstIndex == 0)
-            throw exception("No elements selected (search for '%s'). Override getSelectedAction or place locator to <select> tag", index);
-        // TODO DEMO MODE
-        // new Element().setWebElement(webElements(o).get(firstIndex)).invoker.processDemoMode();
-        return firstIndex == index;
+        return isSelectedByIndex.execute(this, index);
+    }
+    @Override
+    public boolean displayedNow() {
+        setWaitTimeout(0);
+        boolean result = false;
+        try { List<WebElement> els = getWebElements();
+            result = els.size() > 0 && LinqUtils.any(els, WebElement::isDisplayed);
+        } catch (Exception ex) {}
+        restoreWaitTimeout();
+        return result;
     }
 }

@@ -1,32 +1,10 @@
 package com.epam.jdi.tools.map;
-/* The MIT License
- *
- * Copyright 2004-2017 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in the
- * Software without restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the
- * following conditions:
-
- * The above copyright notice and this permission notice shall be included in all copies
- * or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- */
 
 /**
- * Created by Roman Iovlev on 10.27.2017
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
+
 import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.tools.func.JAction2;
 import com.epam.jdi.tools.func.JFunc1;
@@ -40,10 +18,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import static com.epam.jdi.tools.PrintUtils.print;
 import static com.epam.jdi.tools.TryCatchUtil.throwRuntimeException;
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 
 public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
     public List<Pair<K, V>> pairs;
 
+    public static <T, TV> MapArray<T, TV> pairs(Object[][] pairs) {
+        return new MapArray<>(pairs);
+    }
     public MapArray() {
         pairs = new ArrayList<>();
     }
@@ -59,7 +41,7 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
             for (T t : collection)
                 add(key.invoke(t), value.invoke(t));
         } catch (Exception ex) {
-            throw new RuntimeException("Can't create MapArray"); }
+            throw new RuntimeException("Can't create MapArray: " + ex.getMessage()); }
     }
 
     public MapArray(Collection<K> collection, JFunc1<K, V> value) {
@@ -122,11 +104,14 @@ public class MapArray<K, V> implements Collection<Pair<K, V>>, Cloneable {
     }
     public MapArray(List<K> keys, List<V> values) {
         this();
-        if (keys == null || values == null ||
-            keys.size() == 0 || keys.size() != values.size())
-            throw new RuntimeException("keys and values count not equal");
+        assert keys != null;
+        if (values == null || keys.size() != values.size())
+            throw new RuntimeException("keys and values null or has not equal count ");
         for (int i = 0; i < keys.size(); i++)
             add(keys.get(i), values.get(i));
+    }
+    public MapArray(K[] keys, V[] values) {
+        this(asList(keys), asList(values));
     }
 
     public static <T> MapArray<Integer, T> toMapArray(Collection<T> collection) {

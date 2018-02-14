@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.web.selenium.elements.complex;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.uitests.core.interfaces.ISetup;
 import com.epam.jdi.uitests.core.interfaces.complex.IDropDown;
 import com.epam.jdi.uitests.core.interfaces.complex.ISelector;
@@ -43,8 +48,9 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
         }
         else getSelectElement(format("select '%s'", name)).selectByVisibleText(name);
     }
-    private static String assertLinked(String name, String action) {
-        return format("You must specify '%s' inn Dropdown annotation in order to perform %s action", name, action);
+    private void assertLinked(String name, String action) {
+        if (!linked().has(name))
+            throw exception(format("You must specify '%s' in Dropdown annotation in order to perform %s action", name, action));
     }
     @Override
     public void select(int index) {

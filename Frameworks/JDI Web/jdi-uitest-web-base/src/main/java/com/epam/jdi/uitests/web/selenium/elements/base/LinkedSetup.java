@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.web.selenium.elements.base;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.Input;
@@ -9,9 +14,6 @@ import org.openqa.selenium.By;
 
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 
-/**
- * Created by Roman_Iovlev on 10/16/2017.
- */
 public class LinkedSetup {
 
     public static void setupDropElement(BaseElement el, By root, By value, By list, By expand) {

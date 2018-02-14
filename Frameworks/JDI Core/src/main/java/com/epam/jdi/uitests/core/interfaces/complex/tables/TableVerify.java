@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.core.interfaces.complex.tables;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.utils.common.IFilter;
 
@@ -7,10 +12,6 @@ import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.any;
 
-
-/**
- * Created by Roman_Iovlev on 11/14/2017.
- */
 public class TableVerify {
     private ITable table;
     private JFunc1<Boolean, Boolean> verifier;

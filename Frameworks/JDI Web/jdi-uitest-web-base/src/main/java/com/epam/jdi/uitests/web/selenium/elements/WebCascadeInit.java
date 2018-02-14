@@ -1,23 +1,11 @@
 package com.epam.jdi.uitests.web.selenium.elements;
-/*
- * Copyright 2004-2016 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * JDI is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * JDI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with JDI. If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-
+import com.epam.jdi.tools.func.JFunc;
 import com.epam.jdi.uitests.core.initialization.CascadeInit;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes;
@@ -46,9 +34,6 @@ import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.curre
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.*;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.*;
 
-/**
- * Created by Roman_Iovlev on 6/10/2015.
- */
 public class WebCascadeInit extends CascadeInit {
     @Override
     protected Class<?>[] stopTypes() { return new Class<?>[] {Object.class, WebPage.class, Section.class, Element.class}; }
@@ -78,8 +63,8 @@ public class WebCascadeInit extends CascadeInit {
     public static <T> T initPageObject(Class<T> clazz) {
         return initPageObject(clazz, currentDriverName);
     }
-    public static <T> T initPageObject(Class<T> clazz, WebDriver driver) {
-        return initPageObject(clazz, useDriver(() -> driver));
+    public static <T> T initPageObject(Class<T> clazz, JFunc<WebDriver> driver) {
+        return initPageObject(clazz, useDriver(driver));
     }
     public static <T> T initPageObject(Class<T> clazz, DriverTypes driver){
         return initPageObject(clazz, useDriver(driver));
@@ -153,32 +138,12 @@ public class WebCascadeInit extends CascadeInit {
             return findByToBy(field.getAnnotation(Css.class));
         if (field.isAnnotationPresent(XPath.class))
             return findByToBy(field.getAnnotation(XPath.class));
-        if (field.isAnnotationPresent(Text.class))
-            return findByToBy(field.getAnnotation(Text.class));
+        if (field.isAnnotationPresent(ByText.class))
+            return findByToBy(field.getAnnotation(ByText.class));
         if (field.isAnnotationPresent(WithText.class))
             return findByToBy(field.getAnnotation(WithText.class));
-        if (field.isAnnotationPresent(Attribute.class))
-            return findByToBy(field.getAnnotation(Attribute.class));
-        if (field.isAnnotationPresent(ByClass.class))
-            return findByToBy(field.getAnnotation(ByClass.class));
-        if (field.isAnnotationPresent(Id.class))
-            return findByToBy(field.getAnnotation(Id.class));
-        if (field.isAnnotationPresent(ByName.class))
-            return findByToBy(field.getAnnotation(ByName.class));
-        if (field.isAnnotationPresent(NgRepeat.class))
-            return findByToBy(field.getAnnotation(NgRepeat.class));
-        if (field.isAnnotationPresent(NgBinding.class))
-            return findByToBy(field.getAnnotation(NgBinding.class));
-        if (field.isAnnotationPresent(NgModel.class))
-            return findByToBy(field.getAnnotation(NgModel.class));
-        if (field.isAnnotationPresent(ByTitle.class))
-            return findByToBy(field.getAnnotation(ByTitle.class));
-        if (field.isAnnotationPresent(Tag.class))
-            return findByToBy(field.getAnnotation(Tag.class));
-        if (field.isAnnotationPresent(ByType.class))
-            return findByToBy(field.getAnnotation(ByType.class));
-        if (field.isAnnotationPresent(ByValue.class))
-            return findByToBy(field.getAnnotation(ByValue.class));
+        if (field.isAnnotationPresent(ById.class))
+            return findByToBy(field.getAnnotation(ById.class));
         return null;
     }
 

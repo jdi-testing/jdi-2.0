@@ -1,5 +1,10 @@
 package com.epam.jdi.uitests.core.interfaces.complex;
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
+
 import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.tools.func.JFunc2;
 import com.epam.jdi.tools.map.MapArray;
@@ -12,25 +17,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.actions.base.ElementActions.getElements;
-import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 
-/**
- * Created by Roman_Iovlev on 10/24/2017.
- */
 public interface IList<T> extends List<T>, IBaseElement {
 
     /**
-     *  Get specified application elements
+     *  Get all application elements
      */
     @JDIAction(level = DEBUG)
     default <E> List<E> getElements() {
         return LinqUtils.map(getElements.execute(this, null), el -> (E)el); }
     /**
-     *  Get specified application elements
+     *  Get all application elements
      */
     @JDIAction(level = DEBUG)
     MapArray<String, T> getAll();
+    @JDIAction(level = DEBUG)
+    List<T> values();
     default T last() {
         return getAll().last().value;
     }
@@ -55,27 +59,29 @@ public interface IList<T> extends List<T>, IBaseElement {
     default T last(JFunc2<String, T, Boolean> func) {
         return getAll().last(func);
     }
-    @JDIAction
+    @Override
     default int size() {
         return getAll().size();
     }
-    @JDIAction
+    @JDIAction(level = DEBUG)
     default boolean isEmpty() {
         return getAll().isEmpty();
     }
+    @JDIAction(level = DEBUG)
+    default boolean any() { return !isEmpty(); }
 
     // List methods
     default boolean contains(Object o) {
-        return getAll().values().contains(o);
+        return values().contains(o);
     }
     default Iterator<T> iterator() {
-        return getAll().values().iterator();
+        return values().iterator();
     }
     default Object[] toArray() {
-        return getAll().values().toArray();
+        return values().toArray();
     }
     default <T1> T1[] toArray(T1[] a) {
-        return getAll().values().toArray(a);
+        return values().toArray(a);
     }
     default boolean add(T t) {
         throw new NotImplementedException();
@@ -84,7 +90,7 @@ public interface IList<T> extends List<T>, IBaseElement {
         throw new NotImplementedException();
     }
     default boolean containsAll(Collection<?> c) {
-        return getAll().values().containsAll(c);
+        return values().containsAll(c);
     }
     default boolean addAll(Collection<? extends T> c) {
         throw new NotImplementedException();
@@ -100,7 +106,7 @@ public interface IList<T> extends List<T>, IBaseElement {
     }
     default void clear() { throw new NotImplementedException(); }
     default T get(int index) {
-        return getAll().values().get(index);
+        return values().get(index);
     }
     default T set(int index, T element) {
         throw new NotImplementedException();
@@ -112,18 +118,18 @@ public interface IList<T> extends List<T>, IBaseElement {
         throw new NotImplementedException();
     }
     default int indexOf(Object o) {
-        return getAll().values().indexOf(o);
+        return values().indexOf(o);
     }
     default int lastIndexOf(Object o) {
-        return getAll().values().lastIndexOf(o);
+        return values().lastIndexOf(o);
     }
     default ListIterator<T> listIterator() {
-        return getAll().values().listIterator();
+        return values().listIterator();
     }
     default ListIterator<T> listIterator(int index) {
-        return getAll().values().listIterator(index);
+        return values().listIterator(index);
     }
     default List<T> subList(int fromIndex, int toIndex) {
-        return getAll().values().subList(fromIndex, toIndex);
+        return values().subList(fromIndex, toIndex);
     }
 }

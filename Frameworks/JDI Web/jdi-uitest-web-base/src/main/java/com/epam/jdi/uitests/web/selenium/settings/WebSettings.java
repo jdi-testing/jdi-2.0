@@ -1,31 +1,19 @@
 package com.epam.jdi.uitests.web.selenium.settings;
-/*
- * Copyright 2004-2016 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * JDI is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * JDI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with JDI. If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
 import com.epam.jdi.tools.func.JFunc;
 import com.epam.jdi.tools.func.JFunc1;
+import com.epam.jdi.tools.logger.JDILogger;
 import com.epam.jdi.uitests.core.initialization.MapInterfaceToElement;
 import com.epam.jdi.uitests.core.interfaces.base.IElement;
 import com.epam.jdi.uitests.core.interfaces.common.*;
 import com.epam.jdi.uitests.core.interfaces.complex.*;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.IEntityTable;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
-import com.epam.jdi.uitests.core.logger.JDILogger;
 import com.epam.jdi.uitests.core.settings.JDISettings;
 import com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory;
 import com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes;
@@ -48,10 +36,6 @@ import static com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverData.DRI
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
 
-
-/**
- * Created by Roman_Iovlev on 11/13/2015.
- */
 public class WebSettings extends JDISettings {
     public static String domain;
     public static String killBrowser;
@@ -82,7 +66,7 @@ public class WebSettings extends JDISettings {
             throw new ClassCastException("JavaScript Executor doesn't support");
     }
     public static synchronized void init()  {
-        logger = new JDILogger("JDI Logger");
+        logger = JDILogger.instance("JDI Logger");
         MapInterfaceToElement.init(defaultInterfacesMap);
         driverFactory = new WebDriverFactory();
     }

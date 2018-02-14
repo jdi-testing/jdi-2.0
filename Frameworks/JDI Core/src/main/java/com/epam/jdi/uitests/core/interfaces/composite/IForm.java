@@ -1,31 +1,8 @@
 package com.epam.jdi.uitests.core.interfaces.composite;
-/* The MIT License
- *
- * Copyright 2004-2017 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in the
- * Software without restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the
- * following conditions:
-
- * The above copyright notice and this permission notice shall be included in all copies
- * or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- */
 
 /**
- * Created by Roman Iovlev on 10.03.2017
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
 import com.epam.jdi.tools.LinqUtils;
@@ -48,12 +25,12 @@ import static com.epam.jdi.tools.ReflectionUtils.getFields;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static com.epam.jdi.tools.StringUtils.namesEqual;
+import static com.epam.jdi.tools.logger.LogLevels.STEP;
 import static com.epam.jdi.tools.map.MapArray.toMapArray;
 import static com.epam.jdi.uitests.core.actions.base.UIUtils.getButton;
 import static com.epam.jdi.uitests.core.annotations.AnnotationsUtil.getElementName;
 import static com.epam.jdi.uitests.core.interfaces.complex.FormFilters.MANDATORY;
 import static com.epam.jdi.uitests.core.interfaces.complex.FormFilters.OPTIONAL;
-import static com.epam.jdi.uitests.core.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.core.settings.JDISettings.asserter;
 import static com.epam.jdi.uitests.core.utils.common.PrintUtils.getMapFromObject;
 import static java.lang.String.format;

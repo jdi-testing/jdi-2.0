@@ -1,36 +1,14 @@
 package com.epam.jdi.uitests.core.aop;
 
-/* The MIT License
- *
- * Copyright 2004-2017 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in the
- * Software without restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the
- * following conditions:
-
- * The above copyright notice and this permission notice shall be included in all copies
- * or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- */
-
 /**
- * Created by Roman Iovlev on 10.03.2017
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import com.epam.jdi.tools.func.JAction3;
-import com.epam.jdi.tools.func.JAction4;
+import com.epam.jdi.tools.func.JAction1;
+import com.epam.jdi.tools.func.JAction2;
+import com.epam.jdi.tools.logger.LogLevels;
+import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -38,56 +16,165 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import ru.yandex.qatools.allure.annotations.Step;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 
-import static com.epam.jdi.uitests.core.annotations.AnnotationsUtil.splitCamelCase;
+import static com.epam.jdi.tools.ReflectionUtils.getFields;
+import static com.epam.jdi.tools.ReflectionUtils.getValueField;
+import static com.epam.jdi.tools.StringUtils.msgFormat;
+import static com.epam.jdi.tools.StringUtils.splitLowerCase;
+import static com.epam.jdi.tools.logger.LogLevels.*;
+import static com.epam.jdi.tools.map.MapArray.pairs;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
-import static java.lang.String.format;
+import static java.lang.Character.toUpperCase;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @SuppressWarnings("unused")
 @Aspect
 public class ActionProcessor {
-    public static JAction3<String, Object, Method> jdiBefore = (actionName, element, action) -> {
-        logger.info(format("%s for %s", actionName, element.toString()));
+    public static String SHORT_TEMPLATE = "{element} {action}";
+    public static String DEFAULT_TEMPLATE = "{action} ({element})";
+    private static String getTemplate(LogLevels level) {
+        return level.equalOrMoreThan(STEP) ? SHORT_TEMPLATE : DEFAULT_TEMPLATE;
+    }
+
+    public static JAction1<JoinPoint> jdiBefore = (joinPoint) -> {
+        if (logger.getLogLevel() != OFF) {
+            String logString = msgFormat(getTemplate(logger.getLogLevel()), pairs(new Object[][]{
+                    {"action", getActionName(joinPoint)}, {"element", joinPoint.getThis().toString()}}));
+            logString = toUpperCase(logString.charAt(0)) + logString.substring(1);
+            logger.toLog(logString, logLevel(joinPoint));
+        }
+        logger.logOff();
     };
-    public static JAction4<String, Object, Object, Method> jdiAfter = (actionName, result, element, action) -> {
-        if (result != null)
-            logger.info("Get result: " + result);
+    public static JAction2<JoinPoint, Object> jdiAfter = (joinPoint, result) -> {
+        logger.logOn();
+        if (logger.getLogLevel() == OFF) return;
+        if (result != null && logLevel(joinPoint).equalOrMoreThan(INFO))
+            logger.info(">>> " + result);
         logger.debug("Done");
     };
-    public static JAction4<String, Throwable, Object, Method> jdiError = (actionName, error, element, action) -> {
-        throw exception("Do action %s failed. Can't get result. Reason: %s", actionName, error.getMessage());
+    public static JAction2<JoinPoint, Throwable> jdiError = (joinPoint, error) -> {
+        throw exception("Action %s failed. Can't get result. Reason: %s", getActionName(joinPoint), error.getMessage());
     };
 
     @Before("execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.JDIAction)")
     public void before(JoinPoint joinPoint) {
-        jdiBefore.execute(getActionName(joinPoint), joinPoint.getThis(), getMethod(joinPoint));
+        jdiBefore.execute(joinPoint);
     }
     @AfterReturning(pointcut = "execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.JDIAction)", returning = "result")
     public void after(JoinPoint joinPoint, Object result) {
-        jdiAfter.execute(getActionName(joinPoint), result, joinPoint.getThis(), getMethod(joinPoint));
+        jdiAfter.execute(joinPoint, result);
     }
     @AfterThrowing(pointcut = "execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.JDIAction)", throwing = "error")
     public void error(JoinPoint joinPoint, Throwable error) {
-        jdiError.execute(getActionName(joinPoint), error, joinPoint.getThis(), getMethod(joinPoint));
+        jdiError.execute(joinPoint, error);
     }
 
-    private String getActionName(JoinPoint joinPoint) {
-        MethodSignature method = (MethodSignature) joinPoint.getSignature();
-        JDIAction jdiAnnotation = method.getMethod().getAnnotation(JDIAction.class);
-        String actionName = jdiAnnotation.value().equals("")
-                ? "Do " + splitCamelCase(method.getName()) + " action"
-                : jdiAnnotation.value();
-        if (joinPoint.getArgs().length > 0)
-            actionName = MessageFormat.format(actionName, joinPoint.getArgs());
-        return actionName;
+    @Before("execution(* *(..)) && @annotation(ru.yandex.qatools.allure.annotations.Step)")
+    public void beforeStep(JoinPoint joinPoint) {
+        jdiBefore.execute(joinPoint);
+    }
+    @AfterReturning(pointcut = "execution(* *(..)) && @annotation(ru.yandex.qatools.allure.annotations.Step)", returning = "result")
+    public void afterStep(JoinPoint joinPoint, Object result) {
+        jdiAfter.execute(joinPoint, result);
+    }
+    @AfterThrowing(pointcut = "execution(* *(..)) && @annotation(ru.yandex.qatools.allure.annotations.Step)", throwing = "error")
+    public void errorStep(JoinPoint joinPoint, Throwable error) {
+        jdiError.execute(joinPoint, error);
     }
 
-    private Method getMethod(JoinPoint joinPoint) {
-        return ((MethodSignature) joinPoint.getSignature()).getMethod();
+    static MethodSignature getMethod(JoinPoint joinPoint) {
+        return (MethodSignature) joinPoint.getSignature();
     }
+    static String getValue(MethodSignature method) {
+        Method m = method.getMethod();
+        return m.isAnnotationPresent(JDIAction.class)
+                ? m.getAnnotation(JDIAction.class).value()
+                : m.getAnnotation(Step.class).value();
+    }
+    static LogLevels logLevel(JoinPoint joinPoint) {
+        Method m = getMethod(joinPoint).getMethod();
+        return m.isAnnotationPresent(JDIAction.class)
+                ? m.getAnnotation(JDIAction.class).level()
+                : STEP;
+    }
+    static String getActionName(JoinPoint joinPoint) {
+        MethodSignature method = getMethod(joinPoint);
+        return getActionName(method, getValue(method),
+                new MapArray<>("this", joinPoint.getThis()),
+                new MapArray<>(method.getParameterNames(), joinPoint.getArgs()),
+                new MapArray<>(getFields(joinPoint.getThis()), Field::getName, value -> getValueField(value, joinPoint.getThis())));
+    }
+    static String getActionName(MethodSignature method, String value,
+                              MapArray<String, Object>... args) {
+        String result;
+        if (isEmpty(value)) {
+            result = splitLowerCase(method.getMethod().getName());
+            if (args[1].size() == 1)
+                result += " '" + args[1].values().get(0) + "'";
+        } else {
+            result = value;
+            result = msgFormat(result, args[1].values());
+            for (MapArray<String, Object> params : args)
+                result = msgFormat(result, params);
+        }
+        return result;
+    }
+/*    private String processNameTemplate(
+            String template, MapArray<String, Object> params, MapArray<String, Object> fields) {
+        final Matcher matcher = Pattern.compile("\\{([^}]*)}").matcher(template);
+        final StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            final String pattern = matcher.group(1);
+            String replacement = processPattern(pattern, params);
+            if (replacement == null)
+                replacement = processPattern(pattern, fields);
+            if (replacement == null) replacement = matcher.group();
+            matcher.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+    @SuppressWarnings("ReturnCount")
+    private static String processPattern(String pattern, MapArray<String, Object> params) {
+        final String[] parts = pattern.split("\\.");
+        final String parameterName = parts[0];
+        if (!params.keys().contains(parameterName))
+            return null;
+        final Object param = params.get(parameterName);
+        return extractProperties(param, parts, 1);
+    }
+
+    @SuppressWarnings("ReturnCount")
+    private static String extractProperties(final Object object, final String[] parts, final int index) {
+        if (Objects.isNull(object)) {
+            return "null";
+        }
+        if (index < parts.length) {
+            if (object instanceof Object[]) {
+                return Stream.of((Object[]) object)
+                        .map(child -> extractProperties(child, parts, index))
+                        .collect(JOINER);
+            }
+            if (object instanceof Iterable) {
+                final Spliterator<?> iterator = ((Iterable) object).spliterator();
+                return StreamSupport.stream(iterator, false)
+                        .map(child -> extractProperties(child, parts, index))
+                        .collect(JOINER);
+            }
+            final Object child = on(object).get(parts[index]);
+            return extractProperties(child, parts, index + 1);
+        }
+        if (object instanceof Object[]) {
+            return Arrays.toString((Object[]) object);
+        }
+        return String.valueOf(object);
+    }
+
+    private static final Collector<CharSequence, ?, String> JOINER = Collectors.joining(", ", "[", "]");*/
 
 }

@@ -4,6 +4,7 @@ import com.epam.jdi.site.google.GoogleSite;
 import com.epam.jdi.site.yandex.YandexSite;
 import com.epam.web.matcher.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -13,6 +14,7 @@ import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.init;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.initFromProperties;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.useDriver;
 
+
 public class MultipleSitesExample {
     @BeforeMethod
     public void before(Method method) throws IOException {
@@ -20,7 +22,7 @@ public class MultipleSitesExample {
         init(YandexSite.class, useDriver(CHROME));
         init(GoogleSite.class, useDriver(CHROME));
     }
-    //@Test
+    @Test
     public void twoSiteExample() {
         YandexSite.homePage.open();
         Assert.areEquals(YandexSite.homePage.getDriver().getCurrentUrl(),

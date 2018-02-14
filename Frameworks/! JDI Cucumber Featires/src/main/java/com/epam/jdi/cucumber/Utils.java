@@ -26,9 +26,6 @@ import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
 
 
-/**
- * Created by Dmitry_Lebedev1 on 1/13/2016.
- */
 public final class Utils {
     private Utils() {
     }

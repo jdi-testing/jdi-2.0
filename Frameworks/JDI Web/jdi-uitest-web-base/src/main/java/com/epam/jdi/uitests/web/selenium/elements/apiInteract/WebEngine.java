@@ -1,22 +1,9 @@
 package com.epam.jdi.uitests.web.selenium.elements.apiInteract;
-/*
- * Copyright 2004-2016 EPAM Systems
- *
- * This file is part of JDI project.
- *
- * JDI is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * JDI is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with JDI. If not, see <http://www.gnu.org/licenses/>.
- */
 
+/**
+ * Created by Roman Iovlev on 14.02.2018
+ * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ */
 
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
@@ -44,10 +31,8 @@ import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.hasDomain;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
-/**
- * Created by Roman_Iovlev on 7/3/2015.
- */
 public class WebEngine implements IEngine {
     private By byLocator;
     private LocatorType locatorType = DEFAULT;
@@ -193,14 +178,13 @@ public class WebEngine implements IEngine {
         String isFrame = "";
         By locator = getLocator();
         if (hasFrame()) {
-            isFrame = "Frame:";
+            isFrame = "Frame: ";
             locator = getFrame();
         }
-        return element.printContext() + "; " + isFrame + printShortBy(locator);
-    }
-
-    private String printShortBy(By by) {
-        return String.format("%s='%s'", getByName(by), getByLocator(by));
+        String parent = element.printContext();
+        return isBlank(parent)
+                ? isFrame + shortBy(locator)
+                : element.printContext() + ">" + isFrame + shortBy(locator);
     }
 
     @Override
@@ -208,8 +192,8 @@ public class WebEngine implements IEngine {
         if (!hasDomain() && !hasFrame())
             return "No Locators";
         return shortLogMessagesFormat
-                ? printFullLocator()
-                : format("Locator: '%s'", getLocator())
+            ? printFullLocator()
+            : format("Locator: '%s'", getLocator())
                 + (element.getParent() != null && isClass(element.getParent().getClass(), IBaseElement.class)
                 ? format(", Context: '%s'", element.printContext())
                 : "");
