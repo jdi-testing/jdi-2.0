@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.epam.jdi</groupId>
-	<artifactId>jdi-opensource</artifactId>
+	<artifactId>jdi-ui</artifactId>
 	<version>2.0.0</version>
     <packaging>pom</packaging>
-    <name>JDI OpenSource projects</name>
+    <name>JDI UI projects</name>
 
     <properties>
         <project.build.sourceEncoding>utf8</project.build.sourceEncoding>
@@ -20,22 +20,13 @@
     </properties>
 
     <modules>
-        <module>Frameworks/JDI Lightsaber Utils</module>
-        <module>Frameworks/JDI Core</module>
-        <module>Frameworks/JDI Http</module>
-        <module>Frameworks/JDI Web/jdi-uitest-web-base</module>
-        <module>Frameworks/JDI Web/jdi-uitest-web-testng</module>
-        <module>Frameworks/JDI PageObjects Generator</module>
-		<module>Frameworks/! JDI Matchers</module>
+        <module>Frameworks/jdi-core</module>
+        <module>Frameworks/JDIWeb/jdi-uitest-web-base</module>
+        <module>Frameworks/JDIWeb/jdi-uitest-web-testng</module>
+		<module>Frameworks/jdi-matchers</module>
 
-        <module>Tests/jdi-httptests</module>
-        <!--module>Tests/jdi-uitests-cucumber-example</module-->
-        <!--module>Tests/jdi-uitests-cucumber</module-->
-        <!--module>Tests/jdi-uitests-mobile</module-->
         <module>Tests/jdi-uitests-tutorial</module>
         <module>Tests/jdi-uitests-unittests</module>
-        <!--module>Tests/jdi-uitests-win-sikuli</module-->
-        <!--module>Tests/jdi-uitests-win-winnium</module-->
     </modules>
 
     <build>
