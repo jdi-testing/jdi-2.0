@@ -13,6 +13,7 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.object
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import ru.yandex.qatools.allure.annotations.Step;
 
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.CONTAINS;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.MATCH;
@@ -28,6 +29,10 @@ public class EpamSite extends WebSite {
 
     @JPage("/careers")
     public static CareerPage careerPage;
+    @Step
+    public static void allureStep() {
+        System.out.println("STATIC ALLURE STEP");
+    }
     public static ProductDevelopmentPage productDevelopmentPage;
 
     @JPage(url = "/careers/job-listings?query=test&country=Russia&city=St-Petersburg&department=Software+Test+Engineering",

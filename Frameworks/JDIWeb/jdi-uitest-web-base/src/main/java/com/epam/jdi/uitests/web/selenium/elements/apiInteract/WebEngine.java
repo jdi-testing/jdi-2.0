@@ -5,9 +5,11 @@ package com.epam.jdi.uitests.web.selenium.elements.apiInteract;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+import com.epam.jdi.tools.CacheValue;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IEngine;
+import com.epam.jdi.uitests.core.settings.JDISettings;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import org.openqa.selenium.By;
@@ -15,6 +17,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,14 +34,15 @@ import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.hasDomain;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
+import static org.apache.commons.lang3.ArrayUtils.remove;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class WebEngine implements IEngine {
     private By byLocator;
     private LocatorType locatorType = DEFAULT;
     private BaseElement element;
-    private WebElement webElement;
-    private List<WebElement> webElements;
+    private CacheValue<WebElement> webElement;
+    private CacheValue<List<WebElement>> webElements;
     private String driverName = "";
 
     public JFunc1<WebElement, Boolean> localElementSearchCriteria = null;
@@ -56,6 +60,14 @@ public class WebEngine implements IEngine {
             setDriverName(getDriverFactory().currentDriverName());
         this.byLocator = byLocator;
         this.locatorType = locatorType;
+        webElement = new CacheValue<>(this::getWebElement);
+        webElement.useCache(useCache);
+        webElements = new CacheValue<>(this::getElements);
+        webElements.useCache(useCache);
+    }
+    public void setUseCache(boolean useCache) {
+        webElement.useCache(useCache);
+        webElements.useCache(useCache);
     }
 
     // Copy
@@ -65,7 +77,7 @@ public class WebEngine implements IEngine {
         return copy();
     }
     public WebEngine copy(WebElement element) {
-        webElement = element;
+        webElement.set(element);
         return copy();
     }
     public WebEngine copy() {
@@ -98,13 +110,14 @@ public class WebEngine implements IEngine {
     private Object[] locatorArgs;
 
     //Element
-    public boolean hasElement() { return webElement != null; }
-    public void setWebElement(WebElement webElement) { this.webElement = webElement; }
+    public boolean hasElement() { return webElement.hasValue(); }
+    public void setWebElement(WebElement webElement) { this.webElement.setForce(webElement); }
+    public void setWebElements(List<WebElement> webElements) { this.webElements.setForce(webElements); }
     public WebElement getWebElement(Object... args) {
-        if (hasElement()) return webElement;
+        if (hasElement()) return webElement.get();
         if (isNotEmpty(args)) locatorArgs = args;
         int timeout = timeouts.getCurrentTimeoutSec();
-        List<WebElement> result = getElements();
+        List<WebElement> result = getElements(args);
         switch (result.size()) {
             case 0:
                 throw exception(FAILED_TO_FIND_ELEMENT_MESSAGE, element, timeout);
@@ -124,11 +137,12 @@ public class WebEngine implements IEngine {
         return where(els, el -> element.getSearchCriteria().invoke(el));
     }
     public List<WebElement> findElements(Object... args) {
+        if (webElements.hasValue()) return webElements.get(ArrayList::new);
         if (isNotEmpty(args)) locatorArgs = args;
         SearchContext searchContext = getDefaultContext();
         if (!containsRoot(getLocator()))
             searchContext = getSearchContext(element.getParent());
-        return searchContext.findElements(correctLocator(getLocator()));
+        return webElements.set(searchContext.findElements(correctLocator(getLocator())));
     }
 
     private SearchContext getSearchContext(Object element) {
@@ -138,7 +152,7 @@ public class WebEngine implements IEngine {
         if (bElement.isUseCache() && isClass(bElement.getClass(), Element.class)) {
             Element el = (Element) bElement;
             if (el.engine().hasElement())
-                return el.engine().webElement;
+                return el.engine().webElement.get();
         }
         Object p = bElement.getParent();
         By locator = bElement.getLocator();
@@ -184,7 +198,7 @@ public class WebEngine implements IEngine {
         String parent = element.printContext();
         return isBlank(parent)
                 ? isFrame + shortBy(locator)
-                : element.printContext() + ">" + isFrame + shortBy(locator);
+                : parent + ">" + isFrame + shortBy(locator);
     }
 
     @Override

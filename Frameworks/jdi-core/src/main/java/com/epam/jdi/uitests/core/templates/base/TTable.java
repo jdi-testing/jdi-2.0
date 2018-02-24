@@ -57,14 +57,14 @@ public class TTable extends TBaseElement implements ITable {
     }
     @Override
     public List<ICell> allCells() {
-        return allCells.get().getAllCells();
+        return allCells.get(TableOfCells::new).getAllCells();
     }
 
     @Override
     public ICell cell(int rowIndex, int columnIndex) {
         ICell result = null;
         if (allCells.hasValue())
-            result = allCells.get().get(rowIndex, columnIndex);
+            result = allCells.get(TableOfCells::new).get(rowIndex, columnIndex);
         if (result != null) return result;
         return getCell( rowIndex, columnIndex);
     }

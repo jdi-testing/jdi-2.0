@@ -39,6 +39,10 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
         values = new ArrayList<>();
         setUseCache(true);
     }
+    public void refresh() {
+        elements.clear();
+        values.clear();
+    }
     private List<WebElement> getWebElements() {
         return getElements();
     }

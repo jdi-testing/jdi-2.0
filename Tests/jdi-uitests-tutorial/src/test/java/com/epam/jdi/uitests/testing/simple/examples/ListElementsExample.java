@@ -13,7 +13,6 @@ import static com.epam.jdi.site.google.GoogleSite.searchPage;
 import static com.epam.jdi.tools.LinqUtils.map;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 
-
 public class ListElementsExample extends GoogleTestsBase {
     @Test
     public void resultsAsList() {
@@ -41,6 +40,7 @@ public class ListElementsExample extends GoogleTestsBase {
         //Assert.ignoreCase().each(select(vacancies,
         //        j -> j.description.getText())).contains("jdi");
         homePage.search("testing");
+        jobs.refresh();
         String results3 = getJobs(jobs);
         //Assert.ignoreCase().each(select(vacancies,
         //        j -> j.link.getText())).contains("testing");

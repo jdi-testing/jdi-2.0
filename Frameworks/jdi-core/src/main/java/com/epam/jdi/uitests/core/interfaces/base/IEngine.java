@@ -8,6 +8,7 @@ package com.epam.jdi.uitests.core.interfaces.base;
 public interface IEngine {
     boolean hasLocator();
     boolean hasElement();
+    void setUseCache(boolean useCache);
     IEngine copy();
 
     String getDriverName();

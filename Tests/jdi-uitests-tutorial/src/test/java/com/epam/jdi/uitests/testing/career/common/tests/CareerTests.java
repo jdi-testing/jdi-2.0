@@ -14,11 +14,11 @@ public class CareerTests extends TestsBase {
     @Test(dataProvider = "attendees", dataProviderClass = AttendeesProvider.class)
     public void sendCVTest(Attendee attendee) {
         headerMenu.select(CAREERS);
+        allureStep();
         careerPage.checkOpened();
         careerPage.jobFilter.keywords.sendKeys("test");
         careerPage.jobFilter.search(attendee.filter);
         jobListingPage.checkOpened();
-
         new Check("Table is not empty").isFalse(jobListingPage.jobsList::isEmpty);
         jobListingPage.getJobRowByName("Test Automation Engineer (back-end)");
         jobDescriptionPage.addCVForm.submit(attendee);

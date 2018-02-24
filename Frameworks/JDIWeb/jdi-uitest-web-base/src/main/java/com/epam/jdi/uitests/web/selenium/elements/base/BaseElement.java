@@ -21,6 +21,7 @@ import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 import static com.epam.jdi.uitests.core.settings.JDISettings.timeouts;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils.shortBy;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.SEARCH_CONDITION;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public abstract class BaseElement extends TBaseElement {
     public JFunc1<WebElement, Boolean> localSearchCondition = null;
@@ -101,8 +102,8 @@ public abstract class BaseElement extends TBaseElement {
         return getParent() == null || !isClass(getParent().getClass(), BaseElement.class)
                 || (locator = (parent = (BaseElement)getParent()).getLocator()) == null
             ? ""
-            : (parentContext = parent.printContext()).equals("")
+            : isBlank(parentContext = parent.printContext())
                 ? shortBy(locator)
-                : locator + "; " + parentContext;
+                : parentContext + ">" + shortBy(locator);
     }
 }

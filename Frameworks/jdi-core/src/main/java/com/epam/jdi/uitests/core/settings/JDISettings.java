@@ -14,6 +14,7 @@ import java.io.IOException;
 import static com.epam.jdi.tools.PropertyReader.fillAction;
 import static com.epam.jdi.uitests.core.settings.JDIPropertiesReader.getProperties;
 import static java.lang.Integer.parseInt;
+import static java.lang.System.currentTimeMillis;
 
 public abstract class JDISettings {
     public static ILogger logger;

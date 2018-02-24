@@ -5,6 +5,7 @@ package com.epam.jdi.uitests.web.selenium.elements.composite;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+import com.epam.jdi.tools.CacheValue;
 import com.epam.jdi.tools.Timer;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes;
@@ -108,6 +109,7 @@ public class WebPage extends BaseElement implements IPage {
      */
     @JDIAction("open {url}")
     public void open() {
+        CacheValue.reset();
         try {
             getDriver().navigate().to(url);
         } catch (Exception ex) {

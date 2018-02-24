@@ -11,6 +11,7 @@ import com.epam.jdi.tools.logger.LogLevels;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IEngine;
 import com.epam.jdi.uitests.core.interfaces.base.IHasValue;
+import com.epam.jdi.uitests.core.settings.JDISettings;
 
 import java.lang.reflect.Field;
 
@@ -33,7 +34,7 @@ public abstract class TBaseElement extends Named implements IBaseElement {
         return (T) this;
     }
     public boolean isUseCache() { return useCache; }
-    public void setUseCache(boolean useCache) { this.useCache = useCache; }
+    public void setUseCache(boolean useCache) { engine().setUseCache(useCache); }
     public static final String FAILED_TO_FIND_ELEMENT_MESSAGE
             = "Can't find Element '%s' during %s seconds";
     public static final String FIND_TO_MUCH_ELEMENTS_MESSAGE

@@ -20,6 +20,7 @@ import ru.yandex.qatools.allure.annotations.Step;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import static com.epam.jdi.tools.ReflectionUtils.getFields;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
@@ -30,6 +31,7 @@ import static com.epam.jdi.tools.map.MapArray.pairs;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 import static java.lang.Character.toUpperCase;
+import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @SuppressWarnings("unused")
@@ -37,14 +39,19 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class ActionProcessor {
     public static String SHORT_TEMPLATE = "{element} {action}";
     public static String DEFAULT_TEMPLATE = "{action} ({element})";
+
     private static String getTemplate(LogLevels level) {
         return level.equalOrMoreThan(STEP) ? SHORT_TEMPLATE : DEFAULT_TEMPLATE;
     }
 
-    public static JAction1<JoinPoint> jdiBefore = (joinPoint) -> {
+    public static JAction1<JoinPoint> jdiBefore = joinPoint -> {
         if (logger.getLogLevel() != OFF) {
-            String logString = msgFormat(getTemplate(logger.getLogLevel()), pairs(new Object[][]{
-                    {"action", getActionName(joinPoint)}, {"element", joinPoint.getThis().toString()}}));
+            String actionName = getActionName(joinPoint);
+            String logString = joinPoint.getThis() == null
+                ? actionName
+                : msgFormat(getTemplate(logger.getLogLevel()), pairs(new Object[][]{
+                    {"action", actionName },
+                    {"element", getElementName(joinPoint) }}));
             logString = toUpperCase(logString.charAt(0)) + logString.substring(1);
             logger.toLog(logString, logLevel(joinPoint));
         }
@@ -65,10 +72,12 @@ public class ActionProcessor {
     public void before(JoinPoint joinPoint) {
         jdiBefore.execute(joinPoint);
     }
+
     @AfterReturning(pointcut = "execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.JDIAction)", returning = "result")
     public void after(JoinPoint joinPoint, Object result) {
         jdiAfter.execute(joinPoint, result);
     }
+
     @AfterThrowing(pointcut = "execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.JDIAction)", throwing = "error")
     public void error(JoinPoint joinPoint, Throwable error) {
         jdiError.execute(joinPoint, error);
@@ -78,10 +87,12 @@ public class ActionProcessor {
     public void beforeStep(JoinPoint joinPoint) {
         jdiBefore.execute(joinPoint);
     }
+
     @AfterReturning(pointcut = "execution(* *(..)) && @annotation(ru.yandex.qatools.allure.annotations.Step)", returning = "result")
     public void afterStep(JoinPoint joinPoint, Object result) {
         jdiAfter.execute(joinPoint, result);
     }
+
     @AfterThrowing(pointcut = "execution(* *(..)) && @annotation(ru.yandex.qatools.allure.annotations.Step)", throwing = "error")
     public void errorStep(JoinPoint joinPoint, Throwable error) {
         jdiError.execute(joinPoint, error);
@@ -90,40 +101,71 @@ public class ActionProcessor {
     static MethodSignature getMethod(JoinPoint joinPoint) {
         return (MethodSignature) joinPoint.getSignature();
     }
-    static String getValue(MethodSignature method) {
-        Method m = method.getMethod();
-        return m.isAnnotationPresent(JDIAction.class)
-                ? m.getAnnotation(JDIAction.class).value()
-                : m.getAnnotation(Step.class).value();
+
+    static String methodNameTemplate(MethodSignature method) {
+        try {
+            Method m = method.getMethod();
+            return m.isAnnotationPresent(JDIAction.class)
+                    ? m.getAnnotation(JDIAction.class).value()
+                    : m.getAnnotation(Step.class).value();
+        } catch (Exception ex) {
+            throw new RuntimeException("Surround method issue: " +
+                    "Can't get method name template: " + ex.getMessage());
+        }
     }
+
     static LogLevels logLevel(JoinPoint joinPoint) {
         Method m = getMethod(joinPoint).getMethod();
         return m.isAnnotationPresent(JDIAction.class)
                 ? m.getAnnotation(JDIAction.class).level()
                 : STEP;
     }
+
     static String getActionName(JoinPoint joinPoint) {
-        MethodSignature method = getMethod(joinPoint);
-        return getActionName(method, getValue(method),
-                new MapArray<>("this", joinPoint.getThis()),
-                new MapArray<>(method.getParameterNames(), joinPoint.getArgs()),
-                new MapArray<>(getFields(joinPoint.getThis()), Field::getName, value -> getValueField(value, joinPoint.getThis())));
+        try {
+            MethodSignature method = getMethod(joinPoint);
+            return getActionName(method, methodNameTemplate(method),
+                    new MapArray<>("this", getElementName(joinPoint)),
+                    new MapArray<>(method.getParameterNames(), joinPoint.getArgs()),
+                    new MapArray<>(getThisFields(joinPoint), Field::getName, value -> getValueField(value, joinPoint.getThis())));
+        } catch (Exception ex) {
+            throw new RuntimeException("Surround method issue: " +
+                    "Can't get action name: " + ex.getMessage());
+        }
+    }
+    static String getElementName(JoinPoint joinPoint) {
+        Object obj = joinPoint.getThis();
+        return obj != null
+                ? obj.toString()
+                : joinPoint.getSignature().getDeclaringType().getSimpleName();
+    }
+    static List<Field> getThisFields(JoinPoint joinPoint) {
+        Object obj = joinPoint.getThis();
+        return obj != null
+                ? getFields(obj)
+                : asList(joinPoint.getSignature().getDeclaringType().getFields());
     }
     static String getActionName(MethodSignature method, String value,
-                              MapArray<String, Object>... args) {
+                                MapArray<String, Object>... args) {
         String result;
-        if (isEmpty(value)) {
-            result = splitLowerCase(method.getMethod().getName());
-            if (args[1].size() == 1)
-                result += " '" + args[1].values().get(0) + "'";
-        } else {
-            result = value;
-            result = msgFormat(result, args[1].values());
-            for (MapArray<String, Object> params : args)
-                result = msgFormat(result, params);
+        try {
+            if (isEmpty(value)) {
+                result = splitLowerCase(method.getMethod().getName());
+                if (args[1].size() == 1)
+                    result += " '" + args[1].values().get(0) + "'";
+            } else {
+                result = value;
+                result = msgFormat(result, args[1].values());
+                for (MapArray<String, Object> params : args)
+                    result = msgFormat(result, params);
+            }
+            return result;
+        } catch (Exception ex) {
+            throw new RuntimeException("Surround method issue: " +
+                    "Can't get action name: " + ex.getMessage());
         }
-        return result;
     }
+}
 /*    private String processNameTemplate(
             String template, MapArray<String, Object> params, MapArray<String, Object> fields) {
         final Matcher matcher = Pattern.compile("\\{([^}]*)}").matcher(template);
@@ -174,7 +216,4 @@ public class ActionProcessor {
         }
         return String.valueOf(object);
     }
-
-    private static final Collector<CharSequence, ?, String> JOINER = Collectors.joining(", ", "[", "]");*/
-
-}
+*/

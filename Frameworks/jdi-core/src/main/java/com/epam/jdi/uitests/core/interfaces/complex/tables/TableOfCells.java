@@ -15,6 +15,13 @@ public class TableOfCells implements Cloneable {
     public int colsCount;
     public int rowsCount;
 
+    public TableOfCells() {
+        this.colHeaders = new ArrayList<>();
+        this.rowHeaders = new ArrayList<>();
+        colsCount = 0;
+        rowsCount = 0;
+        elements = new ICell[0][0];
+    }
     public TableOfCells(List<ICell> values, List<String> colHeaders, List<String> rowHeaders) {
         this.colHeaders = colHeaders;
         this.rowHeaders = rowHeaders;
