@@ -33,6 +33,11 @@
         </dependency>
         <dependency>
             <groupId>ru.yandex.qatools.allure</groupId>
+            <artifactId>allure-java-adaptor-api</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.yandex.qatools.allure</groupId>
             <artifactId>allure-java-annotations</artifactId>
             <version>RELEASE</version>
         </dependency>
