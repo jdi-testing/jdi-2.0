@@ -13,6 +13,7 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.object
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
 import ru.yandex.qatools.allure.annotations.Step;
 
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.CONTAINS;

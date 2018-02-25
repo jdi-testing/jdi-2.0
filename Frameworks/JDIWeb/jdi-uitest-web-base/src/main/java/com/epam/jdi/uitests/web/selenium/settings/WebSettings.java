@@ -66,7 +66,7 @@ public class WebSettings extends JDISettings {
             throw new ClassCastException("JavaScript Executor doesn't support");
     }
     public static synchronized void init()  {
-        logger = JDILogger.instance("JDI Logger");
+        logger = JDILogger.instance("JDI");
         MapInterfaceToElement.init(defaultInterfacesMap);
         driverFactory = new WebDriverFactory();
     }

@@ -34,7 +34,7 @@ import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public abstract class BaseMatcher implements IChecker {
-    private static ILogger logger = JDILogger.instance("JDI Logger");
+    private static ILogger logger = JDILogger.instance("JDI");
     public void setLogger(ILogger logger) { BaseMatcher.logger = logger; }
     private static long waitTimeout = 10;
     private static long defaultTimeout = 10;

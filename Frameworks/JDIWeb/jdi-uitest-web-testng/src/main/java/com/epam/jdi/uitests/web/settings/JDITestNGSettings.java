@@ -10,15 +10,15 @@ import com.epam.jdi.uitests.web.selenium.settings.WebSettings;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGCheck;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGLogger;
 import com.epam.web.matcher.base.BaseMatcher;
+import org.testng.annotations.Test;
 
 import static com.epam.jdi.tools.PropertyReader.fillAction;
 import static com.epam.web.matcher.base.BaseMatcher.screenshotAction;
 import static com.epam.web.matcher.testng.Assert.setMatcher;
 
 public class JDITestNGSettings extends WebSettings {
-
     public static synchronized void init() {
-        logger = TestNGLogger.instance("JDI Logger");
+        logger = TestNGLogger.instance("JDI");
         asserter = new TestNGCheck().setUpLogger(logger);
         setMatcher((BaseMatcher) asserter);
         asserter.doScreenshot("screen_on_fail");
@@ -33,4 +33,6 @@ public class JDITestNGSettings extends WebSettings {
         fillAction(p -> asserter.doScreenshot(p), "screenshot.strategy");
         initialized = true;
     }
+    @Test
+    public void testMethod() {}
 }

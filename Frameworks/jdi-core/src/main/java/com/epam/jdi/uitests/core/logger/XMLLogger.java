@@ -19,7 +19,7 @@ public class XMLLogger {
     private SimpleDateFormat dateFormat;
 
     public XMLLogger() {
-        this.log = Logger.getLogger("JDI Logger");
+        this.log = Logger.getLogger("JDI");
     }
 
     public XMLLogger(String name) {
@@ -31,7 +31,7 @@ public class XMLLogger {
     }
 
     public XMLLogger(SimpleDateFormat timePatternLayout) {
-        this.log = Logger.getLogger("JDI Logger");
+        this.log = Logger.getLogger("JDI");
         this.dateFormat = timePatternLayout;
     }
 

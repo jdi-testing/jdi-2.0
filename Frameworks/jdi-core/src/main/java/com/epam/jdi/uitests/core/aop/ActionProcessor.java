@@ -11,10 +11,7 @@ import com.epam.jdi.tools.logger.LogLevels;
 import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import ru.yandex.qatools.allure.annotations.Step;
 
@@ -22,16 +19,21 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import static com.epam.jdi.tools.LinqUtils.Switch;
 import static com.epam.jdi.tools.ReflectionUtils.getFields;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.tools.StringUtils.msgFormat;
 import static com.epam.jdi.tools.StringUtils.splitLowerCase;
+import static com.epam.jdi.tools.Switch.*;
+import static com.epam.jdi.tools.Switch.Condition;
 import static com.epam.jdi.tools.logger.LogLevels.*;
 import static com.epam.jdi.tools.map.MapArray.pairs;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 import static java.lang.Character.toUpperCase;
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @SuppressWarnings("unused")
@@ -68,36 +70,28 @@ public class ActionProcessor {
         throw exception("Action %s failed. Can't get result. Reason: %s", getActionName(joinPoint), error.getMessage());
     };
 
-    @Before("execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.JDIAction)")
+    @Pointcut("execution(* *(..)) && " +
+            "(@annotation(com.epam.jdi.uitests.core.annotations.JDIAction)" +
+            "|| @annotation(ru.yandex.qatools.allure.annotations.Step))")
+    protected void logPointCut() { }
+
+    @Before("logPointCut()")
     public void before(JoinPoint joinPoint) {
-        jdiBefore.execute(joinPoint);
+        if (jdiBefore != null)
+            jdiBefore.execute(joinPoint);
     }
 
-    @AfterReturning(pointcut = "execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.JDIAction)", returning = "result")
+    @AfterReturning(pointcut = "logPointCut()", returning = "result")
     public void after(JoinPoint joinPoint, Object result) {
-        jdiAfter.execute(joinPoint, result);
+        if (jdiAfter != null)
+            jdiAfter.execute(joinPoint, result);
     }
 
-    @AfterThrowing(pointcut = "execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.JDIAction)", throwing = "error")
+    @AfterThrowing(pointcut = "logPointCut()", throwing = "error")
     public void error(JoinPoint joinPoint, Throwable error) {
-        jdiError.execute(joinPoint, error);
+        if (jdiError != null)
+            jdiError.execute(joinPoint, error);
     }
-
-    @Before("execution(* *(..)) && @annotation(ru.yandex.qatools.allure.annotations.Step)")
-    public void beforeStep(JoinPoint joinPoint) {
-        jdiBefore.execute(joinPoint);
-    }
-
-    @AfterReturning(pointcut = "execution(* *(..)) && @annotation(ru.yandex.qatools.allure.annotations.Step)", returning = "result")
-    public void afterStep(JoinPoint joinPoint, Object result) {
-        jdiAfter.execute(joinPoint, result);
-    }
-
-    @AfterThrowing(pointcut = "execution(* *(..)) && @annotation(ru.yandex.qatools.allure.annotations.Step)", throwing = "error")
-    public void errorStep(JoinPoint joinPoint, Throwable error) {
-        jdiError.execute(joinPoint, error);
-    }
-
     static MethodSignature getMethod(JoinPoint joinPoint) {
         return (MethodSignature) joinPoint.getSignature();
     }
@@ -105,9 +99,16 @@ public class ActionProcessor {
     static String methodNameTemplate(MethodSignature method) {
         try {
             Method m = method.getMethod();
-            return m.isAnnotationPresent(JDIAction.class)
-                    ? m.getAnnotation(JDIAction.class).value()
-                    : m.getAnnotation(Step.class).value();
+            String result;
+            if (m.isAnnotationPresent(JDIAction.class)) {
+                result = m.getAnnotation(JDIAction.class).value();
+                return isBlank(result) ? m.getName() : result;
+            }
+            if (m.isAnnotationPresent(Step.class)) {
+                result = m.getAnnotation(Step.class).value();
+                return isBlank(result) ? m.getName() : result;
+            }
+            return m.getName();
         } catch (Exception ex) {
             throw new RuntimeException("Surround method issue: " +
                     "Can't get method name template: " + ex.getMessage());
@@ -124,10 +125,17 @@ public class ActionProcessor {
     static String getActionName(JoinPoint joinPoint) {
         try {
             MethodSignature method = getMethod(joinPoint);
-            return getActionName(method, methodNameTemplate(method),
-                    new MapArray<>("this", getElementName(joinPoint)),
-                    new MapArray<>(method.getParameterNames(), joinPoint.getArgs()),
-                    new MapArray<>(getThisFields(joinPoint), Field::getName, value -> getValueField(value, joinPoint.getThis())));
+            String template = methodNameTemplate(method);
+            return Switch(template).get(
+                Case(t -> t.contains("{"), t -> {
+                    MapArray obj = new MapArray<>("this", getElementName(joinPoint));
+                    MapArray args = new MapArray<>(method.getParameterNames(), joinPoint.getArgs());
+                    MapArray fields = new MapArray<>(getThisFields(joinPoint), Field::getName, value -> getValueField(value, joinPoint.getThis()));
+                    return getActionName(method, t, obj, args, fields);
+                }),
+                Case(t -> t.contains("%s"), t -> format(t, joinPoint.getArgs())),
+                Default(template)
+            );
         } catch (Exception ex) {
             throw new RuntimeException("Surround method issue: " +
                     "Can't get action name: " + ex.getMessage());
