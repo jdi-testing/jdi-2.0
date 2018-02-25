@@ -14,9 +14,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 
-import static com.epam.jdi.tools.StringUtils.splitCamelCase;
 import static com.epam.jdi.tools.logger.LogLevels.STEP;
-import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
+import static com.epam.jdi.uitests.web.settings.JDITestNGSettings.*;
 
 @SuppressWarnings("unused")
 @Aspect
@@ -50,7 +49,7 @@ public class TestNGProcessor {
         if (testNGAfter != null)
             testNGAfter.execute(joinPoint);
     }
-    private static String getTestName(JoinPoint joinPoint) {
+    static String getTestName(JoinPoint joinPoint) {
         return joinPoint.getSignature().getDeclaringType().getSimpleName()
                 + "." + getMethod(joinPoint).getName();
     }

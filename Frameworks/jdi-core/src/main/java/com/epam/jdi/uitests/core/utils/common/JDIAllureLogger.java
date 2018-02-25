@@ -18,7 +18,7 @@ public class JDIAllureLogger extends JDILogger {
     }
     @Override
     public void step(String s, Object... args) {
-        LIFECYCLE.fire(new StepStartedEvent(format(s.replace(".", ","), args)));
+        LIFECYCLE.fire(new StepStartedEvent(format(s, args).replace(".", ",")));
         super.step(s, args);
         LIFECYCLE.fire(new StepFinishedEvent());
     }
