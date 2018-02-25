@@ -5,13 +5,12 @@ package com.epam.jdi.uitests.web.testng.testRunner;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import com.epam.jdi.tools.logger.JDILogger;
 import com.epam.jdi.tools.map.MapArray;
+import com.epam.jdi.uitests.core.utils.common.JDIAllureLogger;
 
 import static org.testng.Reporter.log;
 
-public class TestNGLogger extends JDILogger {
-
+public class TestNGLogger extends JDIAllureLogger {
     private static MapArray<String, TestNGLogger> loggers = new MapArray<>();
     public static TestNGLogger instance(String name) {
         if (!loggers.keys().contains(name))

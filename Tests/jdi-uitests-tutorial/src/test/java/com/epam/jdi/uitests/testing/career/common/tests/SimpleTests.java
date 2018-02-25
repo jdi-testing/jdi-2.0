@@ -1,14 +1,14 @@
 package com.epam.jdi.uitests.testing.career.common.tests;
 
 
+import com.epam.jdi.site.epam.EpamSite;
 import com.epam.jdi.uitests.testing.TestsBase;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
+import ru.yandex.qatools.allure.events.StepFinishedEvent;
+import ru.yandex.qatools.allure.events.StepStartedEvent;
 
 import static com.epam.jdi.enums.HeaderMenu.CAREERS;
-import static com.epam.jdi.site.epam.EpamSite.allureStep;
-import static com.epam.jdi.site.epam.EpamSite.careerPage;
-import static com.epam.jdi.site.epam.EpamSite.headerMenu;
+import static com.epam.jdi.site.epam.EpamSite.*;
 
 public class SimpleTests extends TestsBase {
 

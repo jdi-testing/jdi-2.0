@@ -6,15 +6,23 @@ package com.epam.jdi.uitests.core.settings;
  */
 
 import com.epam.jdi.tools.logger.ILogger;
+import com.epam.jdi.tools.logger.JDILogger;
 import com.epam.jdi.tools.logger.LogLevels;
 import com.epam.jdi.uitests.core.interfaces.IAsserter;
+import com.epam.jdi.uitests.core.utils.common.JDIAllureLogger;
+import org.apache.logging.log4j.Level;
+import ru.yandex.qatools.allure.events.StepFinishedEvent;
+import ru.yandex.qatools.allure.events.StepStartedEvent;
 
 import java.io.IOException;
 
 import static com.epam.jdi.tools.PropertyReader.fillAction;
+import static com.epam.jdi.tools.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.core.settings.JDIPropertiesReader.getProperties;
 import static java.lang.Integer.parseInt;
+import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
+import static ru.yandex.qatools.allure.Allure.LIFECYCLE;
 
 public abstract class JDISettings {
     public static ILogger logger;
@@ -27,23 +35,11 @@ public abstract class JDISettings {
     protected JDISettings() {
     }
 
-    public static void toLog(String message, LogLevels level) {
-        switch (level) {
-            case INFO:
-                logger.info(message);
-                break;
-            case ERROR:
-                logger.error(message);
-                break;
-            default:
-                logger.debug(message);
-        }
-    }
-
     public static synchronized void initFromProperties() {
         try {
             getProperties(jdiSettingsPath);
         } catch (Exception ex) { throw new RuntimeException(ex); }
+        logger = JDIAllureLogger.instance("JDI");
         fillAction(p -> shortLogMessagesFormat = p.toLowerCase().equals("short"), "log.message.format");
         fillAction(p -> useCache =
                 p.toLowerCase().equals("true") || p.toLowerCase().equals("1"), "cache");

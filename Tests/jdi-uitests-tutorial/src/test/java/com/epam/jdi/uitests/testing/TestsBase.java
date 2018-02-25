@@ -1,7 +1,9 @@
 package com.epam.jdi.uitests.testing;
 
 import com.epam.jdi.site.epam.EpamSite;
+import com.epam.jdi.uitests.core.utils.common.JDIAllureLogger;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGBase;
+import com.epam.jdi.uitests.web.testng.testRunner.TestNGLogger;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 

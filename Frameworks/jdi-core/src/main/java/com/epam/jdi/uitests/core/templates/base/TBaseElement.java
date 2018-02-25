@@ -81,7 +81,7 @@ public abstract class TBaseElement extends Named implements IBaseElement {
     public <T> T setParent(Object parent) { this.parent = parent; return (T) this;}
 
     public void logAction(String actionName, LogLevels level) {
-        toLog(format(shortLogMessagesFormat
+        logger.toLog(format(shortLogMessagesFormat
                 ? "%s for %s"
                 : "Perform action '%s' with Element (%s)", actionName, this.toString()), level);
     }
