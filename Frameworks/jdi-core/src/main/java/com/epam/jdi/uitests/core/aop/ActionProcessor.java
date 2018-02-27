@@ -17,6 +17,7 @@ import ru.yandex.qatools.allure.annotations.Step;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.Switch;
@@ -127,6 +128,7 @@ public class ActionProcessor {
             MethodSignature method = getMethod(joinPoint);
             String template = methodNameTemplate(method);
             return Switch(template).get(
+                Case(t -> t.contains("{0"), t -> MessageFormat.format(t, joinPoint.getArgs())),
                 Case(t -> t.contains("{"), t -> {
                     MapArray obj = new MapArray<>("this", getElementName(joinPoint));
                     MapArray args = new MapArray<>(method.getParameterNames(), joinPoint.getArgs());

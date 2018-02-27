@@ -79,7 +79,7 @@ public class WebPage extends BaseElement implements IPage {
     /**
      * Check that page opened
      */
-    @JDIAction("Check '{name}' opened")
+    @JDIAction("Check opened")
     public void checkOpened() {
         logger.logOff();
         asserter.isTrue(isOpened(), format("Page '%s' is not opened", toString()));
