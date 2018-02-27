@@ -40,7 +40,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
         "Found more than 1 <select> tag with locator '%s' for dropdown '%s'";
     @Override
     public void select(String name) {
-        if (linked().isAny()) {
+        if (linked().hasAny()) {
             assertLinked("list", "select");
             assertLinked("expander", "select");
             expand();
@@ -54,7 +54,7 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
     }
     @Override
     public void select(int index) {
-        if (linked().isAny()){
+        if (linked().hasAny()){
             assertLinked("list", "select");
             assertLinked("expander", "select");
             expand();
@@ -64,12 +64,13 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
     }
     @Override
     public String getText() {
-        if (linked().isAny()) {
+        if (linked().hasAny()) {
             assertLinked("value", "select");
             String result = "";
             Input value = (Input)linked().get("value");
-            if (value.getLocator().toString().contains("select")) try {
-                result = new Select(value.getWebElement()).getFirstSelectedOption().getText();
+            WebElement root = value.getWebElement();
+            if (root.getTagName().contains("select")) try {
+                result = new Select(root).getFirstSelectedOption().getText();
             } catch (Exception ignore) {}
             return !isNullOrEmpty(result) ? result : value.getText();
         }
@@ -77,14 +78,10 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
 
     }
 
-
     private Select getSelectElement(String action) {
-        if (getLocator().toString().contains("select")) {
-            List<WebElement> result = wait(super::getWebElements, r -> r.size() == 1);
-            if (result == null)
-                throw exception(TO_MUCH_ELEMENTS_FOUND_ERROR, getLocator(), this);
-            return new Select(result.get(0));
-        }
+        WebElement root = engine().getWebElement();
+        if (root.getTagName().contains("select"))
+            return new Select(root);
         throw exception(SELECT_ERROR, action, this);
     }
 }

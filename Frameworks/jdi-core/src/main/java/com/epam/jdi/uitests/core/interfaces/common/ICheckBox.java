@@ -5,6 +5,7 @@ package com.epam.jdi.uitests.core.interfaces.common;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+import com.epam.jdi.uitests.core.actions.common.CheckboxActions;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.base.ISelect;
 import com.epam.jdi.uitests.core.interfaces.base.ISetValue;
@@ -41,18 +42,6 @@ public interface ICheckBox extends ISelect, ISetValue {
      */
     @Override
     default void setValue(String value) {
-        switch (value.toLowerCase()) {
-            case "true":
-            case "1":
-            case "check":
-                check();
-                break;
-            case "false":
-            case "0":
-            case "uncheck":
-                uncheck();
-                break;
-        }
-        throw exception("Can't set value '%s' for Checkbox . Supported values: 'true', '1', 'check', 'false', '0', 'uncheck'");
+        select.execute(this, value);
     }
 }

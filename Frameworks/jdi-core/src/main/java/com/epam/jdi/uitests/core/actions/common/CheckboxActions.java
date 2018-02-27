@@ -6,8 +6,10 @@ package com.epam.jdi.uitests.core.actions.common;
  */
 
 import com.epam.jdi.tools.func.JAction1;
+import com.epam.jdi.tools.func.JAction2;
 import com.epam.jdi.tools.func.JFunc1;
 
+import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static com.epam.jdi.uitests.core.actions.common.ClickActions.click;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
@@ -27,5 +29,20 @@ public abstract class CheckboxActions {
             click.execute(o);
         if (isChecked.execute(o))
             throw exception("Can't uncheck element. Verify locator for click or isCheckedAction");
+    };
+    public static JAction2<Object, String> select = (o, value) -> {
+        switch (value.toLowerCase()) {
+            case "true":
+            case "1":
+            case "check":
+                check.execute(o);
+                return;
+            case "false":
+            case "0":
+            case "uncheck":
+                uncheck.execute(o);
+                return;
+        }
+        throw exception("Can't set value '%s' (%s)." + LINE_BREAK + "Supported values: 'true', '1', 'check', 'false', '0', 'uncheck'", value, o.toString());
     };
 }

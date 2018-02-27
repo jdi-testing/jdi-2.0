@@ -8,7 +8,10 @@ package com.epam.jdi.uitests.core.interfaces.base;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 
+import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
+import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.check;
 import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.isChecked;
+import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.select;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
 public interface ISelect extends IClickable, IText, ISetValue {
@@ -31,19 +34,7 @@ public interface ISelect extends IClickable, IText, ISetValue {
      *              Set value to Element
      */
     default void setValue(String value) {
-        switch (value.toLowerCase()) {
-            case "true":
-            case "1":
-            case "check":
-                if (!isSelected()) select();
-                break;
-            case "false":
-            case "0":
-            case "uncheck":
-                if (isSelected()) select();
-                break;
-        }
-        throw exception("Can't set value '%s'. Supported values: 'true', '1', 'check', 'false', '0', 'uncheck'");
+        select.execute(this, value);
     }
 
     @Override @JDIAction

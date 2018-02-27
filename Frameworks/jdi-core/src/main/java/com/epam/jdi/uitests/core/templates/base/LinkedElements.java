@@ -27,7 +27,7 @@ public class LinkedElements {
     public boolean isEmpty() {
         return linkedElements.size() == 0;
     }
-    public boolean isAny() {
+    public boolean hasAny() {
         return !isEmpty();
     }
     public boolean has(String name) {
