@@ -16,6 +16,7 @@ import java.util.List;
  */
 public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, IClickable {
     default boolean isExpanded() {
+        assertLinked("list", "expand");
         return linked().get("list").displayedNow();
     }
     /**

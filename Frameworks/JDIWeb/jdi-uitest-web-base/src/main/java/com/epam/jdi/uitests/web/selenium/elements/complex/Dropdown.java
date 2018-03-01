@@ -48,10 +48,6 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
         }
         else getSelectElement(format("select '%s'", name)).selectByVisibleText(name);
     }
-    private void assertLinked(String name, String action) {
-        if (!linked().has(name))
-            throw exception(format("You must specify '%s' in Dropdown annotation in order to perform %s action", name, action));
-    }
     @Override
     public void select(int index) {
         if (linked().hasAny()){

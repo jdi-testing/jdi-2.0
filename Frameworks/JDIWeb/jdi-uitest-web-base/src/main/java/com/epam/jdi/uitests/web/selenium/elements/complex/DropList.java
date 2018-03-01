@@ -18,7 +18,8 @@ import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations
 public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
         implements IDropList<TEnum>, ISetup {
 
-    public void setUp(Field field) {
+    @Override
+    public void setup(Field field) {;
         if (!fieldHasAnnotation(field, JDropList.class, IDropList.class))
             return;
         JDropList jDroplist = field.getAnnotation(JDropList.class);

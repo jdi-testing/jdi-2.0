@@ -18,8 +18,13 @@ import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.actions.base.ElementActions.*;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.*;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
+import static java.lang.String.format;
 
 public interface IBaseSelector<TEnum extends Enum> extends IBaseElement, ISetValue {
+    default void assertLinked(String name, String action) {
+        if (!linked().has(name))
+            throw exception(format("You must specify '%s' in Dropdown annotation in order to perform %s action", name, action));
+    }
     /**
      * @return Get labels of all options (same as getValues, getLabels and getNames)
      */
