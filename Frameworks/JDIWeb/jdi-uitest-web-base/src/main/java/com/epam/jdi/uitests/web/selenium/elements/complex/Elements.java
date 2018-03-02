@@ -92,7 +92,6 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
         try {
             T element = classType.newInstance();
             element.setEngine(el);
-            element.setUseCache(true);
             element.setParent(this);
             new WebCascadeInit().initElements(element, engine().getDriverName());
             return element;

@@ -8,6 +8,7 @@ package com.epam.jdi.uitests.core.interfaces.base;
 public interface IEngine {
     boolean hasLocator();
     boolean hasElement();
+    boolean isUseCache();
     void setUseCache(boolean useCache);
     IEngine copy();
 

@@ -11,7 +11,7 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.object
 
 import java.lang.reflect.Field;
 
-import static com.epam.jdi.uitests.web.selenium.elements.base.LinkedSetup.setupDropElement;
+import static com.epam.jdi.uitests.web.selenium.elements.base.LinkedSetup.setupDropList;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;
 
@@ -23,7 +23,7 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
         if (!fieldHasAnnotation(field, JDropList.class, IDropList.class))
             return;
         JDropList jDroplist = field.getAnnotation(JDropList.class);
-        setupDropElement(this, findByToBy(jDroplist.root()),
+        setupDropList(this, findByToBy(jDroplist.root()),
                 findByToBy(jDroplist.value()),
                 findByToBy(jDroplist.list()),
                 findByToBy(jDroplist.expand()));

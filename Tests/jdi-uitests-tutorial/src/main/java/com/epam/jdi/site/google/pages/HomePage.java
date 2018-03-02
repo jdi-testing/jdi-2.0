@@ -11,7 +11,7 @@ import org.openqa.selenium.Keys;
  */
 @JPage(url = "/")
 public class HomePage extends WebPage {
-    @Css("[name=q") public ITextField search;
+    @Css("[name=q]") public ITextField search;
     public void search(String text) {
         search.newInput(text + Keys.ENTER);
     }

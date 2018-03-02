@@ -27,13 +27,12 @@ public abstract class TBaseElement extends Named implements IBaseElement {
     private Object parent;
     private IEngine engine;
     protected int waitTimeout = timeouts.getCurrentTimeoutSec();
-    private boolean useCache;
 
     public <T extends IBaseElement> T withTimeout(int timoutSec) {
         waitTimeout = timoutSec;
         return (T) this;
     }
-    public boolean isUseCache() { return useCache; }
+    public boolean isUseCache() { return engine().isUseCache(); }
     public void setUseCache(boolean useCache) { engine().setUseCache(useCache); }
     public static final String FAILED_TO_FIND_ELEMENT_MESSAGE
             = "Can't find Element '%s' during %s seconds";

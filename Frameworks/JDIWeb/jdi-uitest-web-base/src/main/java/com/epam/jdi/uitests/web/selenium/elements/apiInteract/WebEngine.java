@@ -77,7 +77,7 @@ public class WebEngine implements IEngine {
         return copy();
     }
     public WebEngine copy(WebElement element) {
-        webElement.set(element);
+        webElement.setForce(element);
         return copy();
     }
     public WebEngine copy() {
@@ -111,6 +111,7 @@ public class WebEngine implements IEngine {
 
     //Element
     public boolean hasElement() { return webElement.hasValue(); }
+    public boolean isUseCache() { return webElement.isUseCache(); }
     public void setWebElement(WebElement webElement) { this.webElement.setForce(webElement); }
     public void setWebElements(List<WebElement> webElements) { this.webElements.setForce(webElements); }
     public WebElement getWebElement(Object... args) {
