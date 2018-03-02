@@ -1,5 +1,6 @@
 package com.epam.jdi.site.google.custom;
 
+import com.epam.jdi.uitests.core.annotations.Title;
 import com.epam.jdi.uitests.core.interfaces.common.ILabel;
 import com.epam.jdi.uitests.core.interfaces.common.ILink;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
@@ -10,7 +11,7 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple
  * Created by Roman_Iovlev on 8/23/2017.
  */
 public class SearchResult extends Section {
-    @Css("h3>a") public ILabel name;
+    @Title @Css("h3>a") public ILabel name;
     @Css(".st")  public IText description;
     @Css("cite") public ILink link;
 

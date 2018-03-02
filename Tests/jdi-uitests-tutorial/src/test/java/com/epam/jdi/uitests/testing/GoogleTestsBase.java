@@ -18,6 +18,7 @@ public abstract class GoogleTestsBase extends TestNGBase {
     @BeforeSuite(alwaysRun = true)
     public static void setUp() {
         WebSite.init(GoogleSite.class);
+        GoogleSite.open();
         logger.info("Run Tests");
     }
 

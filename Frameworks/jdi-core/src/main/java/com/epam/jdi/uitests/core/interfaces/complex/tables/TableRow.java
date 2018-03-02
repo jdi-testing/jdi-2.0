@@ -67,7 +67,7 @@ public class TableRow {
      * Get Columns/Rows count
      */
     @JDIAction
-    public int count() { return count.get(() -> -1); }
+    public int count() { return count.get(() -> 0); }
     public void setSize(int size) { count.set(size); }
     @JDIAction
     public int size() { return count(); }

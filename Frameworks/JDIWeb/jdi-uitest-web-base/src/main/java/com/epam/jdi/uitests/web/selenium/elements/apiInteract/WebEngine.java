@@ -31,7 +31,7 @@ import static com.epam.jdi.uitests.web.selenium.elements.apiInteract.LocatorType
 import static com.epam.jdi.uitests.web.selenium.elements.apiInteract.LocatorType.FRAME;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriverFactory;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.hasDomain;
-import static java.lang.String.format;
+import static com.epam.jdi.tools.StringUtils.format;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 import static org.apache.commons.lang3.ArrayUtils.remove;

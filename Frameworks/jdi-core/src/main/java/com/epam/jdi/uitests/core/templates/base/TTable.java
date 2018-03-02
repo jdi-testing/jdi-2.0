@@ -29,10 +29,10 @@ public class TTable extends TBaseElement implements ITable {
             el -> toCell.execute(this, el, 0, 0)); }
     protected TableRow rows = new TableRow(this,
             i -> getCells("row", i), () -> getCells("rowHeader"),
-            headerType.row, isUseCache(), null);
+            headerType.row, false, null);
     protected TableRow columns = new TableRow(this,
             i -> getCells("column", i), () -> getCells("columnHeader"),
-            headerType.column, isUseCache(), () -> getCells("footer"));
+            headerType.column, false, () -> getCells("footer"));
     protected CacheValue<TableOfCells> allCells = new CacheValue<>(
             () -> new TableOfCells(getCells("cells"),
                 rows().headers(),

@@ -9,7 +9,8 @@ import com.epam.jdi.tools.logger.JDILogger;
 import ru.yandex.qatools.allure.events.StepFinishedEvent;
 import ru.yandex.qatools.allure.events.StepStartedEvent;
 
-import static java.lang.String.format;
+import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
+import static com.epam.jdi.tools.StringUtils.format;
 import static ru.yandex.qatools.allure.Allure.LIFECYCLE;
 
 public class JDIAllureLogger extends JDILogger {
@@ -18,8 +19,10 @@ public class JDIAllureLogger extends JDILogger {
     }
     @Override
     public void step(String s, Object... args) {
-        LIFECYCLE.fire(new StepStartedEvent(format(s, args).replace(".", ",")));
-        super.step(s, args);
-        LIFECYCLE.fire(new StepFinishedEvent());
+        try {
+            LIFECYCLE.fire(new StepStartedEvent(format(s, args).replace(".", ",")));
+            super.step(s, args);
+            LIFECYCLE.fire(new StepFinishedEvent());
+        } catch (Exception ex) { throw exception("Log Step with Allure issue: " + ex.getMessage()); }
     }
 }

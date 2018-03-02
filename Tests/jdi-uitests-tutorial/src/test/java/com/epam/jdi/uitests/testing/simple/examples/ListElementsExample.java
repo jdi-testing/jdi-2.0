@@ -16,7 +16,6 @@ import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 public class ListElementsExample extends GoogleTestsBase {
     @Test
     public void resultsAsList() {
-        homePage.open();
         Assert.contains(homePage.getDriver().getCurrentUrl(),
                 "https://www.google.");
         homePage.search("jdi");

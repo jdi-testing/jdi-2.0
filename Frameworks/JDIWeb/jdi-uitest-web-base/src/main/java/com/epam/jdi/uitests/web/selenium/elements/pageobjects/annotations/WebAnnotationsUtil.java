@@ -17,17 +17,19 @@ import java.util.function.Consumer;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.CONTAINS;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.EQUAL;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.domain;
-import static java.lang.String.format;
+import static com.epam.jdi.tools.StringUtils.format;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class WebAnnotationsUtil extends AnnotationsUtil {
 
     public static String getUrlFromUri(String uri, Class<?> parentClass) {
         String siteDomain = domain;
-        if (parentClass.isAnnotationPresent(JSite.class))
+        if (parentClass.isAnnotationPresent(JSite.class)) {
             siteDomain = parentClass.getAnnotation(JSite.class).value();
-        if (siteDomain == null)
-            siteDomain = "";
+            if (isBlank(siteDomain))
+                siteDomain = domain;
+            else domain = siteDomain;
+        }
         return siteDomain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
     }
 

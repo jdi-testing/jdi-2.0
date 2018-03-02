@@ -21,7 +21,7 @@ import static com.epam.jdi.tools.StringUtils.namesEqual;
 import static com.epam.jdi.tools.logger.LogLevels.INFO;
 import static com.epam.jdi.tools.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
-import static java.lang.String.format;
+import static com.epam.jdi.tools.StringUtils.format;
 
 public abstract class TBaseElement extends Named implements IBaseElement {
     private Object parent;
