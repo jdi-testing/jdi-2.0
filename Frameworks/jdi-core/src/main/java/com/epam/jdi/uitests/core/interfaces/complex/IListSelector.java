@@ -7,7 +7,6 @@ package com.epam.jdi.uitests.core.interfaces.complex;
 
 import com.epam.jdi.tools.EnumUtils;
 import com.epam.jdi.tools.LinqUtils;
-import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.tools.func.JFunc2;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 

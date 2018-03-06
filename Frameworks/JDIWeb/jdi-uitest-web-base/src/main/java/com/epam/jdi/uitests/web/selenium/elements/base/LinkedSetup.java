@@ -37,7 +37,8 @@ public class LinkedSetup {
         }
     }
 
-    public static void setupDropList(BaseElement el, By root, By value, By list, By expand) {
+    public static void setupDropList(BaseElement el, By root, By value,
+             By list, By expand, By isSelected) {
         if (root != null)
             el.setLocator(root);
         if (value != null) {
@@ -55,6 +56,8 @@ public class LinkedSetup {
             if (value == null)
                 el.linked().add("value", eExpand);
         }
+        if (isSelected != null)
+            el.linked().add("isSelected", isSelected);
     }
     public static void setUpLinked(BaseElement parent, FindBy locator, String name) {
         setUpLinked(parent, locator, name, by -> new Button().setLocator(by));

@@ -14,14 +14,13 @@ import static com.epam.jdi.tools.LinqUtils.foreach;
 import static com.epam.jdi.tools.PrintUtils.print;
 
 public class LinkedElements {
-    public LinkedElements() {
-        linkedElements = new HashMap<>();}
+    public LinkedElements() { linkedElements = new HashMap<>();}
     public LinkedElements(Map<String, IBaseElement> map) {
         this();
         foreach(map, e -> add(e.getKey(), e.getValue()));
     }
-    protected Map<String, IBaseElement> linkedElements = new HashMap<>();
-    public IBaseElement get(String name) {
+    protected Map<String, Object> linkedElements = new HashMap<>();
+    public Object get(String name) {
         return linkedElements.get(name.toLowerCase());
     }
     public boolean isEmpty() {
@@ -33,7 +32,7 @@ public class LinkedElements {
     public boolean has(String name) {
         return linkedElements.containsKey(name);
     }
-    public void add(String name, IBaseElement element) {
+    public void add(String name, Object element) {
         linkedElements.put(name.toLowerCase(), element);
     }
     @Override
