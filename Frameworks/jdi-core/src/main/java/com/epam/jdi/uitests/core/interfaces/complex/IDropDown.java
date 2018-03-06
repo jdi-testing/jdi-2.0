@@ -6,6 +6,7 @@ package com.epam.jdi.uitests.core.interfaces.complex;
  */
 
 import com.epam.jdi.uitests.core.annotations.JDIAction;
+import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IClickable;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, IClickable {
     default boolean isExpanded() {
         assertLinked("list", "expand");
-        return linked().get("list").displayedNow();
+        return ((IBaseElement)linked().get("list")).displayedNow();
     }
     /**
      * Expanding DropDown
@@ -66,7 +67,7 @@ public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, 
      */
     @Override
     default boolean displayed() {
-        return linked().get("value").disabled();
+        return ((IBaseElement)linked().get("value")).disabled();
     }
 
     /**
@@ -74,7 +75,7 @@ public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, 
      */
     @Override
     default boolean vanished() {
-        return linked().get("value").vanished();
+        return ((IBaseElement)linked().get("value")).vanished();
     }
 
     @Override

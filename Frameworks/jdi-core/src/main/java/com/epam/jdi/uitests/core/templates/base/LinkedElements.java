@@ -5,8 +5,6 @@ package com.epam.jdi.uitests.core.templates.base;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +13,7 @@ import static com.epam.jdi.tools.PrintUtils.print;
 
 public class LinkedElements {
     public LinkedElements() { linkedElements = new HashMap<>();}
-    public LinkedElements(Map<String, IBaseElement> map) {
+    public LinkedElements(Map<String, Object> map) {
         this();
         foreach(map, e -> add(e.getKey(), e.getValue()));
     }
