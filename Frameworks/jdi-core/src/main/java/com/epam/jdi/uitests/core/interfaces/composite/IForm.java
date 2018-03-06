@@ -25,7 +25,6 @@ import static com.epam.jdi.tools.ReflectionUtils.getFields;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static com.epam.jdi.tools.StringUtils.namesEqual;
-import static com.epam.jdi.tools.logger.LogLevels.STEP;
 import static com.epam.jdi.tools.map.MapArray.toMapArray;
 import static com.epam.jdi.uitests.core.actions.base.UIUtils.getButton;
 import static com.epam.jdi.uitests.core.annotations.AnnotationsUtil.getElementName;

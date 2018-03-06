@@ -8,11 +8,8 @@ package com.epam.jdi.uitests.core.interfaces.base;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 
-import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
-import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.check;
 import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.isChecked;
 import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.select;
-import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
 public interface ISelect extends IClickable, IText, ISetValue {
     /**

@@ -5,13 +5,11 @@ package com.epam.jdi.uitests.core.interfaces.common;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import com.epam.jdi.uitests.core.actions.common.CheckboxActions;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.base.ISelect;
 import com.epam.jdi.uitests.core.interfaces.base.ISetValue;
 
 import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.*;
-import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
 public interface ICheckBox extends ISelect, ISetValue {
     /**
@@ -43,5 +41,10 @@ public interface ICheckBox extends ISelect, ISetValue {
     @Override
     default void setValue(String value) {
         select.execute(this, value);
+    }
+
+    @Override
+    default String getValue() {
+        return isChecked() ? "true" : "false";
     }
 }

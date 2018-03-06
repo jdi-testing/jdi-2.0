@@ -14,10 +14,10 @@ import org.openqa.selenium.support.ui.Quotes;
 
 import java.util.function.Consumer;
 
+import static com.epam.jdi.tools.StringUtils.format;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.CONTAINS;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.EQUAL;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.domain;
-import static com.epam.jdi.tools.StringUtils.format;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class WebAnnotationsUtil extends AnnotationsUtil {
