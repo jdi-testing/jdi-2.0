@@ -34,7 +34,7 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
                 findByToBy(jDropList.value()),
                 findByToBy(jDropList.list()),
                 findByToBy(jDropList.expand()),
-                findByToBy(jDropList.isSelected()));
+                findByToBy(jDropList.isselected()));
     }
 
     private String separator = ", ";
@@ -53,29 +53,29 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
     @JDIAction
     public void check(String... names) {
         expand();
-        List<String> deselected = where(names, name -> !isSelected(name));
-        select(toStringArray(deselected));
+        assertLinked("list", "check");
+        ((CheckList)linked().get("list")).check(names);
     }
 
     @JDIAction
     public void check(Integer... indexes) {
         expand();
-        List<Integer> deselected = where(indexes, index -> !isSelected(index));
-        select(toIntegerArray(deselected));
+        assertLinked("list", "check");
+        ((CheckList)linked().get("list")).check(indexes);
     }
 
     @JDIAction @Override
     public void uncheck(String... names) {
         expand();
-        List<String> selected = where(names, this::isSelected);
-        select(toStringArray(selected));
+        assertLinked("list", "check");
+        ((CheckList)linked().get("list")).uncheck(names);
     }
 
     @JDIAction @Override
     public void uncheck(Integer... indexes) {
         expand();
-        List<Integer> selected = where(indexes, this::isSelected);
-        select(toIntegerArray(selected));
+        assertLinked("list", "check");
+        ((CheckList)linked().get("list")).uncheck(indexes);
     }
 
     /**
@@ -84,7 +84,8 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
     @JDIAction @Override
     public List<String> areSelected() {
         expand();
-        return where((List<String>) getNames(), this::isSelected);
+        assertLinked("list", "check");
+        return ((CheckList)linked().get("list")).areSelected();
     }
     /**
      * @return Get names of unchecked options
@@ -92,7 +93,8 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
     @JDIAction @Override
     public List<String> areDeselected() {
         expand();
-        return where((List<String>) getNames(), name -> !isSelected(name));
+        assertLinked("list", "check");
+        return ((CheckList)linked().get("list")).areDeselected();
     }
 
 }

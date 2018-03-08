@@ -9,6 +9,7 @@ import com.epam.jdi.tools.func.JFunc;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.tools.logger.JDILogger;
 import com.epam.jdi.uitests.core.initialization.MapInterfaceToElement;
+import com.epam.jdi.uitests.core.interfaces.base.IClickable;
 import com.epam.jdi.uitests.core.interfaces.base.IElement;
 import com.epam.jdi.uitests.core.interfaces.common.*;
 import com.epam.jdi.uitests.core.interfaces.complex.*;
@@ -118,6 +119,7 @@ public class WebSettings extends JDISettings {
             {IElement.class, Element.class},
             //{SelenideElement.class, J.class},
             {WebElement.class, J.class},
+            {IClickable.class, Button.class},
             {IButton.class, Button.class},
             {IComboBox.class, ComboBox.class},
             {ILink.class, Link.class},

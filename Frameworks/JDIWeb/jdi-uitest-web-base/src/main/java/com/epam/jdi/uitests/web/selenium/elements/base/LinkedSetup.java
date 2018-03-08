@@ -47,17 +47,18 @@ public class LinkedSetup {
             if (expand == null)
                 el.linked().add("expander", eValue);
         }
-        if (list != null)
-            el.linked().add("list", new CheckList()
-                    .setLocator(list).setParent(el));
+        if (list != null) {
+            CheckList checklist = new CheckList().setLocator(list).setParent(el);
+            if (isSelected != null)
+                checklist.linked().add("isSelected", isSelected);
+            el.linked().add("list", checklist);
+        }
         if (expand != null) {
             Button eExpand = new Button().setLocator(expand).setParent(el);
             el.linked().add("expander", eExpand);
             if (value == null)
                 el.linked().add("value", eExpand);
         }
-        if (isSelected != null)
-            el.linked().add("isSelected", isSelected);
     }
     public static void setUpLinked(BaseElement parent, FindBy locator, String name) {
         setUpLinked(parent, locator, name, by -> new Button().setLocator(by));

@@ -15,7 +15,7 @@ public class LinkedElements {
     public LinkedElements() { linkedElements = new HashMap<>();}
     public LinkedElements(Map<String, Object> map) {
         this();
-        foreach(map, e -> add(e.getKey(), e.getValue()));
+        foreach(map, e -> add(e.getKey().toLowerCase(), e.getValue()));
     }
     protected Map<String, Object> linkedElements = new HashMap<>();
     public Object get(String name) {
@@ -28,7 +28,7 @@ public class LinkedElements {
         return !isEmpty();
     }
     public boolean has(String name) {
-        return linkedElements.containsKey(name);
+        return linkedElements.containsKey(name.toLowerCase());
     }
     public void add(String name, Object element) {
         linkedElements.put(name.toLowerCase(), element);

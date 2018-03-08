@@ -25,8 +25,7 @@ import static com.epam.jdi.tools.ReflectionUtils.getFields;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.tools.StringUtils.msgFormat;
 import static com.epam.jdi.tools.StringUtils.splitLowerCase;
-import static com.epam.jdi.tools.Switch.Case;
-import static com.epam.jdi.tools.Switch.Default;
+import static com.epam.jdi.tools.Switch.*;
 import static com.epam.jdi.tools.logger.LogLevels.*;
 import static com.epam.jdi.tools.map.MapArray.pairs;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
@@ -131,18 +130,44 @@ public class ActionProcessor {
                 Case(t -> t.contains("{0"), t -> MessageFormat.format(t, joinPoint.getArgs())),
                 Case(t -> t.contains("{"), t -> {
                     MapArray obj = new MapArray<>("this", getElementName(joinPoint));
-                    MapArray args = new MapArray<>(method.getParameterNames(), joinPoint.getArgs());
-                    MapArray fields = new MapArray<>(getThisFields(joinPoint), Field::getName, value -> getValueField(value, joinPoint.getThis()));
-                    return getActionName(method, t, obj, args, fields);
+                    return getActionName(method, t, obj, methodArgs(joinPoint, method), classFields(joinPoint));
                 }),
                 Case(t -> t.contains("%s"), t -> format(t, joinPoint.getArgs())),
-                Default(template)
+                Default(t -> {
+                    MapArray<String, Object> args = methodArgs(joinPoint, method);
+                    if (args.size() == 1 && args.get(0).value.getClass().isArray())
+                        return format("%s(%s)", t, arrayToString(args.get(0).value));
+                    MapArray<String, String> methodArgs = args.toMapArray(Object::toString);
+                    String stringArgs = Switch(methodArgs.size()).get(
+                        Value(0, ""),
+                        Value(1, v->"("+methodArgs.get(0).value+")"),
+                        Default(v->"("+methodArgs.toString()+")")
+                    );
+                    return format("%s%s", t, stringArgs);
+                })
             );
         } catch (Exception ex) {
             throw new RuntimeException("Surround method issue: " +
                     "Can't get action name: " + ex.getMessage());
         }
     }
+    static String arrayToString(Object array) {
+        String result = "";
+        boolean first = true;
+        for(Object a : (Object[])array) {
+            if (first) first = false;
+            else result += ",";
+            result += a.toString();
+        }
+        return result;
+    }
+    static MapArray<String, Object> methodArgs(JoinPoint joinPoint, MethodSignature method) {
+        return new MapArray<>(method.getParameterNames(), joinPoint.getArgs());
+    }
+    static MapArray<String, Object> classFields(JoinPoint joinPoint) {
+        return new MapArray<>(getThisFields(joinPoint), Field::getName, value -> getValueField(value, joinPoint.getThis()));
+    }
+
     static String getElementName(JoinPoint joinPoint) {
         Object obj = joinPoint.getThis();
         return obj != null

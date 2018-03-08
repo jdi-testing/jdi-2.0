@@ -123,9 +123,11 @@ public class WebPage extends BaseElement implements IPage {
     public void shouldBeOpened() {
         try {
             logger.info(format("Page '%s' should be opened", getName()));
-            if (isOpened()) return;
-            open();
-            checkOpened();
+            logger.logOff(() -> {
+                if (isOpened()) return;
+                open();
+                checkOpened();
+            });
         } catch (Exception ex) {
             throw exception(format("Can't open page '%s'. Reason: %s", getName(), ex.getMessage()));
         }

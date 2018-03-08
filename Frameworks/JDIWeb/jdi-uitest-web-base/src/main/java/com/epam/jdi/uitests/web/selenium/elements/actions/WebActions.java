@@ -110,10 +110,10 @@ public abstract class WebActions {
 
     public static void initComplexActions() {
         isSelected = (o, name) -> {
-            WebElement element = first(webElements(o), ((BaseSelector) o)::isSelected);
+            WebElement element = first(webElements(o), el -> el.getText().equals(name));
             if (element == null)
                 throw exception("No elements selected (search for '%s'). Override getSelectedAction or place locator to <select> tag", name);
-            return element.getText().equals(name);
+            return ((BaseSelector)o).isSelected(element);
         };
         isSelectedByIndex = (o, index) -> {
             if (index <= 0)
