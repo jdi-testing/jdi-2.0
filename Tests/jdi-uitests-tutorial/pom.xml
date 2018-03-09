@@ -7,12 +7,12 @@
     <parent>
         <groupId>com.epam.jdi</groupId>
         <artifactId>jdi-opensource</artifactId>
-        <version>2.0.14</version>
+        <version>2.0.18</version>
         <relativePath>../..</relativePath>
     </parent>
 
     <artifactId>jdi-uitest-tutorialtests</artifactId>
-    <name>EPAM JDI UI Testing Tutorial Tests</name>
+    <name>JDI UI Testing Tutorial Tests</name>
 
     <properties>
         <driver>chrome</driver>
