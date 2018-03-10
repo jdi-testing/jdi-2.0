@@ -26,6 +26,6 @@ public class FormsTests extends SimpleTestsInit {
         contactFormPage.shouldBeOpened();
         contactFormPage.checkOpened();
         contactFormPage.main.contactForm.submit(USER_WITH_CONTACTS);
-        contactFormPage.main.contactForm.verify(USER_WITH_CONTACTS);
+        contactFormPage.main.contactForm.check(USER_WITH_CONTACTS);
     }
 }

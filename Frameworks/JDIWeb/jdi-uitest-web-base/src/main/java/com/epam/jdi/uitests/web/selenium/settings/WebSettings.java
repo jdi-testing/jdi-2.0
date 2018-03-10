@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.epam.jdi.tools.PropertyReader.fillAction;
+import static com.epam.jdi.uitests.web.selenium.driver.ScreenshotMaker.screensPath;
 import static com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverData.DRIVER_VERSION;
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
@@ -79,6 +80,7 @@ public class WebSettings extends JDISettings {
         fillAction(p -> domain = p, "domain");
         fillAction(p -> DRIVER_VERSION = p, "drivers.version");
         fillAction(driverFactory::setDriverPath, "drivers.folder");
+        fillAction(p -> screensPath = p, "screens.folder");
         fillAction(p -> driverFactory.getLatestDriver =
                 p.toLowerCase().equals("true") || p.toLowerCase().equals("1"), "driver.getLatest");
         fillAction(p -> asserter.doScreenshot(p), "screenshot.strategy");

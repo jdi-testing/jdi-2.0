@@ -30,7 +30,7 @@ public interface IDropList<TEnum extends Enum>
     }
     @Override
     default void setValue(String value) {
-        select(value.split(getSeparator()));
+        check(value.split(getSeparator()));
     }
 
     @Override @JDIAction

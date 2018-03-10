@@ -20,7 +20,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.openqa.selenium.OutputType.FILE;
 
 public class ScreenshotMaker {
-    public static String screensPath = "/.logs/images/";
+    public static String screensPath = "src/test/java/.logs/images/";
     public String pathSuffix = screensPath;
 
     public ScreenshotMaker() {

@@ -15,9 +15,6 @@ import org.openqa.selenium.WebElement;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static com.epam.jdi.tools.LinqUtils.toIntegerArray;
-import static com.epam.jdi.tools.LinqUtils.toStringArray;
-import static com.epam.jdi.tools.LinqUtils.where;
 import static com.epam.jdi.uitests.web.selenium.elements.base.LinkedSetup.setupDropList;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;

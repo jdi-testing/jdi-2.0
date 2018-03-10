@@ -14,6 +14,6 @@ public class Users {
         u.description = "JDI - awesome UI autoamtion tool";
         u.gender = "Female";
         u.religion = "Other";
-        u.wheather = "Snow, Sun";
+        u.wheather = "Sun, Snow";
     });
 }
