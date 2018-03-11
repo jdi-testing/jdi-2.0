@@ -77,6 +77,9 @@ public class WebSettings extends JDISettings {
     public static synchronized void initFromProperties() {
         init();
         JDISettings.initFromProperties();
+        fillAction(driverFactory::setRunType, "run.type");
+        fillAction(driverFactory::setHubUrl, "hub.url");
+        fillAction(driverFactory::setDownloadsDir, "download.default_directory");
         fillAction(p -> domain = p, "domain");
         fillAction(p -> DRIVER_VERSION = p, "drivers.version");
         fillAction(driverFactory::setDriverPath, "drivers.folder");
