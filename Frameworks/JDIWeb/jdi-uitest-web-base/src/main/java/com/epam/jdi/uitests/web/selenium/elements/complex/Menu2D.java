@@ -23,7 +23,7 @@ import static com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils.fillByTe
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;
 
 public class Menu2D<TEnum extends Enum> extends Selector<TEnum> implements IMenu2D<TEnum> {
-    public String getSeparator() { return separator; }
+    public String getSeparator() { return  separator; }
     public JAction2<Integer, String> getNavigationAction() {
         return navigationAction;
     }

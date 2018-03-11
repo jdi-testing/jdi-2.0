@@ -5,19 +5,12 @@ package com.epam.jdi.uitests.core.interfaces.complex;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import com.epam.jdi.tools.EnumUtils;
-import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 
 import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.*;
-import static com.epam.jdi.tools.LinqUtils.toStringArray;
-import static com.epam.jdi.tools.PrintUtils.print;
-import static com.epam.jdi.uitests.core.actions.base.ElementActions.wait;
-import static com.epam.jdi.uitests.core.actions.complex.ListSelectActions.select;
-import static com.epam.jdi.uitests.core.actions.complex.ListSelectActions.selectByIndex;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelected;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelectedByIndex;
 
@@ -37,7 +30,7 @@ public interface IDropList<TEnum extends Enum>
     }
     @Override
     default void setValue(String value) {
-        select(value.split(getSeparator()));
+        check(value.split(getSeparator()));
     }
 
     @Override @JDIAction

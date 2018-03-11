@@ -7,6 +7,7 @@ package com.epam.jdi.uitests.core.interfaces.complex;
 
 import com.epam.jdi.tools.EnumUtils;
 import com.epam.jdi.tools.LinqUtils;
+import com.epam.jdi.tools.func.JFunc2;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import static com.epam.jdi.uitests.core.actions.complex.ListSelectActions.select
 import static com.epam.jdi.uitests.core.actions.complex.ListSelectActions.selectByIndex;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelected;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelectedByIndex;
+import static java.util.Arrays.asList;
 
 public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     default void expand() {}
@@ -51,8 +53,11 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     @JDIAction
     default void check(String... names) {
         expand();
-        List<String> deselected = where(names, name -> !isSelected.execute(this, name));
-        select(toStringArray(deselected));
+        List<String> options = getOptions();
+        for (String o : options)
+            if (asList(names).contains(o) && !isSelected(o)
+                    || !asList(names).contains(o) && isSelected(o))
+                select(o);
     }
 
     /**
@@ -71,8 +76,10 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     @JDIAction
     default void check(Integer... indexes) {
         expand();
-        List<Integer> deselected = where(indexes, index -> !isSelectedByIndex.execute(this, index));
-        select(toIntegerArray(deselected));
+        for (int i=0; i <= getOptions().size(); i++)
+            if (asList(indexes).contains(i) && !isSelected(i)
+                    || !asList(indexes).contains(i) && isSelected(i))
+                select(i);
     }
 
     /**
@@ -82,8 +89,11 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     @JDIAction
     default void uncheck(String... names) {
         expand();
-        List<String> selected = where(names, name -> isSelected.execute(this, name));
-        select(toStringArray(selected));
+        List<String> options = getOptions();
+        for (String o : options)
+            if (asList(names).contains(o) && isSelected(o)
+            || !asList(names).contains(o) && !isSelected(o))
+                select(o);
     }
 
     /**
@@ -102,9 +112,10 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     @JDIAction
     default void uncheck(Integer... indexes) {
         expand();
-        List<Integer> selected = where(indexes,
-                index -> isSelectedByIndex.execute(this, index));
-        select(toIntegerArray(selected));
+        for (int i=0; i <= getOptions().size(); i++)
+            if (asList(indexes).contains(i) && isSelected(i)
+            || !asList(indexes).contains(i) && !isSelected(i))
+                select(i);
     }
 
     /**
@@ -143,9 +154,9 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     default List<String> areDeselected() {
         expand();
         return where((List<String>) getNames(),
-                name -> !isSelected.execute(this, name));
+                name -> !isChecked.execute(this, name));
     }
-
+    JFunc2<Object, String, Boolean> isChecked = isSelected;
     /**
      * @param names Specify names
      * Wait while all options with names (use text) deselected. Return false if this not happens

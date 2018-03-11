@@ -37,7 +37,8 @@ public class LinkedSetup {
         }
     }
 
-    public static void setupDropList(BaseElement el, By root, By value, By list, By expand) {
+    public static void setupDropList(BaseElement el, By root, By value,
+             By list, By expand, By isSelected) {
         if (root != null)
             el.setLocator(root);
         if (value != null) {
@@ -46,9 +47,12 @@ public class LinkedSetup {
             if (expand == null)
                 el.linked().add("expander", eValue);
         }
-        if (list != null)
-            el.linked().add("list", new CheckList()
-                    .setLocator(list).setParent(el));
+        if (list != null) {
+            CheckList checklist = new CheckList().setLocator(list).setParent(el);
+            if (isSelected != null)
+                checklist.linked().add("isSelected", isSelected);
+            el.linked().add("list", checklist);
+        }
         if (expand != null) {
             Button eExpand = new Button().setLocator(expand).setParent(el);
             el.linked().add("expander", eExpand);

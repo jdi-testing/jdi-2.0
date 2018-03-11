@@ -19,4 +19,5 @@ public @interface JDropList {
     FindBy list() default  @FindBy();
     FindBy value() default @FindBy();
     FindBy expand() default @FindBy();
+    FindBy isselected() default @FindBy();
 }

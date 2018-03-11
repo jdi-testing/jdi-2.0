@@ -21,9 +21,9 @@ import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static java.lang.String.format;
 
 public interface IBaseSelector<TEnum extends Enum> extends IBaseElement, ISetValue {
-    default void assertLinked(String name, String action) {
+    default void assertLinked(String name, String actionName) {
         if (!linked().has(name))
-            throw exception(format("You must specify '%s' in Dropdown annotation in order to perform %s action", name, action));
+            throw exception(format("You must specify '%s' in Dropdown annotation in order to perform %s action", name, actionName));
     }
     /**
      * @return Get labels of all options (same as getValues, getLabels and getNames)

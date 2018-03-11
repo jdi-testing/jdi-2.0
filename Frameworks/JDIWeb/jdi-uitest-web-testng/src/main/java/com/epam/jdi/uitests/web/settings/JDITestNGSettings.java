@@ -21,7 +21,7 @@ public class JDITestNGSettings extends WebSettings {
         logger = TestNGLogger.instance("JDI");
         asserter = new TestNGCheck().setUpLogger(logger);
         setMatcher((BaseMatcher) asserter);
-        asserter.doScreenshot("screen_on_fail");
+        asserter.doScreenshot("no_screen");
         screenshotAction = ScreenshotMaker::doScreenshotGetMessage;
         timeouts = new WebTimeoutSettings();
     }

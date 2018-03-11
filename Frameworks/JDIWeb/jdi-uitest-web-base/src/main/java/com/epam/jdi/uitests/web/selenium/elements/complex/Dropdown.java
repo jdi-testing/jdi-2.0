@@ -14,7 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.web.selenium.elements.base.LinkedSetup.setupDropElement;

@@ -6,7 +6,7 @@
 
 	<groupId>com.epam.jdi</groupId>
 	<artifactId>jdi-opensource</artifactId>
-	<version>2.0.13</version>
+	<version>2.0.18</version>
     <packaging>pom</packaging>
     <name>JDI UI projects</name>
 
@@ -27,6 +27,7 @@
 
         <module>Tests/jdi-uitests-tutorial</module>
         <module>Tests/jdi-uitests-unittests</module>
+        <module>Tests/jdi-webTests</module>
     </modules>
     <build>
         <plugins>

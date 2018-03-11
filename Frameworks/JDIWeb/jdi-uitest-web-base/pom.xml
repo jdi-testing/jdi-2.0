@@ -5,13 +5,13 @@
     <parent>
         <groupId>com.epam.jdi</groupId>
         <artifactId>jdi-opensource</artifactId>
-        <version>2.0.13</version>
+        <version>2.0.18</version>
         <relativePath>../../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jdi-web-base</artifactId>
-    <name>EPAM JDI UI testing Web Base</name>
+    <name>JDI UI testing Web Base</name>
     <packaging>jar</packaging>
 
     <dependencies>

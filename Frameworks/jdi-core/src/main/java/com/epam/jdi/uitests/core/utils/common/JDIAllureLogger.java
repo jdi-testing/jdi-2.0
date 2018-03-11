@@ -9,8 +9,8 @@ import com.epam.jdi.tools.logger.JDILogger;
 import ru.yandex.qatools.allure.events.StepFinishedEvent;
 import ru.yandex.qatools.allure.events.StepStartedEvent;
 
-import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.tools.StringUtils.format;
+import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static ru.yandex.qatools.allure.Allure.LIFECYCLE;
 
 public class JDIAllureLogger extends JDILogger {

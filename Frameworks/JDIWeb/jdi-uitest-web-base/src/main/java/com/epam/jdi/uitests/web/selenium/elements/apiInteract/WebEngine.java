@@ -9,7 +9,6 @@ import com.epam.jdi.tools.CacheValue;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IEngine;
-import com.epam.jdi.uitests.core.settings.JDISettings;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import org.openqa.selenium.By;
@@ -23,6 +22,7 @@ import java.util.Objects;
 
 import static com.epam.jdi.tools.LinqUtils.where;
 import static com.epam.jdi.tools.ReflectionUtils.isClass;
+import static com.epam.jdi.tools.StringUtils.format;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
 import static com.epam.jdi.uitests.core.templates.base.TBaseElement.FAILED_TO_FIND_ELEMENT_MESSAGE;
 import static com.epam.jdi.uitests.core.templates.base.TBaseElement.FIND_TO_MUCH_ELEMENTS_MESSAGE;
@@ -31,10 +31,8 @@ import static com.epam.jdi.uitests.web.selenium.elements.apiInteract.LocatorType
 import static com.epam.jdi.uitests.web.selenium.elements.apiInteract.LocatorType.FRAME;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriverFactory;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.hasDomain;
-import static com.epam.jdi.tools.StringUtils.format;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
-import static org.apache.commons.lang3.ArrayUtils.remove;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class WebEngine implements IEngine {

@@ -7,6 +7,7 @@ package com.epam.jdi.uitests.web.selenium.elements.actions;
 
 import com.epam.jdi.uitests.core.actions.base.ElementActions;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
+import com.epam.jdi.uitests.web.selenium.elements.complex.BaseSelector;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.Cell;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -109,12 +110,10 @@ public abstract class WebActions {
 
     public static void initComplexActions() {
         isSelected = (o, name) -> {
-            WebElement element = first(webElements(o), el -> WebStatic.isSelected(el));
+            WebElement element = first(webElements(o), el -> el.getText().equals(name));
             if (element == null)
                 throw exception("No elements selected (search for '%s'). Override getSelectedAction or place locator to <select> tag", name);
-            // TODO DEMO MODE
-            // new Element().setWebElement(element).invoker.processDemoMode();
-            return element.getText().equals(name);
+            return ((BaseSelector)o).isSelected(element);
         };
         isSelectedByIndex = (o, index) -> {
             if (index <= 0)
@@ -122,11 +121,9 @@ public abstract class WebActions {
             List<WebElement> els = webElements(o);
             if (index > els.size())
                 throw exception("Check isSelected by index failed. Index '%s' more than amount of found element '%s' less than ", index, els.size());
-            int firstIndex = firstIndex(els, WebStatic::isSelected) + 1;
+            int firstIndex = firstIndex(els, ((BaseSelector) o)::isSelected) + 1;
             if (firstIndex == 0)
                 throw exception("No elements selected (search for '%s'). Override getSelectedAction or place locator to <select> tag", index);
-            // TODO DEMO MODE
-            // new Element().setWebElement(webElements(o).get(firstIndex)).invoker.processDemoMode();
             return firstIndex == index;
         };
         getSelected = o -> first(webElements(o), WebStatic::isSelected).getText();
