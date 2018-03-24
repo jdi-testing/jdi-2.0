@@ -47,7 +47,7 @@ public interface IPagination extends IBaseElement, IComposite {
      * Get Selected page index
      */
     @JDIAction
-    default int pageIndex() {
+    default int selectedPage() {
         return ((ISelector)linked().get("page")).getSelectedIndex();
     }
 }
