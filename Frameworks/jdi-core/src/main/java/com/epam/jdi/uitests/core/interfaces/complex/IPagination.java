@@ -24,7 +24,7 @@ public interface IPagination extends IBaseElement, IComposite {
     default void previous() { ((IClickable)linked().get("prev")).click(); }
 
     /**
-     * hoose First page
+     * Choose First page
      */
     @JDIAction
     default void first() { ((IClickable)linked().get("first")).click(); }
@@ -42,5 +42,12 @@ public interface IPagination extends IBaseElement, IComposite {
     @JDIAction
     default void selectPage(int index) {
         ((ISelector)linked().get("page")).select(index);
+    }
+    /**
+     * Get Selected page index
+     */
+    @JDIAction
+    default int pageIndex() {
+        return ((ISelector)linked().get("page")).getSelectedIndex();
     }
 }
