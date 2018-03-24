@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.epam.jdi</groupId>
         <artifactId>jdi-opensource</artifactId>
-        <version>2.0.18</version>
+        <version>RELEASE</version>
         <relativePath>../..</relativePath>
     </parent>
 
@@ -28,18 +28,18 @@
         <dependency>
             <groupId>ru.yandex.qatools.allure</groupId>
             <artifactId>allure-testng-adaptor</artifactId>
-            <version>LATEST</version>
+            <version>RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>LATEST</version>
+            <version>RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>LATEST</version>
+            <version>RELEASE</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
