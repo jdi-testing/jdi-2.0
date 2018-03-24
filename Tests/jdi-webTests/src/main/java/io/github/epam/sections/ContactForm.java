@@ -1,13 +1,19 @@
 package io.github.epam.sections;
 
-import com.epam.jdi.uitests.web.selenium.elements.common.*;
-import com.epam.jdi.uitests.web.selenium.elements.complex.*;
-import com.epam.jdi.uitests.web.selenium.elements.composite.*;
-import com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;
+import com.epam.jdi.uitests.web.selenium.elements.common.Button;
+import com.epam.jdi.uitests.web.selenium.elements.common.CheckBox;
+import com.epam.jdi.uitests.web.selenium.elements.common.TextArea;
+import com.epam.jdi.uitests.web.selenium.elements.common.TextField;
+import com.epam.jdi.uitests.web.selenium.elements.complex.ComboBox;
+import com.epam.jdi.uitests.web.selenium.elements.complex.DropList;
+import com.epam.jdi.uitests.web.selenium.elements.complex.Dropdown;
+import com.epam.jdi.uitests.web.selenium.elements.composite.Form;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
-import io.github.epam.entities.*;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JComboBox;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JDropList;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.XPath;
+import io.github.epam.entities.User;
 
 public class ContactForm extends Form<User> {
 	@Css("select[ui=dropdown]") public Dropdown gender;

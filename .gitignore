@@ -3,5 +3,6 @@
 target/
 *.zip
 *.exe
+.log
 .logs/
 *.xlsx

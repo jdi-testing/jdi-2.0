@@ -1,6 +1,5 @@
 package io.github.epam;
 
-import com.epam.jdi.tools.logger.LogLevels;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGBase;
 import com.google.GoogleSite;

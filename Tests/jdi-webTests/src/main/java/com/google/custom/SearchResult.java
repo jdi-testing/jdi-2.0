@@ -6,9 +6,8 @@ import com.epam.jdi.uitests.core.interfaces.common.ILink;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 import com.epam.jdi.uitests.web.selenium.elements.composite.Section;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
-import com.epam.jdi.uitests.web.selenium.settings.WebSettings;
 
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.*;
+import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.logger;
 
 /**
  * Created by Roman_Iovlev on 8/23/2017.

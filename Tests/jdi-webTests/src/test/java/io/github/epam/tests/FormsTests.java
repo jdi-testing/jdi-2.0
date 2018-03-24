@@ -3,9 +3,7 @@ package io.github.epam.tests;
 import io.github.epam.SimpleTestsInit;
 import org.testng.annotations.Test;
 
-import static io.github.epam.EpamGithubSite.contactFormPage;
-import static io.github.epam.EpamGithubSite.header;
-import static io.github.epam.EpamGithubSite.homePage;
+import static io.github.epam.EpamGithubSite.*;
 import static io.github.epam.entities.Users.DEFAULT_USER;
 import static io.github.epam.entities.Users.USER_WITH_CONTACTS;
 import static io.github.epam.steps.Preconditions.loggedIn;

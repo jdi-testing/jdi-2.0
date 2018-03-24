@@ -18,7 +18,6 @@ import static com.epam.jdi.uitests.core.actions.base.ElementActions.wait;
 import static com.epam.jdi.uitests.core.actions.complex.ListSelectActions.select;
 import static com.epam.jdi.uitests.core.actions.complex.ListSelectActions.selectByIndex;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelected;
-import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelectedByIndex;
 import static java.util.Arrays.asList;
 
 public interface IListSelector<TEnum extends Enum> extends IBaseSelector {

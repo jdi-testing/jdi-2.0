@@ -22,18 +22,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -44,33 +40,32 @@ import static com.epam.jdi.tools.LinqUtils.any;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes.*;
-import static com.epam.jdi.uitests.web.selenium.driver.get.driver.RunTypes.*;
+import static com.epam.jdi.uitests.web.selenium.driver.get.driver.RunTypes.LOCAL;
+import static com.epam.jdi.uitests.web.selenium.driver.get.driver.RunTypes.REMOTE;
 import static java.io.File.separator;
 import static java.lang.String.format;
 import static java.lang.System.setProperty;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
-import static org.openqa.selenium.ie.InternetExplorerDriver.*;
-import static org.openqa.selenium.ie.InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING;
-import static org.openqa.selenium.remote.CapabilityType.*;
+import static org.openqa.selenium.ie.InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS;
+import static org.openqa.selenium.remote.CapabilityType.PAGE_LOAD_STRATEGY;
 
 public class WebDriverFactory {
     public static JFunc1<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
     public static boolean onlyOneElementAllowedInSearch = true;
-    static final String FOLDER_PATH = MessageFormat.format("{0}{1}src{1}main{1}resources{1}driver{1}",
-            new File("").getAbsolutePath(), separator);
+    static final String FOLDER_PATH = new File("").getAbsolutePath() + "\\src\\main\\resources\\driver\\";
     public Boolean getLatestDriver = false;
     public static String currentDriverName = "CHROME";
     public boolean isDemoMode = false;
     public String pageLoadStrategy = "normal";
     private String driversPath = FOLDER_PATH;
-    private MapArray<String, JFunc<WebDriver>> drivers = new MapArray<>();
-    private ThreadLocal<MapArray<String, WebDriver>> runDrivers = new ThreadLocal<>();
     private RunTypes runType = LOCAL;
-    private URL hubUrl;
+    private String hubUrl = "http://127.0.0.1:4444/wd/hub";
     static final String DOWNLOADS_DIR = MessageFormat.format("{0}{1}src{1}test{1}resources{1}downloads",
             Paths.get("").toAbsolutePath(), separator);
     private Path downloadsDir = Paths.get(DOWNLOADS_DIR);
+    private MapArray<String, JFunc<WebDriver>> drivers = new MapArray<>();
+    private ThreadLocal<MapArray<String, WebDriver>> runDrivers = new ThreadLocal<>();
 
     public WebDriverFactory() {
         elementSearchCriteria = WebElement::isDisplayed;
@@ -137,11 +132,16 @@ public class WebDriverFactory {
             case "ie":
             case "internetexplorer":
                 return registerDriver(IE);
+            case "edge":
+                return registerDriver(EDGE);
+            case "phantom":
+                return registerDriver(PHANTOMJS);
+            case "opera":
+                return registerDriver(OPERA);
             default:
                 throw exception("Unknown driver: " + driverName);
         }
     }
-
     public void setRunType(String runType) {
         switch (runType.toLowerCase()) {
             case "local":
@@ -152,24 +152,10 @@ public class WebDriverFactory {
                 break;
         }
     }
-    public void setHubUrl(String hubUrl) {
-        if (hubUrl == null || hubUrl.isEmpty()) hubUrl = "http://127.0.0.1:4444/wd/hub";
-        try {
-            this.hubUrl = new URL(hubUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-    }
+    public void setHubUrl(String hubUrl) { this.hubUrl = hubUrl; }
+
     public void setDownloadsDir(String downloadsDir){
         this.downloadsDir = Paths.get(downloadsDir);
-    }
-
-    private WebDriver initRemoteChromeDriver() {
-        setProperty("webdriver.chrome.driver", getDriverPath("chromedriver", driversPath));
-        if (getLatestDriver) {
-            ChromeDriverManager.getInstance().setup();
-        }
-        return webDriverSettings.apply(new RemoteWebDriver(hubUrl, defaultChromeOptions()));
     }
 
     private WebDriver initChromeDriver() {
@@ -178,38 +164,19 @@ public class WebDriverFactory {
                 ? initChrome()
                 : new ChromeDriver(defaultChromeOptions()));
     }
-
     private WebDriver initFirefoxDriver() {
         setProperty("webdriver.gecko.driver", getDriverPath("geckodriver", driversPath));
         return webDriverSettings.apply(getLatestDriver
                 ? initFirefox()
                 : new FirefoxDriver(defaultFirefoxOptions()));
     }
-
-    private WebDriver initRemoteFirefoxDriver() {
-        setProperty("webdriver.gecko.driver", getDriverPath("geckodriver", driversPath));
-        if (getLatestDriver) {
-            FirefoxDriverManager.getInstance().arch32().setup();
-        }
-        return webDriverSettings.apply(new RemoteWebDriver(hubUrl, defaultFirefoxOptions()));
-    }
-
     private WebDriver initIEDriver() {
         setProperty("webdriver.ie.driver", getIEDriverPath(driversPath));
         return webDriverSettings.apply(getLatestDriver
                 ? initIE()
                 : new InternetExplorerDriver(defaultIEOptions()));
     }
-
-    private WebDriver initRemoteIEDriver() {
-        setProperty("webdriver.ie.driver", getIEDriverPath(driversPath));
-        if (getLatestDriver) {
-            InternetExplorerDriverManager.getInstance().setup();
-        }
-        return webDriverSettings.apply(new RemoteWebDriver(hubUrl, defaultIEOptions()));
-    }
-
-    public String registerLocalDriver(DriverTypes driverType) {
+    public String registerDriver(DriverTypes driverType) {
         switch (driverType) {
             case CHROME:
                 return registerDriver(driverType, this::initChromeDriver);
@@ -221,86 +188,30 @@ public class WebDriverFactory {
         throw exception("Unknown driver: " + driverType);
     }
 
-    public String registerRemoteDriver(DriverTypes driverType) {
-        switch (driverType) {
-            case CHROME:
-                return registerDriver(driverType, this::initRemoteChromeDriver);
-            case FIREFOX:
-                return registerDriver(driverType, this::initRemoteFirefoxDriver);
-            case IE:
-                return registerDriver(driverType, this::initRemoteIEDriver);
-        }
-        throw exception("Unknown driver: " + driverType);
-    }
-
-    public String registerDriver(DriverTypes driverType) {
-        switch (runType) {
-            case LOCAL:
-                return registerLocalDriver(driverType);
-            case REMOTE:
-                return registerRemoteDriver(driverType);
-        }
-        throw exception("Unknown driver: " + driverType);
-    }
-
     // GET DRIVER
     private FirefoxOptions defaultFirefoxOptions() {
-        FirefoxProfile firefoxProfile = new FirefoxProfile();
-        firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
-        firefoxProfile.setPreference("browser.download.folderList", 2);
-        firefoxProfile.setPreference("browser.download.manager.showWhenStarting", false);
-        firefoxProfile.setPreference("browser.helperApps.alwaysAsk.force", false);
-        firefoxProfile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/xls;text/csv;text/plain");
-        firefoxProfile.setPreference("browser.download.dir", downloadsDir.toAbsolutePath().toString());
-        firefoxProfile.setPreference("print.always_print_silent", "true");
-        firefoxProfile.setPreference("print.show_print_progress", "false");
-        firefoxProfile.setPreference("browser.startup.homepage", "about:blank");
-        firefoxProfile.setPreference("startup.homepage_welcome_url", "about:blank");
-        firefoxProfile.setPreference("startup.homepage_welcome_url.additional", "about:blank");
-        firefoxProfile.setPreference("network.http.phishy-userpass-length", 255);
         FirefoxOptions cap = new FirefoxOptions();
         cap.setCapability(PAGE_LOAD_STRATEGY, pageLoadStrategy);
-        cap.setCapability(ACCEPT_SSL_CERTS, true);
-        cap.setProfile(firefoxProfile);
         return cap;
     }
-
     private ChromeOptions defaultChromeOptions() {
-        HashMap<String, Object> chromePrefs = new HashMap<>();
-        chromePrefs.put("credentials_enable_service", false);
-        chromePrefs.put("download.default_directory", downloadsDir.toAbsolutePath().toString());
-        chromePrefs.put("profile.default_content_setting_values.notifications", 0);
-        chromePrefs.put("profile.default_content_settings.popups", 0);
-        chromePrefs.put("profile.password_manager_enabled", false);
         ChromeOptions cap = new ChromeOptions();
-        cap.addArguments("--disable-web-security", "--disable-extensions", "test-type");
         cap.setCapability(PAGE_LOAD_STRATEGY, pageLoadStrategy);
-        cap.setCapability(ACCEPT_SSL_CERTS, true);
-        cap.setExperimentalOption("prefs", chromePrefs);
         return cap;
     }
-
     private InternetExplorerOptions defaultIEOptions() {
         InternetExplorerOptions cap = new InternetExplorerOptions();
-        cap.introduceFlakinessByIgnoringSecurityDomains();
+        cap.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
         cap.setCapability("ignoreZoomSetting", true);
         //cap.setCapability("requireWindowFocus", true);
         cap.setCapability(PAGE_LOAD_STRATEGY, pageLoadStrategy);
-        cap.takeFullPageScreenshot();
-        cap.setCapability(ACCEPT_SSL_CERTS, true);
-        cap.setCapability(IE_ENSURE_CLEAN_SESSION, true);
-        cap.setCapability(UNEXPECTED_ALERT_BEHAVIOR, true);
-        cap.setCapability(SUPPORTS_JAVASCRIPT, true);
-        cap.setCapability(NATIVE_EVENTS, false);
-        cap.setCapability(ENABLE_PERSISTENT_HOVERING, false);
         return cap;
     }
-
     public String registerDriver(DriverTypes driverType, JFunc<WebDriver> driver) {
         int numerator = 2;
         String driverName = driverType.toString();
         // TODO correct constant 100
-        while (drivers.keys().contains(driverName)) {
+        while (drivers.keys().contains(driverName)){
             driverName = driverType.toString() + numerator++;
             if (numerator == 100)
                 throw exception("Can't register driver " + driverType);
@@ -352,7 +263,8 @@ public class WebDriverFactory {
             if (any(asList("chrome", "internetexplorer"),
                     el -> driver.toString().toLowerCase().contains(el)))
                 driver.manage().window().maximize();
-        } else
+        }
+        else
             driver.manage().window().setSize(browserSizes);
         return driver;
     };

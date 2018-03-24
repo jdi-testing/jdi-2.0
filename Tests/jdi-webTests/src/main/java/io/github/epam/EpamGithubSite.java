@@ -1,10 +1,14 @@
 package io.github.epam;
+
 import com.epam.jdi.uitests.web.selenium.elements.complex.Menu;
+import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JPage;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
 import io.github.epam.enums.Navigation;
-import io.github.epam.pages.*;
-import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.*;
+import io.github.epam.pages.ContactFormPage;
+import io.github.epam.pages.HomePage;
+import io.github.epam.pages.MetalAndColorsPage;
 import io.github.epam.sections.Footer;
 import io.github.epam.sections.Header;
 import io.github.epam.sections.NavigationSidebar;
