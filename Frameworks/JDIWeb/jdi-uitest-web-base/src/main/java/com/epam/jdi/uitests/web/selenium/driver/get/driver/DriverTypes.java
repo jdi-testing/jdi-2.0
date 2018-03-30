@@ -8,8 +8,10 @@ package com.epam.jdi.uitests.web.selenium.driver.get.driver;
 public enum DriverTypes {
     CHROME("chrome"),
     FIREFOX("firefox"),
-    IE("ie");
-    // TODO add all selenium supported drivers
+    IE("ie"),
+    EDGE("edge"),
+    PHANTOMJS("phantom"),
+    OPERA("opera");
 
     public String name;
 

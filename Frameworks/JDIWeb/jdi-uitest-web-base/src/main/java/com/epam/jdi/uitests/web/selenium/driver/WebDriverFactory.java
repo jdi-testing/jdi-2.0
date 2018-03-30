@@ -27,6 +27,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -53,6 +54,7 @@ import static org.openqa.selenium.ie.InternetExplorerDriver.ENABLE_PERSISTENT_HO
 import static org.openqa.selenium.ie.InternetExplorerDriver.*;
 import static org.openqa.selenium.remote.CapabilityType.*;
 
+
 public class WebDriverFactory {
     public static JFunc1<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
     public static boolean onlyOneElementAllowedInSearch = true;
@@ -62,12 +64,12 @@ public class WebDriverFactory {
     public boolean isDemoMode = false;
     public String pageLoadStrategy = "normal";
     private String driversPath = FOLDER_PATH;
-    private MapArray<String, JFunc<WebDriver>> drivers = new MapArray<>();
-    private ThreadLocal<MapArray<String, WebDriver>> runDrivers = new ThreadLocal<>();
     private RunTypes runType = LOCAL;
-    private String hubUrl;
+    private String hubUrl = "http://127.0.0.1:4444/wd/hub";
     static final String DOWNLOADS_DIR = Paths.get("src","test","resources","downloads").toAbsolutePath().toString();
     private Path downloadsDir = Paths.get(DOWNLOADS_DIR);
+    private MapArray<String, JFunc<WebDriver>> drivers = new MapArray<>();
+    private ThreadLocal<MapArray<String, WebDriver>> runDrivers = new ThreadLocal<>();
 
     public WebDriverFactory() {
         elementSearchCriteria = WebElement::isDisplayed;
@@ -134,11 +136,16 @@ public class WebDriverFactory {
             case "ie":
             case "internetexplorer":
                 return registerDriver(IE);
+            case "edge":
+                return registerDriver(EDGE);
+            case "phantom":
+                return registerDriver(PHANTOMJS);
+            case "opera":
+                return registerDriver(OPERA);
             default:
                 throw exception("Unknown driver: " + driverName);
         }
     }
-
     public void setRunType(String runType) {
         switch (runType.toLowerCase()) {
             case "local":
@@ -149,10 +156,9 @@ public class WebDriverFactory {
                 break;
         }
     }
-    public void setHubUrl(String hubUrl) {
-        if (hubUrl == null || hubUrl.isEmpty()) hubUrl = "http://127.0.0.1:4444/wd/hub";
-            this.hubUrl = hubUrl;
-    }
+
+    public void setHubUrl(String hubUrl) { this.hubUrl = hubUrl; }
+
     public void setDownloadsDir(String downloadsDir){
         this.downloadsDir = Paths.get(downloadsDir);
     }
@@ -175,7 +181,6 @@ public class WebDriverFactory {
                 ? initChrome()
                 : new ChromeDriver(defaultChromeOptions()));
     }
-
     private WebDriver initFirefoxDriver() {
         setProperty("webdriver.gecko.driver", getDriverPath("geckodriver", driversPath));
         return webDriverSettings.apply(getLatestDriver
@@ -269,7 +274,6 @@ public class WebDriverFactory {
         cap.setProfile(firefoxProfile);
         return cap;
     }
-
     private ChromeOptions defaultChromeOptions() {
         HashMap<String, Object> chromePrefs = new HashMap<>();
         chromePrefs.put("credentials_enable_service", false);
@@ -284,7 +288,6 @@ public class WebDriverFactory {
         cap.setExperimentalOption("prefs", chromePrefs);
         return cap;
     }
-
     private InternetExplorerOptions defaultIEOptions() {
         InternetExplorerOptions cap = new InternetExplorerOptions();
         cap.introduceFlakinessByIgnoringSecurityDomains();
@@ -300,12 +303,11 @@ public class WebDriverFactory {
         cap.setCapability(ENABLE_PERSISTENT_HOVERING, false);
         return cap;
     }
-
     public String registerDriver(DriverTypes driverType, JFunc<WebDriver> driver) {
         int numerator = 2;
         String driverName = driverType.toString();
         // TODO correct constant 100
-        while (drivers.keys().contains(driverName)) {
+        while (drivers.keys().contains(driverName)){
             driverName = driverType.toString() + numerator++;
             if (numerator == 100)
                 throw exception("Can't register driver " + driverType);
@@ -357,7 +359,8 @@ public class WebDriverFactory {
             if (any(asList("chrome", "internetexplorer"),
                     el -> driver.toString().toLowerCase().contains(el)))
                 driver.manage().window().maximize();
-        } else
+        }
+        else
             driver.manage().window().setSize(browserSizes);
         return driver;
     };

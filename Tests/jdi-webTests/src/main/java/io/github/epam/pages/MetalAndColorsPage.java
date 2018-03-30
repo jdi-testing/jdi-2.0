@@ -1,17 +1,21 @@
 package io.github.epam.pages;
 
-import com.epam.jdi.uitests.web.selenium.elements.common.*;
-import com.epam.jdi.uitests.web.selenium.elements.complex.*;
-import com.epam.jdi.uitests.web.selenium.elements.composite.*;
+import com.epam.jdi.uitests.web.selenium.elements.common.Button;
+import com.epam.jdi.uitests.web.selenium.elements.common.CheckBox;
+import com.epam.jdi.uitests.web.selenium.elements.complex.ComboBox;
+import com.epam.jdi.uitests.web.selenium.elements.complex.DropList;
+import com.epam.jdi.uitests.web.selenium.elements.complex.Dropdown;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebPage;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.*;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.*;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JComboBox;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JDropList;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JDropdown;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
+import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.XPath;
 import io.github.epam.enums.ColorsList;
 import io.github.epam.enums.Metals;
 import io.github.epam.enums.Vegetables;
-import io.github.epam.sections.*;
-import org.openqa.selenium.support.Colors;
+import io.github.epam.sections.LogSidebar;
 
 public class MetalAndColorsPage extends WebPage {
 	@Css(".uui-side-bar[name='log-sidebar']") public LogSidebar logSidebar;
