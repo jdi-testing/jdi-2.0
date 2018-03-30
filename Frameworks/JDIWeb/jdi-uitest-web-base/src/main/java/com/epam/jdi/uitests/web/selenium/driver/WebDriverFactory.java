@@ -27,12 +27,10 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -44,14 +42,15 @@ import static com.epam.jdi.tools.LinqUtils.any;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes.*;
-import static com.epam.jdi.uitests.web.selenium.driver.get.driver.RunTypes.*;
+import static com.epam.jdi.uitests.web.selenium.driver.get.driver.RunTypes.LOCAL;
+import static com.epam.jdi.uitests.web.selenium.driver.get.driver.RunTypes.REMOTE;
 import static java.io.File.separator;
 import static java.lang.String.format;
 import static java.lang.System.setProperty;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
-import static org.openqa.selenium.ie.InternetExplorerDriver.*;
 import static org.openqa.selenium.ie.InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING;
+import static org.openqa.selenium.ie.InternetExplorerDriver.*;
 import static org.openqa.selenium.remote.CapabilityType.*;
 
 public class WebDriverFactory {
