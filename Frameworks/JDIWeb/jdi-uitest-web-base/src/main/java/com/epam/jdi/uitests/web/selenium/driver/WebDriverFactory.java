@@ -57,8 +57,7 @@ import static org.openqa.selenium.remote.CapabilityType.*;
 public class WebDriverFactory {
     public static JFunc1<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
     public static boolean onlyOneElementAllowedInSearch = true;
-    static final String FOLDER_PATH = MessageFormat.format("{0}{1}src{1}main{1}resources{1}driver{1}",
-            new File("").getAbsolutePath(), separator);
+    static final String FOLDER_PATH = Paths.get("src","main","resources","driver").toAbsolutePath().toString();
     public Boolean getLatestDriver = false;
     public static String currentDriverName = "CHROME";
     public boolean isDemoMode = false;
@@ -67,9 +66,8 @@ public class WebDriverFactory {
     private MapArray<String, JFunc<WebDriver>> drivers = new MapArray<>();
     private ThreadLocal<MapArray<String, WebDriver>> runDrivers = new ThreadLocal<>();
     private RunTypes runType = LOCAL;
-    private URL hubUrl;
-    static final String DOWNLOADS_DIR = MessageFormat.format("{0}{1}src{1}test{1}resources{1}downloads",
-            Paths.get("").toAbsolutePath(), separator);
+    private String hubUrl;
+    static final String DOWNLOADS_DIR = Paths.get("src","test","resources","downloads").toAbsolutePath().toString();
     private Path downloadsDir = Paths.get(DOWNLOADS_DIR);
 
     public WebDriverFactory() {
@@ -154,11 +152,7 @@ public class WebDriverFactory {
     }
     public void setHubUrl(String hubUrl) {
         if (hubUrl == null || hubUrl.isEmpty()) hubUrl = "http://127.0.0.1:4444/wd/hub";
-        try {
-            this.hubUrl = new URL(hubUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+            this.hubUrl = hubUrl;
     }
     public void setDownloadsDir(String downloadsDir){
         this.downloadsDir = Paths.get(downloadsDir);
@@ -169,7 +163,11 @@ public class WebDriverFactory {
         if (getLatestDriver) {
             ChromeDriverManager.getInstance().setup();
         }
-        return webDriverSettings.apply(new RemoteWebDriver(hubUrl, defaultChromeOptions()));
+        try {
+            return webDriverSettings.apply(new RemoteWebDriver(new URL(hubUrl), defaultChromeOptions()));
+        } catch (MalformedURLException e) {
+            throw exception("Incorrect hub url: " + e);
+        }
     }
 
     private WebDriver initChromeDriver() {
@@ -191,7 +189,11 @@ public class WebDriverFactory {
         if (getLatestDriver) {
             FirefoxDriverManager.getInstance().arch32().setup();
         }
-        return webDriverSettings.apply(new RemoteWebDriver(hubUrl, defaultFirefoxOptions()));
+        try {
+            return webDriverSettings.apply(new RemoteWebDriver(new URL(hubUrl), defaultFirefoxOptions()));
+        } catch (MalformedURLException e) {
+            throw exception("Incorrect hub url: " + e);
+        }
     }
 
     private WebDriver initIEDriver() {
@@ -206,7 +208,11 @@ public class WebDriverFactory {
         if (getLatestDriver) {
             InternetExplorerDriverManager.getInstance().setup();
         }
-        return webDriverSettings.apply(new RemoteWebDriver(hubUrl, defaultIEOptions()));
+        try {
+            return webDriverSettings.apply(new RemoteWebDriver(new URL(hubUrl), defaultIEOptions()));
+        } catch (MalformedURLException e) {
+            throw exception("Incorrect hub url: " + e);
+        }
     }
 
     public String registerLocalDriver(DriverTypes driverType) {
