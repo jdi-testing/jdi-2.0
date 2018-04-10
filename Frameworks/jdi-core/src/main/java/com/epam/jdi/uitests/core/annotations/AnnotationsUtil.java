@@ -10,8 +10,6 @@ import java.lang.reflect.Field;
 import static com.epam.jdi.tools.StringUtils.splitCamelCase;
 
 public class AnnotationsUtil {
-    // TODO change license to MIT
-    // TODO change creator
     protected AnnotationsUtil() {
     }
 

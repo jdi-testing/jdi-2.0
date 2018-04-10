@@ -24,7 +24,7 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
 
     public static String getUrlFromUri(String uri, Class<?> parentClass) {
         String siteDomain = domain;
-        if (parentClass.isAnnotationPresent(JSite.class)) {
+        if (parentClass != null && parentClass.isAnnotationPresent(JSite.class)) {
             siteDomain = parentClass.getAnnotation(JSite.class).value();
             if (isBlank(siteDomain))
                 siteDomain = domain;

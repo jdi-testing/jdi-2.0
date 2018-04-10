@@ -27,9 +27,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;

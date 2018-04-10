@@ -35,7 +35,7 @@ import static com.epam.jdi.uitests.core.utils.common.PrintUtils.getMapFromObject
 import static java.lang.String.format;
 
 public interface IForm<T> extends IComposite, IHasValue {
-    /**up
+    /**
      * @param map Specify entity as map
      *            Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
      */

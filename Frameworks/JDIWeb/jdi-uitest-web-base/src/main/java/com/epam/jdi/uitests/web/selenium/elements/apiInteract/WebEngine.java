@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.epam.jdi.tools.LinqUtils.where;
+import static com.epam.jdi.tools.LinqUtils.filter;
 import static com.epam.jdi.tools.ReflectionUtils.isClass;
 import static com.epam.jdi.tools.StringUtils.format;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
@@ -133,7 +133,7 @@ public class WebEngine implements IEngine {
     }
     private List<WebElement> getElements(Object... args) {
         List<WebElement> els = findElements(args);
-        return where(els, el -> element.getSearchCriteria().invoke(el));
+        return filter(els, el -> element.getSearchCriteria().invoke(el));
     }
     public List<WebElement> findElements(Object... args) {
         if (webElements.hasValue()) return webElements.get(ArrayList::new);
@@ -153,14 +153,14 @@ public class WebEngine implements IEngine {
             if (el.engine().hasElement())
                 return el.engine().webElement.get();
         }
-        Object p = bElement.getParent();
+        Object parent = bElement.getParent();
         By locator = bElement.getLocator();
         By frame = bElement.engine().getFrame();
         SearchContext searchContext = frame != null
             ? getFrameContext(frame)
-            : p == null || containsRoot(locator)
+            : parent == null || containsRoot(locator)
                 ? getDefaultContext()
-                : getSearchContext(p);
+                : getSearchContext(parent);
         return locator != null
             ? searchContext.findElement(correctLocator(locator))
             : searchContext;

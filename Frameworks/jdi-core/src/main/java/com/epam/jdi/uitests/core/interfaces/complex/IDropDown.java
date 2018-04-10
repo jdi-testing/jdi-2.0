@@ -67,7 +67,7 @@ public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, 
      */
     @Override
     default boolean displayed() {
-        return ((IBaseElement)linked().get("value")).disabled();
+        return ((IBaseElement)linked().get("value")).displayed();
     }
 
     /**

@@ -8,7 +8,6 @@ package com.epam.jdi.uitests.web.selenium.driver.get.driver;
 import java.io.File;
 
 public class DriverData {
-    //TODO GET LATEST DRIVER USING OPEN SOURCE SOLUTION https://github.com/epam/JDI/issues/82
     public static final String FOLDER_PATH = new File("").getAbsolutePath() + "\\src\\main\\resources\\driver\\";
     static final String TEMP_FOLDER = FOLDER_PATH + "temp\\";
     public static final String getChromeDriverPath (String folderPath) {
