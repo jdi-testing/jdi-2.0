@@ -62,7 +62,7 @@ public abstract class WebActions {
         setAttribute = (o, name, value) -> js(o).executeScript(
             "arguments[0].setAttribute('"+name+"',arguments[1]);", webElement(o), value);
         getElement = WebStatic::webElement;
-        wait = (o, condition) -> base(o).timer().wait(condition);
+        wait = (o, condition) -> base(o).timer().getResult(condition);
         getResultWithCondition = (o, get, condition) ->
                 base(o).timer().getResultByCondition(get, condition);
         getElements = (o, args) -> map(webElements(o), w -> (Object)w);

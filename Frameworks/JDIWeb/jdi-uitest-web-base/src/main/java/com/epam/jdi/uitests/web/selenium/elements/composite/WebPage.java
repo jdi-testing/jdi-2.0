@@ -6,7 +6,6 @@ package com.epam.jdi.uitests.web.selenium.elements.composite;
  */
 
 import com.epam.jdi.tools.CacheValue;
-import com.epam.jdi.tools.Timer;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes;
 import com.epam.jdi.uitests.core.interfaces.composite.IPage;
@@ -68,11 +67,11 @@ public class WebPage extends BaseElement implements IPage {
     }
 
     public StringCheckType url() {
-        return new StringCheckType(getDriver()::getCurrentUrl, url, urlTemplate, "url", timer());
+        return new StringCheckType(getDriver()::getCurrentUrl, url, urlTemplate, "url");
     }
 
     public StringCheckType title() {
-        return new StringCheckType(getDriver()::getTitle, title, title, "title", timer());
+        return new StringCheckType(getDriver()::getTitle, title, title, "title");
     }
 
 
@@ -134,39 +133,29 @@ public class WebPage extends BaseElement implements IPage {
     }
 
     /**
-     * Refresh current page
-     */
-    @JDIAction
-    public void refresh() {
-        //invoker.doJAction(format("Refresh page '%s", getName()),
-          //      () -> getDriver().navigate().refresh());
-    }
-    /**
      * Reload current page
      */
-    @JDIAction
-    public void reload() {
-        //invoker.doJAction(format("Reload page '%s", getName()),
-          //      () -> getDriver().navigate().refresh());
+    @JDIAction("Reload current page '{name}'")
+    public void refresh() {
+        getDriver().navigate().refresh();
     }
+    public void reload() { refresh(); }
 
     /**
      * Go back to previous page
      */
-    @JDIAction
+    @JDIAction("Go back to previous page")
     public void back() {
-        //invoker.doJAction("Go back to previous page",
-          //      () -> getDriver().navigate().back());
+        getDriver().navigate().back();
     }
 
 
     /**
      * Go forward to next page
      */
-    @JDIAction
+    @JDIAction("Go forward to next page")
     public void forward() {
-        //invoker.doJAction("Go forward to next page",
-           //     () -> getDriver().navigate().forward());
+        getDriver().navigate().forward();
     }
 
     /**
@@ -175,17 +164,15 @@ public class WebPage extends BaseElement implements IPage {
      */
     @JDIAction
     public void addCookie(Cookie cookie) {
-        //invoker.doJAction("Add cookie",
-            //    () -> getDriver().manage().addCookie(cookie));
+        getDriver().manage().addCookie(cookie);
     }
 
     /**
      * Clear browsers cache
      */
-    @JDIAction
+    @JDIAction("Delete all cookies")
     public void clearCache() {
-        //invoker.doJAction("Delete all cookies",
-            //    () -> getDriver().manage().deleteAllCookies());
+        getDriver().manage().deleteAllCookies();
     }
 
     @Override
@@ -202,7 +189,7 @@ public class WebPage extends BaseElement implements IPage {
         private String template;
         private String what;
 
-        StringCheckType(Supplier<String> actual, String equals, String template, String what, Timer timer) {
+        StringCheckType(Supplier<String> actual, String equals, String template, String what) {
             this.actual = actual;
             this.equals = equals;
             this.template = template;

@@ -13,7 +13,7 @@ public enum DriverTypes {
     PHANTOMJS("phantom"),
     OPERA("opera");
 
-    public String name;
+    public final String name;
 
     DriverTypes(String name) {
         this.name = name;

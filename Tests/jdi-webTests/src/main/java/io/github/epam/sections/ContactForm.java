@@ -9,7 +9,6 @@ import com.epam.jdi.uitests.web.selenium.elements.complex.DropList;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Dropdown;
 import com.epam.jdi.uitests.web.selenium.elements.composite.Form;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
-import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JComboBox;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JDropList;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.XPath;
@@ -17,11 +16,7 @@ import io.github.epam.entities.User;
 
 public class ContactForm extends Form<User> {
 	@Css("select[ui=dropdown]") public Dropdown gender;
-	@JComboBox(root = @FindBy(css ="div[ui=combobox]"),
-			value = @FindBy(css ="input"),
-			list = @FindBy(css ="li"),
-			expand = @FindBy(css =".caret")
-	) public ComboBox religion;
+	@Css("div[ui=combobox] input") public ComboBox religion;
 	@JDropList(root = @FindBy(css ="div[ui=droplist]"),
 			value = @FindBy(css ="button"),
 			list = @FindBy(css ="li"),

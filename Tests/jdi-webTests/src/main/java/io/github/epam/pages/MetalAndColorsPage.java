@@ -1,7 +1,6 @@
 package io.github.epam.pages;
 
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
-import com.epam.jdi.uitests.web.selenium.elements.common.CheckBox;
 import com.epam.jdi.uitests.web.selenium.elements.complex.ComboBox;
 import com.epam.jdi.uitests.web.selenium.elements.complex.DropList;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Dropdown;
@@ -37,13 +36,5 @@ public class MetalAndColorsPage extends WebPage {
 	) public DropList<Vegetables> vegetables;
 	@XPath(".//button[@type='submit' and contains(.,'Calculate')]") public Button calculate;
 	@XPath(".//button[@type='submit' and contains(.,'Submit')]") public Button submit;
-	@Css("input[type=checkbox]#g1") public CheckBox g1;
-	@Css("input[type=checkbox]#g2") public CheckBox g2;
-	@Css("input[type=checkbox]#g3") public CheckBox g3;
-	@Css("input[type=checkbox]#g4") public CheckBox g4;
-	@Css("input[type=checkbox]#g5") public CheckBox g5;
-	@Css("input[type=checkbox]#g6") public CheckBox g6;
-	@Css("input[type=checkbox]#g7") public CheckBox g7;
-	@Css("input[type=checkbox]#g8") public CheckBox g8;
 
 }
