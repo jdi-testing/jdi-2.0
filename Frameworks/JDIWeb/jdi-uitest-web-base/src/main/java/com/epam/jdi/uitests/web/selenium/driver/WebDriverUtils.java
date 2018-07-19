@@ -5,8 +5,6 @@ package com.epam.jdi.uitests.web.selenium.driver;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import java.io.IOException;
-
 import static com.epam.jdi.uitests.core.settings.JDISettings.asserter;
 import static org.openqa.selenium.os.WindowsUtils.killByName;
 
@@ -16,7 +14,7 @@ public final class WebDriverUtils {
     }
 
     //TODO Add OS type and current user check.
-    public static void killAllRunWebBrowsers() throws IOException {
+    public static void killAllRunWebBrowsers() {
         asserter.ignore(() -> {
             killByName("chromedriver.exe");
             killByName("geckodriver.exe");
