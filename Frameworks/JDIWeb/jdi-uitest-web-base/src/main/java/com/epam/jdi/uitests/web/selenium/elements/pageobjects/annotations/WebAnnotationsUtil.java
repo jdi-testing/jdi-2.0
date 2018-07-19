@@ -30,6 +30,8 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
                 siteDomain = domain;
             else domain = siteDomain;
         }
+        if (isBlank(siteDomain)) return "";
+        if (isBlank(uri)) return siteDomain;
         return siteDomain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
     }
 
