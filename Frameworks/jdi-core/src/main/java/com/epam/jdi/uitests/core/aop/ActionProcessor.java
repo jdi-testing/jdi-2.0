@@ -7,9 +7,10 @@ package com.epam.jdi.uitests.core.aop;
 
 import com.epam.jdi.tools.func.JAction1;
 import com.epam.jdi.tools.func.JAction2;
-import com.epam.jdi.tools.logger.LogLevels;
 import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
+import com.epam.jdi.uitests.core.exceptions.JDIUIException;
+import com.epam.jdi.uitests.core.logger.LogLevels;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -20,14 +21,15 @@ import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.List;
 
-import static com.epam.jdi.tools.LinqUtils.Switch;
 import static com.epam.jdi.tools.ReflectionUtils.getFields;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.tools.StringUtils.msgFormat;
 import static com.epam.jdi.tools.StringUtils.splitLowerCase;
-import static com.epam.jdi.tools.Switch.*;
-import static com.epam.jdi.tools.logger.LogLevels.*;
-import static com.epam.jdi.tools.map.MapArray.pairs;
+import static com.epam.jdi.tools.switcher.SwitchActions.Case;
+import static com.epam.jdi.tools.switcher.SwitchActions.Default;
+import static com.epam.jdi.tools.switcher.SwitchActions.Switch;
+import static com.epam.jdi.tools.switcher.SwitchActions.Value;
+import static com.epam.jdi.uitests.core.logger.LogLevels.*;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 import static java.lang.Character.toUpperCase;
@@ -51,7 +53,7 @@ public class ActionProcessor {
             String actionName = getActionName(joinPoint);
             String logString = joinPoint.getThis() == null
                 ? actionName
-                : msgFormat(getTemplate(logger.getLogLevel()), pairs(new Object[][]{
+                : msgFormat(getTemplate(logger.getLogLevel()), new MapArray<>(new Object[][]{
                     {"action", actionName },
                     {"element", getElementName(joinPoint) }}));
             logString = toUpperCase(logString.charAt(0)) + logString.substring(1);
@@ -110,7 +112,7 @@ public class ActionProcessor {
             }
             return m.getName();
         } catch (Exception ex) {
-            throw new RuntimeException("Surround method issue: " +
+            throw new JDIUIException("Surround method issue: " +
                     "Can't get method name template: " + ex.getMessage());
         }
     }
@@ -147,7 +149,7 @@ public class ActionProcessor {
                 })
             );
         } catch (Exception ex) {
-            throw new RuntimeException("Surround method issue: " +
+            throw new JDIUIException("Surround method issue: " +
                     "Can't get action name: " + ex.getMessage());
         }
     }
@@ -196,7 +198,7 @@ public class ActionProcessor {
             }
             return result;
         } catch (Exception ex) {
-            throw new RuntimeException("Surround method issue: " +
+            throw new JDIUIException("Surround method issue: " +
                     "Can't get action name: " + ex.getMessage());
         }
     }

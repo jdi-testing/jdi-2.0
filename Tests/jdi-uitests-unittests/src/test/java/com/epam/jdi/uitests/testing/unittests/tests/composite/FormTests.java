@@ -14,7 +14,7 @@ import static com.epam.jdi.uitests.testing.unittests.enums.Buttons.SUBMIT;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.CONTACT_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.contactFormPage;
 import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActionsData.checkResult;
-import static com.epam.web.matcher.testng.Assert.*;
+import static com.epam.matcher.testng.Assert.*;
 import static java.lang.String.format;
 
 /**
@@ -36,7 +36,7 @@ public class FormTests extends InitTests {
     @Test
     public void fillTest() {
         form.get().fill(DEFAULT);
-        assertEquals(form.get().getFormValue(), DEFAULT.toList());
+        listEquals(form.get().getFormValue(), DEFAULT.toList());
     }
 
     @Test

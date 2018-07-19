@@ -9,18 +9,20 @@ import com.epam.jdi.tools.CacheValue;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes;
 import com.epam.jdi.uitests.core.interfaces.composite.IPage;
+import com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import com.epam.jdi.uitests.web.selenium.settings.WebSettings;
 import org.openqa.selenium.Cookie;
 
 import java.util.function.Supplier;
 
-import static com.epam.jdi.tools.LinqUtils.Switch;
-import static com.epam.jdi.tools.Switch.Else;
-import static com.epam.jdi.tools.Switch.Value;
-import static com.epam.jdi.tools.logger.LogLevels.STEP;
+import static com.epam.jdi.tools.switcher.SwitchActions.Else;
+import static com.epam.jdi.tools.switcher.SwitchActions.Switch;
+import static com.epam.jdi.tools.switcher.SwitchActions.Value;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.*;
+import static com.epam.jdi.uitests.core.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.hasRunDrivers;
 import static java.lang.String.format;
 
 public class WebPage extends BaseElement implements IPage {
@@ -49,11 +51,11 @@ public class WebPage extends BaseElement implements IPage {
     }
 
     public static String getUrl() {
-        return WebSettings.getDriver().getCurrentUrl();
+        return WebDriverFactory.getDriver().getCurrentUrl();
     }
 
     public static String getTitle() {
-        return WebSettings.getDriver().getTitle();
+        return WebDriverFactory.getDriver().getTitle();
     }
 
     public void updatePageData(String url, String title, CheckTypes checkUrlType, CheckTypes checkTitleType, String urlTemplate) {
@@ -86,7 +88,7 @@ public class WebPage extends BaseElement implements IPage {
     }
     @Override
     public boolean isOpened() {
-        if (!WebSettings.getDriverFactory().hasRunDrivers())
+        if (!hasRunDrivers())
             return false;
         boolean result = Switch(checkUrlType).get(
             Value(EQUAL, url().check()),

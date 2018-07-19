@@ -4,7 +4,7 @@ import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ICell;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.TableLines;
 import com.epam.jdi.uitests.testing.unittests.tests.complex.table.base.SupportTableTestsBase;
-import com.epam.web.matcher.testng.Check;
+import com.epam.matcher.testng.TestNG;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.inColum
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Row.inRow;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Row.row;
 import static com.epam.jdi.uitests.core.utils.common.Filters.equalsTo;
-import static com.epam.web.matcher.testng.Assert.areEquals;
+import static com.epam.matcher.testng.Assert.areEquals;
 import static java.lang.String.format;
 
 /**
@@ -129,8 +129,8 @@ public class SearchRowsColumnsTests extends SupportTableTestsBase {
     @Test
     public void rowsByCriteriaTest() {
         TableLines rows = table().rows("Plans=MSTest, NUnit, Epam");
-        new Check("Rows count").areEquals(rows.size(), 2);
-        new Check("Rows content").areEquals(print(rows.select(
+        new TestNG("Rows count").areEquals(rows.size(), 2);
+        new TestNG("Rows content").areEquals(print(rows.select(
                         (k, v) -> format("%s:%s", k, v.select(
                                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getText()))))),
                 "2:[Type:Test Runner, " +
@@ -144,8 +144,8 @@ public class SearchRowsColumnsTests extends SupportTableTestsBase {
     @Test
     public void rowsByTwoCriteriasTest() {
         TableLines rows = table().rows("Plans=MSTest, NUnit, Epam", "Type=Asserter");
-        new Check("Rows count").areEquals(rows.size(), 1);
-        new Check("Rows content").areEquals(print(rows.select(
+        new TestNG("Rows count").areEquals(rows.size(), 1);
+        new TestNG("Rows content").areEquals(print(rows.select(
                         (k, v) -> format("%s:%s", k, v.select(
                                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getText()))))),
                 "3:[Type:Asserter, " +
@@ -156,8 +156,8 @@ public class SearchRowsColumnsTests extends SupportTableTestsBase {
     @Test
     public void columnsByCriteriaTest() {
         TableLines columns = table().columns("1=Selenium, Custom");
-        new Check("Columns count").areEquals(columns.size(), 1);
-        new Check("Columns content").areEquals(print(columns.select(
+        new TestNG("Columns count").areEquals(columns.size(), 1);
+        new TestNG("Columns content").areEquals(print(columns.select(
                         (k, v) -> format("%s:%s", k, v.select(
                                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getText()))))),
                 "Now:[1:Selenium, Custom, " +
@@ -171,8 +171,8 @@ public class SearchRowsColumnsTests extends SupportTableTestsBase {
     @Test
     public void columnsByTwoCriteriasTest() {
         TableLines columns = table().columns("2=Test Runner", "4=Logger");
-        new Check("Columns count").areEquals(columns.size(), 1);
-        new Check("Columns content").areEquals(print(columns.select(
+        new TestNG("Columns count").areEquals(columns.size(), 1);
+        new TestNG("Columns content").areEquals(print(columns.select(
                         (k, v) -> format("%s:%s", k, v.select(
                                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getText()))))),
                 "Type:[1:Drivers, " +
@@ -186,9 +186,9 @@ public class SearchRowsColumnsTests extends SupportTableTestsBase {
     @Test
     public void columnsGetTest() {
         TableLines columns = table().columns().getAll();
-        new Check("Columns count").areEquals(columns.size(), 3);
+        new TestNG("Columns count").areEquals(columns.size(), 3);
 
-        new Check("Columns content").areEquals(print(columns.select(
+        new TestNG("Columns content").areEquals(print(columns.select(
                         (k, v) -> format("%s:%s", k, v.select(
                                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getText()))))),
                 "Type:[1:Drivers, " +
@@ -214,8 +214,8 @@ public class SearchRowsColumnsTests extends SupportTableTestsBase {
     @Test
     public void columnsGetAsTextTest() {
         TableLines columns = table().columns().getAll();
-        new Check("Columns count").areEquals(columns.size(), 3);
-        new Check("Columns content").areEquals(print(columns.select(
+        new TestNG("Columns count").areEquals(columns.size(), 3);
+        new TestNG("Columns content").areEquals(print(columns.select(
                         (k, v) -> format("%s:%s", k, v.select(
                                 (rowK, rowV) -> format("%s:%s", rowK, rowV))))),
                 "Type:[1:Drivers, " +
@@ -241,36 +241,36 @@ public class SearchRowsColumnsTests extends SupportTableTestsBase {
     @Test
     public void columnsGetByNumTest() {
         MapArray<String, ICell> column = table().columns().get(2);
-        new Check("Column content").areEquals(print(column.select(
+        new TestNG("Column content").areEquals(print(column.select(
                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getValue()))), expectedColumn);
     }
 
     @Test
     public void columnsGetByNameTest() {
         MapArray<String, ICell> column = table().columns().get("Now");
-        new Check("Column content").areEquals(print(column.select(
+        new TestNG("Column content").areEquals(print(column.select(
                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getValue()))), expectedColumn);
     }
 
     @Test
     public void columnsGetByNumAsTextTest() {
         MapArray<String, String> column = table().columns().getAsText(2);
-        new Check("Column content").areEquals(print(column.select(
+        new TestNG("Column content").areEquals(print(column.select(
                 (rowK, rowV) -> format("%s:%s", rowK, rowV))), expectedColumn);
     }
 
     @Test
     public void columnsGetByNameAsTextTest() {
         MapArray<String, String> column = table().columns().getAsText("Now");
-        new Check("Column content").areEquals(print(column.select(
+        new TestNG("Column content").areEquals(print(column.select(
                 (rowK, rowV) -> format("%s:%s", rowK, rowV))), expectedColumn);
     }
 
     @Test
     public void rowsGetTest() {
         TableLines rows = table().rows().getAll();
-        new Check("Rows count").areEquals(rows.size(), 6);
-        new Check("Rows content").areEquals(print(rows.select(
+        new TestNG("Rows count").areEquals(rows.size(), 6);
+        new TestNG("Rows content").areEquals(print(rows.select(
                         (k, v) -> format("%s:%s", k, v.select(
                                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getText()))))),
                 "1:[Type:Drivers, " +
@@ -296,8 +296,8 @@ public class SearchRowsColumnsTests extends SupportTableTestsBase {
     @Test
     public void rowsGetAsTextTest() {
         TableLines rows = table().rows().getAll();
-        new Check("Rows count").areEquals(rows.size(), 6);
-        new Check("Rows content").areEquals(print(rows.select(
+        new TestNG("Rows count").areEquals(rows.size(), 6);
+        new TestNG("Rows content").areEquals(print(rows.select(
                         (k, v) -> format("%s:%s", k, v.select(
                                 (rowK, rowV) -> format("%s:%s", rowK, rowV))))),
                 "1:[Type:Drivers, " +
@@ -323,49 +323,49 @@ public class SearchRowsColumnsTests extends SupportTableTestsBase {
     @Test
     public void rowsGetByNumTest() {
         MapArray<String, ICell> row = table().rows().get(3);
-        new Check("Row content").areEquals(print(row.select(
+        new TestNG("Row content").areEquals(print(row.select(
                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getValue()))), expectedRow);
     }
 
     @Test
     public void rowsGetByNameTest() {
         MapArray<String, ICell> row = table().rows().get("3");
-        new Check("Row content").areEquals(print(row.select(
+        new TestNG("Row content").areEquals(print(row.select(
                 (rowK, rowV) -> format("%s:%s", rowK, rowV.getValue()))), expectedRow);
     }
 
     @Test
     public void rowsGetByNumAsTextTest() {
         MapArray<String, String> row = table().rows().getAsText(3);
-        new Check("Row content").areEquals(print(row.select(
+        new TestNG("Row content").areEquals(print(row.select(
                 (rowK, rowV) -> format("%s:%s", rowK, rowV))), expectedRow);
     }
 
     @Test
     public void rowsGetByNameAsTextTest() {
         MapArray<String, String> row = table().rows().getAsText("3");
-        new Check("Row content").areEquals(print(row.select(
+        new TestNG("Row content").areEquals(print(row.select(
                 (rowK, rowV) -> format("%s:%s", rowK, rowV))), expectedRow);
     }
 
     @Test
     public void rowValueByNameTests() {
-        new Check("Row Value").areEquals(table().row("2"), Arrays.asList("Test Runner", "TestNG, JUnit, Custom", "MSTest, NUnit, Epam"));
+        new TestNG("Row Value").areEquals(table().row("2"), Arrays.asList("Test Runner", "TestNG, JUnit, Custom", "MSTest, NUnit, Epam"));
     }
 
     @Test
     public void rowValueByNumberTests() {
-        new Check("Row Value").areEquals(table().row(2), Arrays.asList("Test Runner", "TestNG, JUnit, Custom", "MSTest, NUnit, Epam"));
+        new TestNG("Row Value").areEquals(table().row(2), Arrays.asList("Test Runner", "TestNG, JUnit, Custom", "MSTest, NUnit, Epam"));
     }
 
     @Test
     public void columnValueByNameTests() {
-        new Check("Column Value").areEquals(table().column("Now"), Arrays.asList("Selenium, Custom", "TestNG, JUnit, Custom", "TestNG, JUnit, Custom", "Log4J, TestNG log, Custom", "Jenkins, Allure, Custom", "Custom"));
+        new TestNG("Column Value").areEquals(table().column("Now"), Arrays.asList("Selenium, Custom", "TestNG, JUnit, Custom", "TestNG, JUnit, Custom", "Log4J, TestNG log, Custom", "Jenkins, Allure, Custom", "Custom"));
     }
 
     @Test
     public void columnValueByNumberTests() {
-        new Check("Column Value").areEquals(table().column(2), Arrays.asList("Selenium, Custom", "TestNG, JUnit, Custom", "TestNG, JUnit, Custom", "Log4J, TestNG log, Custom", "Jenkins, Allure, Custom", "Custom"));
+        new TestNG("Column Value").areEquals(table().column(2), Arrays.asList("Selenium, Custom", "TestNG, JUnit, Custom", "TestNG, JUnit, Custom", "Log4J, TestNG log, Custom", "Jenkins, Allure, Custom", "Custom"));
     }
 
 }

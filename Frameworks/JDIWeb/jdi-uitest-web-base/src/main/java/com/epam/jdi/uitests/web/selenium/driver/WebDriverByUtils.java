@@ -6,6 +6,7 @@ package com.epam.jdi.uitests.web.selenium.driver;
  */
 
 import com.epam.jdi.tools.map.MapArray;
+import com.epam.jdi.uitests.web.selenium.exceptions.LocatorException;
 import org.openqa.selenium.By;
 
 import java.text.MessageFormat;
@@ -35,11 +36,11 @@ public final class WebDriverByUtils {
     public static By fillByTemplate(By by, Object... args) {
         String byLocator = getByLocator(by);
         if (!byLocator.contains("%"))
-            throw new RuntimeException(getBadLocatorMsg(byLocator, args));
+            throw new LocatorException(getBadLocatorMsg(byLocator, args));
         try {
             byLocator = format(byLocator, args);
         } catch (Exception ex) {
-            throw new RuntimeException(getBadLocatorMsg(byLocator, args));
+            throw new LocatorException(getBadLocatorMsg(byLocator, args));
         }
         return getByFunc(by).apply(byLocator);
     }
@@ -57,7 +58,7 @@ public final class WebDriverByUtils {
         try {
             byLocator = MessageFormat.format(byLocator, args);
         } catch (Exception ex) {
-            throw new RuntimeException(getBadLocatorMsg(byLocator, args));
+            throw new LocatorException(getBadLocatorMsg(byLocator, args));
         }
         return getByFunc(by).apply(byLocator);
     }
@@ -83,7 +84,7 @@ public final class WebDriverByUtils {
             String result = m.group("locator");
             return byReplace.keys().contains(result) ? byReplace.get(result) : result;
         }
-        throw new RuntimeException("Can't get By name for: " + by);
+        throw new LocatorException("Can't get By name for: " + by);
     }
 
     public static By correctXPaths(By byValue) {
@@ -99,7 +100,7 @@ public final class WebDriverByUtils {
     }
     public static By getByFromString(String stringLocator) {
         if (stringLocator == null || stringLocator.equals(""))
-            throw new RuntimeException("Can't get By locator from string empty or null string");
+            throw new LocatorException("Can't get By locator from string empty or null string");
         String[] split = stringLocator.split("(^=)*=.*");
         if (split.length == 1)
             return By.cssSelector(split[0]);
@@ -111,7 +112,7 @@ public final class WebDriverByUtils {
             case "id": return By.id(split[1]);
             case "tag": return By.tagName(split[1]);
             case "link": return By.partialLinkText(split[1]);
-            default: throw new RuntimeException(
+            default: throw new LocatorException(
                     String.format("Can't get By locator from string: %s. Bad suffix: %s. (available: css, xpath, class, id, name, link, tag)",
                             stringLocator, split[0]));
         }

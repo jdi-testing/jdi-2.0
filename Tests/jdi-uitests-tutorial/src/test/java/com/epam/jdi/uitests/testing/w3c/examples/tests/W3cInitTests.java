@@ -3,7 +3,7 @@ package com.epam.jdi.uitests.testing.w3c.examples.tests;
 import com.epam.jdi.site.w3c.W3CSite;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGBase;
-import com.epam.web.matcher.verify.Verify;
+import com.epam.matcher.base.Verify;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
 

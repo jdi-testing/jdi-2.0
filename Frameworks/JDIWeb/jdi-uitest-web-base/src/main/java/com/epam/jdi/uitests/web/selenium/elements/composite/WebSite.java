@@ -7,13 +7,13 @@ package com.epam.jdi.uitests.web.selenium.elements.composite;
 
 import com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit;
 
+import static com.epam.jdi.uitests.web.selenium.driver.get.DriverData.DRIVER_NAME;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.domain;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriverFactory;
 
 public class WebSite {
     public static Class currentSite;
     public static void init(Class<?> site) {
-        init(site, getDriverFactory().currentDriverName());
+        init(site, DRIVER_NAME);
     }
     public static void init(Class<?> site, String driverName) {
         WebCascadeInit.initSite(site, driverName);

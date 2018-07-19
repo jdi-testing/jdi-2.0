@@ -4,16 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.epam.jdi</groupId>
-        <artifactId>jdi-opensource</artifactId>
-        <version>RELEASE</version>
-        <relativePath>../..</relativePath>
-    </parent>
-
+    <groupId>com.epam.jdi</groupId>
+    <version>2.0.21</version>
     <artifactId>jdi-uitests-unittests</artifactId>
     <name>JDI UI Testing Unit Tests</name>
     <packaging>jar</packaging>
+
+    <properties>
+        <aspectj.version>1.8.3</aspectj.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -24,12 +23,26 @@
         <dependency>
             <groupId>com.epam.jdi</groupId>
             <artifactId>jdi-web-testng</artifactId>
-            <version>${parent.version}</version>
+            <version>2.0.21</version>
+        </dependency>
+        <dependency>
+            <groupId>com.epam.jdi</groupId>
+            <artifactId>jdi-matchers-junit</artifactId>
+            <version>2.0.21</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

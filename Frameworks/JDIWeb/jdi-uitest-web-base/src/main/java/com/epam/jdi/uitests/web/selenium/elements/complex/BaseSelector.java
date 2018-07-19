@@ -13,10 +13,9 @@ import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
-
-import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelected;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelectedByIndex;
+import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 
 public class BaseSelector extends BaseElement implements IBaseSelector {
     @JDIAction(level = DEBUG)

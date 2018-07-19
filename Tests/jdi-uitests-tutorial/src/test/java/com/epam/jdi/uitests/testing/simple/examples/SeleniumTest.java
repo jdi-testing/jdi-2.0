@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
 import static com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit.initPageObject;
 import static java.lang.System.setProperty;
 
@@ -35,7 +36,7 @@ public class SeleniumTest {
 
     @Test
     public void seleniumTest() {
-        WebSettings.getDriver().navigate().to("https://www.epam.com/");
+        getDriver().navigate().to("https://www.epam.com/");
         page.logo.click();
         page.menu.get(3).click();
     }

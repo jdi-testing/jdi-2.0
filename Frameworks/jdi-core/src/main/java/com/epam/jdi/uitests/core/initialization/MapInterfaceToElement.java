@@ -25,7 +25,7 @@ public final class MapInterfaceToElement {
             return map.get(clazz);
         else throw noInterfaceException(clazz, fieldName);
     }
-    public static RuntimeException noInterfaceException(Class<?> type, String fieldName) {
+    public static AssertionError noInterfaceException(Class<?> type, String fieldName) {
         return exception(
                 "Unknown interface: %s (%s). Add relation interface -> class using MapInterfaceToElement.update",
                 type, fieldName);

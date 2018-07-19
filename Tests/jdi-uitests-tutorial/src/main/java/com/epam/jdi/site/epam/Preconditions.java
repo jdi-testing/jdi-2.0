@@ -2,12 +2,13 @@ package com.epam.jdi.site.epam;
 
 import com.epam.jdi.tools.func.JAction;
 import com.epam.jdi.uitests.core.preconditions.IPreconditions;
-import com.epam.web.matcher.testng.Assert;
+import com.epam.matcher.testng.Assert;
 import com.google.common.base.Supplier;
 
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.alwaysMoveToCondition;
 import static com.epam.jdi.uitests.web.selenium.preconditions.WebPreconditions.checkUrl;
 import static com.epam.jdi.uitests.web.selenium.preconditions.WebPreconditions.openUri;
+import static com.epam.matcher.testng.Assert.isFalse;
 
 /**
  * Created by Roman_Iovlev on 9/10/2016.
@@ -17,7 +18,7 @@ public enum Preconditions implements IPreconditions {
         () -> EpamSite.jobListingPage.isOpened() && !EpamSite.jobListingPage.jobsList.isEmpty(),
         () -> {
             EpamSite.jobListingPage.shouldBeOpened();
-            Assert.isFalse(() -> EpamSite.jobListingPage.jobsList.isEmpty());
+            isFalse(() -> EpamSite.jobListingPage.jobsList.isEmpty());
         }
     ),
     CAREERS_PAGE("/careers");

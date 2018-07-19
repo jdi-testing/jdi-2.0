@@ -14,7 +14,7 @@ import com.epam.jdi.uitests.core.utils.common.IFilter;
 import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.*;
-import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
+import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.TableLines.filterTable;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.TableOfCells.indexCorrect;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;

@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.column;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Row.row;
-import static com.epam.web.matcher.testng.Assert.areEquals;
+import static com.epam.matcher.testng.Assert.areEquals;
 
 /**
  * Created by Natalia_Grebenshchikova on 10/21/2015.

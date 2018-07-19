@@ -3,14 +3,15 @@ package com.epam.jdi.uitests.testing.unittests;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.w3cSite.W3cSite;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGBase;
-import com.epam.web.matcher.verify.Verify;
+import com.epam.matcher.base.Verify;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
 
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.w3cSite.W3cSite.framePage;
-import static com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes.CHROME;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.useDriver;
 import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.init;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.*;
+import static org.openqa.selenium.remote.BrowserType.CHROME;
 
 
 /**

@@ -10,8 +10,8 @@ import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.templates.base.LinkedElements;
 
-import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.actions.base.ElementActions.*;
+import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 
 public interface IBaseElement extends IHasParent, INamed, IVisible {
     void setTypeName(String typeName);

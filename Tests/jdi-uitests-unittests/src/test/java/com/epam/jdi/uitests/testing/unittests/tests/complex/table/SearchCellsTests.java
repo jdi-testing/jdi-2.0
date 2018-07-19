@@ -2,7 +2,7 @@ package com.epam.jdi.uitests.testing.unittests.tests.complex.table;
 
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ICell;
 import com.epam.jdi.uitests.testing.unittests.tests.complex.table.base.SupportTableTestsBase;
-import com.epam.web.matcher.testng.Check;
+import com.epam.matcher.testng.TestNG;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.column;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Row.row;
 import static com.epam.jdi.uitests.core.utils.common.Filters.equalsTo;
 import static com.epam.jdi.uitests.core.utils.common.Filters.match;
-import static com.epam.web.matcher.testng.Assert.areEquals;
+import static com.epam.matcher.testng.Assert.areEquals;
 import static java.lang.String.format;
 
 /**
@@ -89,11 +89,11 @@ public class SearchCellsTests extends SupportTableTestsBase {
     }
 
     private void checkCells(List<ICell> cells) {
-        new Check("Cells size").areEquals(cells.size(), 2);
-        new Check("Cell 1 coordinates").areEquals(format("Value: %s; %s/%s; %s/%s",
+        new TestNG("Cells size").areEquals(cells.size(), 2);
+        new TestNG("Cell 1 coordinates").areEquals(format("Value: %s; %s/%s; %s/%s",
                 cells.get(0).getValue(), cells.get(0).column().name, cells.get(0).row().name,
                 cells.get(0).column().num, cells.get(0).row().num), "Value: MSTest, NUnit, Epam; Plans/2; 3/2");
-        new Check("Cell 2 coordinates").areEquals(format("Value: %s; %s/%s; %s/%s",
+        new TestNG("Cell 2 coordinates").areEquals(format("Value: %s; %s/%s; %s/%s",
                 cells.get(1).getValue(), cells.get(1).column().name, cells.get(1).row().name,
                 cells.get(1).column().num, cells.get(1).row().num), "Value: MSTest, NUnit, Epam; Plans/3; 3/3");
     }

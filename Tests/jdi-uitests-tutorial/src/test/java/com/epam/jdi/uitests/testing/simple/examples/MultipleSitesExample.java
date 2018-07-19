@@ -2,17 +2,17 @@ package com.epam.jdi.uitests.testing.simple.examples;
 
 import com.epam.jdi.site.google.GoogleSite;
 import com.epam.jdi.site.yandex.YandexSite;
-import com.epam.web.matcher.testng.Assert;
+import com.epam.matcher.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import static com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes.CHROME;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.useDriver;
 import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.init;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.initFromProperties;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.useDriver;
+import static org.openqa.selenium.remote.BrowserType.CHROME;
 
 
 public class MultipleSitesExample {

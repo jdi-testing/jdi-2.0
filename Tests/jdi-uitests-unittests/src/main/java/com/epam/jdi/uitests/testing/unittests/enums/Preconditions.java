@@ -10,9 +10,9 @@ import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.alwaysM
 import static com.epam.jdi.uitests.testing.unittests.entities.User.DEFAULT;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.contactFormPage;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.dates;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
 import static com.epam.jdi.uitests.web.selenium.preconditions.WebPreconditions.checkUrl;
 import static com.epam.jdi.uitests.web.selenium.preconditions.WebPreconditions.openUri;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriver;
 
 /**
  * Created by 12345 on 03.06.2015.

@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
+import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.actions.base.ElementActions.getElements;
 
 public interface IList<T> extends List<T>, IBaseElement {

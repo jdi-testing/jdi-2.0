@@ -11,7 +11,7 @@ import com.epam.jdi.tools.func.JFunc;
 import java.util.function.BooleanSupplier;
 
 public interface IAsserter {
-    RuntimeException exception(String message, Object... args);
+    AssertionError exception(String message, Object... args);
     <TResult> TResult silent(JFunc<TResult> func);
     void ignore(JAction action);
     void isTrue(Boolean actual);

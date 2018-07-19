@@ -7,14 +7,15 @@ package com.epam.jdi.uitests.web.selenium.driver;
 
 import com.epam.jdi.tools.Timer;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.remote.ScreenshotException;
 
 import java.io.File;
 import java.io.IOException;
 
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static com.epam.jdi.uitests.core.settings.JDIData.testName;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriver;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriverFactory;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.*;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
 import static org.apache.commons.io.FileUtils.copyFile;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.openqa.selenium.OutputType.FILE;
@@ -53,7 +54,7 @@ public class ScreenshotMaker {
         try {
             screenshotPath = takeScreen();
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            throw new ScreenshotException(ex.getMessage());
         }
         return (screenshotPath.equals(""))
                 ? "Failed to do Screenshot"
@@ -61,7 +62,7 @@ public class ScreenshotMaker {
     }
 
     public String takeScreenshot() throws IOException {
-        if (!getDriverFactory().hasRunDrivers())
+        if (!hasRunDrivers())
             return "Can't do Screenshot. No Drivers run";
         String path = new File(".").getCanonicalPath() + getValidUrl(pathSuffix);
         String screensFilePath = getFileName(path + (testName != null ? testName : "screen") + Timer.nowDate().replace(":", "-"));

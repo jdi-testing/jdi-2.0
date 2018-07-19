@@ -5,9 +5,8 @@ package com.epam.jdi.uitests.web.selenium.settings;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import com.epam.jdi.tools.func.JFunc;
 import com.epam.jdi.tools.func.JFunc1;
-import com.epam.jdi.tools.logger.JDILogger;
+import com.epam.jdi.uitests.core.exceptions.JDIUIException;
 import com.epam.jdi.uitests.core.initialization.MapInterfaceToElement;
 import com.epam.jdi.uitests.core.interfaces.base.IClickable;
 import com.epam.jdi.uitests.core.interfaces.base.IElement;
@@ -15,28 +14,30 @@ import com.epam.jdi.uitests.core.interfaces.common.*;
 import com.epam.jdi.uitests.core.interfaces.complex.*;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.IEntityTable;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
+import com.epam.jdi.uitests.core.logger.JDILogger;
 import com.epam.jdi.uitests.core.settings.JDISettings;
-import com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory;
-import com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import com.epam.jdi.uitests.web.selenium.elements.base.J;
 import com.epam.jdi.uitests.web.selenium.elements.common.*;
 import com.epam.jdi.uitests.web.selenium.elements.complex.*;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.EntityTable;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.Table;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.List;
 import java.util.Objects;
 
 import static com.epam.jdi.tools.PropertyReader.fillAction;
 import static com.epam.jdi.uitests.web.selenium.driver.ScreenshotMaker.screensPath;
-import static com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverData.DRIVER_VERSION;
+
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
+import static com.epam.jdi.uitests.web.selenium.driver.get.DownloadDriverManager.*;
+import static com.epam.jdi.uitests.web.selenium.driver.get.DriverData.*;
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
+import static org.openqa.selenium.PageLoadStrategy.EAGER;
+import static org.openqa.selenium.PageLoadStrategy.NONE;
+import static org.openqa.selenium.PageLoadStrategy.NORMAL;
 
 public class WebSettings extends JDISettings {
     public static String domain;
@@ -47,20 +48,6 @@ public class WebSettings extends JDISettings {
     public static boolean hasDomain() {
         return domain != null && domain.contains("://");
     }
-    public static WebDriver getDriver() {
-        return getDriverFactory().getDriver();
-    }
-    public static WebDriverFactory driverFactory;
-    public static WebDriverFactory getDriverFactory() {
-        initDriver();
-        return driverFactory;
-    }
-    public static String useDriver(DriverTypes driverName) {
-        return getDriverFactory().registerDriver(driverName);
-    }
-    public static String useDriver(JFunc<WebDriver> driver) {
-        return getDriverFactory().registerDriver(driver);
-    }
     public static JavascriptExecutor getJSExecutor() {
         if (getDriver() instanceof JavascriptExecutor)
             return (JavascriptExecutor) getDriver();
@@ -70,7 +57,6 @@ public class WebSettings extends JDISettings {
     public static synchronized void init()  {
         logger = JDILogger.instance("JDI");
         MapInterfaceToElement.init(defaultInterfacesMap);
-        driverFactory = new WebDriverFactory();
     }
     public static boolean initialized = false;
 
@@ -79,9 +65,9 @@ public class WebSettings extends JDISettings {
         JDISettings.initFromProperties();
         fillAction(p -> domain = p, "domain");
         fillAction(p -> DRIVER_VERSION = p, "drivers.version");
-        fillAction(driverFactory::setDriverPath, "drivers.folder");
+        fillAction(p -> DRIVERS_FOLDER = p, "drivers.folder");
         fillAction(p -> screensPath = p, "screens.folder");
-        fillAction(p -> driverFactory.getLatestDriver =
+        fillAction(p -> DOWNLOAD_DRIVER =
                 p.toLowerCase().equals("true") || p.toLowerCase().equals("1"), "driver.getLatest");
         fillAction(p -> asserter.doScreenshot(p), "screenshot.strategy");
         killBrowser = "afterAndBefore";
@@ -113,10 +99,17 @@ public class WebSettings extends JDISettings {
             if (split != null)
                 BROWSER_SIZES = new Dimension(parseInt(split[0].trim()), parseInt(split[1].trim()));
         }, "browser.size");
-        fillAction(p -> driverFactory.pageLoadStrategy = p, "page.load.strategy");
+        fillAction(p -> PAGE_LOAD_STRATEGY = getPageLoadStrategy(p), "page.load.strategy");
         initialized = true;
     }
-
+    private static PageLoadStrategy getPageLoadStrategy(String strategy) {
+        switch (strategy.toLowerCase()) {
+            case "normal": return NORMAL;
+            case "none": return NONE;
+            case "eager": return EAGER;
+        }
+        return NORMAL;
+    }
     private static Object[][] defaultInterfacesMap = new Object[][]{
             {IElement.class, Element.class},
             //{SelenideElement.class, J.class},
@@ -149,7 +142,7 @@ public class WebSettings extends JDISettings {
             try {
                 initFromProperties();
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                throw new JDIUIException(ex);
             }
     }
 }

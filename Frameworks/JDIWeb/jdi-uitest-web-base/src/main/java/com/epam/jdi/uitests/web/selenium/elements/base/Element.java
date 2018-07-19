@@ -16,7 +16,7 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.List;
 
 import static com.epam.jdi.tools.ReflectionUtils.newEntity;
-import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
+import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
 public class Element extends BaseElement implements IElement, IHasElement {

@@ -1,6 +1,6 @@
 package com.epam.jdi.uitests.testing.w3c.examples.tests;
 
-import com.epam.web.matcher.testng.Assert;
+import com.epam.matcher.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

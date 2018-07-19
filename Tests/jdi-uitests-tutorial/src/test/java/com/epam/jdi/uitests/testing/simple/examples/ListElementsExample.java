@@ -3,7 +3,7 @@ package com.epam.jdi.uitests.testing.simple.examples;
 import com.epam.jdi.site.google.custom.SearchResult;
 import com.epam.jdi.uitests.testing.GoogleTestsBase;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Elements;
-import com.epam.web.matcher.testng.Assert;
+import com.epam.matcher.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class ListElementsExample extends GoogleTestsBase {
                 "https://www.google.");
         homePage.search("jdi");
         List<SearchResult> jobs = searchPage.jobsE;
-        //Assert.areEquals(vacancies.size(), 10);
+        //Assertions.areEquals(vacancies.size(), 10);
         for (SearchResult job : jobs)
             System.out.println(job.print());
     }
@@ -33,15 +33,15 @@ public class ListElementsExample extends GoogleTestsBase {
         Assert.isTrue(searchPage.gitHubJdi.displayed());
         Elements<SearchResult> jobs = searchPage.jobsE;
         String results1 = getJobs(jobs);
-        //Assert.ignoreCase().each(select(vacancies,
+        //Assertions.ignoreCase().each(select(vacancies,
         //        j -> j.description.getText())).contains("jdi");
         String results2 = getJobs(jobs);
-        //Assert.ignoreCase().each(select(vacancies,
+        //Assertions.ignoreCase().each(select(vacancies,
         //        j -> j.description.getText())).contains("jdi");
         homePage.search("testing");
         jobs.refresh();
         String results3 = getJobs(jobs);
-        //Assert.ignoreCase().each(select(vacancies,
+        //Assertions.ignoreCase().each(select(vacancies,
         //        j -> j.link.getText())).contains("testing");
 
         System.out.println(results1);

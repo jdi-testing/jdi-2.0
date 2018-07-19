@@ -1,7 +1,7 @@
 package com.epam.jdi.uitests.testing.unittests.tests.complex.table.base;
 
 import com.epam.jdi.uitests.testing.unittests.InitTests;
-import com.epam.web.matcher.verify.Verify;
+import com.epam.matcher.base.Verify;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.IOException;

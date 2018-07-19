@@ -3,7 +3,7 @@ package com.epam.jdi.uitests.testing.unittests.tests.complex;
 import com.epam.jdi.uitests.core.interfaces.complex.IComboBox;
 import com.epam.jdi.uitests.testing.unittests.InitTests;
 import com.epam.jdi.uitests.testing.unittests.enums.Metals;
-import com.epam.web.matcher.testng.Check;
+import com.epam.matcher.testng.TestNG;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -11,12 +11,13 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInState;
+import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.testing.unittests.enums.Metals.Gold;
 import static com.epam.jdi.uitests.testing.unittests.enums.Metals.Metals;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActionsData.*;
-import static com.epam.web.matcher.testng.Assert.*;
+import static com.epam.matcher.testng.Assert.*;
 import static java.util.Arrays.asList;
 
 /**
@@ -111,7 +112,7 @@ public class ComboBoxTests extends InitTests {
 
     @Test
     public void waitSelectedEnumTest() {
-        new Check("WaitSelected")
+        new TestNG("WaitSelected")
             .hasNoExceptions(() -> metals().waitSelected(Metals));
     }
 

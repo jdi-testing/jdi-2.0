@@ -5,7 +5,7 @@ import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ICell;
 import com.epam.jdi.uitests.testing.TestsBase;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.Table;
-import com.epam.web.matcher.testng.Assert;
+import com.epam.matcher.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,7 +16,7 @@ import static com.epam.jdi.site.epam.EpamSite.jobListingPage;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.inColumn;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Row.inRow;
 import static com.epam.jdi.uitests.core.utils.common.Filters.withValue;
-import static com.epam.web.matcher.testng.Assert.areEquals;
+import static com.epam.matcher.testng.Assert.areEquals;
 
 
 public class TableExamples extends TestsBase {

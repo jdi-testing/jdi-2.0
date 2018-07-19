@@ -5,8 +5,9 @@ package com.epam.jdi.uitests.core.settings;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import com.epam.jdi.tools.logger.ILogger;
+import com.epam.jdi.uitests.core.exceptions.JDIUIException;
 import com.epam.jdi.uitests.core.interfaces.IAsserter;
+import com.epam.jdi.uitests.core.logger.ILogger;
 import com.epam.jdi.uitests.core.utils.common.JDIAllureLogger;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public abstract class JDISettings {
     public static synchronized void initFromProperties() {
         try {
             getProperties(jdiSettingsPath);
-        } catch (Exception ex) { throw new RuntimeException(ex); }
+        } catch (Exception ex) { throw new JDIUIException(ex); }
         logger = JDIAllureLogger.instance("JDI");
         fillAction(p -> shortLogMessagesFormat = p.toLowerCase().equals("short"), "log.message.format");
         fillAction(p -> useCache =
@@ -43,7 +44,7 @@ public abstract class JDISettings {
         initFromProperties();
     }
 
-    public static RuntimeException exception(String msg, Object... args) {
+    public static AssertionError exception(String msg, Object... args) {
         return asserter.exception(msg, args);
     }
 }

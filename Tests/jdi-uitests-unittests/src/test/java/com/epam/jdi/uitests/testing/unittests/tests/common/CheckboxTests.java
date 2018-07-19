@@ -3,7 +3,7 @@ package com.epam.jdi.uitests.testing.unittests.tests.common;
 import com.epam.jdi.uitests.testing.unittests.InitTests;
 import com.epam.jdi.uitests.testing.unittests.tests.common.dataProviders.CheckBoxDP;
 import com.epam.jdi.uitests.web.selenium.elements.common.CheckBox;
-import com.epam.web.matcher.testng.Assert;
+import com.epam.matcher.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

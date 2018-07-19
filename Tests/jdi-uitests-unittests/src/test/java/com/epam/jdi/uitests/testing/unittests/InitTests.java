@@ -4,7 +4,7 @@ import com.epam.jdi.uitests.testing.unittests.entities.User;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGBase;
-import com.epam.web.matcher.verify.Verify;
+import com.epam.matcher.base.Verify;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
 

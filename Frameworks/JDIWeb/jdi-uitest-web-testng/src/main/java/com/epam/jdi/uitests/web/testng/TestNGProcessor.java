@@ -14,7 +14,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 
-import static com.epam.jdi.tools.logger.LogLevels.STEP;
+import static com.epam.jdi.uitests.core.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.web.settings.JDITestNGSettings.logger;
 
 @SuppressWarnings("unused")

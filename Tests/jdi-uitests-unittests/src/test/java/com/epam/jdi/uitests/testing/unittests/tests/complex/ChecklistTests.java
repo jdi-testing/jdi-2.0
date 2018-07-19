@@ -4,6 +4,7 @@ import com.epam.jdi.uitests.core.interfaces.complex.ICheckList;
 import com.epam.jdi.uitests.testing.unittests.InitTests;
 import com.epam.jdi.uitests.testing.unittests.custom.CheckListOfTypeOne;
 import com.epam.jdi.uitests.testing.unittests.enums.Nature;
+import com.epam.matcher.testng.Assert;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -13,14 +14,15 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.first;
+import static com.epam.jdi.tools.LinqUtils.listEquals;
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInState;
 import static com.epam.jdi.uitests.testing.unittests.enums.Nature.*;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.actionsLog;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActionsData.checkAction;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriver;
-import static com.epam.web.matcher.testng.Assert.*;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
+import static com.epam.matcher.testng.Assert.*;
 import static java.util.Arrays.asList;
 
 /**
