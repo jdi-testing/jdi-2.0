@@ -25,7 +25,7 @@ public abstract class TestsBase extends TestNGBase {
     }
 
     @AfterSuite(alwaysRun = true)
-    public static void tearDown() throws IOException {
+    public static void tearDown() {
         killAllRunWebBrowsers();
     }
 }

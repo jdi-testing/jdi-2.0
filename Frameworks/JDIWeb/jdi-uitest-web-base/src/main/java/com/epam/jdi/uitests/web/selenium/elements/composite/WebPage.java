@@ -22,7 +22,9 @@ import static com.epam.jdi.tools.switcher.SwitchActions.Value;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.*;
 import static com.epam.jdi.uitests.core.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getJSExecutor;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.hasRunDrivers;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.jsExecute;
 import static java.lang.String.format;
 
 public class WebPage extends BaseElement implements IPage {
@@ -175,6 +177,37 @@ public class WebPage extends BaseElement implements IPage {
     @JDIAction("Delete all cookies")
     public void clearCache() {
         getDriver().manage().deleteAllCookies();
+    }
+
+    @JDIAction
+    public static void zoom(double factor) {
+        WebDriverFactory.jsExecute("document.body.style.transform = 'scale(' + arguments[0] + ')';" +
+                "document.body.style.transformOrigin = '0 0';", factor);
+    }
+    @JDIAction
+    public static String getHtml() {
+        return WebDriverFactory.getDriver().getPageSource();
+    }
+
+    private static void scroll(int x, int y) {
+        WebDriverFactory.jsExecute("window.scrollBy("+x+","+y+")");
+    }
+
+    @JDIAction
+    public static void  scrollDown(int value) {
+        scroll(0,value);
+    }
+    @JDIAction
+    public static void  scrollUp(int value) {
+        scroll(0,-value);
+    }
+    @JDIAction
+    public static void  scrollRight(int value) {
+        scroll(value,0);
+    }
+    @JDIAction
+    public static void scrollLeft(int value) {
+        scroll(-value,0);
     }
 
     @Override

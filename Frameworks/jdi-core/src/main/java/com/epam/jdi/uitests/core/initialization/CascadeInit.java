@@ -136,13 +136,11 @@ public abstract class CascadeInit {
         }
     }
     protected IBaseElement getElementsRules(Field field, String driverName, Class<?> type) {
-        if (field.getName().equals("actionsLog"))
-            new Object();
         IBaseElement instance = Switch(type).get(
             Condition(isInterface(type, IEntityTable.class),
                 t -> initEntityTable(field)),
             Condition(isInterface(type, List.class),
-                t -> initList(t, field)),
+                t -> initList(field)),
             Else(t -> initElement(t, field)));
         instance.engine().setDriverName(driverName);
         return instance;
@@ -162,11 +160,11 @@ public abstract class CascadeInit {
             return (IBaseElement) elType.newInstance();
         } catch (Exception ex) { throw exception("Can't init common element for %s. Exception: %s", field.getName(), ex.getMessage()); }
     }
-    private IBaseElement initList(Class<?> type, Field field) {
+    private IBaseElement initList(Field field) {
         try {
             Class<?> elementClass = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
             if (elementClass.isInterface())
-                elementClass = getClassFromInterface(type, field.getName());
+                elementClass = getClassFromInterface(elementClass, field.getName());
                 return (IBaseElement) getClassFromInterface(IList.class, field.getName())
                     .getDeclaredConstructor(Class.class).newInstance(elementClass);
         } catch (Exception ex) { throw exception("Can't init List element for %s. Exception: %s", field.getName(), ex.getMessage()); }

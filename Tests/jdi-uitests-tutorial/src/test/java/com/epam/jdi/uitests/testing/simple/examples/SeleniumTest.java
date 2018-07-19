@@ -22,7 +22,8 @@ public class SeleniumTest {
     SeleniumPage page;
     WebDriver chromeDriver;
     private WebDriver initDriver() {
-        String driverPath = new File("").getAbsolutePath() + "/src/main/resources/driver/chromedriver.exe";
+        String driverPath = "C:/Selenium/chromedriver.exe";
+        System.out.println("PLACE CHROME DRIVER HERE: " + driverPath);
         setProperty("webdriver.chrome.driver", driverPath);
         chromeDriver = new ChromeDriver();
         chromeDriver.manage().window().maximize();
@@ -30,7 +31,7 @@ public class SeleniumTest {
     }
 
     @BeforeMethod
-    public void before(Method method) throws IOException {
+    public void before(Method method)  {
         page = initPageObject(SeleniumPage.class, this::initDriver);
     }
 

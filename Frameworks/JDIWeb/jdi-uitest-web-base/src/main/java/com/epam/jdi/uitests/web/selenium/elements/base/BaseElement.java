@@ -59,6 +59,9 @@ public abstract class BaseElement extends TBaseElement {
     public JavascriptExecutor jsExecutor() {
         return (JavascriptExecutor) getDriver();
     }
+    public void jsExecute(String js, Object... args) {
+        jsExecutor().executeScript(js, args);
+    }
     public WebDriver getDriver() {
         return engine().getDriver();
     }

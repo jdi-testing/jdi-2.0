@@ -70,6 +70,7 @@ public class WebCascadeInit extends CascadeInit {
     }
     public static <T> T initPageObject(Class<T> clazz, String driverName) {
         WebActions.Init();
+        initFromProperties();
         T page;
         try {
             page = clazz.newInstance();

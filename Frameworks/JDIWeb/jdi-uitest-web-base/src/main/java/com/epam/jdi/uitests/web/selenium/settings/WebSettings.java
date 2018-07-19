@@ -135,7 +135,8 @@ public class WebSettings extends JDISettings {
             {IFileInput.class, FileInput.class},
             {IDatePicker.class, DatePicker.class},
             {IEntityTable.class, EntityTable.class},
-            {IList.class, Elements.class}
+            {IList.class, Elements.class},
+            {List.class, Elements.class}
     };
     public static void initDriver() {
         if (!initialized)

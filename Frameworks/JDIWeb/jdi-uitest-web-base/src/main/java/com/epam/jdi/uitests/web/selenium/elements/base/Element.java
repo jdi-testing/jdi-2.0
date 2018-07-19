@@ -138,4 +138,47 @@ public class Element extends BaseElement implements IElement, IHasElement {
         Element el = new Element().setLocator(locator).setParent(this);
         return el.getWebElement();
     }
+
+    @JDIAction
+    public Element higlight(String color) {
+        jsExecute("style.border='3px dashed "+color+"'");
+        return this;
+    }
+    public Element higlight() {
+        show();
+        return higlight("red");
+    }
+
+    @JDIAction
+    public Element show() {
+        jsExecute("scrollIntoView(true)");
+        return this;
+    }
+
+    //region Actions
+    @JDIAction
+    public Element dragAndDropTo(WebElement to) {
+        doActions(a -> a.clickAndHold(getElement()).moveToElement(to).release(to));
+        return this;
+    }
+    @JDIAction
+    public Element doubleClick() {
+        doActions(Actions::doubleClick);
+        return this;
+    }
+    @JDIAction
+    public Element rightClick() {
+        doActions(Actions::contextClick);
+        return this;
+    }
+    @JDIAction
+    public Element dragAndDropTo(int x, int y) {
+        doActions(a -> a.dragAndDropBy(getElement(), x, y));
+        return this;
+    }
+    public Element doActions(JFunc1<Actions, Actions> actions) {
+        actions.execute(new Actions(getDriver())).build().perform();
+        return this;
+    }
+    //endregion
 }

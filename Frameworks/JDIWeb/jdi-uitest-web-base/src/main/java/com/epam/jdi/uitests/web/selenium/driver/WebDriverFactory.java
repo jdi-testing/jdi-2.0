@@ -143,6 +143,9 @@ public class WebDriverFactory {
                     "Exception: " + ex.getMessage());
         }
     }
+    public static void jsExecute(String js, Object... args) {
+        getJSExecutor().executeScript(js, args);
+    }
     public static JavascriptExecutor getJSExecutor() {
         if (getDriver() instanceof JavascriptExecutor)
             return (JavascriptExecutor) getDriver();
