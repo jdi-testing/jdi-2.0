@@ -5,7 +5,6 @@ package com.epam.jdi.uitests.web.testng.testRunner;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import com.epam.jdi.tools.func.JAction;
 import com.epam.jdi.tools.func.JFunc;
 import com.epam.jdi.uitests.core.interfaces.IAsserter;
 import com.epam.jdi.uitests.core.logger.ILogger;
@@ -27,16 +26,8 @@ public class TestNGCheck extends TestNG implements IAsserter {
         return null;
     }
 
-    public void ignore(JAction action) {
-
-    }
-
     public void isTrue(BooleanSupplier actual) {
-
-    }
-
-    public void checkMessage(String checkMessage) {
-
+        Assert.assertTrue(actual.getAsBoolean());
     }
 
     public void doScreenshot(String doScreenshot) {
