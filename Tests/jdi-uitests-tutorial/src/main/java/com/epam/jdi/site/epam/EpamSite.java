@@ -54,11 +54,11 @@ public class EpamSite extends WebSite {
     @JPage(url = "/insights", title = "Insights")
     public static InsightsPage insightsPage;
 
-    @FindBy(css = ".top-navigation__list")
+    @FindBy(css = ".top-navigation__item-link")
     public static Menu<HeaderMenu> headerMenu;
 
-    @JMenu({@FindBy(css = "ul.top-navigation__list>li span a"),
-           @FindBy(css = "ul.top-navigation__grand-sub-list>li a")})
+    @JMenu({@FindBy(css = "a.top-navigation__item-link>"),
+           @FindBy(css = "a.top-navigation__main-link")})
     public static Menu multipleHeaderMenu;
 
     @FindBy(css = ".tile-menu .submenu a")
