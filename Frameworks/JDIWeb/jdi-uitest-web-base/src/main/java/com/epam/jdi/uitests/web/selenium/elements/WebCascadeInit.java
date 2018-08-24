@@ -43,12 +43,15 @@ public class WebCascadeInit extends CascadeInit {
     protected Class<?>[] decorators() { return new Class<?>[] {IBaseElement.class, List.class, WebElement.class }; }
 
     protected void fillPageFromAnnotation(Field field, IBaseElement instance, Class<?> parentType) {
+        WebPage page = (WebPage) instance;
         if (field.getType().isAnnotationPresent(JPage.class))
-            fillPageFromAnnotaiton((WebPage) instance, field.getType().getAnnotation(JPage.class), parentType);
+            fillPageFromAnnotaiton(page, field.getType().getAnnotation(JPage.class), parentType);
         else {
             if (field.isAnnotationPresent(JPage.class))
-                fillPageFromAnnotaiton((WebPage) instance, field.getAnnotation(JPage.class), parentType);
+                fillPageFromAnnotaiton(page, field.getAnnotation(JPage.class), parentType);
         }
+        page.setName(field);
+        WebPage.addPage(page);
     }
     protected IBaseElement fillInstance(IBaseElement instance, Field field) {
         BaseElement element = (BaseElement) instance;

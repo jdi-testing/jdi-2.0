@@ -6,6 +6,7 @@ package com.epam.jdi.uitests.web.selenium.elements.composite;
  */
 
 import com.epam.jdi.tools.CacheValue;
+import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes;
 import com.epam.jdi.uitests.core.interfaces.composite.IPage;
@@ -209,7 +210,14 @@ public class WebPage extends BaseElement implements IPage {
     public static void scrollLeft(int value) {
         scroll(-value,0);
     }
-
+    private static MapArray<String, WebPage> pages = new MapArray<>();
+    public static void addPage(WebPage page) {
+        pages.update(page.getName(), page);
+    }
+    public static <T extends WebPage> T getPage(String name) {
+        WebPage page = pages.get(name);
+        return (T) (page == null ? pages.get(name + " Page") : page);
+    }
     @Override
     public String toString() {
         String result = getName();

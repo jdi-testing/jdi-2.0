@@ -22,9 +22,7 @@ import static com.epam.jdi.tools.LinqUtils.foreach;
 import static com.epam.jdi.tools.ReflectionUtils.*;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static com.epam.jdi.tools.TryCatchUtil.tryGetResult;
-import static com.epam.jdi.tools.switcher.SwitchActions.Condition;
-import static com.epam.jdi.tools.switcher.SwitchActions.Else;
-import static com.epam.jdi.tools.switcher.SwitchActions.Switch;
+import static com.epam.jdi.tools.switcher.SwitchActions.*;
 import static com.epam.jdi.uitests.core.initialization.MapInterfaceToElement.getClassFromInterface;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static java.lang.String.format;
@@ -137,9 +135,9 @@ public abstract class CascadeInit {
     }
     protected IBaseElement getElementsRules(Field field, String driverName, Class<?> type) {
         IBaseElement instance = Switch(type).get(
-            Condition(isInterface(type, IEntityTable.class),
+            Case(isInterface(type, IEntityTable.class),
                 t -> initEntityTable(field)),
-            Condition(isInterface(type, List.class),
+            Case(isInterface(type, List.class),
                 t -> initList(field)),
             Else(t -> initElement(t, field)));
         instance.engine().setDriverName(driverName);

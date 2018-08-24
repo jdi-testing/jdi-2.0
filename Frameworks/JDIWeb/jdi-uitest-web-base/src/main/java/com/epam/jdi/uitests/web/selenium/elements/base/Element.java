@@ -5,19 +5,24 @@ package com.epam.jdi.uitests.web.selenium.elements.base;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+import com.codeborne.selenide.Condition;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
+import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IElement;
 import com.epam.jdi.uitests.core.settings.JDISettings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.jdi.tools.ReflectionUtils.newEntity;
 import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
+import static com.epam.jdi.uitests.core.settings.JDISettings.asserter;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
+import static java.lang.String.format;
 
 public class Element extends BaseElement implements IElement, IHasElement {
 
@@ -181,4 +186,35 @@ public class Element extends BaseElement implements IElement, IHasElement {
         return this;
     }
     //endregion
+
+
+    public IBaseElement should(Condition... conditions){
+        Arrays.stream(conditions).forEach(condition ->
+                asserter.isTrue(condition.apply(getWebElement()),
+                        format("Expected: '%s' but found '%s'", condition.toString(), getWebElement().getText())
+                )
+        );
+        return this;
+    }
+    public IBaseElement shouldHave(Condition... conditions){
+        return should(conditions);
+    }
+    public IBaseElement shouldBe(Condition... conditions){
+        return should(conditions);
+    }
+    public IBaseElement shouldNot(Condition... conditions){
+        Arrays.stream(conditions).forEach(condition ->
+                asserter.isTrue(!condition.apply(getWebElement()),
+                        format("Expected: '%s' but found '%s'", condition.toString(), getWebElement().getText())
+                )
+        );
+        return this;
+    }
+    public IBaseElement shouldNotHave(Condition... conditions){
+        return shouldNot(conditions);
+    }
+    public IBaseElement shouldNotBe(Condition... conditions){
+        return shouldNot(conditions);
+    }
+
 }
