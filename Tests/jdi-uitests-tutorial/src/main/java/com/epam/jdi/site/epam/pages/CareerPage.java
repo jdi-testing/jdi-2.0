@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Roman_Iovlev on 10/22/2015.
  */
 public class CareerPage extends WebPage {
-    @Css(".job-search__row")
+    @Css(".section-ui[class*='hide-on-mobile'] form")
     public JobFilter jobFilter;
 
     @Css(".tile-menu>li>a")
