@@ -1,8 +1,8 @@
 package com.epam.jdi.uitests.core.exceptions;
 
 /**
- * {@code JDIUIException} is a wrapper or {@code java.lang.RuntimeException}.
- * Using for
+ * {@code JDIUIException} thrown to wrap exceptions
+ * caused by UI connection problems
  */
 public class JDIUIException extends RuntimeException {
     public JDIUIException() {}
