@@ -5,11 +5,12 @@ package com.epam.jdi.uitests.core.annotations;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
+/**
+ * Indicates the root element. {@code @Root} is used for cascade initialization
+ */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE, ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 public @interface Root {
