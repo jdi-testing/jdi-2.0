@@ -15,11 +15,22 @@ import static org.openqa.selenium.remote.BrowserType.*;
 public class DownloadDriverManager {
     public static boolean DOWNLOAD_DRIVER = true;
 
+    /**
+     * Checks if version correct
+     * @param version
+     * @return boolean
+     */
     private static boolean hasVersion(String version) {
         char c = version.charAt(0);
         return (c >= '0' && c <= '9');
     }
 
+    /**
+     * Downloads driver
+     * @param driverType - drivers type
+     * @param platform - platform for tests
+     * @param version - drivers version
+     */
     public static void downloadDriver(String driverType,
           Platform platform, String version) {
         WebDriverManager wdm;
