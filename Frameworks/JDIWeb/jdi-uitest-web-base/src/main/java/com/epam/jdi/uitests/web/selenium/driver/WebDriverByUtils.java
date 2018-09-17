@@ -23,16 +23,40 @@ import static java.lang.String.format;
 
 public final class WebDriverByUtils {
 
+    private static MapArray<String, String> byReplace = new MapArray<>(new Object[][] {
+            {"cssSelector", "css"},
+            {"tagName", "tag"},
+            {"className", "class"}
+    });
+
+
     private WebDriverByUtils() { }
 
+    /**
+     * Returns function
+     * @param by - by
+     * @return Function
+     */
     public static Function<String, By> getByFunc(By by) {
         return first(getMapByTypes(), key -> by.toString().contains(key));
     }
 
+    /**
+     * Creates message for bad locator
+     * @param byLocator - locator
+     * @param args - args
+     * @return String - message for bad locator
+     */
     private static String getBadLocatorMsg(String byLocator, Object... args) {
         return "Bad locator template '" + byLocator + "'. Args: " + print(select(args, Object::toString), ", ", "'%s'") + ".";
     }
 
+    /**
+     * Fills by template
+     * @param by - by
+     * @param args - args
+     * @return By - locator
+     */
     public static By fillByTemplate(By by, Object... args) {
         String byLocator = getByLocator(by);
         if (!byLocator.contains("%"))
@@ -45,14 +69,31 @@ public final class WebDriverByUtils {
         return getByFunc(by).apply(byLocator);
     }
 
+    /**
+     * Checks if locator contains 'root'
+     * @param by - locator
+     * @return boolean
+     */
     public static boolean containsRoot(By by) {
         return by != null && by.toString().contains(": *root*");
     }
+
+    /**
+     * Trims root
+     * @param by - locator
+     * @return By - trimmed locator
+     */
     public static By trimRoot(By by) {
         String byLocator = getByLocator(by).replace("*root*", " ").trim();
         return getByFunc(by).apply(byLocator);
     }
 
+    /**
+     * Fills locator with message
+     * @param by - locator
+     * @param args - args
+     * @return By - filled locator
+     */
     public static By fillByMsgTemplate(By by, Object... args) {
         String byLocator = getByLocator(by);
         try {
@@ -63,21 +104,32 @@ public final class WebDriverByUtils {
         return getByFunc(by).apply(byLocator);
     }
 
+    /**
+     * Copies locator
+     * @param by - locator
+     * @return By - copied locator
+     */
     public static By copyBy(By by) {
         String byLocator = getByLocator(by);
         return getByFunc(by).apply(byLocator);
     }
 
+    /**
+     * Returns locator as string
+     * @param by - locator
+     * @return String
+     */
     public static String getByLocator(By by) {
         String byAsString = by.toString();
         int index = byAsString.indexOf(": ") + 2;
         return byAsString.substring(index);
     }
-    private static MapArray<String, String> byReplace = new MapArray<>(new Object[][] {
-            {"cssSelector", "css"},
-            {"tagName", "tag"},
-            {"className", "class"}
-    });
+
+    /**
+     *  Returns locator as String by it's name
+     * @param by - locator
+     * @return String
+     */
     public static String getByName(By by) {
         Matcher m = Pattern.compile("By\\.(?<locator>.*):.*").matcher(by.toString());
         if (m.find()) {
@@ -87,17 +139,34 @@ public final class WebDriverByUtils {
         throw new LocatorException("Can't get By name for: " + by);
     }
 
+    /**
+     * Corrects xpath
+     * @param byValue - locator
+     * @return By - corrected locator
+     */
     public static By correctXPaths(By byValue) {
         return byValue.toString().contains("By.xpath: //")
                 ? getByFunc(byValue).apply(getByLocator(byValue)
                 .replaceFirst("/", "./"))
                 : byValue;
     }
+
+    /**
+     * Returns shorter locator
+     * @param by - locator
+     * @return String
+     */
     public static String shortBy(By by) {
         return by == null
                 ? "No locator"
                 : format("%s='%s'", getByName(by), getByLocator(by));
     }
+
+    /**
+     * Gets locator from string
+     * @param stringLocator
+     * @return By
+     */
     public static By getByFromString(String stringLocator) {
         if (stringLocator == null || stringLocator.equals(""))
             throw new LocatorException("Can't get By locator from string empty or null string");
@@ -118,6 +187,10 @@ public final class WebDriverByUtils {
         }
     }
 
+    /**
+     * Returns map with locators
+     * @return Map<String, Function<String, By>>
+     */
     private static Map<String, Function<String, By>> getMapByTypes() {
         Map<String, Function<String, By>> map = new HashMap<>();
         map.put("By.cssSelector", By::cssSelector);

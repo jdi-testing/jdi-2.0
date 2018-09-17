@@ -36,7 +36,7 @@ public class ScreenshotMaker {
     }
 
     /**
-     * Make screenshot
+     * Makes screenshot
      * @return String - screenshot path
      * @throws IOException
      */
@@ -64,7 +64,7 @@ public class ScreenshotMaker {
     }
 
     /**
-     * Check if screenshot was created success
+     * Checks if screenshot was created success
      * @return String - message with screenshot creation result
      */
     public static String doScreenshotGetMessage() {
