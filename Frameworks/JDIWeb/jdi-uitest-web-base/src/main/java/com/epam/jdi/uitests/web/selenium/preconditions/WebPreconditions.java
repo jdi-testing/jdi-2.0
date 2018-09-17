@@ -10,6 +10,9 @@ import com.epam.jdi.uitests.core.preconditions.IPreconditions;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.domain;
 
+/**
+ * Override of IPreconditions for Web
+ */
 public interface WebPreconditions extends IPreconditions {
     static boolean checkUrl(String uri) {
         return getDriver().getCurrentUrl().matches(".*/" + uri + "(\\?.*)?");
