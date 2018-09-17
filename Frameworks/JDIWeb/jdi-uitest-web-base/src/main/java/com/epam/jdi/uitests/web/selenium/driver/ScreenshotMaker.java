@@ -27,14 +27,28 @@ public class ScreenshotMaker {
     public ScreenshotMaker() {
     }
 
+    /**
+     * Creates ScreenShotMaker with pathSuffix
+     * @param pathSuffix - path for images store
+     */
     public ScreenshotMaker(String pathSuffix) {
         this.pathSuffix = pathSuffix;
     }
 
+    /**
+     * Make screenshot
+     * @return String - screenshot path
+     * @throws IOException
+     */
     public static String takeScreen() throws IOException {
         return new ScreenshotMaker().takeScreenshot();
     }
 
+    /**
+     * Returns correct path
+     * @param logPath - path for logs
+     * @return String - correct path for logs
+     */
     public static String getValidUrl(String logPath) {
         if (isBlank((logPath)))
             return "";
@@ -49,6 +63,10 @@ public class ScreenshotMaker {
                 : result + "\\";
     }
 
+    /**
+     * Check if screenshot was created success
+     * @return String - message with screenshot creation result
+     */
     public static String doScreenshotGetMessage() {
         String screenshotPath;
         try {
@@ -61,6 +79,11 @@ public class ScreenshotMaker {
                 : LINE_BREAK + "Add screenshot to: " + screenshotPath;
     }
 
+    /**
+     * Creates screenshot
+     * @return String - path to screenshot
+     * @throws IOException
+     */
     public String takeScreenshot() throws IOException {
         if (!hasRunDrivers())
             return "Can't do Screenshot. No Drivers run";
@@ -72,6 +95,11 @@ public class ScreenshotMaker {
         return screensFilePath;
     }
 
+    /**
+     * Increments file name if it needs
+     * @param fileName - file name for screenshot
+     * @return String - file name with increment
+     */
     private String getFileName(String fileName) {
         int num = 1;
         String newName = fileName;
