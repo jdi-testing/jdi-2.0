@@ -14,7 +14,14 @@ import static com.epam.jdi.uitests.web.selenium.elements.base.LinkedSetup.setupD
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;
 
+/**
+ * Search complex element
+ */
 public class Search extends ComboBox implements ISearch {
+    /**
+     * Sets up element
+     * @param field field
+     */
     @Override
     public void setup(Field field) {
         if (!fieldHasAnnotation(field, JSearch.class, ISearch.class))

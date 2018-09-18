@@ -17,9 +17,16 @@ import java.lang.reflect.Field;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;
 
-// TODO add annotations for isChecked
+/**
+ * CheckList complex element
+ * @param <TEnum> selector
+ */
 public class CheckList<TEnum extends Enum> extends MultiSelector<TEnum> implements ICheckList<TEnum>, ISetup {
 
+    /**
+     * Sets up element
+     * @param field
+     */
     @Override
     public void setup(Field field) {
         if (!fieldHasAnnotation(field, JCheckList.class, IDropList.class))
@@ -32,6 +39,12 @@ public class CheckList<TEnum extends Enum> extends MultiSelector<TEnum> implemen
         if (isSelected != null)
             linked().add("isSelected", isSelected);
     }
+
+    /**
+     * Checks whether element is selected
+     * @param el element
+     * @return true if element is selected, false otherwise
+     */
     @Override
     public boolean isSelected(WebElement el) {
         WebElement element = linked().has("isSelected")
