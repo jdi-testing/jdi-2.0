@@ -54,7 +54,7 @@ public class ActionProcessor {
     }
 
     /**
-     * Function called before annotated method
+     * Function which writes to log beginning of {@code JDIAction} or {@code Step}
      */
     public static JAction1<JoinPoint> jdiBefore = joinPoint -> {
         if (logger.getLogLevel() != OFF) {
@@ -70,7 +70,7 @@ public class ActionProcessor {
         logger.logOff();
     };
     /**
-     * Function called after annotated method
+     * Function which writes to log ending of {@code JDIAction} or {@code Step}
      */
     public static JAction2<JoinPoint, Object> jdiAfter = (joinPoint, result) -> {
         logger.logOn();
@@ -80,7 +80,8 @@ public class ActionProcessor {
         logger.debug("Done");
     };
     /**
-     * Function called if annotated method threw an error
+     * Function which throws an exception
+     * in case of an exception from {@code JDIAction} or {@code Step}
      */
     public static JAction2<JoinPoint, Throwable> jdiError = (joinPoint, error) -> {
         throw exception("Action %s failed. Can't get result. Reason: %s", getActionName(joinPoint), error.getMessage());
@@ -93,6 +94,7 @@ public class ActionProcessor {
             "(@annotation(com.epam.jdi.uitests.core.annotations.JDIAction)" +
             "|| @annotation(ru.yandex.qatools.allure.annotations.Step))")
     protected void logPointCut() {
+        // used for methods before, after and error
     }
 
     /**
