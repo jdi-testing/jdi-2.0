@@ -11,16 +11,23 @@ import com.epam.jdi.uitests.core.interfaces.base.IClickable;
 import static com.epam.jdi.uitests.core.actions.common.ImageActions.getAlt;
 import static com.epam.jdi.uitests.core.actions.common.ImageActions.getSource;
 
+/**
+ * Interface for images
+ */
 public interface IImage extends IClickable {
     /**
      * @return Get image source
      */
     @JDIAction
-    default String getSource() { return getSource.execute(this); }
+    default String getSource() {
+        return getSource.execute(this);
+    }
 
     /**
      * @return Get image alt/hint text
      */
     @JDIAction
-    default String getAlt() {return getAlt.execute(this); }
+    default String getAlt() {
+        return getAlt.execute(this);
+    }
 }

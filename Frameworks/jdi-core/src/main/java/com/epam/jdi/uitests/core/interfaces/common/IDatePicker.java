@@ -5,5 +5,8 @@ package com.epam.jdi.uitests.core.interfaces.common;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+/**
+ * Interface for Date Picker
+ */
 public interface IDatePicker extends ITextField {
 }

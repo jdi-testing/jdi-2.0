@@ -11,6 +11,9 @@ import com.epam.jdi.uitests.core.interfaces.base.IHasValue;
 
 import static com.epam.jdi.uitests.core.actions.common.TextActions.getText;
 
+/**
+ * Interface for elements with text
+ */
 public interface IText extends IHasValue, IElement {
     /**
      * @return Get Element’s text

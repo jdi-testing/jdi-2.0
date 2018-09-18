@@ -35,6 +35,7 @@ public interface ISelect extends IClickable, IText, ISetValue {
      * @param value Specify element value
      *              Set value to Element
      */
+    @Override
     default void setValue(String value) {
         select.execute(this, value);
     }

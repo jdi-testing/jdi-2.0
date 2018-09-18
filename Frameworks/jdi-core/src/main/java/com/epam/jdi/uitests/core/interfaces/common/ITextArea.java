@@ -9,10 +9,13 @@ import com.epam.jdi.uitests.core.annotations.JDIAction;
 
 import static com.epam.jdi.uitests.core.actions.common.TextFieldActions.addNewLine;
 
+/**
+ * Interface for TextAreas
+ */
 public interface ITextArea extends ITextField {
     /**
      * @param textRows Specify text lines (clear textArea before
-     *                  Clear textarea and Input several lines of text in textarea
+     *                 Clear textarea and Input several lines of text in textarea
      */
     @JDIAction
     default void inputLines(String... textRows) {
@@ -23,7 +26,7 @@ public interface ITextArea extends ITextField {
 
     /**
      * @param textRow Specify text to add new line (without clearing previous)
-     *                 Add text in textarea from new line
+     *                Add text in textarea from new line
      */
     @JDIAction
     default void addNewLine(String textRow) {
