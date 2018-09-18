@@ -27,10 +27,7 @@ import static com.epam.jdi.tools.ReflectionUtils.getFields;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.tools.StringUtils.msgFormat;
 import static com.epam.jdi.tools.StringUtils.splitLowerCase;
-import static com.epam.jdi.tools.switcher.SwitchActions.Case;
-import static com.epam.jdi.tools.switcher.SwitchActions.Default;
-import static com.epam.jdi.tools.switcher.SwitchActions.Switch;
-import static com.epam.jdi.tools.switcher.SwitchActions.Value;
+import static com.epam.jdi.tools.switcher.SwitchActions.*;
 import static com.epam.jdi.uitests.core.logger.LogLevels.*;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
@@ -124,6 +121,9 @@ public class ActionProcessor {
             jdiError.execute(joinPoint, error);
     }
 
+    /**
+     * @return Method Signature of current join point
+     */
     static MethodSignature getMethod(JoinPoint joinPoint) {
         return (MethodSignature) joinPoint.getSignature();
     }

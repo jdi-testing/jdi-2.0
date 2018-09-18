@@ -21,7 +21,6 @@ import static com.epam.jdi.tools.StringUtils.splitCamelCase;
  */
 @Aspect
 public class PrintProcessor {
-
     /**
      * Function doing logging and action execution
      */
@@ -41,7 +40,7 @@ public class PrintProcessor {
 
     /**
      * Method, which defines what to write into log
-     * @return result of method
+     * @return result of join point
      */
     @Around("execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.Print)")
     public Object action(ProceedingJoinPoint joinPoint) {

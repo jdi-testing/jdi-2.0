@@ -23,7 +23,7 @@ public interface IBaseElement extends IHasParent, INamed, IVisible {
     void setTypeName(String typeName);
 
     /**
-     * @return Current context
+     * @return Current context as String
      */
     default String printContext() {
         return ElementActions.printContext.execute(this);
@@ -36,7 +36,7 @@ public interface IBaseElement extends IHasParent, INamed, IVisible {
 
     /**
      * @param timoutSec Specify current timeout
-     * @return this element
+     * @return This element
      */
     <T extends IBaseElement> T withTimeout(int timoutSec);
 
