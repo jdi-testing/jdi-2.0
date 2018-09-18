@@ -7,9 +7,14 @@ package com.epam.jdi.uitests.core.interfaces.base;
 
 import static com.epam.jdi.uitests.core.actions.common.TextActions.getText;
 
+/**
+ * Interface for element with value
+ */
 public interface IHasValue {
     /**
      * @return Get value of Element
      */
-    default String getValue() { return getText.execute(this); }
+    default String getValue() {
+        return getText.execute(this);
+    }
 }

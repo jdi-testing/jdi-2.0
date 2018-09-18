@@ -11,12 +11,17 @@ import com.epam.jdi.uitests.core.interfaces.common.IText;
 import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.isChecked;
 import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.select;
 
+/**
+ * Interface for selectable elements
+ */
 public interface ISelect extends IClickable, IText, ISetValue {
     /**
      * Selects Element. Similar to click()
      */
     @JDIAction
-    default void select() { click(); }
+    default void select() {
+        click();
+    }
 
     /**
      * @return Checks is Element selected
@@ -34,8 +39,12 @@ public interface ISelect extends IClickable, IText, ISetValue {
         select.execute(this, value);
     }
 
-    @Override @JDIAction
+    /**
+     * @return isSelected
+     */
+    @Override
+    @JDIAction
     default String getText() {
-        return isSelected() + "";
+        return String.valueOf(isSelected());
     }
 }

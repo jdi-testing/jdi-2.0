@@ -7,6 +7,9 @@ package com.epam.jdi.uitests.core.interfaces.base;
 
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.select;
 
+/**
+ * Interface for elements with value, and the value available for setting
+ */
 public interface ISetValue extends IHasValue {
     /**
      * @param value Specify element value
