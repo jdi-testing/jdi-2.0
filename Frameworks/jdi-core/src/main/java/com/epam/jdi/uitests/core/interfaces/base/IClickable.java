@@ -7,8 +7,6 @@ package com.epam.jdi.uitests.core.interfaces.base;
 
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 
-import java.lang.annotation.Documented;
-
 import static com.epam.jdi.uitests.core.actions.common.ClickActions.click;
 
 /**

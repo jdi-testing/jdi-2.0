@@ -68,7 +68,7 @@ public interface IBaseElement extends IHasParent, INamed, IVisible {
      */
     @JDIAction(value = "Wait result")
     default <R> R wait(JFunc<R> get, JFunc1<R, Boolean> condition) {
-        return (R) ElementActions.getResultWithCondition.execute(this, () -> get.execute(), r -> condition.execute((R) r));
+        return (R) ElementActions.getResultWithCondition.execute(this, get::execute, r -> condition.execute((R) r));
     }
 
     /**
