@@ -14,6 +14,10 @@ public final class WebDriverUtils {
     }
 
     //TODO Add OS type and current user check.
+
+    /**
+     * Kills all webdrivers
+     */
     public static void killAllRunWebBrowsers() {
         asserter.ignore(() -> {
             killByName("chromedriver.exe");

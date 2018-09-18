@@ -16,6 +16,11 @@ public final class PreconditionsState {
     public static boolean alwaysMoveToCondition;
     private PreconditionsState() { }
 
+    /**
+     * Checks if test method reached exact state
+     * @param condition - condition to be reached
+     * @param method - test method that should be checked
+     */
     public static void isInState(IPreconditions condition, Method method) {
         try {
             logger.info("Move to condition: " + condition);
@@ -30,10 +35,19 @@ public final class PreconditionsState {
         }
     }
 
+    /**
+     * Checks if test reached exact state
+     * @param condition
+     */
     public static void isInState(IPreconditions condition) {
         isInState(condition, null);
     }
 
+    /**
+     * Moves test to exact condition
+     * @param condition - condition to be reached
+     * @param method - test method that should reach condition
+     */
     public static void moveToState(IPreconditions condition, Method method) {
         try {
             boolean temp = alwaysMoveToCondition;
@@ -45,6 +59,10 @@ public final class PreconditionsState {
         }
     }
 
+    /**
+     * Moves test to exact condition
+     * @param condition - condition to be reached
+     */
     public static void moveToState(IPreconditions condition) {
         moveToState(condition, null);
     }
