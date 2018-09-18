@@ -24,18 +24,24 @@ import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
 public class TableActions {
+    /**
+     *
+     */
     public static JFunc2<Object, TableLine, Object> castToRow =
             (o, row) -> {
-                Object newRow = newRow(((ETable)o).rowClass);
+                Object newRow = newRow(((ETable) o).rowClass);
                 List<Field> fields = filter(newRow.getClass().getFields(),
                         f -> f.getType().isAssignableFrom(IBaseElement.class));
                 row.pairs.forEach(pair ->
                         setRowField(newRow, fields, pair.key, pair.value));
                 return newRow;
             };
+    /**
+     * Convert table row to entity
+     */
     public static JFunc2<Object, TableLine, Object> rowToEntity =
             (o, row) -> {
-                Object entity = newEntity(((ETable)o).dataClass);
+                Object entity = newEntity(((ETable) o).dataClass);
                 if (row == null)
                     return entity;
 
@@ -44,11 +50,24 @@ public class TableActions {
                         -> setEntityField(entity, fields, entry.key, entry.value.getText()));
                 return entity;
             };
-    private static void setEntityField(Object entity, List<Field> fields, String fieldName, String value)
-    {
+
+    /**
+     *
+     * @param entity
+     * @param fields
+     * @param fieldName
+     * @param value
+     */
+    private static void setEntityField(Object entity, List<Field> fields, String fieldName, String value) {
         setField(entity, fields, fieldName, field -> convertStringToType(value, field));
     }
-    private static Object newRow(Class<?> rowClass){
+
+    /**
+     *
+     * @param rowClass
+     * @return
+     */
+    private static Object newRow(Class<?> rowClass) {
         if (rowClass == null)
             throw exception("Row class was not specified");
         try {
@@ -57,9 +76,16 @@ public class TableActions {
             throw exception("Can't Instantiate row: " + rowClass.getName());
         }
     }
+
+    /**
+     *
+     * @param row
+     * @param fields
+     * @param fieldName
+     * @param valueFunc
+     */
     private static void setField(Object row, List<Field> fields, String fieldName,
-                          JFunc1<Field, Object> valueFunc)
-    {
+                                 JFunc1<Field, Object> valueFunc) {
         Field field = LinqUtils.first(fields,
                 f -> f.getName().equalsIgnoreCase(fieldName));
         if (field == null) return;
@@ -69,8 +95,15 @@ public class TableActions {
             throw exception("Can't write field with name: " + fieldName);
         }
     }
-    private static void setRowField(Object row, List<Field> fields, String fieldName, ICell cell)
-    {
+
+    /**
+     *
+     * @param row
+     * @param fields
+     * @param fieldName
+     * @param cell
+     */
+    private static void setRowField(Object row, List<Field> fields, String fieldName, ICell cell) {
         setField(row, fields, fieldName, field -> {
             Class clazz = field.getType();
             if (clazz == null) return null;
