@@ -34,6 +34,10 @@ import static com.epam.jdi.uitests.core.settings.JDISettings.asserter;
 import static com.epam.jdi.uitests.core.utils.common.PrintUtils.getMapFromObject;
 import static java.lang.String.format;
 
+/**
+ * Generic interface declares methods that are common for major amount of web-forms (submit, fill...)
+ * @param <T> entity to fill the form (User, JobSearchFilter...)
+ */
 public interface IForm<T> extends IComposite, IHasValue {
     /**
      * @param map Specify entity as map
@@ -51,9 +55,18 @@ public interface IForm<T> extends IComposite, IHasValue {
         });
         setFilterAll();
     }
+
     void fillAction(ISetValue element, String value);
+
     FormFilters getFilter();
+
     void setFilterAll();
+
+    /**
+     * Retrieves the list of fields that could be filled.
+     * Fields could be filtered: mandatory or optional.
+     * @return List<Field>
+     */
     default List<Field> allFields() {
         switch (getFilter()) {
             case MANDATORY:
@@ -66,16 +79,19 @@ public interface IForm<T> extends IComposite, IHasValue {
                 return getFields(this, ISetValue.class);
         }
     }
+
     void setFilter(FormFilters filter);
 
     default IForm<T> onlyMandatory() {
         setFilter(MANDATORY);
         return this;
     }
+
     default IForm<T> onlyOptional() {
         setFilter(OPTIONAL);
         return this;
     }
+
     /**
      * @param entity Specify entity
      *               Fills all elements on the form which implements SetValue interface and can be matched with fields in input entity
@@ -103,7 +119,7 @@ public interface IForm<T> extends IComposite, IHasValue {
         List<String> compareFalse = new ArrayList<>();
         for (Field field : allFields()) {
             String fieldValue = map.first((name, value) ->
-                namesEqual(name, getElementName(field)));
+                    namesEqual(name, getElementName(field)));
             if (fieldValue == null) continue;
             IHasValue valueField = (IHasValue) getValueField(field, this);
             String actual = valueField.getValue().trim();
@@ -113,9 +129,10 @@ public interface IForm<T> extends IComposite, IHasValue {
         setFilterAll();
         return compareFalse;
     }
+
     /**
      * @param entity Specify entity
-     * Verify that form filled correctly. If not returns list of keys where verification fails
+     *               Verify that form filled correctly. If not returns list of keys where verification fails
      */
     @JDIAction("Verify form: {0}")
     default List<String> verify(T entity) {
@@ -139,8 +156,9 @@ public interface IForm<T> extends IComposite, IHasValue {
     default void check(MapArray<String, String> map) {
         List<String> result = verify(map);
         asserter.isTrue(result.size() == 0,
-            "Check form failed:" + LINE_BREAK + print(result, LINE_BREAK));
+                "Check form failed:" + LINE_BREAK + print(result, LINE_BREAK));
     }
+
     /**
      * @param entity Specify entity
      *               Verify that form filled correctly. If not throws error
@@ -152,7 +170,7 @@ public interface IForm<T> extends IComposite, IHasValue {
 
     /**
      * @param map Specify entity as map
-     *               Verify that form filled correctly. If not throws error
+     *            Verify that form filled correctly. If not throws error
      */
     @JDIAction("Check form: {0}")
     default void check(Map<String, String> map) {
@@ -235,6 +253,7 @@ public interface IForm<T> extends IComposite, IHasValue {
     default void login(T entity) {
         submit(entity, "login");
     }
+
     /**
      * @param entity Specify entity
      *               Fill all SetValue elements and click on Button “login” or ”loginButton” <br>
@@ -254,6 +273,7 @@ public interface IForm<T> extends IComposite, IHasValue {
     default void send(T entity) {
         submit(entity, "send");
     }
+
     /**
      * @param entity Specify entity
      *               Fill all SetValue elements and click on Button “add” or ”addButton” <br>
@@ -376,15 +396,23 @@ public interface IForm<T> extends IComposite, IHasValue {
      * * Letters case in button name  no matters
      */
     @JDIAction("Submit {0} and press {1}")
-    default void submit(T entity, Enum buttonName){
+    default void submit(T entity, Enum buttonName) {
         submit(entity, buttonName.toString().toLowerCase());
     }
 
+    /**
+     * Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
+     * @param objStrings    map to fill the form
+     * @param name          button name, case is ignored
+     * @apiNote To use this option Form pageObject should have button names in specific format <br>
+     * e.g. if you call "submit(user, "Publish") then you should have Element 'publishButton'. <br>
+     */
     @JDIAction("Submit {0} and press {1}")
     default void submit(MapArray<String, String> objStrings, String name) {
         fill(objStrings);
         getButton(this, name).click();
     }
+
     /**
      * @param objStrings Fill all SetValue elements and click on Button specified button e.g. "Publish" or "Save" <br>
      * @apiNote To use this option Form pageObject should have button names in specific format <br>
