@@ -23,9 +23,12 @@ import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
+/**
+ * Represents utility methods for tables, used in interfaces
+ */
 public class TableActions {
     /**
-     *
+     * Uses reflection to convert current object to row
      */
     public static JFunc2<Object, TableLine, Object> castToRow =
             (o, row) -> {
@@ -37,7 +40,7 @@ public class TableActions {
                 return newRow;
             };
     /**
-     * Convert table row to entity
+     * Uses reflection to convert current row to entity.
      */
     public static JFunc2<Object, TableLine, Object> rowToEntity =
             (o, row) -> {
@@ -51,22 +54,10 @@ public class TableActions {
                 return entity;
             };
 
-    /**
-     *
-     * @param entity
-     * @param fields
-     * @param fieldName
-     * @param value
-     */
     private static void setEntityField(Object entity, List<Field> fields, String fieldName, String value) {
         setField(entity, fields, fieldName, field -> convertStringToType(value, field));
     }
 
-    /**
-     *
-     * @param rowClass
-     * @return
-     */
     private static Object newRow(Class<?> rowClass) {
         if (rowClass == null)
             throw exception("Row class was not specified");
@@ -77,13 +68,6 @@ public class TableActions {
         }
     }
 
-    /**
-     *
-     * @param row
-     * @param fields
-     * @param fieldName
-     * @param valueFunc
-     */
     private static void setField(Object row, List<Field> fields, String fieldName,
                                  JFunc1<Field, Object> valueFunc) {
         Field field = LinqUtils.first(fields,
@@ -96,13 +80,6 @@ public class TableActions {
         }
     }
 
-    /**
-     *
-     * @param row
-     * @param fields
-     * @param fieldName
-     * @param cell
-     */
     private static void setRowField(Object row, List<Field> fields, String fieldName, ICell cell) {
         setField(row, fields, fieldName, field -> {
             Class clazz = field.getType();
@@ -116,5 +93,4 @@ public class TableActions {
             return value;
         });
     }
-
 }

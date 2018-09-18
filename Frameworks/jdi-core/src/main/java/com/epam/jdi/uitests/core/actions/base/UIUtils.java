@@ -20,6 +20,9 @@ import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.tools.StringUtils.namesEqual;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
+/**
+ * Represents utility methods for ui-elements (buttons, labels...)
+ */
 public class UIUtils {
     /**
      * Retrieves button from {@link Object} by its name
@@ -44,9 +47,9 @@ public class UIUtils {
     }
 
     /**
-     * Converts the string to buttonName string
-     * @param buttonName    string to convert (ex. 'OK')
-     * @return String       converted string (ex. 'okbutton')
+     * Converts the string to buttonName string for further usage
+     * @param buttonName    string to convert (for example, 'OK')
+     * @return String       converted string (for example, 'okbutton')
      */
     private static String toButton(String buttonName) {
         return buttonName.toLowerCase().contains("button") ? buttonName : buttonName + "button";
@@ -86,5 +89,4 @@ public class UIUtils {
             throw exception("Can't find Text Element '%s'", obj);
         return (IText) getValueField(textField, obj);
     }
-
 }
