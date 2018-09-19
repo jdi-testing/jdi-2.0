@@ -54,12 +54,20 @@ public class WebSettings extends JDISettings {
         else
             throw new ClassCastException("JavaScript Executor doesn't support");
     }
+
+    /**
+     * Inits logger
+     */
     public static synchronized void init()  {
         logger = JDILogger.instance("JDI");
         MapInterfaceToElement.init(defaultInterfacesMap);
     }
+
     public static boolean initialized = false;
 
+    /**
+     * Inits driver
+     */
     public static synchronized void initFromProperties() {
         init();
         JDISettings.initFromProperties();
@@ -102,6 +110,12 @@ public class WebSettings extends JDISettings {
         fillAction(p -> PAGE_LOAD_STRATEGY = getPageLoadStrategy(p), "page.load.strategy");
         initialized = true;
     }
+
+    /**
+     * Sets PageLoadStrategy
+     * @param strategy
+     * @return PageLoadStrategy
+     */
     private static PageLoadStrategy getPageLoadStrategy(String strategy) {
         switch (strategy.toLowerCase()) {
             case "normal": return NORMAL;
@@ -138,6 +152,10 @@ public class WebSettings extends JDISettings {
             {IList.class, Elements.class},
             {List.class, Elements.class}
     };
+
+    /**
+     * Inits driver
+     */
     public static void initDriver() {
         if (!initialized)
             try {

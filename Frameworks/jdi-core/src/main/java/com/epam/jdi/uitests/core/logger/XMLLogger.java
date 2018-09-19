@@ -14,9 +14,7 @@ import java.util.Date;
 import static org.apache.logging.log4j.LogManager.getLogger;
 
 public class XMLLogger {
-
     private Logger log;
-
     private SimpleDateFormat dateFormat;
 
     public XMLLogger() {
@@ -231,6 +229,10 @@ public class XMLLogger {
         }
     }
 
+    /**
+     * Returns current formatted date
+     * @return String - formatted date
+     */
     private String getFormattedDate(){
         return dateFormat != null ? " t=\"" + dateFormat.format(new Date()) + "\"" : "";
     }

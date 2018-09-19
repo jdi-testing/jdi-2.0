@@ -5,11 +5,13 @@ package com.epam.jdi.uitests.core.annotations;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
+/**
+ * {@code @Title} marks field that is assumed as a section name.
+ * It is used in {@code Elements} to identify a title field
+ */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface Title {
