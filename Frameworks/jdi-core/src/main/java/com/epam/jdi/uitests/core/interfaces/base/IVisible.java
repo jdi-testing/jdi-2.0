@@ -17,7 +17,6 @@ public interface IVisible {
     default boolean displayed() {
         return wait.execute(this, this::displayedNow);
     }
-
     /**
      * Waits while Element becomes invisible
      */
@@ -25,7 +24,6 @@ public interface IVisible {
     default boolean vanished() {
         return wait.execute(this, () -> !displayedNow());
     }
-
     /**
      * @return Check is Element visible
      */
@@ -33,7 +31,6 @@ public interface IVisible {
     default boolean displayedNow() {
         return displayed.execute(this);
     }
-
     /**
      * @return Check is Element hidden
      */
@@ -42,17 +39,10 @@ public interface IVisible {
         return !displayedNow();
     }
 
-    /**
-     * @return Check is Element enable
-     */
     @JDIAction
     default boolean enabled() {
         return enabled.execute(this);
     }
-
-    /**
-     * @return Check is Element disable
-     */
     @JDIAction
     default boolean disabled() {
         return !enabled();
