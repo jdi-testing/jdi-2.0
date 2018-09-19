@@ -12,15 +12,31 @@ import com.epam.jdi.uitests.core.interfaces.common.IText;
 import java.util.List;
 
 public interface ITextList extends IList<IText>, IBaseElement {
+    /**
+     * @return list of texts from all elements
+     */
     default List<String> asText() {
         return LinqUtils.map(getAll().values(), IText::getText);
     }
+
+    /**
+     * @return text of the first element of the list
+     */
     default String firstText() {
         return first().getText();
     }
+
+    /**
+     * @return text of the last element of the list
+     */
     default String lastText() {
         return last().getText();
     }
+
+    /**
+     * @param index index of the element
+     * @return text of the element specified by index
+     */
     default String getText(int index) {
         return get(index).getText();
     }

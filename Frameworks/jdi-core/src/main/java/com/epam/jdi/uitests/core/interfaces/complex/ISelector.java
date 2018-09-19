@@ -13,41 +13,49 @@ import static com.epam.jdi.uitests.core.actions.complex.SelectActions.*;
 
 public interface ISelector<TEnum extends Enum> extends IBaseSelector {
     /**
-     * @param name Specify name using string
-     *             Select Element with name (use text) from list
+     * @param name name of the Element to select from list of Elements
      */
     @JDIAction
-    default void select(String name) { select.execute(this, name);}
+    default void select(String name) {
+        select.execute(this, name);
+    }
 
     /**
-     * @param name Specify name using enum
-     *             Select Element with name (use enum) from list
+     * @param name enum with the name of the Element to select from list of Elements
      */
     @JDIAction
-    default void select(TEnum name) { select(getEnumValue(name));}
+    default void select(TEnum name) {
+        select(getEnumValue(name));
+    }
 
     /**
-     * @param index Specify digit to select
-     *              Select Element with name (use index) from list
+     * @param index index of the Element to select from list of Elements
      */
     @JDIAction
-    default void select(int index) { selectByIndex.execute(this, index); }
+    default void select(int index) {
+        selectByIndex.execute(this, index);
+    }
 
     /**
-     * @return Get name of the selected Element
+     * @return name of the selected Element
      */
     @JDIAction
-    default String getSelected() { return getSelected.execute(this); }
+    default String getSelected() {
+        return getSelected.execute(this);
+    }
 
     /**
-     * @return Get index of the selected Element
+     * @return index of the selected Element
      */
     @JDIAction
-    default int getSelectedIndex() { return getSelectedIndex.execute(this); }
+    default int getSelectedIndex() {
+        return getSelectedIndex.execute(this);
+    }
 
     /**
-     * @param name Specify name using string
-     * Wait while option (from text) is selected. Return false if this not happens
+     * Waits until the option is selected
+     *
+     * @param name option name
      */
     @JDIAction
     default void waitSelected(String name) {
@@ -55,17 +63,26 @@ public interface ISelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * @param name Specify name using enum
-     * Wait while option (from enum) is selected. Return false if this not happens
+     * Waits until the option is selected
+     *
+     * @param name enum with the option name
      */
     @JDIAction
-    default void waitSelected(TEnum name) { wait.execute(this, () -> isSelected(name));};
+    default void waitSelected(TEnum name) {
+        wait.execute(this, () -> isSelected(name));
+    }
 
+    /**
+     * @return name of the selected Element
+     */
     @Override
     default String getValue() {
         return getSelected();
     }
 
+    /**
+     * @param value name of the Element to select from list of Elements
+     */
     @Override
     default void setValue(String value) {
         select(value);

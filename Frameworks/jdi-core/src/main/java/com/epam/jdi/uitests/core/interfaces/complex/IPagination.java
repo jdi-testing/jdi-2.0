@@ -12,42 +12,50 @@ import com.epam.jdi.uitests.core.interfaces.base.IComposite;
 
 public interface IPagination extends IBaseElement, IComposite {
     /**
-     * Choose Next page
+     * Chooses the Next page
      */
     @JDIAction
-    default void next() { ((IClickable)linked().get("next")).click(); }
+    default void next() {
+        ((IClickable) linked().get("next")).click();
+    }
 
     /**
-     * Choose Previous page
+     * Chooses the Previous page
      */
     @JDIAction
-    default void previous() { ((IClickable)linked().get("prev")).click(); }
+    default void previous() {
+        ((IClickable) linked().get("prev")).click();
+    }
 
     /**
-     * Choose First page
+     * Chooses the First page
      */
     @JDIAction
-    default void first() { ((IClickable)linked().get("first")).click(); }
+    default void first() {
+        ((IClickable) linked().get("first")).click();
+    }
 
     /**
-     * Choose Last page
+     * Chooses the Last page
      */
     @JDIAction
-    default void last() { ((IClickable)linked().get("last")).click(); }
+    default void last() {
+        ((IClickable) linked().get("last")).click();
+    }
 
     /**
-     * @param index Specify page index
-     *              Choose page by index
+     * @param index index of a page to select
      */
     @JDIAction
     default void selectPage(int index) {
-        ((ISelector)linked().get("page")).select(index);
+        ((ISelector) linked().get("page")).select(index);
     }
+
     /**
-     * Get Selected page index
+     * @return the selected page index
      */
     @JDIAction
     default int pageSelected() {
-        return ((ISelector)linked().get("page")).getSelectedIndex();
+        return ((ISelector) linked().get("page")).getSelectedIndex();
     }
 }
