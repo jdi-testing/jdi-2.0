@@ -43,8 +43,8 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 @SuppressWarnings("unused")
 @Aspect
 public class ActionProcessor {
-    private static String SHORT_TEMPLATE = "{element} {action}";
-    private static String DEFAULT_TEMPLATE = "{action} ({element})";
+    public static String SHORT_TEMPLATE = "{element} {action}";
+    public static String DEFAULT_TEMPLATE = "{action} ({element})";
 
     private static String getTemplate(LogLevels level) {
         return level.equalOrMoreThan(STEP) ? SHORT_TEMPLATE : DEFAULT_TEMPLATE;
@@ -158,7 +158,7 @@ public class ActionProcessor {
      *
      * @return Log level
      */
-    private static LogLevels logLevel(JoinPoint joinPoint) {
+    static LogLevels logLevel(JoinPoint joinPoint) {
         Method m = getMethod(joinPoint).getMethod();
         return m.isAnnotationPresent(JDIAction.class)
                 ? m.getAnnotation(JDIAction.class).level()

@@ -36,7 +36,7 @@ public class PrintProcessor {
     /**
      * Default logging pattern
      */
-    private static final String DEFAULT_PRINT = "Do %s action";
+    public static final String DEFAULT_PRINT = "Do %s action";
 
     /**
      * Method, which defines what to write into log
