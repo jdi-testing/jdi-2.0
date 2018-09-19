@@ -47,7 +47,7 @@ public class Filters {
     }
 
     /**
-     * Matching lamda with functional interface on matches
+     * Matching lamda with functional interface on matches(String regex)
      * @param expected String
      * @return IFilter
      */
@@ -91,8 +91,25 @@ public class Filters {
         return actual -> actual.toLowerCase().trim().contains(expected.toLowerCase().trim());
     }
 
+  /**
+   * Matching lamda with functional interface on equals
+   * @param number int
+   * @return IFilter
+   */
     public static IFilter<Integer> equalsTo(int number) { return i -> i==number; }
+
+  /**
+   * Matching lamda with functional interface on moreThan passed values
+   * @param number int
+   * @return IFilter
+   */
     public static IFilter<Integer> moreThan(int number) { return i -> i>number; }
+
+  /**
+   * Matching lamda with functional interface on lessThan passed values
+   * @param number int
+   * @return IFilter
+   */
     public static IFilter<Integer> lessThan(int number) { return i -> i<number; }
 
     public static <T> IFilter<T> not(IFilter<T> filter) { return t -> !filter.execute(t); }
