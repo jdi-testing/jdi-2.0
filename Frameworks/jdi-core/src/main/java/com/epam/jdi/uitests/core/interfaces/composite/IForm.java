@@ -56,15 +56,33 @@ public interface IForm<T> extends IComposite, IHasValue {
         setFilterAll();
     }
 
+    /**
+     * fills element with value
+     * @param element webElement
+     * @param value string to fill element
+     */
     void fillAction(ISetValue element, String value);
 
+    /**
+     * Gets current filter
+     * @return FormFilters
+     */
     FormFilters getFilter();
 
+    /**
+     * Sets filter to FormFilters.ALL
+     */
     void setFilterAll();
 
     /**
-     * Retrieves the list of fields that could be filled.
-     * Fields could be filtered: mandatory or optional.
+     * Sets filter with required value
+     * @param filter FormFilters
+     */
+    void setFilter(FormFilters filter);
+
+    /**
+     * Retrieves the list of fields that should be filled.
+     * Fields could be filtered: mandatory, optional, all.
      * @return List<Field>
      */
     default List<Field> allFields() {
@@ -80,13 +98,19 @@ public interface IForm<T> extends IComposite, IHasValue {
         }
     }
 
-    void setFilter(FormFilters filter);
-
+    /**
+     * Returns {@link IForm<T>} with fields filtered as mandatory
+     * @return IForm<T>
+     */
     default IForm<T> onlyMandatory() {
         setFilter(MANDATORY);
         return this;
     }
 
+    /**
+     * Returns {@link IForm<T>} with fields filtered as optional
+     * @return IForm<T>
+     */
     default IForm<T> onlyOptional() {
         setFilter(OPTIONAL);
         return this;
