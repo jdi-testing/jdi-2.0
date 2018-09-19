@@ -42,14 +42,29 @@ public class WebDriverFactory {
         return drivers.any();
     }
 
-    // REGISTER DRIVER
+    /**
+     * Registers driver
+     * @param driver - driver
+     * @return String - drivers name
+     */
     public static String useDriver(JFunc<WebDriver> driver) {
         return useDriver("Driver" + (drivers.size() + 1), driver);
     }
+
+    /**
+     * Registers driver
+     * @param driver - drivers name
+     * @return String - drivers name
+     */
     public static String useDriver(String driver) {
         return useDriver(driver, () -> initDriver(driver));
     }
 
+    /**
+     * Inits driver
+     * @param type - drivers type
+     * @return WebDriver
+     */
     private static WebDriver initDriver(String type) {
         WebDriver driver;
         switch (type) {
@@ -91,7 +106,13 @@ public class WebDriverFactory {
         }
         return DRIVER_SETTINGS.execute(driver);
     }
-    // GET DRIVER
+
+    /**
+     * Registers driver
+     * @param driverName - drivers name
+     * @param driver
+     * @return String - drivers name
+     */
     public static String useDriver(String driverName, JFunc<WebDriver> driver) {
         if (!drivers.keys().contains(driverName))
             drivers.add(driverName, driver);
@@ -101,6 +122,10 @@ public class WebDriverFactory {
         return driverName;
     }
 
+    /**
+     * Returns WebDriver
+     * @return WebDriver
+     */
     public static WebDriver getDriver() {
         try {
             if (!DRIVER_NAME.equals(""))
@@ -112,6 +137,11 @@ public class WebDriverFactory {
         }
     }
 
+    /**
+     * Gets driver by it's name
+     * @param driverName - drivers name
+     * @return WebDriver
+     */
     public static WebDriver getDriver(String driverName) {
         if (!drivers.keys().contains(driverName))
             if (drivers.count() == 0)
@@ -143,19 +173,38 @@ public class WebDriverFactory {
                     "Exception: " + ex.getMessage());
         }
     }
+
+    /**
+     * Executes js
+     * @param js - js to execute
+     * @param args - args
+     */
     public static void jsExecute(String js, Object... args) {
         getJSExecutor().executeScript(js, args);
     }
+
+    /**
+     * Gets JavascriptExecutor
+     * @return JavascriptExecutor
+     */
     public static JavascriptExecutor getJSExecutor() {
         if (getDriver() instanceof JavascriptExecutor)
             return (JavascriptExecutor) getDriver();
         else
             throw new ClassCastException("JavaScript Executor doesn't support");
     }
+
+    /**
+     * Reopens driver
+     */
     public static void reopenDriver() {
         reopenDriver(DRIVER_NAME);
     }
 
+    /**
+     * Reopens driver
+     * @param driverName - drivers name
+     */
     public static void reopenDriver(String driverName) {
         MapArray<String, WebDriver> rDriver = runDrivers.get();
         if (rDriver.keys().contains(driverName)) {
@@ -167,18 +216,29 @@ public class WebDriverFactory {
             getDriver();
     }
 
+    /**
+     * Switches to driver
+     * @param driverName - drivers name
+     */
     public static void switchToDriver(String driverName) {
         if (drivers.keys().contains(driverName))
             DRIVER_NAME = driverName;
         else
             throw exception("Can't switch to Webdriver '%s'. This Driver name not registered", driverName);
     }
+
+    /**
+     * Closes driver
+     */
     public static void close() {
         for (Pair<String, WebDriver> driver : runDrivers.get())
             driver.value.quit();
         runDrivers.get().clear();
     }
 
+    /**
+     * Quites driver
+     */
     public static void quit() {
         close();
     }
