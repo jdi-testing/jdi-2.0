@@ -68,7 +68,6 @@ public class DriverData {
         );
     }
 
-    // GET DRIVER
     public static JFunc<FirefoxOptions> FIREFOX_OPTIONS = () -> {
         FirefoxProfile firefoxProfile = new FirefoxProfile();
         firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
@@ -109,6 +108,11 @@ public class DriverData {
         cap.setExperimentalOption("prefs", chromePrefs);
         return cap;
     };
+
+    /**
+     * Get browsers size options
+     * @return String
+     */
     private static String getBrowserSizeOption() {
         List<String> groups = matches(BROWSER_SIZE, "([0-9]+)[^0-9]*([0-9]+)");
         return groups.size() == 2
