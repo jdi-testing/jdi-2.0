@@ -12,9 +12,8 @@ import java.util.Properties;
 public class JDIPropertiesReader {
 
     /**
-     * Returns properties from a file
      * @param path a path to properties file
-     * @return Properties
+     * @return properties from a file
      */
     public static Properties getProperties(String path) {
         Properties p = PropertyReader.getProperties("/../../target/classes/" + path);

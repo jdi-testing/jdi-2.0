@@ -18,8 +18,8 @@ import static com.epam.jdi.uitests.core.logger.LogLevels.STEP;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface JDIAction {
+
     /**
-     * Returns action value
      * @return description of the action
      */
     String value() default "";

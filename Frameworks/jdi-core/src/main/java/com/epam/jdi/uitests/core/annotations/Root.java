@@ -8,7 +8,10 @@ package com.epam.jdi.uitests.core.annotations;
 import java.lang.annotation.*;
 
 /**
- * Indicates the root element. {@code @Root} is used for cascade initialization
+ * {@code @Root} annotation is used for breaking the cascade locators chain.
+ * For example if some section has "locator1" and element on it has "locator2",
+ * then search locator would be "locator1 + locator2".
+ * But if you put {@code @Root} on element, then locator will be only "locator2"
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

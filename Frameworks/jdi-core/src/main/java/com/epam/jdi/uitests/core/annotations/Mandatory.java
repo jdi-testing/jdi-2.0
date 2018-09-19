@@ -8,7 +8,7 @@ package com.epam.jdi.uitests.core.annotations;
 import java.lang.annotation.*;
 
 /**
- * Indicates that the field is mandatory or that a type represents a mandatory field
+ * Annotation {@code @Mandatory} is used in forms in order to indicate that field is mandatory for filling
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

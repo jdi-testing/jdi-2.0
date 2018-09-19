@@ -9,14 +9,8 @@ import java.lang.reflect.Field;
 
 import static com.epam.jdi.tools.StringUtils.splitCamelCase;
 
-/**
- * Base annotation utilities
- */
 public class AnnotationsUtil {
-    
-    /**
-     * Protected constructor
-     */
+
     protected AnnotationsUtil() {
     }
     

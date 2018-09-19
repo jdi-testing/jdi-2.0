@@ -43,7 +43,6 @@ public abstract class JDISettings {
         fillAction(p -> useCache =
                 p.toLowerCase().equals("true") || p.toLowerCase().equals("1"), "cache");
         fillAction(p -> timeouts.setDefaultTimeoutSec(parseInt(p)), "timeout.wait.element");
-        // fillAction(p -> timeouts.waitPageLoadSec = parseInt(p), "timeout.wait.pageLoad");
     }
 
     /**
@@ -57,10 +56,9 @@ public abstract class JDISettings {
     }
 
     /**
-     * Returns an AssertionError with a message formatted from method parameters by the asserter
      * @param msg a format string
      * @param args arguments referenced by the format specifiers in the format string
-     * @return AssertionError
+     * @return AssertionError with a message formatted from method parameters by the asserter
      */
     public static AssertionError exception(String msg, Object... args) {
         return asserter.exception(msg, args);

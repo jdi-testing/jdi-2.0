@@ -8,7 +8,8 @@ package com.epam.jdi.uitests.core.annotations;
 import java.lang.annotation.*;
 
 /**
- * Indicates that the field or the type represents a title
+ * {@code @Title} marks field that is assumed as a section name.
+ * It is used in {@code Elements} to identify a title field
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
