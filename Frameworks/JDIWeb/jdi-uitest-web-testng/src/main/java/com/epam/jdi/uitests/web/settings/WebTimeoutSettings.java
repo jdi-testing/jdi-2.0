@@ -15,12 +15,12 @@ import static com.epam.matcher.base.Check.*;
  */
 public class WebTimeoutSettings extends TimeoutSettings {
 
-    @Override
     /**
      * Sets Timeout in seconds from TimeoutSettings class, and pass that timeout to WAIT_TIMEOUT of Check class
      *
-     * @param timeoutSec the timeout walue in seconds
+     * @param timeoutSec the timeout value in seconds
      */
+    @Override
     public void setCurrentTimeoutSec(int timeoutSec) {
         super.setCurrentTimeoutSec(timeoutSec);
         WAIT_TIMEOUT = timeoutSec;

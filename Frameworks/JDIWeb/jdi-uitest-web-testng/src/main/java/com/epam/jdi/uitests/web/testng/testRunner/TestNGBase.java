@@ -38,13 +38,13 @@ public class TestNGBase {
         return timer.timePassedInMSec();
     }
 
-    @BeforeSuite(alwaysRun = true)
     /**
      * Sets up JDI parameters, including initialisation from Properties. Kills browsers, if requested in "killBrowser" ;
      * restart timer and if no driver specified set Chrome as default.
      *
      * @throws IOException if an input/output exception occured.
      */
+    @BeforeSuite(alwaysRun = true)
     public static void jdiSetUp() throws IOException {
         initFromProperties();
         logger.info("Init test run");
@@ -55,12 +55,12 @@ public class TestNGBase {
         timer.restart();
     }
 
-    @AfterSuite(alwaysRun = true)
     /**
      * Tears down JDI settings, logs end datetime of test, kills browsers if requested in "killBrowser"
      *
      * @throws IOException if an input/output exception occured.
      */
+    @AfterSuite(alwaysRun = true)
     public static void jdiTearDown() throws IOException {
         LocalDateTime date = Instant.ofEpochMilli(21 * 3600000 + getTestRunTime())
                 .atZone(ZoneId.systemDefault())

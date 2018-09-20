@@ -44,9 +44,9 @@ public class JDITestNGSettings extends WebSettings {
         fillAction(p -> asserter.doScreenshot(p), "screenshot.strategy");
         initialized = true;
     }
-    @Test
     /**
      * Empty method, does nothing
      */
+    @Test
     public void testMethod() {}
 }
