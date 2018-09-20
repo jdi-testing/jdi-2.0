@@ -16,6 +16,8 @@ import static com.epam.jdi.uitests.core.actions.common.ImageActions.getSource;
  */
 public interface IImage extends IClickable {
     /**
+     * Get source
+     *
      * @return Get image source
      */
     @JDIAction
@@ -24,7 +26,9 @@ public interface IImage extends IClickable {
     }
 
     /**
-     * @return Get image alt/hint text
+     * Get image alt/hint text
+     *
+     * @return Image alt/hint text
      */
     @JDIAction
     default String getAlt() {

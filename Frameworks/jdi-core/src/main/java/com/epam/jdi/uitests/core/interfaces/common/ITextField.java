@@ -16,8 +16,9 @@ import static com.epam.jdi.uitests.core.actions.common.TextFieldActions.*;
  */
 public interface ITextField extends ISetValue, IText, IElement {
     /**
-     * @param text Specify text to input to TextField
-     *             Input text in textfield
+     * Input text in textfield
+     *
+     * @param text Text to be set to textfield
      */
     @JDIAction
     default void input(CharSequence text) {
@@ -26,6 +27,8 @@ public interface ITextField extends ISetValue, IText, IElement {
 
     /**
      * Returns label of text field
+     *
+     * @return Label of text field
      */
     @JDIAction
     default String getLabel() {
@@ -33,8 +36,9 @@ public interface ITextField extends ISetValue, IText, IElement {
     }
 
     /**
-     * @param text Specify text to send keys to TextField
-     *             Input text in textfield
+     * Specify text to send keys to TextField
+     *
+     * @param text Keys to be sent to the TextField
      */
     @JDIAction
     default void sendKeys(CharSequence text) {
@@ -42,8 +46,9 @@ public interface ITextField extends ISetValue, IText, IElement {
     }
 
     /**
-     * @param text Specify text to input to TextField
-     *             Clear and input text in textfield
+     * Clear and input text in textfield
+     *
+     * @param text Text to input to TextField
      */
     @JDIAction
     default void newInput(CharSequence text) {
@@ -70,7 +75,8 @@ public interface ITextField extends ISetValue, IText, IElement {
 
     /**
      * Synonym for newInput method
-     * @param value Specify element value
+     *
+     * @param value Element's value
      */
     @Override
     default void setValue(String value) {

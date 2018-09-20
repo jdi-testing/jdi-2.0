@@ -14,8 +14,9 @@ import static com.epam.jdi.uitests.core.actions.common.TextFieldActions.addNewLi
  */
 public interface ITextArea extends ITextField {
     /**
-     * @param textRows Specify text lines (clear textArea before
-     *                 Clear textarea and Input several lines of text in textarea
+     * Clear textarea and Input several lines of text in textarea
+     *
+     * @param textRows Lines of text to be set
      */
     @JDIAction
     default void inputLines(String... textRows) {
@@ -25,8 +26,9 @@ public interface ITextArea extends ITextField {
     }
 
     /**
-     * @param textRow Specify text to add new line (without clearing previous)
-     *                Add text in textarea from new line
+     * Add text in textarea from new line (without clearing previous)
+     *
+     * @param textRow Line to be add to the textarea
      */
     @JDIAction
     default void addNewLine(String textRow) {
@@ -34,7 +36,9 @@ public interface ITextArea extends ITextField {
     }
 
     /**
-     * @return Get lines of text in textarea
+     * Get lines of text in textarea
+     *
+     * @return Lines of text in textarea
      */
     @JDIAction
     default String[] getLines() {

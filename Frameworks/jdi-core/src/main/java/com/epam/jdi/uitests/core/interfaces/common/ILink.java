@@ -19,7 +19,9 @@ import static com.epam.jdi.uitests.core.actions.common.LinkActions.getTooltip;
  */
 public interface ILink extends IClickable, IText {
     /**
-     * @return Get link destination
+     * Get link destination
+     *
+     * @return Link destination
      */
     @JDIAction
     default String getReference() {
@@ -27,7 +29,9 @@ public interface ILink extends IClickable, IText {
     }
 
     /**
-     * @return Get URL
+     * Get URL
+     *
+     * @return The URL
      */
     @JDIAction
     default URL getURL() {
@@ -35,7 +39,9 @@ public interface ILink extends IClickable, IText {
     }
 
     /**
-     * @return Get links tooltip
+     * Get links tooltip
+     *
+     * @return Links tooltip
      */
     @JDIAction
     default String getTooltip() {

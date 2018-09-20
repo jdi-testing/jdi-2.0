@@ -32,6 +32,8 @@ public interface ICheckBox extends ISelect, ISetValue {
     }
 
     /**
+     * Is checkbox checked
+     *
      * @return Verify is checkbox checked
      */
     @JDIAction
@@ -40,8 +42,9 @@ public interface ICheckBox extends ISelect, ISetValue {
     }
 
     /**
+     * Set value to Element
+     *
      * @param value Specify element value
-     *              Set value to Element
      */
     @Override
     default void setValue(String value) {
@@ -49,7 +52,9 @@ public interface ICheckBox extends ISelect, ISetValue {
     }
 
     /**
-     * @return Is checkbox checked or not
+     * Synonym to {@code isChecked()} but returns boolean as String
+     *
+     * @return Is checkbox checked or not as String
      */
     @Override
     default String getValue() {
