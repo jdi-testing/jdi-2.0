@@ -18,11 +18,15 @@ import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
  */
 public interface IBaseElement extends IHasParent, INamed, IVisible {
     /**
+     * Set type name
+     *
      * @param typeName Specify type name
      */
     void setTypeName(String typeName);
 
     /**
+     * Print current context
+     *
      * @return Current context as String
      */
     default String printContext() {
@@ -30,27 +34,37 @@ public interface IBaseElement extends IHasParent, INamed, IVisible {
     }
 
     /**
+     * Get engine
+     *
      * @return Current engine
      */
     IEngine engine();
 
     /**
+     * Set timeout
+     *
      * @param timoutSec Specify current timeout
      * @return This element
      */
     <T extends IBaseElement> T withTimeout(int timoutSec);
 
     /**
+     * Set driver name
+     *
      * @param driverName Specify current driver name
      */
     void setDriverName(String driverName);
 
     /**
+     * Get useCache parameter
+     *
      * @return Does current engine uses caching or not
      */
     boolean isUseCache();
 
     /**
+     * Set useCache parameter
+     *
      * @param useCache Specify using cache parameter for current engine
      */
     void setUseCache(boolean useCache);
@@ -72,6 +86,8 @@ public interface IBaseElement extends IHasParent, INamed, IVisible {
     }
 
     /**
+     * Get LinkedElements
+     *
      * @return Linked Elements
      */
     LinkedElements linked();

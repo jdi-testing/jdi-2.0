@@ -10,11 +10,13 @@ import com.epam.jdi.uitests.core.annotations.JDIAction;
 import static com.epam.jdi.uitests.core.actions.base.ElementActions.*;
 
 /**
- * Interface for visible element
+ * Interface for elements can be visible
  */
 public interface IVisible {
     /**
      * Waits while Element becomes visible
+     *
+     * @return Became the element visible or not
      */
     @JDIAction
     default boolean displayed() {
@@ -23,6 +25,8 @@ public interface IVisible {
 
     /**
      * Waits while Element becomes invisible
+     *
+     * @return Became the element invisible or not
      */
     @JDIAction
     default boolean vanished() {
@@ -30,7 +34,9 @@ public interface IVisible {
     }
 
     /**
-     * @return Check is Element visible
+     * Check is Element visible
+     *
+     * @return Is the Element visible or not
      */
     @JDIAction
     default boolean displayedNow() {
@@ -38,7 +44,9 @@ public interface IVisible {
     }
 
     /**
-     * @return Check is Element hidden
+     * Check is Element hidden
+     *
+     * @return Is the Element hidden or not
      */
     @JDIAction
     default boolean hidden() {
@@ -46,7 +54,9 @@ public interface IVisible {
     }
 
     /**
-     * @return Check is Element enabled
+     * Check is Element enabled
+     *
+     * @return Is the Element enabled or not
      */
     @JDIAction
     default boolean enabled() {
@@ -54,7 +64,9 @@ public interface IVisible {
     }
 
     /**
-     * @return Check is Element disabled
+     * Check is Element disabled
+     *
+     * @return Is the Element disabled or not
      */
     @JDIAction
     default boolean disabled() {

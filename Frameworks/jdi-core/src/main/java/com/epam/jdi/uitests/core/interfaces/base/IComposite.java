@@ -18,7 +18,10 @@ import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
  */
 public interface IComposite extends INamed {
     /**
-     * @return Returns new entity of specified class
+     * Get new entity of the class
+     *
+     * @param entityClass Class to get Entity of
+     * @return New entity of specified class
      */
     default <T> T asEntity(Class<T> entityClass) {
         try {

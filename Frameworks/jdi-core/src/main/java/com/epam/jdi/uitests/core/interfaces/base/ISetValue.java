@@ -12,8 +12,9 @@ import static com.epam.jdi.uitests.core.actions.complex.SelectActions.select;
  */
 public interface ISetValue extends IHasValue {
     /**
+     * Set value to Element
+     *
      * @param value Specify element value
-     *              Set value to Element
      */
     default void setValue(String value) {
         select.execute(this, value);

@@ -12,7 +12,9 @@ import static com.epam.jdi.uitests.core.actions.common.TextActions.getText;
  */
 public interface IHasValue {
     /**
-     * @return Get value of Element
+     * Get value of Element
+     *
+     * @return Value of Element
      */
     default String getValue() {
         return getText.execute(this);

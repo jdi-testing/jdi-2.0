@@ -12,12 +12,16 @@ import java.lang.reflect.Field;
  */
 public interface INamed {
     /**
+     * Get name
+     *
      * @return elements name
      */
     String getName();
 
     /**
-     * @param field Specify element name
+     * Set name
+     *
+     * @param field Specify elements name
      */
     void setName(Field field);
 }

@@ -10,12 +10,16 @@ package com.epam.jdi.uitests.core.interfaces.base;
  */
 public interface IHasParent {
     /**
+     * Set parent to the element
+     *
      * @param parent Specify parent for element
-     * @return this
+     * @return This element
      */
     <T> T setParent(Object parent);
 
     /**
+     * Get parent of the element
+     *
      * @return Parent Object
      */
     Object getParent();

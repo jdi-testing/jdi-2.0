@@ -24,7 +24,9 @@ public interface ISelect extends IClickable, IText, ISetValue {
     }
 
     /**
-     * @return Checks is Element selected
+     * Checks is Element selected
+     *
+     * @return is the element selected or not
      */
     @JDIAction
     default boolean isSelected() {
@@ -32,8 +34,9 @@ public interface ISelect extends IClickable, IText, ISetValue {
     }
 
     /**
-     * @param value Specify element value
-     *              Set value to Element
+     * Specify element value
+     *
+     * @param value Value to set
      */
     @Override
     default void setValue(String value) {
@@ -41,6 +44,8 @@ public interface ISelect extends IClickable, IText, ISetValue {
     }
 
     /**
+     * Synonym for {@code isSelected} but returns boolean as String
+     *
      * @return isSelected
      */
     @Override
