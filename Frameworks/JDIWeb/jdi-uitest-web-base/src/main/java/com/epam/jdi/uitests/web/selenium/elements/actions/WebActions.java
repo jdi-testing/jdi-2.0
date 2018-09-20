@@ -39,8 +39,15 @@ import static com.epam.jdi.uitests.web.selenium.elements.actions.WebStatic.isSel
 import static jdk.nashorn.internal.objects.Global.print;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+/**
+ * WebActions initializator
+ */
 public abstract class WebActions {
     private static boolean firstInit = true;
+
+    /**
+     * Initializes all WebActions
+     */
     public static void Init() {
         if (firstInit) {
             initCommonActions();
@@ -50,6 +57,9 @@ public abstract class WebActions {
         }
     }
 
+    /**
+     * Initializes common WebActions
+     */
     public static void initCommonActions() {
         eDisplayed = e -> we(e).isDisplayed();
         eGetText = e -> we(e).getText();
@@ -108,6 +118,9 @@ public abstract class WebActions {
         };
     }
 
+    /**
+     * Initializes complex WebActions
+     */
     public static void initComplexActions() {
         isSelected = (o, name) -> {
             WebElement element = first(webElements(o), el -> el.getText().equals(name));
@@ -151,6 +164,9 @@ public abstract class WebActions {
                 .setWebElement(element(el).getWebElement());
     }
 
+    /**
+     * Initializes composite WebActions
+     */
     public static void initCompositeActions() {
         openPage = (o) -> driver(o).navigate().to(page(o).url);
     }

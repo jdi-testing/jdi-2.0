@@ -9,6 +9,9 @@ import com.epam.jdi.uitests.core.interfaces.common.IImage;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import com.epam.jdi.uitests.web.selenium.elements.base.IWebClick;
 
+/**
+ * Image common element
+ */
 public class Image extends Element implements IImage, IWebClick {
 
 }
