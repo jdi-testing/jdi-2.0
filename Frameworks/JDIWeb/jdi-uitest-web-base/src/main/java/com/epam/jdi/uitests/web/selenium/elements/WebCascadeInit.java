@@ -36,12 +36,30 @@ import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.curre
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.*;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.*;
 
+/**
+ * Cascade initialization for Web
+ */
 public class WebCascadeInit extends CascadeInit {
+    /**
+     * Stop types
+     * @return stop types
+     */
     @Override
     protected Class<?>[] stopTypes() { return new Class<?>[] {Object.class, WebPage.class, Section.class, Element.class}; }
+
+    /**
+     * Decorators
+     * @return decorators
+     */
     @Override
     protected Class<?>[] decorators() { return new Class<?>[] {IBaseElement.class, List.class, WebElement.class }; }
 
+    /**
+     * Fills Page from JDI Annotation
+     * @param field field
+     * @param instance instance
+     * @param parentType parentType
+     */
     protected void fillPageFromAnnotation(Field field, IBaseElement instance, Class<?> parentType) {
         WebPage page = (WebPage) instance;
         if (field.getType().isAnnotationPresent(JPage.class))
@@ -53,6 +71,13 @@ public class WebCascadeInit extends CascadeInit {
         page.setName(field);
         WebPage.addPage(page);
     }
+
+    /**
+     * Fills Instance
+     * @param instance instance
+     * @param field field
+     * @return
+     */
     protected IBaseElement fillInstance(IBaseElement instance, Field field) {
         BaseElement element = (BaseElement) instance;
         if (!element.hasLocator())
@@ -60,17 +85,45 @@ public class WebCascadeInit extends CascadeInit {
         return element;
     }
 
+    /**
+     * Initializes Site
+     * @param site site
+     * @param driverName driverName
+     */
     public static void initSite(Class<?> site, String driverName) {
         WebActions.Init();
         new WebCascadeInit().initStaticPages(site, driverName);
         currentSite = site;
     }
+
+    /**
+     * Initializes PageObject
+     * @param clazz class
+     * @param <T> type
+     * @return page
+     */
     public static <T> T initPageObject(Class<T> clazz) {
         return initPageObject(clazz, DRIVER_NAME);
     }
+
+    /**
+     * Initializes PageObject
+     * @param clazz class
+     * @param driver driver
+     * @param <T> type
+     * @return page
+     */
     public static <T> T initPageObject(Class<T> clazz, JFunc<WebDriver> driver) {
         return initPageObject(clazz, useDriver(driver));
     }
+
+    /**
+     * Initializes PageObject
+     * @param clazz class
+     * @param driverName driverName
+     * @param <T> type
+     * @return page
+     */
     public static <T> T initPageObject(Class<T> clazz, String driverName) {
         WebActions.Init();
         initFromProperties();
@@ -88,26 +141,61 @@ public class WebCascadeInit extends CascadeInit {
         return page;
     }
 
+    /**
+     * Initializes PageObject
+     * @param clazz class
+     * @param <T> type
+     */
     @SafeVarargs
     public static <T> void initPageObject(Class<T>... clazz) {
         initPageObject(DRIVER_NAME, clazz);
     }
+
+    /**
+     * Initializes PageObject
+     * @param driver driver
+     * @param clazz class
+     * @param <T> type
+     */
     @SafeVarargs
     public static <T> void initPageObject(WebDriver driver, Class<T>... clazz) {
         initDriver();
         initPageObject(useDriver(() -> driver), clazz);
     }
+
+    /**
+     * Initializes PageObject
+     * @param driverName driverName
+     * @param classes classes
+     * @param <T> type
+     */
     @SafeVarargs
     public static <T> void initPageObject(String driverName, Class<T>... classes) {
         for(Class<T> clazz : classes)
             initPageObject(clazz, driverName);
     }
+
+    /**
+     * Fills element from JDI Annotation
+     * @param instance instance
+     * @param field field
+     * @return element
+     */
     @Override
     protected IBaseElement fillFromJDIAnnotation(IBaseElement instance, Field field) {
         BaseElement element = (BaseElement) instance;
         fillFromAnnotation(element, field);
         return element;
     }
+
+    /**
+     * Specific action
+     * @param instance instance
+     * @param field field
+     * @param parent parent
+     * @param type type
+     * @return element
+     */
     @Override
     protected IBaseElement specificAction(IBaseElement instance, Field field, Object parent, Class<?> type) {
         BaseElement element = (BaseElement) instance;
@@ -124,6 +212,11 @@ public class WebCascadeInit extends CascadeInit {
         return element;
     }
 
+    /**
+     * Gets locator from field
+     * @param field field
+     * @return By locator
+     */
     protected By getNewLocatorFromField(Field field) {
         FindBy[] jfindbys = field.getAnnotationsByType(FindBy.class);
         if (jfindbys.length > 0 && any(jfindbys, j -> APP_VERSION.equals(j.group())))

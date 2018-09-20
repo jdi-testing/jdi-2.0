@@ -5,6 +5,9 @@ package com.epam.jdi.uitests.web.selenium.elements.apiInteract;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+/**
+ * LocatorType enum
+ */
 public enum LocatorType {
     DEFAULT, FRAME
 }

@@ -28,6 +28,9 @@ import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.hasRunDr
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.jsExecute;
 import static java.lang.String.format;
 
+/**
+ * WebPage composite element
+ */
 public class WebPage extends BaseElement implements IPage {
     public static boolean checkAfterOpen = false;
     public String url;
@@ -37,30 +40,62 @@ public class WebPage extends BaseElement implements IPage {
     public String urlTemplate;
     public static WebPage currentPage;
 
+    /**
+     * Constructs WebPage
+     */
     public WebPage() {
     }
 
+    /**
+     * Constructs WebPage with URL
+     * @param url URL
+     */
     public WebPage(String url) {
         this.url = url;
     }
 
+    /**
+     * Constructs WebPage with URL and title
+     * @param url URL
+     * @param title title
+     */
     public WebPage(String url, String title) {
         this.url = url;
         this.title = title;
     }
 
+    /**
+     * Opens URL
+     * @param url URL
+     */
     public static void openUrl(String url) {
         new WebPage(url).open();
     }
 
+    /**
+     * Gets currently opened URL
+     * @return URL
+     */
     public static String getUrl() {
         return WebDriverFactory.getDriver().getCurrentUrl();
     }
 
+    /**
+     * Gets current title
+     * @return title
+     */
     public static String getTitle() {
         return WebDriverFactory.getDriver().getTitle();
     }
 
+    /**
+     * Updates Page data with corresponding values
+     * @param url URL
+     * @param title title
+     * @param checkUrlType check URL type
+     * @param checkTitleType check title type
+     * @param urlTemplate url template
+     */
     public void updatePageData(String url, String title, CheckTypes checkUrlType, CheckTypes checkTitleType, String urlTemplate) {
         if (this.url == null)
             this.url = url;
@@ -71,10 +106,18 @@ public class WebPage extends BaseElement implements IPage {
         this.urlTemplate = urlTemplate;
     }
 
+    /**
+     * Checks URL by url template
+     * @return StringCheckType
+     */
     public StringCheckType url() {
         return new StringCheckType(getDriver()::getCurrentUrl, url, urlTemplate, "url");
     }
 
+    /**
+     * Checks title
+     * @return StringCheckType
+     */
     public StringCheckType title() {
         return new StringCheckType(getDriver()::getTitle, title, title, "title");
     }
@@ -89,6 +132,11 @@ public class WebPage extends BaseElement implements IPage {
         asserter.isTrue(isOpened(), format("Page '%s' is not opened", toString()));
         logger.logOn();
     }
+
+    /**
+     * Checks that page is opened
+     * @return
+     */
     @Override
     public boolean isOpened() {
         if (!hasRunDrivers())
@@ -124,6 +172,10 @@ public class WebPage extends BaseElement implements IPage {
             checkOpened();
         currentPage = this;
     }
+
+    /**
+     * Opens page by url
+     */
     public void shouldBeOpened() {
         try {
             logger.info(format("Page '%s' should be opened", getName()));
@@ -144,6 +196,10 @@ public class WebPage extends BaseElement implements IPage {
     public void refresh() {
         getDriver().navigate().refresh();
     }
+
+    /**
+     * Reloads current page
+     */
     public void reload() { refresh(); }
 
     /**
@@ -180,44 +236,94 @@ public class WebPage extends BaseElement implements IPage {
         getDriver().manage().deleteAllCookies();
     }
 
+    /**
+     * Zooms
+     * @param factor factor
+     */
     @JDIAction
     public static void zoom(double factor) {
         WebDriverFactory.jsExecute("document.body.style.transform = 'scale(' + arguments[0] + ')';" +
                 "document.body.style.transformOrigin = '0 0';", factor);
     }
+
+    /**
+     * Gets HTML
+     * @return Page source HTML
+     */
     @JDIAction
     public static String getHtml() {
         return WebDriverFactory.getDriver().getPageSource();
     }
 
+    /**
+     * Scrolls to coordinates
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
     private static void scroll(int x, int y) {
         WebDriverFactory.jsExecute("window.scrollBy("+x+","+y+")");
     }
 
+    /**
+     * Scrolls down
+     * @param value value
+     */
     @JDIAction
     public static void  scrollDown(int value) {
         scroll(0,value);
     }
+
+    /**
+     * Scrolls up
+     * @param value value
+     */
     @JDIAction
     public static void  scrollUp(int value) {
         scroll(0,-value);
     }
+
+    /**
+     * Scrolls right
+     * @param value value
+     */
     @JDIAction
     public static void  scrollRight(int value) {
         scroll(value,0);
     }
+
+    /**
+     * Scrolls left
+     * @param value left
+     */
     @JDIAction
     public static void scrollLeft(int value) {
         scroll(-value,0);
     }
     private static MapArray<String, WebPage> pages = new MapArray<>();
+
+    /**
+     * Adds page
+     * @param page page
+     */
     public static void addPage(WebPage page) {
         pages.update(page.getName(), page);
     }
+
+    /**
+     * Gets page
+     * @param name name
+     * @param <T> type
+     * @return WebPage
+     */
     public static <T extends WebPage> T getPage(String name) {
         WebPage page = pages.get(name);
         return (T) (page == null ? pages.get(name + " Page") : page);
     }
+
+    /**
+     * Returns page name
+     * @return name
+     */
     @Override
     public String toString() {
         String result = getName();
@@ -226,6 +332,9 @@ public class WebPage extends BaseElement implements IPage {
         return result;
     }
 
+    /**
+     * Utility to check page's url and title
+     */
     public class StringCheckType {
         private Supplier<String> actual;
         private String equals;

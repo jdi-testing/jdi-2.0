@@ -8,5 +8,8 @@ package com.epam.jdi.uitests.web.selenium.elements.common;
 import com.epam.jdi.uitests.core.interfaces.common.ICheckBox;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 
+/**
+ * Checkbox common element
+ */
 public class CheckBox extends Element implements ICheckBox {
 }

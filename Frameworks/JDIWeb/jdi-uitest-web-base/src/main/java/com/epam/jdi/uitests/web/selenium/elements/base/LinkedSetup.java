@@ -15,8 +15,19 @@ import org.openqa.selenium.By;
 
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 
+/**
+ * Sets up linked elements
+ */
 public class LinkedSetup {
 
+    /**
+     * Sets up DropElement
+     * @param el element
+     * @param root root
+     * @param value value
+     * @param list list
+     * @param expand expand
+     */
     public static void setupDropElement(BaseElement el, By root, By value, By list, By expand) {
         if (root != null)
             el.setLocator(root);
@@ -37,6 +48,15 @@ public class LinkedSetup {
         }
     }
 
+    /**
+     * Sets up DropList
+     * @param el element
+     * @param root root
+     * @param value value
+     * @param list list
+     * @param expand expand
+     * @param isSelected isSelected
+     */
     public static void setupDropList(BaseElement el, By root, By value,
              By list, By expand, By isSelected) {
         if (root != null)
@@ -60,9 +80,24 @@ public class LinkedSetup {
                 el.linked().add("value", eExpand);
         }
     }
+
+    /**
+     * Sets up linked element
+     * @param parent parent
+     * @param locator locator
+     * @param name name
+     */
     public static void setUpLinked(BaseElement parent, FindBy locator, String name) {
         setUpLinked(parent, locator, name, by -> new Button().setLocator(by));
     }
+
+    /**
+     * Sets up linked element
+     * @param parent parent
+     * @param locator locator
+     * @param name name
+     * @param newElement newElement
+     */
     public static void setUpLinked(BaseElement parent, FindBy locator, String name, JFunc1<By, BaseElement> newElement) {
         By by = findByToBy(locator);
         if (by != null) {
