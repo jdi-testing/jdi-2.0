@@ -31,8 +31,19 @@ public abstract class TBaseElement extends Named implements IBaseElement {
         waitTimeout = timoutSec;
         return (T) this;
     }
-    public boolean isUseCache() { return engine().isUseCache(); }
-    public void setUseCache(boolean useCache) { engine().setUseCache(useCache); }
+
+    /**
+     * Checks if engine uses cache
+     * @return
+     */
+    public boolean isUseCache() {
+        return engine().isUseCache();
+    }
+
+    public void setUseCache(boolean useCache) {
+        engine().setUseCache(useCache);
+    }
+
     public static final String FAILED_TO_FIND_ELEMENT_MESSAGE
             = "Can't find Element '%s' during %s seconds";
     public static final String FIND_TO_MUCH_ELEMENTS_MESSAGE
@@ -41,17 +52,23 @@ public abstract class TBaseElement extends Named implements IBaseElement {
     public boolean hasLocator() {
         return engine.hasLocator();
     }
+
     public String getDriverName() {
         return engine.getDriverName();
     }
-    public void setDriverName(String driverName) { engine.setDriverName(driverName); }
+
+    public void setDriverName(String driverName) {
+        engine.setDriverName(driverName);
+    }
 
     public Timer timer(int sec) {
         return new Timer(sec * 1000);
     }
+
     public Timer timer() {
         return timer(timeouts.getCurrentTimeoutSec());
     }
+
     public IEngine engine() {
         return engine;
     }
@@ -60,9 +77,17 @@ public abstract class TBaseElement extends Named implements IBaseElement {
         this.engine = engine.copy();
         return this;
     }
-    private LinkedElements linked = new LinkedElements();
-    public LinkedElements linked() { return linked; }
 
+    private LinkedElements linked = new LinkedElements();
+
+    public LinkedElements linked() {
+        return linked;
+    }
+
+    /**
+     * Sets timeout
+     * @param sec
+     */
     public void setWaitTimeout(int sec) {
         logger.debug("Set wait timeout to " + sec);
         timeouts.setCurrentTimeoutSec(sec);
@@ -75,19 +100,47 @@ public abstract class TBaseElement extends Named implements IBaseElement {
     protected String getParentName() {
         return parent == null ? "" : parent.getClass().getSimpleName();
     }
-    public Object getParent() { return parent; }
-    public <T> T setParent(Object parent) { this.parent = parent; return (T) this;}
 
+    public Object getParent() {
+        return parent;
+    }
+
+    /**
+     * Sets parent
+     * @param parent
+     * @param <T>
+     * @return
+     */
+    public <T> T setParent(Object parent) {
+        this.parent = parent;
+        return (T) this;
+    }
+
+    /**
+     * Logs action with exact log level
+     * @param actionName
+     * @param level
+     */
     public void logAction(String actionName, LogLevels level) {
         logger.toLog(format(shortLogMessagesFormat
                 ? "%s for %s"
                 : "Perform action '%s' with Element (%s)", actionName, this.toString()), level);
     }
 
+    /**
+     * Logs action
+     * @param actionName
+     */
     public void logAction(String actionName) {
         logAction(actionName, INFO);
     }
 
+    /**
+     * Returns table as entity of exact class
+     * @param entityClass
+     * @param <T>
+     * @return <T> T
+     */
     public <T> T asEntity(Class<T> entityClass) {
         try {
             T data = newEntity(entityClass);
@@ -98,7 +151,8 @@ public abstract class TBaseElement extends Named implements IBaseElement {
                     return;
                 try {
                     field.set(data, ((IHasValue) getValueField(item, this)).getValue());
-                } catch (Exception ignore) { }
+                } catch (Exception ignore) {
+                }
             });
             return data;
         } catch (Exception ex) {
@@ -114,8 +168,8 @@ public abstract class TBaseElement extends Named implements IBaseElement {
                 ? engine.toString()
                 : linked().toString();
         return format(shortLogMessagesFormat
-                ? "%s '%s' (%s.%s; %s)"
-                : "Type:'%s', Name:'%s', In: '%s.%s', Path: '%s'",
+                        ? "%s '%s' (%s.%s; %s)"
+                        : "Type:'%s', Name:'%s', In: '%s.%s', Path: '%s'",
                 getTypeName(), getName(), getParentName(), getFieldName(), path);
     }
 }
