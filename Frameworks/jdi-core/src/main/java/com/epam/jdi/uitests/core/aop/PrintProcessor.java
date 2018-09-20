@@ -40,7 +40,9 @@ public class PrintProcessor {
 
     /**
      * Method, which defines what to write into log
-     * @return result of join point
+     *
+     * @param joinPoint Proceeding JoinPoint
+     * @return Result of join point
      */
     @Around("execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.Print)")
     public Object action(ProceedingJoinPoint joinPoint) {

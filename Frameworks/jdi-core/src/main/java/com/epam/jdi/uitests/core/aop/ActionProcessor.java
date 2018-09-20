@@ -46,6 +46,12 @@ public class ActionProcessor {
     public static String SHORT_TEMPLATE = "{element} {action}";
     public static String DEFAULT_TEMPLATE = "{action} ({element})";
 
+    /**
+     * Get template for logging
+     *
+     * @param level LogLevel of current test run
+     * @return Template for logging
+     */
     private static String getTemplate(LogLevels level) {
         return level.equalOrMoreThan(STEP) ? SHORT_TEMPLATE : DEFAULT_TEMPLATE;
     }
@@ -86,6 +92,7 @@ public class ActionProcessor {
 
     /**
      * Method called when {@code JDIAction} or {@code Step} started
+     * Empty method. Does nothing.
      */
     @Pointcut("execution(* *(..)) && " +
             "(@annotation(com.epam.jdi.uitests.core.annotations.JDIAction)" +
@@ -96,6 +103,8 @@ public class ActionProcessor {
 
     /**
      * Method calling {@code jdiBefore} function before {@code JDIAction} or {@code Step} started
+     *
+     * @param joinPoint JoinPoint to call
      */
     @Before("logPointCut()")
     public void before(JoinPoint joinPoint) {
@@ -105,6 +114,9 @@ public class ActionProcessor {
 
     /**
      * Method calling {@code jdiAfter} function after {@code JDIAction} or {@code Step} finished
+     *
+     * @param joinPoint Finished JoinPoint
+     * @param result    Result of JoinPoint
      */
     @AfterReturning(pointcut = "logPointCut()", returning = "result")
     public void after(JoinPoint joinPoint, Object result) {
@@ -114,6 +126,9 @@ public class ActionProcessor {
 
     /**
      * Method calling {@code jdiError} function if {@code JDIAction} or {@code Step} threw exception
+     *
+     * @param joinPoint JoinPoint that threw the error
+     * @param error     Throwable from the JoinPoint
      */
     @AfterThrowing(pointcut = "logPointCut()", throwing = "error")
     public void error(JoinPoint joinPoint, Throwable error) {
@@ -122,6 +137,9 @@ public class ActionProcessor {
     }
 
     /**
+     * Get MethodSignature
+     *
+     * @param joinPoint JoinPoint to call
      * @return Method Signature of current join point
      */
     static MethodSignature getMethod(JoinPoint joinPoint) {
@@ -132,7 +150,8 @@ public class ActionProcessor {
      * This method returns value of {@code JDIAction} or {@code Step} annotation
      * Returns method's name if annotation value is blank
      *
-     * @param method
+     * @param method MethodSignature of current JoinPoint
+     * @return Value of {@code JDIAction} or {@code Step} annotation
      */
     static String methodNameTemplate(MethodSignature method) {
         try {
@@ -156,6 +175,7 @@ public class ActionProcessor {
     /**
      * Defines a log level for current step
      *
+     * @param joinPoint JoinPoint to call
      * @return Log level
      */
     static LogLevels logLevel(JoinPoint joinPoint) {
@@ -167,6 +187,9 @@ public class ActionProcessor {
 
     /**
      * Returns formatted value of the method's annotation
+     *
+     * @param joinPoint JoinPoint to call
+     * @return Formatted value of the method's annotation
      */
     static String getActionName(JoinPoint joinPoint) {
         try {
@@ -199,7 +222,10 @@ public class ActionProcessor {
     }
 
     /**
-     * @return array's elements comma-separated
+     * Get String of comma-separated elements
+     *
+     * @param array {@code Object[]} array
+     * @return String of array's elements comma-separated
      */
     static String arrayToString(Object array) {
         return Arrays
@@ -209,22 +235,32 @@ public class ActionProcessor {
     }
 
     /**
-     * @return map of parameter names to arguments
+     * Get method's arguments
+     *
+     * @param joinPoint JoinPoint to call
+     * @param method    MethodSignature of current JoinPoint
+     * @return Map of parameter names to arguments
      */
     static MapArray<String, Object> methodArgs(JoinPoint joinPoint, MethodSignature method) {
         return new MapArray<>(method.getParameterNames(), joinPoint.getArgs());
     }
 
     /**
-     * @return map of field names to values
+     * Get fields of JoinPoint's class
+     *
+     * @param joinPoint JoinPoint to call
+     * @return Map of field names to values
      */
     static MapArray<String, Object> classFields(JoinPoint joinPoint) {
         return new MapArray<>(getThisFields(joinPoint), Field::getName, value -> getValueField(value, joinPoint.getThis()));
     }
 
     /**
-     * Returns toString() method of the object
+     * Returns {@code toString()} method of the object
      * which called {@code JDIAction} or {@code Step} annotated method
+     *
+     * @param joinPoint JoinPoint to call
+     * @return JoinPoint's {@code toString()} or Simple Name
      */
     static String getElementName(JoinPoint joinPoint) {
         Object obj = joinPoint.getThis();
@@ -235,6 +271,9 @@ public class ActionProcessor {
 
     /**
      * Returns fields of object that called {@code JDIAction} or {@code Step} annotated method
+     *
+     * @param joinPoint JoinPoint to call
+     * @return List of join point's fields
      */
     static List<Field> getThisFields(JoinPoint joinPoint) {
         Object obj = joinPoint.getThis();
@@ -245,7 +284,11 @@ public class ActionProcessor {
 
     /**
      * Formats value of {@code JDIAction} or {@code Step} annotation
-     * @param value is value of {@code JDIAction} or {@code Step} annotation
+     *
+     * @param method Signature of Join Point
+     * @param value  Value of {@code JDIAction} or {@code Step} annotation
+     * @param args   Values of method arguments and class fields
+     * @return Formatted value of {@code JDIAction} or {@code Step} annotation
      */
     static String getActionName(MethodSignature method, String value,
                                 MapArray<String, Object>... args) {
