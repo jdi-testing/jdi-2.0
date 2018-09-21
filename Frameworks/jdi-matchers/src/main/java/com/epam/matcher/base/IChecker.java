@@ -17,8 +17,19 @@ import static java.util.Arrays.asList;
  * Interface declares methods that are used for checking (contains, equals, empty...)
  */
 public interface IChecker {
+    /**
+     * Returns checker with ignoreCase = true
+     *
+     * @return IChecker
+     */
     IChecker ignoreCase();
 
+    /**
+     * Returns checker with defined timeout
+     *
+     * @param timeout timeout to define
+     * @return IChecker
+     */
     IChecker wait(int timeout);
 
     /**
@@ -29,7 +40,7 @@ public interface IChecker {
     /**
      * Fails a test with the given message
      *
-     * @param failMessage given message
+     * @param failMessage the assertion error message
      */
     void fail(String failMessage);
     // region areEquals
@@ -286,8 +297,25 @@ public interface IChecker {
     // endregion
 
     // region Exceptions
+    /**
+     * Checks if method throws required exception. If not, an AssertionError is thrown.
+     *
+     * @param actionName        name of action to catch required exception
+     * @param action            action to catch required exception
+     * @param exceptionClass    required exception class
+     * @param exceptionText     required exception text
+     * @param <E>
+     */
     <E extends Exception> void throwException(String actionName, JAction action, Class<E> exceptionClass, String exceptionText);
 
+    /**
+     * Checks if method throws required exception. If not, an AssertionError is thrown.
+     *
+     * @param action            action to catch required exception
+     * @param exceptionClass    required exception class
+     * @param exceptionText     required exception text
+     * @param <E>
+     */
     <E extends Exception> void throwException(JAction action, Class<E> exceptionClass, String exceptionText);
 
     /**
@@ -481,37 +509,90 @@ public interface IChecker {
     void isSortedByDesc(int[] array);
     // endregion
 
-    // ListProcessor
+    // ListProcessor todo: javadoc
     <T> Check.ListChecker each(Collection<T> list);
 
     default <T> Check.ListChecker each(T[] array) {
         return each(asList(array));
     }
-    
+
+    /**
+     * Checks if method throws exception with required text. If not, an AssertionError is thrown.
+     * @param actionName    name of action to catch required exception
+     * @param action        action to catch required exception
+     * @param exceptionText required exception text
+     */
     default void throwException(String actionName, JAction action, String exceptionText) {
         throwException(actionName, action, null, exceptionText);
     }
 
+    /**
+     * Checks if method throws exception with required class. If not, an AssertionError is thrown.
+     *
+     * @param actionName        name of action to catch required exception
+     * @param action            action to catch required exception
+     * @param exceptionClass    required exception class
+     * @param <E>
+     */
     default <E extends Exception> void throwException(String actionName, JAction action, Class<E> exceptionClass) {
         throwException(actionName, action, exceptionClass, "");
     }
 
+    /**
+     * Checks if method throws exception with required text. If not, an AssertionError is thrown.
+     *
+     * @param action            action to catch required exception
+     * @param exceptionText     required exception text
+     */
     default void throwException(JAction action, String exceptionText) {
         throwException(action, null, exceptionText);
     }
 
+    /**
+     * Checks if method throws exception with required class. If not, an AssertionError is thrown.
+     *
+     * @param action            action to catch required exception
+     * @param exceptionClass    required exception class
+     * @param <E>
+     */
     default <E extends Exception> void throwException(JAction action, Class<E> exceptionClass) {
         throwException(action, exceptionClass, "");
     }
 
+    /**
+     * Checks that actual collection contains expected object. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      actual collection of T
+     * @param expected    expected object T
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     default <T> void listContains(Collection<T> actual, T expected, String failMessage) {
         listContains(actual, asList(expected), failMessage);
     }
 
+    /**
+     * Checks if two collections of classes of {@link T} are equals. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      actual collection of classes of T
+     * @param expected    expected collection of classes of T
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     default <T> void entitiesAreEquals(T actual, T expected, String failMessage) {
         listEquals(getFields(actual.getClass()), getFields(expected.getClass()), failMessage);
     }
 
+    /**
+     * Checks if two collections of classes of {@link T} are equals.
+     * If not, an AssertionError is thrown.
+     *
+     * @param actual   actual collection of classes of T
+     * @param expected expected collection of classes of T
+     * @param <T>
+     */
     default <T> void entitiesAreEquals(T actual, T expected) {
         listEquals(getFields(actual.getClass()), getFields(expected.getClass()));
     }

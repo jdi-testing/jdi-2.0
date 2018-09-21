@@ -21,11 +21,9 @@ import static org.apache.commons.lang3.StringUtils.*;
 /**
  * Created by Roman Iovlev on 14.02.2018
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
- */
-
-/**
+ *
  * Implements methods that are declared in interface.
- * Provides realisation of different verifications
+ * Provides realisation of different verifications.
  */
 public class Check implements IChecker {
     private String checkMessage = "";
@@ -117,7 +115,12 @@ public class Check implements IChecker {
         throw new AssertionError(format(failMessage, args));
     }
 
-    //todo javadoc
+    /**
+     * Throws AssertionError if {@link JFunc<Boolean>} is false
+     *
+     * @param result    the condition, false state calls assertException()
+     * @param message   the assertion error message
+     */
     private void assertAction(JFunc<Boolean> result, String message) {
         if (settings.timeout > 0) {
             if (!new Timer(settings.timeout).wait(result))
@@ -126,7 +129,12 @@ public class Check implements IChecker {
             assertException(message);
     }
 
-    //todo javadoc
+    /**
+     * Throws AssertionError if {@link JFunc<Boolean>} is false
+     *
+     * @param check     the condition, false state calls assertException()
+     * @param message   the assertion error message
+     */
     private void assertAction(JFunc<Boolean> check, JFunc<String> message) {
         if (settings.timeout > 0) {
             if (!new Timer(settings.timeout).wait(check))
@@ -159,15 +167,19 @@ public class Check implements IChecker {
         return format("Check that '%s' %s '%s'", actual, action, expected);
     }
 
-    //todo javadoc
-    private static <T> String defaultCheckMsg(String suffix) {
+    /**
+     * Provides default check message with expected suffix.
+     * @param suffix    text representing result of checking
+     * @return string   formatted string
+     */
+    private static String defaultCheckMsg(String suffix) {
         return format("Check that result %s", suffix);
     }
 
     /**
      * Fails a test with the given message
      *
-     * @param failMessage given message
+     * @param failMessage the assertion error message
      */
     public void fail(String failMessage) {
         assertException(failMessage);
@@ -390,8 +402,8 @@ public class Check implements IChecker {
     /**
      * Checks whether or not this string matches the given. If not, an AssertionError is thrown.
      *
-     * @param actual      the actual string
-     * @param regEx       the regular expression to which string is to be matched
+     * @param actual the actual string
+     * @param regEx  the regular expression to which string is to be matched
      */
     public void matches(String actual, String regEx) {
         contains(actual, regEx, defaultBiCheckMsg(actual, "matches", regEx));
@@ -413,8 +425,8 @@ public class Check implements IChecker {
     /**
      * Checks whether or not this string matches the given. If not, an AssertionError is thrown.
      *
-     * @param actual      the actual string
-     * @param regEx       the regular expression to which string is to be matched
+     * @param actual the actual string
+     * @param regEx  the regular expression to which string is to be matched
      */
     public void matches(JFunc<String> actual, String regEx) {
         contains(actual, regEx, r -> defaultBiCheckMsg(r, "matches", regEx));
@@ -507,6 +519,7 @@ public class Check implements IChecker {
     // endregion
 
     // region Exceptions
+
     /**
      * Utility method is used when actionName is not defined.
      * Returns checkMessage or "Action".
@@ -517,11 +530,19 @@ public class Check implements IChecker {
         return isNotBlank(checkMessage) ? checkMessage : "Action";
     }
 
-    //todo javadoc
+    /**
+     * Checks if method throws required exception. If not, an AssertionError is thrown.
+     *
+     * @param actionName        name of action to catch required exception
+     * @param action            action to catch required exception
+     * @param exceptionClass    required exception class
+     * @param exceptionText     required exception text
+     * @param <E>
+     */
     public <E extends Exception> void throwException(String actionName, JAction action, Class<E> exceptionClass, String exceptionText) {
         try {
             action.invoke();
-        } catch (Exception | Error ex) {
+        } catch (Exception ex) {
             if (exceptionClass != null)
                 areEquals(ex.getClass(), exceptionClass);
             if (exceptionText != null)
@@ -534,7 +555,14 @@ public class Check implements IChecker {
                 exceptionText);
     }
 
-    //todo javadoc
+    /**
+     * Checks if method throws required exception. If not, an AssertionError is thrown.
+     *
+     * @param action            action to catch required exception
+     * @param exceptionClass    required exception class
+     * @param exceptionText     required exception text
+     * @param <E>
+     */
     public <E extends Exception> void throwException(JAction action, Class<E> exceptionClass, String exceptionText) {
         throwException(getPrefix(), action, exceptionClass, exceptionText);
     }
@@ -548,7 +576,7 @@ public class Check implements IChecker {
     public void hasNoExceptions(String actionName, JAction action) {
         try {
             action.invoke();
-        } catch (Exception | Error ex) {
+        } catch (Exception ex) {
             assertException(actionName + " throws exception: " + ex.getMessage());
         }
     }
@@ -718,8 +746,8 @@ public class Check implements IChecker {
     /**
      * Checks that actual collection contains expected. If not, an AssertionError is thrown.
      *
-     * @param actual      actual collection of T
-     * @param expected    expected collection of T
+     * @param actual   actual collection of T
+     * @param expected expected collection of T
      * @param <T>
      */
     public <T> void listContains(Collection<T> actual, Collection<T> expected) {

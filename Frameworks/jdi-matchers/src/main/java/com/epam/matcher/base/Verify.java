@@ -13,7 +13,8 @@ import static java.lang.String.format;
 public class Verify extends Check {
     private static List<String> fails = new LinkedList<>();
 
-    public Verify() { }
+    public Verify() {
+    }
 
     public Verify(String checkMessage) {
         super(checkMessage);
