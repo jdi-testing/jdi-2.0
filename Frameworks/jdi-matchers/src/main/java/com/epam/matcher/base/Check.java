@@ -653,12 +653,14 @@ public class Check implements IChecker {
     // endregion
 
     // region Lists
+
     /**
      * Checks if two collections of {@link T} are equals. If not, an AssertionError,
      * with the given message, is thrown.
-     * @param actual        actual collection of T
-     * @param expected      expected collection of T
-     * @param failMessage   the assertion error message
+     *
+     * @param actual      actual collection of T
+     * @param expected    expected collection of T
+     * @param failMessage the assertion error message
      * @param <T>
      */
     public <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage) {
@@ -671,8 +673,9 @@ public class Check implements IChecker {
 
     /**
      * Checks if two collections of {@link T} are equals. If not, an AssertionError is thrown.
-     * @param actual        actual collection of T
-     * @param expected      expected collection of T
+     *
+     * @param actual   actual collection of T
+     * @param expected expected collection of T
      * @param <T>
      */
     public <T> void listEquals(Collection<T> actual, Collection<T> expected) {
@@ -685,16 +688,18 @@ public class Check implements IChecker {
         listContains(actual, expected);
     }
 
+    //todo
     public <T> void listContains(Collection<T> actual, Collection<T> expected, String failMessage) {
-        if (actual == null || expected == null || actual.size() == 0 || expected.size() == 0) {
+        if (actual == null || expected == null || actual.isEmpty() || expected.isEmpty()) {
             assertException(failMessage);
             return;
         }
         assertAction(any(expected, el -> !actual.contains(el)), failMessage);
     }
 
+    //todo
     public <T> void listContains(Collection<T> actual, Collection<T> expected) {
-        if (actual == null || expected == null || actual.size() == 0 || expected.size() == 0) {
+        if (actual == null || expected == null || actual.isEmpty() || expected.isEmpty()) {
             assertException("Actual or expected list is empty");
             return;
         }
@@ -702,10 +707,19 @@ public class Check implements IChecker {
         for (T el : expected)
             if (!actual.contains(el))
                 notEquals.add(el.toString());
-        assertAction(notEquals.size() == 0,
+        assertAction(notEquals.isEmpty(),
                 format("Not all Expected elements are in Actual: {%s}", print(notEquals)));
     }
 
+    /**
+     * Checks that two arrays are equals. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      actual array
+     * @param expected    expected array
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     public <T> void arrayEquals(T[] actual, T[] expected, String failMessage) {
         if (actual == null || expected == null || actual.length == 0 || expected.length == 0) {
             assertException(failMessage);
@@ -722,6 +736,13 @@ public class Check implements IChecker {
             }
     }
 
+    /**
+     * Checks that two arrays are equals. If not, an AssertionError is thrown.
+     *
+     * @param actual   actual array
+     * @param expected expected array
+     * @param <T>
+     */
     public <T> void arrayEquals(T[] actual, T[] expected) {
         if (actual == null || expected == null || actual.length == 0 || expected.length == 0) {
             assertException("Actual or expected array is empty");
@@ -738,7 +759,7 @@ public class Check implements IChecker {
             if (!actual[i].equals(expected[i]))
                 notEquals.add(format("%s: Actual(%s) != Expected(%s)",
                         i, actual[i], expected[i]));
-        assertAction(notEquals.size() == 0,
+        assertAction(notEquals.isEmpty(),
                 format("Following elements are not equal: {%s}", print(notEquals)));
     }
     // endregion
@@ -746,6 +767,14 @@ public class Check implements IChecker {
     // TODO entityIncludeMapArray
 
     // region Sort Array Integer
+
+    /**
+     * Check that array of ints is sorted ascending. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param array       array to check sorting order
+     * @param failMessage the assertion error message
+     */
     public void isSortedByAsc(int[] array, String failMessage) {
         if (array == null || array.length == 0) {
             assertException(failMessage);
@@ -756,6 +785,11 @@ public class Check implements IChecker {
                 assertException(failMessage);
     }
 
+    /**
+     * Check that array of ints is sorted ascending. If not, an AssertionError is thrown.
+     *
+     * @param array array to check sorting order
+     */
     public void isSortedByAsc(int[] array) {
         if (array == null || array.length == 0) {
             assertException("Array have no elements or null");
@@ -767,6 +801,13 @@ public class Check implements IChecker {
                         i - 1, array[i - 1], i, array[i]);
     }
 
+    /**
+     * Check that array of ints is sorted descending. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param array       array to check sorting order
+     * @param failMessage the assertion error message
+     */
     public void isSortedByDesc(int[] array, String failMessage) {
         if (array == null || array.length == 0) {
             assertException(failMessage);
@@ -777,6 +818,11 @@ public class Check implements IChecker {
                 assertException(failMessage);
     }
 
+    /**
+     * Check that array of ints is sorted descending. If not, an AssertionError is thrown.
+     *
+     * @param array array to check sorting order
+     */
     public void isSortedByDesc(int[] array) {
         if (array == null || array.length == 0) {
             assertException("Array have no elements or null");

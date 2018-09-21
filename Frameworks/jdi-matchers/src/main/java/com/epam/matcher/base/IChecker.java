@@ -386,46 +386,90 @@ public interface IChecker {
     /**
      * Checks if two collections of {@link T} are equals. If not, an AssertionError,
      * with the given message, is thrown.
-     * @param actual        actual collection of T
-     * @param expected      expected collection of T
-     * @param failMessage   the assertion error message
+     *
+     * @param actual      actual collection of T
+     * @param expected    expected collection of T
+     * @param failMessage the assertion error message
      * @param <T>
      */
     <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage);
 
     /**
      * Checks if two collections of {@link T} are equals. If not, an AssertionError is thrown.
-     * @param actual        actual collection of T
-     * @param expected      expected collection of T
+     *
+     * @param actual   actual collection of T
+     * @param expected expected collection of T
      * @param <T>
      */
     <T> void listEquals(Collection<T> actual, Collection<T> expected);
 
     /**
+     * If not, an AssertionError, with the given message, is thrown.
      *
-     * @param actual        actual collection of T
-     * @param expected      expected collection of T
-     * @param failMessage   the assertion error message
+     * @param actual      actual collection of T
+     * @param expected    expected collection of T
+     * @param failMessage the assertion error message
      * @param <T>
      */
     <T> void listContains(Collection<T> actual, Collection<T> expected, String failMessage);
 
     <T> void listContains(Collection<T> actual, Collection<T> expected);
 
+    /**
+     * Checks that two arrays are equals. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      actual array
+     * @param expected    expected array
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     <T> void arrayEquals(T[] actual, T[] expected, String failMessage);
 
+    /**
+     * Checks that two arrays are equals. If not, an AssertionError is thrown.
+     *
+     * @param actual   actual array
+     * @param expected expected array
+     * @param <T>
+     */
     <T> void arrayEquals(T[] actual, T[] expected);
     // endregion
 
     // TODO entityIncludeMapArray
 
     // region Sort Array Integer
+
+    /**
+     * Check that array of ints is sorted ascending. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param array       array to check sorting order
+     * @param failMessage the assertion error message
+     */
     void isSortedByAsc(int[] array, String failMessage);
 
+    /**
+     * Check that array of ints is sorted ascending. If not, an AssertionError is thrown.
+     *
+     * @param array array to check sorting order
+     */
     void isSortedByAsc(int[] array);
 
+    /**
+     * Check that array of ints is sorted descending. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param array       array to check sorting order
+     * @param failMessage the assertion error message
+     */
     void isSortedByDesc(int[] array, String failMessage);
 
+    /**
+     * Check that array of ints is sorted descending. If not, an AssertionError is thrown.
+     *
+     * @param array array to check sorting order
+     */
     void isSortedByDesc(int[] array);
     // endregion
 
@@ -435,8 +479,7 @@ public interface IChecker {
     default <T> Check.ListChecker each(T[] array) {
         return each(asList(array));
     }
-
-
+    
     default void throwException(String actionName, JAction action, String exceptionText) {
         throwException(action, null, exceptionText);
     }
