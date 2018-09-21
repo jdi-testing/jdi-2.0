@@ -54,7 +54,6 @@ public interface ISelector<TEnum extends Enum> extends IBaseSelector {
 
     /**
      * Waits until the option is selected
-     *
      * @param name option name
      */
     @JDIAction
@@ -64,7 +63,6 @@ public interface ISelector<TEnum extends Enum> extends IBaseSelector {
 
     /**
      * Waits until the option is selected
-     *
      * @param name enum with the option name
      */
     @JDIAction

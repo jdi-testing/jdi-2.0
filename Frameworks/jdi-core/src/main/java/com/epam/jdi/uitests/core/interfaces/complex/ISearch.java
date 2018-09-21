@@ -10,9 +10,9 @@ import com.epam.jdi.uitests.core.annotations.JDIAction;
 import java.util.List;
 
 public interface ISearch extends IComboBox {
+
     /**
      * Inputs text in the search field and presses search button
-     *
      * @param text the text to search
      */
     @JDIAction
@@ -28,7 +28,6 @@ public interface ISearch extends IComboBox {
 
     /**
      * Inputs text in the search field and gets suggestions
-     *
      * @param subString the text to input
      * @return a list of suggestions labels
      */
@@ -40,7 +39,6 @@ public interface ISearch extends IComboBox {
 
     /**
      * Inputs text in the search field, gets suggestions and clicks on one of them by its name
-     *
      * @param subString the text to input
      * @param name      the name of suggestion to click on
      */
