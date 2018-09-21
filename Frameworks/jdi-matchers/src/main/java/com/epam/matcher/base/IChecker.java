@@ -46,7 +46,7 @@ public interface IChecker {
     // region areEquals
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError,
+     * Asserts that two objects are equal. If they are not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual value
@@ -57,16 +57,16 @@ public interface IChecker {
     <T> void areEquals(T actual, T expected, String failMessage);
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError is thrown.
+     * Asserts that two objects are equal. If they are not, an AssertionError is thrown.
      *
      * @param actual   the actual value
      * @param expected the expected value
-     * @param <T>
+     * @param <T>      class of objects
      */
     <T> void areEquals(T actual, T expected);
 
     /**
-     * Checks that two strings are equal. If they are not, an AssertionError,
+     * Asserts that two strings are equal. If they are not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -76,7 +76,7 @@ public interface IChecker {
     void areEquals(String actual, String expected, String failMessage);
 
     /**
-     * Checks that two strings are equal. If they are not, an AssertionError is thrown.
+     * Asserts that two strings are equal. If they are not, an AssertionError is thrown.
      *
      * @param actual   the actual string
      * @param expected the expected string
@@ -84,7 +84,7 @@ public interface IChecker {
     void areEquals(String actual, String expected);
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError,
+     * Asserts that two objects are equal. If they are not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual value
@@ -95,7 +95,7 @@ public interface IChecker {
     <T> void areEquals(JFunc<T> actual, T expected, JFunc1<T, String> failMessage);
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError is thrown.
+     * Asserts that two objects are equal. If they are not, an AssertionError is thrown.
      *
      * @param actual   the actual value
      * @param expected the expected value
@@ -104,7 +104,7 @@ public interface IChecker {
     <T> void areEquals(JFunc<T> actual, T expected);
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError,
+     * Asserts that two objects are equal. If they are not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual value
@@ -114,7 +114,7 @@ public interface IChecker {
     void areEquals(JFunc<String> actual, String expected, JFunc1<String, String> failMessage);
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError is thrown.
+     * Asserts that two objects are equal. If they are not, an AssertionError is thrown.
      *
      * @param actual   the actual value
      * @param expected the expected value
@@ -125,7 +125,7 @@ public interface IChecker {
     // region contains
 
     /**
-     * Checks that actual sting contains expected. If not, an AssertionError,
+     * Asserts that actual sting contains expected. If not, an AssertionError,
      * with the given message, is thrown. Strings are formatted.
      *
      * @param actual      the actual string
@@ -135,7 +135,7 @@ public interface IChecker {
     void contains(String actual, String expected, String failMessage);
 
     /**
-     * Checks that actual sting contains expected. If not, an AssertionError is thrown.
+     * Asserts that actual sting contains expected. If not, an AssertionError is thrown.
      *
      * @param actual   the actual string
      * @param expected the expected string
@@ -143,7 +143,7 @@ public interface IChecker {
     void contains(String actual, String expected);
 
     /**
-     * Checks that actual string contains all strings from list Expected. If not, an AssertionError,
+     * Asserts that actual string contains all strings from list Expected. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -153,7 +153,7 @@ public interface IChecker {
     void contains(String actual, List<String> expected, String failMessage);
 
     /**
-     * Checks that actual string contains all strings from list Expected.
+     * Asserts that actual string contains all strings from list Expected.
      * If not, an AssertionError is thrown.
      *
      * @param actual   the actual string
@@ -162,7 +162,7 @@ public interface IChecker {
     void contains(String actual, List<String> expected);
 
     /**
-     * Checks that actual string contains expected. If not, an AssertionError,
+     * Asserts that actual string contains expected. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual value
@@ -172,7 +172,7 @@ public interface IChecker {
     void contains(JFunc<String> actual, String expected, JFunc1<String, String> failMessage);
 
     /**
-     * Checks that actual string contains expected. If not, an AssertionError is thrown.
+     * Asserts that actual string contains expected. If not, an AssertionError is thrown.
      *
      * @param actual   the actual value
      * @param expected the expected value
@@ -180,7 +180,7 @@ public interface IChecker {
     void contains(JFunc<String> actual, String expected);
 
     /**
-     * Checks that actual string contains all strings from list Expected. If not, an AssertionError,
+     * Asserts that actual string contains all strings from list Expected. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -190,7 +190,7 @@ public interface IChecker {
     void contains(JFunc<String> actual, List<String> expected, JFunc1<String, String> failMessage);
 
     /**
-     * Checks that actual string contains all strings from list Expected.
+     * Asserts that actual string contains all strings from list Expected.
      * If not, an AssertionError is thrown.
      *
      * @param actual   the actual string
@@ -202,7 +202,7 @@ public interface IChecker {
     // region matches
 
     /**
-     * Checks whether or not this string matches the given. If not, an AssertionError,
+     * Asserts whether or not this string matches the given. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -214,7 +214,7 @@ public interface IChecker {
     void matches(String actual, String regEx);
 
     /**
-     * Checks whether or not this string matches the given. If not, an AssertionError,
+     * Asserts whether or not this string matches the given. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -229,7 +229,7 @@ public interface IChecker {
     // region isTrue
 
     /**
-     * Checks that a condition is true. If it isn't, an AssertionError, with the given message, is
+     * Asserts that a condition is true. If it isn't, an AssertionError, with the given message, is
      * thrown.
      *
      * @param condition   the condition to evaluate
@@ -238,14 +238,14 @@ public interface IChecker {
     void isTrue(Boolean condition, String failMessage);
 
     /**
-     * Checks that a condition is true. If it isn't, an AssertionError is thrown.
+     * Asserts that a condition is true. If it isn't, an AssertionError is thrown.
      *
      * @param condition the condition to evaluate
      */
     void isTrue(Boolean condition);
 
     /**
-     * Checks that a condition is true. If it isn't, an AssertionError, with the given message, is
+     * Asserts that a condition is true. If it isn't, an AssertionError, with the given message, is
      *
      * @param condition   the condition to evaluate
      * @param failMessage the assertion error message
@@ -254,7 +254,7 @@ public interface IChecker {
     void isTrue(JFunc<Boolean> condition, String failMessage);
 
     /**
-     * Checks that a condition is true. If it isn't, an AssertionError is thrown.
+     * Asserts that a condition is true. If it isn't, an AssertionError is thrown.
      *
      * @param condition the condition to evaluate
      */
@@ -264,7 +264,7 @@ public interface IChecker {
     // region isFalse
 
     /**
-     * Checks that a condition is false. If it isn't, an AssertionError, with the given message, is
+     * Asserts that a condition is false. If it isn't, an AssertionError, with the given message, is
      * thrown.
      *
      * @param condition   the condition to evaluate
@@ -273,14 +273,14 @@ public interface IChecker {
     void isFalse(Boolean condition, String failMessage);
 
     /**
-     * Checks that a condition is false. If it isn't, an AssertionError is thrown.
+     * Asserts that a condition is false. If it isn't, an AssertionError is thrown.
      *
      * @param condition the condition to evaluate
      */
     void isFalse(Boolean condition);
 
     /**
-     * Checks that a condition is false. If it isn't, an AssertionError, with the given message, is
+     * Asserts that a condition is false. If it isn't, an AssertionError, with the given message, is
      * thrown.
      *
      * @param condition   the condition to evaluate
@@ -289,7 +289,7 @@ public interface IChecker {
     void isFalse(JFunc<Boolean> condition, String failMessage);
 
     /**
-     * Checks that a condition is false. If it isn't, an AssertionError is thrown.
+     * Asserts that a condition is false. If it isn't, an AssertionError is thrown.
      *
      * @param condition the condition to evaluate
      */
@@ -297,29 +297,30 @@ public interface IChecker {
     // endregion
 
     // region Exceptions
+
     /**
-     * Checks if method throws required exception. If not, an AssertionError is thrown.
+     * Asserts if method throws required exception. If not, an AssertionError is thrown.
      *
-     * @param actionName        name of action to catch required exception
-     * @param action            action to catch required exception
-     * @param exceptionClass    required exception class
-     * @param exceptionText     required exception text
+     * @param actionName     name of action to catch required exception
+     * @param action         action to catch required exception
+     * @param exceptionClass required exception class
+     * @param exceptionText  required exception text
      * @param <E>
      */
     <E extends Exception> void throwException(String actionName, JAction action, Class<E> exceptionClass, String exceptionText);
 
     /**
-     * Checks if method throws required exception. If not, an AssertionError is thrown.
+     * Asserts if method throws required exception. If not, an AssertionError is thrown.
      *
-     * @param action            action to catch required exception
-     * @param exceptionClass    required exception class
-     * @param exceptionText     required exception text
+     * @param action         action to catch required exception
+     * @param exceptionClass required exception class
+     * @param exceptionText  required exception text
      * @param <E>
      */
     <E extends Exception> void throwException(JAction action, Class<E> exceptionClass, String exceptionText);
 
     /**
-     * Checks that required action has no exceptions
+     * Asserts that required action has no exceptions
      *
      * @param actionName the name of requested action
      * @param action     the requested action
@@ -327,7 +328,7 @@ public interface IChecker {
     void hasNoExceptions(String actionName, JAction action);
 
     /**
-     * Checks that required action has no exceptions
+     * Asserts that required action has no exceptions
      *
      * @param action the requested action
      */
@@ -337,7 +338,7 @@ public interface IChecker {
     // region Objects
 
     /**
-     * Checks whether the object is empty. If NOT, an AssertionError,
+     * Asserts whether the object is empty. If NOT, an AssertionError,
      * with the given message, is thrown.
      *
      * @param obj         object to verify
@@ -346,7 +347,7 @@ public interface IChecker {
     void isEmpty(Object obj, String failMessage);
 
     /**
-     * Checks whether the object is empty. If NOT, an AssertionError is thrown.
+     * Asserts whether the object is empty. If NOT, an AssertionError is thrown.
      *
      * @param obj object to verify
      */
@@ -355,7 +356,7 @@ public interface IChecker {
     }
 
     /**
-     * Checks whether the object is NOT empty. If empty, an AssertionError,
+     * Asserts whether the object is NOT empty. If empty, an AssertionError,
      * with the given message, is thrown.
      *
      * @param obj         object to verify
@@ -364,7 +365,7 @@ public interface IChecker {
     void isNotEmpty(Object obj, String failMessage);
 
     /**
-     * Checks whether the object is NOT empty. If empty, an AssertionError is thrown.
+     * Asserts whether the object is NOT empty. If empty, an AssertionError is thrown.
      *
      * @param obj object to verify
      */
@@ -373,7 +374,7 @@ public interface IChecker {
     }
 
     /**
-     * Checks whether the object is empty. If NOT, an AssertionError,
+     * Asserts whether the object is empty. If NOT, an AssertionError,
      * with the given message, is thrown.
      *
      * @param obj         object to verify
@@ -382,7 +383,7 @@ public interface IChecker {
     void isEmpty(JFunc<Object> obj, String failMessage);
 
     /**
-     * Checks whether the object is empty. If NOT, an AssertionError is thrown.
+     * Asserts whether the object is empty. If NOT, an AssertionError is thrown.
      *
      * @param obj object to verify
      */
@@ -391,7 +392,7 @@ public interface IChecker {
     }
 
     /**
-     * Checks whether the object is NOT empty. If empty, an AssertionError,
+     * Asserts whether the object is NOT empty. If empty, an AssertionError,
      * with the given message, is thrown.
      *
      * @param obj         object to verify
@@ -400,7 +401,7 @@ public interface IChecker {
     void isNotEmpty(JFunc<Object> obj, String failMessage);
 
     /**
-     * Checks whether the object is NOT empty. If empty, an AssertionError is thrown.
+     * Asserts whether the object is NOT empty. If empty, an AssertionError is thrown.
      *
      * @param obj object to verify
      */
@@ -412,7 +413,7 @@ public interface IChecker {
     // region Lists
 
     /**
-     * Checks if two collections of {@link T} are equals. If not, an AssertionError,
+     * Asserts if two collections of {@link T} are equals. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      actual collection of T
@@ -423,7 +424,7 @@ public interface IChecker {
     <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage);
 
     /**
-     * Checks if two collections of {@link T} are equals. If not, an AssertionError is thrown.
+     * Asserts if two collections of {@link T} are equals. If not, an AssertionError is thrown.
      *
      * @param actual   actual collection of T
      * @param expected expected collection of T
@@ -432,7 +433,7 @@ public interface IChecker {
     <T> void listEquals(Collection<T> actual, Collection<T> expected);
 
     /**
-     * Checks that actual collection contains expected. If not, an AssertionError,
+     * Asserts that actual collection contains expected. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      actual collection of T
@@ -443,16 +444,16 @@ public interface IChecker {
     <T> void listContains(Collection<T> actual, Collection<T> expected, String failMessage);
 
     /**
-     * Checks that actual collection contains expected. If not, an AssertionError is thrown.
+     * Asserts that actual collection contains expected. If not, an AssertionError is thrown.
      *
-     * @param actual      actual collection of T
-     * @param expected    expected collection of T
+     * @param actual   actual collection of T
+     * @param expected expected collection of T
      * @param <T>
      */
     <T> void listContains(Collection<T> actual, Collection<T> expected);
 
     /**
-     * Checks that two arrays are equals. If not, an AssertionError,
+     * Asserts that two arrays are equals. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      actual array
@@ -463,7 +464,7 @@ public interface IChecker {
     <T> void arrayEquals(T[] actual, T[] expected, String failMessage);
 
     /**
-     * Checks that two arrays are equals. If not, an AssertionError is thrown.
+     * Asserts that two arrays are equals. If not, an AssertionError is thrown.
      *
      * @param actual   actual array
      * @param expected expected array
@@ -517,7 +518,8 @@ public interface IChecker {
     }
 
     /**
-     * Checks if method throws exception with required text. If not, an AssertionError is thrown.
+     * Asserts if method throws exception with required text. If not, an AssertionError is thrown.
+     *
      * @param actionName    name of action to catch required exception
      * @param action        action to catch required exception
      * @param exceptionText required exception text
@@ -527,11 +529,11 @@ public interface IChecker {
     }
 
     /**
-     * Checks if method throws exception with required class. If not, an AssertionError is thrown.
+     * Asserts if method throws exception with required class. If not, an AssertionError is thrown.
      *
-     * @param actionName        name of action to catch required exception
-     * @param action            action to catch required exception
-     * @param exceptionClass    required exception class
+     * @param actionName     name of action to catch required exception
+     * @param action         action to catch required exception
+     * @param exceptionClass required exception class
      * @param <E>
      */
     default <E extends Exception> void throwException(String actionName, JAction action, Class<E> exceptionClass) {
@@ -539,20 +541,20 @@ public interface IChecker {
     }
 
     /**
-     * Checks if method throws exception with required text. If not, an AssertionError is thrown.
+     * Asserts if method throws exception with required text. If not, an AssertionError is thrown.
      *
-     * @param action            action to catch required exception
-     * @param exceptionText     required exception text
+     * @param action        action to catch required exception
+     * @param exceptionText required exception text
      */
     default void throwException(JAction action, String exceptionText) {
         throwException(action, null, exceptionText);
     }
 
     /**
-     * Checks if method throws exception with required class. If not, an AssertionError is thrown.
+     * Asserts if method throws exception with required class. If not, an AssertionError is thrown.
      *
-     * @param action            action to catch required exception
-     * @param exceptionClass    required exception class
+     * @param action         action to catch required exception
+     * @param exceptionClass required exception class
      * @param <E>
      */
     default <E extends Exception> void throwException(JAction action, Class<E> exceptionClass) {
@@ -560,7 +562,7 @@ public interface IChecker {
     }
 
     /**
-     * Checks that actual collection contains expected object. If not, an AssertionError,
+     * Asserts that actual collection contains expected object. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      actual collection of T
@@ -573,7 +575,7 @@ public interface IChecker {
     }
 
     /**
-     * Checks if two collections of classes of {@link T} are equals. If not, an AssertionError,
+     * Asserts if two collections of classes of {@link T} are equals. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      actual collection of classes of T
@@ -586,7 +588,7 @@ public interface IChecker {
     }
 
     /**
-     * Checks if two collections of classes of {@link T} are equals.
+     * Asserts if two collections of classes of {@link T} are equals.
      * If not, an AssertionError is thrown.
      *
      * @param actual   actual collection of classes of T

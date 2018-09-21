@@ -21,7 +21,7 @@ import static org.apache.commons.lang3.StringUtils.*;
 /**
  * Created by Roman Iovlev on 14.02.2018
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
- *
+ * <p>
  * Implements methods that are declared in interface.
  * Provides realisation of different verifications.
  */
@@ -118,8 +118,8 @@ public class Check implements IChecker {
     /**
      * Throws AssertionError if {@link JFunc<Boolean>} is false
      *
-     * @param result    the condition, false state calls assertException()
-     * @param message   the assertion error message
+     * @param result  the condition, false state calls assertException()
+     * @param message the assertion error message
      */
     private void assertAction(JFunc<Boolean> result, String message) {
         if (settings.timeout > 0) {
@@ -132,8 +132,8 @@ public class Check implements IChecker {
     /**
      * Throws AssertionError if {@link JFunc<Boolean>} is false
      *
-     * @param check     the condition, false state calls assertException()
-     * @param message   the assertion error message
+     * @param check   the condition, false state calls assertException()
+     * @param message the assertion error message
      */
     private void assertAction(JFunc<Boolean> check, JFunc<String> message) {
         if (settings.timeout > 0) {
@@ -169,7 +169,8 @@ public class Check implements IChecker {
 
     /**
      * Provides default check message with expected suffix.
-     * @param suffix    text representing result of checking
+     *
+     * @param suffix text representing result of checking
      * @return string   formatted string
      */
     private static String defaultCheckMsg(String suffix) {
@@ -188,7 +189,7 @@ public class Check implements IChecker {
     // region areEquals
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError,
+     * Asserts that two objects are equal. If they are not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual value
@@ -201,7 +202,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError is thrown.
+     * Asserts that two objects are equal. If they are not, an AssertionError is thrown.
      *
      * @param actual   the actual value
      * @param expected the expected value
@@ -212,7 +213,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that two strings are equal. If they are not, an AssertionError,
+     * Asserts that two strings are equal. If they are not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -225,7 +226,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that two strings are equal. If they are not, an AssertionError is thrown.
+     * Asserts that two strings are equal. If they are not, an AssertionError is thrown.
      *
      * @param actual   the actual string
      * @param expected the expected string
@@ -235,7 +236,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError,
+     * Asserts that two objects are equal. If they are not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual value
@@ -248,7 +249,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError is thrown.
+     * Asserts that two objects are equal. If they are not, an AssertionError is thrown.
      *
      * @param actual   the actual value
      * @param expected the expected value
@@ -259,7 +260,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError,
+     * Asserts that two objects are equal. If they are not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual value
@@ -272,7 +273,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that two objects are equal. If they are not, an AssertionError is thrown.
+     * Asserts that two objects are equal. If they are not, an AssertionError is thrown.
      *
      * @param actual   the actual value
      * @param expected the expected value
@@ -285,7 +286,7 @@ public class Check implements IChecker {
     // region contains
 
     /**
-     * Checks that actual sting contains expected. If not, an AssertionError,
+     * Asserts that actual sting contains expected. If not, an AssertionError,
      * with the given message, is thrown. Strings are formatted.
      *
      * @param actual      the actual string
@@ -297,7 +298,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that actual sting contains expected. If not, an AssertionError is thrown.
+     * Asserts that actual sting contains expected. If not, an AssertionError is thrown.
      *
      * @param actual   the actual string
      * @param expected the expected string
@@ -307,7 +308,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that actual string contains all strings from list Expected. If not, an AssertionError,
+     * Asserts that actual string contains all strings from list Expected. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -320,7 +321,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that actual string contains all strings from list Expected.
+     * Asserts that actual string contains all strings from list Expected.
      * If not, an AssertionError is thrown.
      *
      * @param actual   the actual string
@@ -332,7 +333,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that actual string contains expected. If not, an AssertionError,
+     * Asserts that actual string contains expected. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual value
@@ -345,7 +346,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that actual string contains expected. If not, an AssertionError is thrown.
+     * Asserts that actual string contains expected. If not, an AssertionError is thrown.
      *
      * @param actual   the actual value
      * @param expected the expected value
@@ -355,7 +356,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that actual string contains all strings from list Expected. If not, an AssertionError,
+     * Asserts that actual string contains all strings from list Expected. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -373,7 +374,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that actual string contains all strings from list Expected.
+     * Asserts that actual string contains all strings from list Expected.
      * If not, an AssertionError is thrown.
      *
      * @param actual   the actual string
@@ -388,7 +389,7 @@ public class Check implements IChecker {
     // region matches
 
     /**
-     * Checks whether or not this string matches the given. If not, an AssertionError,
+     * Asserts that requested string matches to regEx. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -400,7 +401,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether or not this string matches the given. If not, an AssertionError is thrown.
+     * Asserts that requested string matches to regEx. If not, an AssertionError is thrown.
      *
      * @param actual the actual string
      * @param regEx  the regular expression to which string is to be matched
@@ -410,7 +411,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether or not this string matches the given. If not, an AssertionError,
+     * Asserts that requested string matches to regEx. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      the actual string
@@ -423,7 +424,8 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether or not this string matches the given. If not, an AssertionError is thrown.
+     * Asserts that requested string matches to regEx. If not, an AssertionError,
+     * with formatted message, is thrown.
      *
      * @param actual the actual string
      * @param regEx  the regular expression to which string is to be matched
@@ -436,7 +438,7 @@ public class Check implements IChecker {
     // region isTrue
 
     /**
-     * Checks that a condition is true. If it isn't, an AssertionError, with the given message, is
+     * Asserts that a condition is true. If it isn't, an AssertionError, with the given message, is
      * thrown.
      *
      * @param condition   the condition to evaluate
@@ -447,7 +449,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that a condition is true. If it isn't, an AssertionError is thrown.
+     * Asserts that a condition is true. If it isn't, an AssertionError is thrown.
      *
      * @param condition the condition to evaluate
      */
@@ -456,7 +458,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that a condition is true. If it isn't, an AssertionError, with the given message, is
+     * Asserts that a condition is true. If it isn't, an AssertionError, with the given message, is
      *
      * @param condition   the condition to evaluate
      * @param failMessage the assertion error message
@@ -466,7 +468,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that a condition is true. If it isn't, an AssertionError is thrown.
+     * Asserts that a condition is true. If it isn't, an AssertionError is thrown.
      *
      * @param condition the condition to evaluate
      */
@@ -478,7 +480,7 @@ public class Check implements IChecker {
     // region isFalse
 
     /**
-     * Checks that a condition is false. If it isn't, an AssertionError, with the given message, is
+     * Asserts that a condition is false. If it isn't, an AssertionError, with the given message, is
      * thrown.
      *
      * @param condition   the condition to evaluate
@@ -489,7 +491,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that a condition is false. If it isn't, an AssertionError is thrown.
+     * Asserts that a condition is false. If it isn't, an AssertionError is thrown.
      *
      * @param condition the condition to evaluate
      */
@@ -498,7 +500,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that a condition is false. If it isn't, an AssertionError, with the given message, is
+     * Asserts that a condition is false. If it isn't, an AssertionError, with the given message, is
      * thrown.
      *
      * @param condition   the condition to evaluate
@@ -509,7 +511,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that a condition is false. If it isn't, an AssertionError is thrown.
+     * Asserts that a condition is false. If it isn't, an AssertionError is thrown.
      *
      * @param condition the condition to evaluate
      */
@@ -531,12 +533,12 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks if method throws required exception. If not, an AssertionError is thrown.
+     * Asserts if method throws required exception. If not, an AssertionError is thrown.
      *
-     * @param actionName        name of action to catch required exception
-     * @param action            action to catch required exception
-     * @param exceptionClass    required exception class
-     * @param exceptionText     required exception text
+     * @param actionName     name of action to catch required exception
+     * @param action         action to catch required exception
+     * @param exceptionClass required exception class
+     * @param exceptionText  required exception text
      * @param <E>
      */
     public <E extends Exception> void throwException(String actionName, JAction action, Class<E> exceptionClass, String exceptionText) {
@@ -556,11 +558,11 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks if method throws required exception. If not, an AssertionError is thrown.
+     * Asserts if method throws required exception. If not, an AssertionError is thrown.
      *
-     * @param action            action to catch required exception
-     * @param exceptionClass    required exception class
-     * @param exceptionText     required exception text
+     * @param action         action to catch required exception
+     * @param exceptionClass required exception class
+     * @param exceptionText  required exception text
      * @param <E>
      */
     public <E extends Exception> void throwException(JAction action, Class<E> exceptionClass, String exceptionText) {
@@ -568,7 +570,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that required action has no exceptions
+     * Asserts that required action has no exceptions
      *
      * @param actionName the name of requested action
      * @param action     the requested action
@@ -582,7 +584,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that required action has no exceptions
+     * Asserts that required action has no exceptions
      *
      * @param action the requested action
      */
@@ -610,7 +612,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether the object is empty. If NOT, an AssertionError,
+     * Asserts that the object is empty. If NOT, an AssertionError,
      * with the given message, is thrown.
      *
      * @param obj         object to verify
@@ -621,7 +623,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether the object is empty. If NOT, an AssertionError is thrown.
+     * Asserts that the object is empty. If NOT, an AssertionError is thrown.
      *
      * @param obj object to verify
      */
@@ -630,7 +632,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether the object is NOT empty. If empty, an AssertionError,
+     * Asserts that the object is NOT empty. If empty, an AssertionError,
      * with the given message, is thrown.
      *
      * @param obj         object to verify
@@ -641,7 +643,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether the object is NOT empty. If empty, an AssertionError is thrown.
+     * Asserts that the object is NOT empty. If empty, an AssertionError is thrown.
      *
      * @param obj object to verify
      */
@@ -650,7 +652,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether the object is empty. If NOT, an AssertionError,
+     * Asserts that the object is empty. If NOT, an AssertionError,
      * with the given message, is thrown.
      *
      * @param obj         object to verify
@@ -661,7 +663,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether the object is empty. If NOT, an AssertionError is thrown.
+     * Asserts that the object is empty. If NOT, an AssertionError is thrown.
      *
      * @param obj object to verify
      */
@@ -670,7 +672,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether the object is NOT empty. If empty, an AssertionError,
+     * Asserts that the object is NOT empty. If empty, an AssertionError,
      * with the given message, is thrown.
      *
      * @param obj         object to verify
@@ -681,7 +683,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks whether the object is NOT empty. If empty, an AssertionError is thrown.
+     * Asserts that the object is NOT empty. If empty, an AssertionError is thrown.
      *
      * @param obj object to verify
      */
@@ -693,7 +695,7 @@ public class Check implements IChecker {
     // region Lists
 
     /**
-     * Checks if two collections of {@link T} are equals. If not, an AssertionError,
+     * Asserts if two collections of {@link T} are equals. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      actual collection of T
@@ -710,7 +712,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks if two collections of {@link T} are equals. If not, an AssertionError is thrown.
+     * Asserts if two collections of {@link T} are equals. If not, an AssertionError is thrown.
      *
      * @param actual   actual collection of T
      * @param expected expected collection of T
@@ -727,7 +729,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that actual collection contains expected. If not, an AssertionError,
+     * Asserts that actual collection contains expected. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      actual collection of T
@@ -744,7 +746,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that actual collection contains expected. If not, an AssertionError is thrown.
+     * Asserts that actual collection contains expected. If not, an AssertionError is thrown.
      *
      * @param actual   actual collection of T
      * @param expected expected collection of T
@@ -764,7 +766,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that two arrays are equals. If not, an AssertionError,
+     * Asserts that two arrays are equals. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param actual      actual array
@@ -789,7 +791,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Checks that two arrays are equals. If not, an AssertionError is thrown.
+     * Asserts that two arrays are equals. If not, an AssertionError is thrown.
      *
      * @param actual   actual array
      * @param expected expected array
@@ -888,27 +890,65 @@ public class Check implements IChecker {
     // endregion
 
     // ListProcessor
+
+    /**
+     * Creates exemplar of ListChecker with collection for assertions
+     * @param list  collection that need assertions
+     * @param <T>   class of objects in collection
+     * @return      ListChecker
+     */
     public <T> Check.ListChecker each(Collection<T> list) {
         return new Check.ListChecker<>(list);
     }
 
+    /**
+     * Creates exemplar of ListChecker with collection for assertions
+     * @param array array that need assertions
+     * @param <T>   class of objects in collection
+     * @return      ListChecker
+     */
     public <T> Check.ListChecker each(T[] array) {
         return each(asList(array));
     }
 
+    /**
+     * Class represents asserts for collections
+     *
+     * @param <T> class of objects in collection
+     */
     public final class ListChecker<T> {
         Collection<T> list;
 
+        /**
+         * Constructor creates exemplar of ListChecker with collection for assertions
+         *
+         * @param list
+         */
         private ListChecker(Collection<T> list) {
             if (list == null || list.isEmpty())
                 assertException("List %s is empty", print(select(list, Object::toString)));
             this.list = list;
         }
 
+        /**
+         * Implements assertEquals for collections.
+         * Elements are equal in collection and have required value.
+         * If collections are not equal, an AssertionError, with the given message, is thrown.
+         *
+         * @param expected    expected value
+         * @param failMessage the assertion error message
+         */
         public void areEquals(T expected, String failMessage) {
             assertAction(all(list, el -> el.equals(expected)), failMessage);
         }
 
+        /**
+         * Implements assertEquals for collections. Elements are equal
+         * in collection and have required value. If collections are not equal,
+         * an AssertionError, with list of not equal elements, is thrown.
+         *
+         * @param expected expected value
+         */
         public void areEquals(T expected) {
             List<String> notEquals = new ArrayList<>();
             for (Object el : list)
@@ -918,10 +958,24 @@ public class Check implements IChecker {
                     print(notEquals), expected));
         }
 
+        /**
+         * Implements assertContains for collection. Elements contains required value.
+         * Otherwise an AssertionError, with the given message, is thrown.
+         *
+         * @param expected    expected value
+         * @param failMessage the assertion error message
+         */
         public void areContains(String expected, String failMessage) {
             assertAction(all(list, el -> el.toString().contains(expected)), failMessage);
         }
 
+        /**
+         * Implements assertContains for collection. Elements contains required value.
+         * Otherwise an AssertionError, with list of elements that doesn't contain value,
+         * is thrown.
+         *
+         * @param expected  expected value
+         */
         public void areContains(String expected) {
             List<String> notContains = new ArrayList<>();
             for (Object el : list)
@@ -931,10 +985,21 @@ public class Check implements IChecker {
                     print(notContains), expected));
         }
 
+        /**
+         * Implements assertMatches for collection. Elements match required regEx.
+         * Otherwise an AssertionError, with the given message, is thrown.
+         * @param regEx         expected regular expression to verify matching
+         * @param failMessage   the assertion error message
+         */
         public void areMatches(String regEx, String failMessage) {
             assertAction(all(list, el -> el.toString().matches(regEx)), failMessage);
         }
 
+        /**
+         * Implements assertMatches for collection. Elements match required regEx.
+         * Otherwise an AssertionError, with list of unmatched elements, is thrown.
+         * @param regEx         expected regular expression to verify matching
+         */
         public void areMatches(String regEx) {
             List<String> notMatch = new ArrayList<>();
             for (Object el : list)
