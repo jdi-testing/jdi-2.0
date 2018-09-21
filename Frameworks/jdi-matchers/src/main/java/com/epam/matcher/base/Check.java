@@ -387,7 +387,12 @@ public class Check implements IChecker {
         assertAction(setString(actual).matches(setString(regEx)), failMessage);
     }
 
-    //todo javadoc
+    /**
+     * Checks whether or not this string matches the given. If not, an AssertionError is thrown.
+     *
+     * @param actual      the actual string
+     * @param regEx       the regular expression to which string is to be matched
+     */
     public void matches(String actual, String regEx) {
         contains(actual, regEx, defaultBiCheckMsg(actual, "matches", regEx));
     }
@@ -405,7 +410,12 @@ public class Check implements IChecker {
                 () -> failMessage.invoke(actual.invoke()));
     }
 
-    //todo javadoc
+    /**
+     * Checks whether or not this string matches the given. If not, an AssertionError is thrown.
+     *
+     * @param actual      the actual string
+     * @param regEx       the regular expression to which string is to be matched
+     */
     public void matches(JFunc<String> actual, String regEx) {
         contains(actual, regEx, r -> defaultBiCheckMsg(r, "matches", regEx));
     }
@@ -497,6 +507,16 @@ public class Check implements IChecker {
     // endregion
 
     // region Exceptions
+    /**
+     * Utility method is used when actionName is not defined.
+     * Returns checkMessage or "Action".
+     *
+     * @return String
+     */
+    private String getPrefix() {
+        return isNotBlank(checkMessage) ? checkMessage : "Action";
+    }
+
     //todo javadoc
     public <E extends Exception> void throwException(String actionName, JAction action, Class<E> exceptionClass, String exceptionText) {
         try {
@@ -512,16 +532,6 @@ public class Check implements IChecker {
                 actionName,
                 exceptionClass == null ? "" : exceptionClass.getName() + ", ",
                 exceptionText);
-    }
-
-    /**
-     * Utility method is used when actionName is not defined.
-     * Returns checkMessage or "Action".
-     *
-     * @return String
-     */
-    private String getPrefix() {
-        return isNotBlank(checkMessage) ? checkMessage : "Action";
     }
 
     //todo javadoc
@@ -688,7 +698,15 @@ public class Check implements IChecker {
         listContains(actual, expected);
     }
 
-    //todo
+    /**
+     * Checks that actual collection contains expected. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      actual collection of T
+     * @param expected    expected collection of T
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     public <T> void listContains(Collection<T> actual, Collection<T> expected, String failMessage) {
         if (actual == null || expected == null || actual.isEmpty() || expected.isEmpty()) {
             assertException(failMessage);
@@ -697,7 +715,13 @@ public class Check implements IChecker {
         assertAction(any(expected, el -> !actual.contains(el)), failMessage);
     }
 
-    //todo
+    /**
+     * Checks that actual collection contains expected. If not, an AssertionError is thrown.
+     *
+     * @param actual      actual collection of T
+     * @param expected    expected collection of T
+     * @param <T>
+     */
     public <T> void listContains(Collection<T> actual, Collection<T> expected) {
         if (actual == null || expected == null || actual.isEmpty() || expected.isEmpty()) {
             assertException("Actual or expected list is empty");
@@ -769,7 +793,7 @@ public class Check implements IChecker {
     // region Sort Array Integer
 
     /**
-     * Check that array of ints is sorted ascending. If not, an AssertionError,
+     * Check that array is sorted ascending. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param array       array to check sorting order
@@ -786,7 +810,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Check that array of ints is sorted ascending. If not, an AssertionError is thrown.
+     * Check that array is sorted ascending. If not, an AssertionError is thrown.
      *
      * @param array array to check sorting order
      */
@@ -802,7 +826,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Check that array of ints is sorted descending. If not, an AssertionError,
+     * Check that array is sorted descending. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param array       array to check sorting order
@@ -819,7 +843,7 @@ public class Check implements IChecker {
     }
 
     /**
-     * Check that array of ints is sorted descending. If not, an AssertionError is thrown.
+     * Check that array is sorted descending. If not, an AssertionError is thrown.
      *
      * @param array array to check sorting order
      */
@@ -848,7 +872,7 @@ public class Check implements IChecker {
         Collection<T> list;
 
         private ListChecker(Collection<T> list) {
-            if (list == null || list.size() == 0)
+            if (list == null || list.isEmpty())
                 assertException("List %s is empty", print(select(list, Object::toString)));
             this.list = list;
         }
@@ -862,7 +886,7 @@ public class Check implements IChecker {
             for (Object el : list)
                 if (!el.equals(expected))
                     notEquals.add(el.toString());
-            assertAction(notEquals.size() == 0, format("Elements {%s} are not equal to %s",
+            assertAction(notEquals.isEmpty(), format("Elements {%s} are not equal to %s",
                     print(notEquals), expected));
         }
 
@@ -875,7 +899,7 @@ public class Check implements IChecker {
             for (Object el : list)
                 if (!el.toString().contains(expected))
                     notContains.add(el.toString());
-            assertAction(notContains.size() == 0, format("Elements {%s} are not contains %s",
+            assertAction(notContains.isEmpty(), format("Elements {%s} are not contains %s",
                     print(notContains), expected));
         }
 
@@ -888,7 +912,7 @@ public class Check implements IChecker {
             for (Object el : list)
                 if (!el.toString().matches(regEx))
                     notMatch.add(el.toString());
-            assertAction(notMatch.size() == 0, format("Elements {%s} are not match to %s",
+            assertAction(notMatch.isEmpty(), format("Elements {%s} are not match to %s",
                     print(notMatch), regEx));
         }
 

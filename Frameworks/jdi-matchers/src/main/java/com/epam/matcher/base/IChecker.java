@@ -404,7 +404,8 @@ public interface IChecker {
     <T> void listEquals(Collection<T> actual, Collection<T> expected);
 
     /**
-     * If not, an AssertionError, with the given message, is thrown.
+     * Checks that actual collection contains expected. If not, an AssertionError,
+     * with the given message, is thrown.
      *
      * @param actual      actual collection of T
      * @param expected    expected collection of T
@@ -413,6 +414,13 @@ public interface IChecker {
      */
     <T> void listContains(Collection<T> actual, Collection<T> expected, String failMessage);
 
+    /**
+     * Checks that actual collection contains expected. If not, an AssertionError is thrown.
+     *
+     * @param actual      actual collection of T
+     * @param expected    expected collection of T
+     * @param <T>
+     */
     <T> void listContains(Collection<T> actual, Collection<T> expected);
 
     /**
@@ -441,7 +449,7 @@ public interface IChecker {
     // region Sort Array Integer
 
     /**
-     * Check that array of ints is sorted ascending. If not, an AssertionError,
+     * Check that array is sorted ascending. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param array       array to check sorting order
@@ -450,14 +458,14 @@ public interface IChecker {
     void isSortedByAsc(int[] array, String failMessage);
 
     /**
-     * Check that array of ints is sorted ascending. If not, an AssertionError is thrown.
+     * Check that array is sorted ascending. If not, an AssertionError is thrown.
      *
      * @param array array to check sorting order
      */
     void isSortedByAsc(int[] array);
 
     /**
-     * Check that array of ints is sorted descending. If not, an AssertionError,
+     * Check that array is sorted descending. If not, an AssertionError,
      * with the given message, is thrown.
      *
      * @param array       array to check sorting order
@@ -466,7 +474,7 @@ public interface IChecker {
     void isSortedByDesc(int[] array, String failMessage);
 
     /**
-     * Check that array of ints is sorted descending. If not, an AssertionError is thrown.
+     * Check that array is sorted descending. If not, an AssertionError is thrown.
      *
      * @param array array to check sorting order
      */
@@ -481,11 +489,11 @@ public interface IChecker {
     }
     
     default void throwException(String actionName, JAction action, String exceptionText) {
-        throwException(action, null, exceptionText);
+        throwException(actionName, action, null, exceptionText);
     }
 
     default <E extends Exception> void throwException(String actionName, JAction action, Class<E> exceptionClass) {
-        throwException(action, exceptionClass, "");
+        throwException(actionName, action, exceptionClass, "");
     }
 
     default void throwException(JAction action, String exceptionText) {
