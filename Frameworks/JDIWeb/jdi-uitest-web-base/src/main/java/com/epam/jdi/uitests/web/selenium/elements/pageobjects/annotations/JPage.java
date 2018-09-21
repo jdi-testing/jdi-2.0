@@ -15,10 +15,39 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface JPage {
+    /**
+     * Returns value
+     * @return value
+     */
     String value() default "";
+
+    /**
+     * Returns URL
+     * @return URL
+     */
     String url() default "";
+
+    /**
+     * Returns title
+     * @return title
+     */
     String title() default "";
+
+    /**
+     * Returns url template
+     * @return url template
+     */
     String urlTemplate() default "";
+
+    /**
+     * Returns url check type
+     * @return url chack type
+     */
     CheckTypes urlCheckType() default CheckTypes.EQUAL;
+
+    /**
+     * Returns title check type
+     * @return title check type
+     */
     CheckTypes titleCheckType() default CheckTypes.EQUAL;
 }

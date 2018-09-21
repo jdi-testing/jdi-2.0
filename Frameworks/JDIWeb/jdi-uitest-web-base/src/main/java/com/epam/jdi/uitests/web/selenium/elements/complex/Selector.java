@@ -7,5 +7,9 @@ package com.epam.jdi.uitests.web.selenium.elements.complex;
 
 import com.epam.jdi.uitests.core.interfaces.complex.ISelector;
 
+/**
+ * Selector complex element
+ * @param <TEnum> selector
+ */
 public class Selector<TEnum extends Enum> extends BaseSelector implements ISelector<TEnum> {
 }

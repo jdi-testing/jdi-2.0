@@ -20,8 +20,17 @@ import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.domain;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+/**
+ * AnnotationsUtil for Web
+ */
 public class WebAnnotationsUtil extends AnnotationsUtil {
 
+    /**
+     * Gets URL from URI
+     * @param uri URI
+     * @param parentClass parent class
+     * @return URL
+     */
     public static String getUrlFromUri(String uri, Class<?> parentClass) {
         String siteDomain = domain;
         if (parentClass != null && parentClass.isAnnotationPresent(JSite.class)) {
@@ -35,6 +44,12 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
         return siteDomain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
     }
 
+    /**
+     * Fills Page from Annotation
+     * @param page page
+     * @param pageAnnotation annotation
+     * @param parentClass parent class
+     */
     public static void fillPageFromAnnotaiton(WebPage page, JPage pageAnnotation, Class<?> parentClass) {
         String url = !isBlank(pageAnnotation.value())
                 ? pageAnnotation.value()
@@ -55,6 +70,11 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
         page.updatePageData(url, title, urlCheckType, titleCheckType, urlTemplate);
     }
 
+    /**
+     * Gets frame
+     * @param frame frame
+     * @return By locator
+     */
     public static By getFrame(Frame frame) {
         if (frame == null) return null;
 
@@ -94,6 +114,11 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
         return null;
     }
 
+    /**
+     * Finds By by locator
+     * @param locator locator
+     * @return By
+     */
     public static By findByToBy(org.openqa.selenium.support.FindBy locator) {
         if (locator == null) return null;
         if (!locator.id().isEmpty())
@@ -115,12 +140,22 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
         return null;
     }
 
+    /**
+     * Fills locator
+     * @param value value
+     * @param action action
+     */
     public static void fillLocator(org.openqa.selenium.support.FindBy value, Consumer<By> action) {
         By by = findByToBy(value);
         if (by != null)
             action.accept(by);
     }
 
+    /**
+     * Finds By by locator
+     * @param locator locator
+     * @return By
+     */
     public static By findByToBy(FindBy locator) {
         if (locator == null) return null;
 
@@ -160,32 +195,63 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
         return null;
     }
 
+    /**
+     * Gets attribute
+     * @param name name
+     * @param value value
+     * @return
+     */
     private static By getAttribute(String name, String value) {
         return By.xpath(".//*[@" + name + '=' + Quotes.escape(value) + ']');
     }
 
+    /**
+     * Finds By by locator
+     * @param locator locator
+     * @return By
+     */
     public static By findByToBy(Css locator){
         if (locator == null) return null;
         return By.cssSelector(locator.value());
     }
 
+    /**
+     * Finds By by locator
+     * @param locator locator
+     * @return By
+     */
     public static By findByToBy(ById locator){
         if (locator == null) return null;
         return By.id(locator.value());
     }
 
+    /**
+     * Finds By by locator
+     * @param locator locator
+     * @return By
+     */
     public static By findByToBy(ByText locator){
         if (locator == null) return null;
         return By.xpath(".//*/text()[normalize-space(.) = " +
                 Quotes.escape(locator.value()) + "]/parent::*");
     }
 
+    /**
+     * Finds By by locator
+     * @param locator locator
+     * @return By
+     */
     public static By findByToBy(WithText locator){
         if (locator == null) return null;
         return By.xpath(".//*/text()[contains(normalize-space(.), "+
                 Quotes.escape(locator.value())+")]/parent::*");
     }
 
+    /**
+     * Finds By by locator
+     * @param locator locator
+     * @return By
+     */
     public static By findByToBy(XPath locator){
         if (locator == null) return null;
         return By.xpath(locator.value());

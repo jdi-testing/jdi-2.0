@@ -29,32 +29,87 @@ import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+/**
+ * Table complex element
+ */
 public class Table extends Element implements ITable, ISetup {
     private TTable tTable = new TTable();
+
+    /**
+     * Returns all cells
+     * @return list of cells
+     */
     public List<ICell> allCells() { return tTable.allCells(); }
+
+    /**
+     * Performs validation
+     * @param results results
+     * @param <T> type
+     * @return validation results
+     */
     public <T> T validation(JFunc<T> results) {
         return tTable.validation(results);
     }
+
+    /**
+     * Waits for specified number of seconds
+     * @param timeoutSec wait time in seconds
+     * @return TableVerify
+     */
     public TableVerify waitWhile(int timeoutSec) {
         return tTable.waitWhile(timeoutSec);
     }
+
+    /**
+     * Asserts table
+     * @param timeoutSec wait time in seconds
+     * @return TableVerify
+     */
     public TableVerify assertThat(int timeoutSec) {
         return tTable.assertThat(timeoutSec);
     }
+
+    /**
+     * Returns rows
+     * @return TableRow
+     */
     public TableRow rows() {
         return tTable.rows();
     }
+
+    /**
+     * Returns columns
+     * @return TableRow
+     */
     public TableRow columns() {
         return tTable.columns();
     }
+
+    /**
+     * Cleans table
+     */
     public void clean() { tTable.clean(); }
+
+    /**
+     * Sets using cache value
+     * @param value value
+     * @return ITable
+     */
     public ITable useCache(boolean value) {
          tTable.setUseCache(value);
          return tTable;
     }
+
+    /**
+     * Returns linked elements
+     * @return LinkedElements
+     */
     @Override
     public LinkedElements linked() { return tTable.linked(); }
 
+    /**
+     * Constructs table
+     */
     public Table() {
         tTable.setEngine(engine());
         linked().add("cell", new Element().setLocator(
@@ -72,10 +127,20 @@ public class Table extends Element implements ITable, ISetup {
         linked().add("footer",
             getSelector(By.xpath("//tfoot//td")));
     }
+
+    /**
+     * Gets selector
+     * @param locator locator
+     * @return Selector
+     */
     private Selector getSelector(By locator) {
         return new Selector().setLocator(locator);
     }
 
+    /**
+     * Sets up element
+     * @param field field
+     */
     public void setup(Field field) {
         if (!fieldHasAnnotation(field, JTable.class, ITable.class))
             return;

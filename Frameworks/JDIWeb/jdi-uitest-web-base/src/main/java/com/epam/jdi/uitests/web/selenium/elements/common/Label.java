@@ -7,5 +7,8 @@ package com.epam.jdi.uitests.web.selenium.elements.common;
 
 import com.epam.jdi.uitests.core.interfaces.common.ILabel;
 
+/**
+ * Label common element
+ */
 public class Label extends Button implements ILabel {
 }

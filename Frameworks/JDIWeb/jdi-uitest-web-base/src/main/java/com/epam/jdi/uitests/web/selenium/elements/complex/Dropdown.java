@@ -22,9 +22,17 @@ import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.lang.String.format;
 
+/**
+ * Dropdown complex element
+ * @param <TEnum> selector
+ */
 public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
         implements IDropDown<TEnum>, ISetup {
 
+    /**
+     * Sets up element
+     * @param field
+     */
     public void setup(Field field) {
         if (!fieldHasAnnotation(field, JDropdown.class, IDropDown.class))
             return;
@@ -37,6 +45,11 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
         "Can't %s element in dropdown '%s'. Dropdown should have JDropdown annotation or locator to 'select' tag";
     private static final String TO_MUCH_ELEMENTS_FOUND_ERROR =
         "Found more than 1 <select> tag with locator '%s' for dropdown '%s'";
+
+    /**
+     * Performs select action
+     * @param name Specify name using string
+     */
     @Override
     public void select(String name) {
         if (linked().hasAny()) {
@@ -47,6 +60,11 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
         }
         else getSelectElement(format("select '%s'", name)).selectByVisibleText(name);
     }
+
+    /**
+     * Performs select action
+     * @param index Specify digit to select
+     */
     @Override
     public void select(int index) {
         if (linked().hasAny()){
@@ -57,6 +75,11 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
         }
         else getSelectElement(format("select '%s'", index)).selectByIndex(index);
     }
+
+    /**
+     * Gets text of element
+     * @return text
+     */
     @Override
     public String getText() {
         if (linked().hasAny()) {
@@ -73,6 +96,11 @@ public class Dropdown<TEnum extends Enum> extends Selector<TEnum>
 
     }
 
+    /**
+     * Gets SelectElement
+     * @param action
+     * @return
+     */
     private Select getSelectElement(String action) {
         WebElement root = engine().getWebElement();
         if (root.getTagName().contains("select"))

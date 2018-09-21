@@ -7,5 +7,8 @@ package com.epam.jdi.uitests.web.selenium.elements.common;
 
 import com.epam.jdi.uitests.core.interfaces.common.ITextArea;
 
+/**
+ * TextArea common element
+ */
 public class TextArea extends TextField implements ITextArea {
 }

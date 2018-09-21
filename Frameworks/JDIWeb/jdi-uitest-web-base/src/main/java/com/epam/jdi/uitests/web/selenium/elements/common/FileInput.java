@@ -8,5 +8,8 @@ package com.epam.jdi.uitests.web.selenium.elements.common;
 import com.epam.jdi.uitests.core.interfaces.common.IFileInput;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 
+/**
+ * FileInput common element
+ */
 public class FileInput extends Element implements IFileInput {
 }

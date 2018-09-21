@@ -19,9 +19,17 @@ import static com.epam.jdi.uitests.web.selenium.elements.base.LinkedSetup.setupD
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;
 
+/**
+ * DropList complex element
+ * @param <TEnum> selector
+ */
 public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
         implements IDropList<TEnum>, ISetup {
 
+    /**
+     * Sets up element
+     * @param field field
+     */
     @Override
     public void setup(Field field) {
         if (!fieldHasAnnotation(field, JDropList.class, IDropList.class))
@@ -35,11 +43,28 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
     }
 
     private String separator = ", ";
+
+    /**
+     * Gets separator
+     * @return separator
+     */
     public String getSeparator() { return separator; }
+
+    /**
+     * Sets values separator
+     * @param separator separator
+     * @return
+     */
     public DropList<TEnum> setValuesSeparator(String separator) {
         this.separator = separator;
         return this;
     }
+
+    /**
+     * Checks whether element is selected
+     * @param el element
+     * @return
+     */
     @Override
     public boolean isSelected(WebElement el) {
         WebElement element = linked().has("isSelected")
@@ -47,6 +72,11 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
             : el;
         return super.isSelected(element);
     }
+
+    /**
+     * Performs check action
+     * @param names names to check
+     */
     @JDIAction
     public void check(String... names) {
         expand();
@@ -54,6 +84,10 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
         ((CheckList)linked().get("list")).check(names);
     }
 
+    /**
+     * Performs check action
+     * @param indexes indexes to check
+     */
     @JDIAction
     public void check(Integer... indexes) {
         expand();
@@ -61,6 +95,10 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
         ((CheckList)linked().get("list")).check(indexes);
     }
 
+    /**
+     * Performs uncheck action
+     * @param names names to uncheck
+     */
     @JDIAction @Override
     public void uncheck(String... names) {
         expand();
@@ -68,6 +106,10 @@ public class DropList<TEnum extends Enum> extends Dropdown<TEnum>
         ((CheckList)linked().get("list")).uncheck(names);
     }
 
+    /**
+     * Performs uncheck action
+     * @param indexes indexes to check
+     */
     @JDIAction @Override
     public void uncheck(Integer... indexes) {
         expand();
