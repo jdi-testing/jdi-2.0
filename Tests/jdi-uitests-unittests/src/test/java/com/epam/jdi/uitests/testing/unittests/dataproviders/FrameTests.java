@@ -1,7 +1,7 @@
 package com.epam.jdi.uitests.testing.unittests.dataproviders;
 
 import com.epam.jdi.uitests.testing.unittests.W3CInit;
-import com.epam.web.matcher.testng.Assert;
+import com.epam.matcher.testng.Assert;
 import org.testng.annotations.Test;
 
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.w3cSite.W3cSite.framePage;

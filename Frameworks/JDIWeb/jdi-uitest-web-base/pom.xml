@@ -2,14 +2,10 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <groupId>com.epam.jdi</groupId>
-        <artifactId>jdi-opensource</artifactId>
-        <version>RELEASE</version>
-        <relativePath>../../..</relativePath>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.epam.jdi</groupId>
+    <version>2.0.21</version>
     <artifactId>jdi-web-base</artifactId>
     <name>JDI UI testing Web Base</name>
     <packaging>jar</packaging>
@@ -18,7 +14,7 @@
         <dependency>
             <groupId>com.epam.jdi</groupId>
             <artifactId>jdi-core</artifactId>
-            <version>${parent.version}</version>
+            <version>2.0.21</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -35,6 +31,29 @@
             <artifactId>webdrivermanager</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.detro</groupId>
+            <artifactId>phantomjsdriver</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

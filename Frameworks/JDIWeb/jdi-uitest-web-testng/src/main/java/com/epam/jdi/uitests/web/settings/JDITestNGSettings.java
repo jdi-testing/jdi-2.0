@@ -9,20 +9,17 @@ import com.epam.jdi.uitests.web.selenium.driver.ScreenshotMaker;
 import com.epam.jdi.uitests.web.selenium.settings.WebSettings;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGCheck;
 import com.epam.jdi.uitests.web.testng.testRunner.TestNGLogger;
-import com.epam.web.matcher.base.BaseMatcher;
 import org.testng.annotations.Test;
 
 import static com.epam.jdi.tools.PropertyReader.fillAction;
-import static com.epam.web.matcher.base.BaseMatcher.screenshotAction;
-import static com.epam.web.matcher.testng.Assert.setMatcher;
 
 public class JDITestNGSettings extends WebSettings {
     public static synchronized void init() {
         logger = TestNGLogger.instance("JDI");
         asserter = new TestNGCheck().setUpLogger(logger);
-        setMatcher((BaseMatcher) asserter);
+        //setMatcher((BaseMatcher) asserter);
         asserter.doScreenshot("no_screen");
-        screenshotAction = ScreenshotMaker::doScreenshotGetMessage;
+        //screenshotAction = ScreenshotMaker::doScreenshotGetMessage;
         timeouts = new WebTimeoutSettings();
     }
     public static boolean initialized = false;

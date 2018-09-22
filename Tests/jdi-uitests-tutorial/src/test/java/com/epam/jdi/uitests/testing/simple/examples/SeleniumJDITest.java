@@ -20,7 +20,7 @@ public class SeleniumJDITest {
     SeleniumJdiPage page;
 
     @BeforeMethod
-    public void before(Method method) throws IOException {
+    public void before(Method method) {
         page = initPageObject(SeleniumJdiPage.class);
     }
 
@@ -31,7 +31,7 @@ public class SeleniumJDITest {
         page.menu.get(2).click();
         page.headerMenu.select(CAREERS);
         System.out.println("Entities count: " + page.vacancies.size());
-        List<Vacancy> vacancies = page.vacancies.entities();
+        //List<Vacancy> vacancies = page.vacancies.entities();
         //System.out.println(print(select(vacancies, Vacancy::toString), getProperty("line.separator")));
         page.selectButton.click();
 

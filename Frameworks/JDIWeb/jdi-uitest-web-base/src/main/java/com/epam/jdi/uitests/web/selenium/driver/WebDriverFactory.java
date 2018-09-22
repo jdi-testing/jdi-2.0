@@ -6,273 +6,146 @@ package com.epam.jdi.uitests.web.selenium.driver;
  */
 
 import com.epam.jdi.tools.func.JFunc;
-import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.tools.pairs.Pair;
-import com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes;
-import com.epam.jdi.uitests.web.selenium.driver.get.driver.RunTypes;
-import io.github.bonigarcia.wdm.ChromeDriverManager;
-import io.github.bonigarcia.wdm.FirefoxDriverManager;
-import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Function;
 
-import static com.epam.jdi.tools.LinqUtils.any;
-import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
-import static com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes.*;
-import static com.epam.jdi.uitests.web.selenium.driver.get.driver.RunTypes.LOCAL;
-import static com.epam.jdi.uitests.web.selenium.driver.get.driver.RunTypes.REMOTE;
-import static java.io.File.separator;
+import static com.epam.jdi.uitests.web.selenium.driver.get.DownloadDriverManager.downloadDriver;
+import static com.epam.jdi.uitests.web.selenium.driver.get.DriverData.*;
+import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static java.lang.String.format;
 import static java.lang.System.setProperty;
 import static java.lang.Thread.currentThread;
-import static java.util.Arrays.asList;
-import static org.openqa.selenium.ie.InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS;
-import static org.openqa.selenium.remote.CapabilityType.PAGE_LOAD_STRATEGY;
+import static org.openqa.selenium.remote.BrowserType.*;
 
 public class WebDriverFactory {
-    public static JFunc1<WebElement, Boolean> elementSearchCriteria = WebElement::isDisplayed;
-    public static boolean onlyOneElementAllowedInSearch = true;
-    static final String FOLDER_PATH = new File("").getAbsolutePath() + "\\src\\main\\resources\\driver\\";
-    public Boolean getLatestDriver = false;
-    public static String currentDriverName = "CHROME";
-    public boolean isDemoMode = false;
-    public String pageLoadStrategy = "normal";
-    private String driversPath = FOLDER_PATH;
-    private RunTypes runType = LOCAL;
-    private String hubUrl = "http://127.0.0.1:4444/wd/hub";
-    static final String DOWNLOADS_DIR = MessageFormat.format("{0}{1}src{1}test{1}resources{1}downloads",
-            Paths.get("").toAbsolutePath(), separator);
-    private Path downloadsDir = Paths.get(DOWNLOADS_DIR);
-    private MapArray<String, JFunc<WebDriver>> drivers = new MapArray<>();
-    private ThreadLocal<MapArray<String, WebDriver>> runDrivers = new ThreadLocal<>();
+    public static MapArray<String, JFunc<WebDriver>> drivers = new MapArray<>();
+    private static ThreadLocal<MapArray<String, WebDriver>> runDrivers = new ThreadLocal<>();
 
-    public WebDriverFactory() {
-        elementSearchCriteria = WebElement::isDisplayed;
+    private WebDriverFactory() { }
+    public static boolean hasRunDrivers() {
+        return runDrivers.get() != null && runDrivers.get().any();
     }
-
-    public String getDriverPath() {
-        return driversPath;
-    }
-
-    public void setDriverPath(String driverPath) {
-        this.driversPath = driverPath;
-    }
-
-    static final String getDriverPath(String name, String folderPath) {
-        String path = folderPath + separator + name;
-        if (checkOS().equals("win"))
-            path += ".exe";
-        return path;
-    }
-
-    static final String getIEDriverPath(String folderPath) {
-        return folderPath + "\\IEDriverServer.exe";
-    }
-
-    static String checkOS() {
-        String osName = System.getProperty("os.name").toLowerCase();
-        if (osName.contains("mac")) {
-            return "mac";
-        } else if (osName.contains("win") || osName.contains("ms")) {
-            return "win";
-        } else {
-            return "nix";
-        }
-    }
-
-    public String currentDriverName() {
-        return currentDriverName;
-    }
-
-    public void setCurrentDriver(String driverName) {
-        currentDriverName = driverName;
-    }
-
-    public boolean hasDrivers() {
+    public static boolean hasDrivers() {
         return drivers.any();
     }
 
-    public boolean hasRunDrivers() {
-        return runDrivers.get() != null && runDrivers.get().any();
+    /**
+     * Registers driver
+     * @param driver - driver
+     * @return String - drivers name
+     */
+    public static String useDriver(JFunc<WebDriver> driver) {
+        return useDriver("Driver" + (drivers.size() + 1), driver);
     }
 
-    // REGISTER DRIVER
-
-    public String registerDriver(JFunc<WebDriver> driver) {
-        return registerDriver("Driver" + (drivers.size() + 1), driver);
+    /**
+     * Registers driver
+     * @param driver - drivers name
+     * @return String - drivers name
+     */
+    public static String useDriver(String driver) {
+        return useDriver(driver, () -> initDriver(driver));
     }
 
-    public String registerDriver(String driverName) {
-        switch (driverName.toLowerCase()) {
-            case "chrome":
-                return registerDriver(CHROME);
-            case "firefox":
-                return registerDriver(FIREFOX);
-            case "ie":
-            case "internetexplorer":
-                return registerDriver(IE);
-            case "edge":
-                return registerDriver(EDGE);
-            case "phantom":
-                return registerDriver(PHANTOMJS);
-            case "opera":
-                return registerDriver(OPERA);
-            default:
-                throw exception("Unknown driver: " + driverName);
-        }
-    }
-    public void setRunType(String runType) {
-        switch (runType.toLowerCase()) {
-            case "local":
-                this.runType = LOCAL;
-                break;
-            case "remote":
-                this.runType = REMOTE;
-                break;
-        }
-    }
-    public void setHubUrl(String hubUrl) { this.hubUrl = hubUrl; }
-
-    public void setDownloadsDir(String downloadsDir){
-        this.downloadsDir = Paths.get(downloadsDir);
-    }
-
-    private WebDriver initChromeDriver() {
-        setProperty("webdriver.chrome.driver", getDriverPath("chromedriver", driversPath));
-        return webDriverSettings.apply(getLatestDriver
-                ? initChrome()
-                : new ChromeDriver(defaultChromeOptions()));
-    }
-    private WebDriver initFirefoxDriver() {
-        setProperty("webdriver.gecko.driver", getDriverPath("geckodriver", driversPath));
-        return webDriverSettings.apply(getLatestDriver
-                ? initFirefox()
-                : new FirefoxDriver(defaultFirefoxOptions()));
-    }
-    private WebDriver initIEDriver() {
-        setProperty("webdriver.ie.driver", getIEDriverPath(driversPath));
-        return webDriverSettings.apply(getLatestDriver
-                ? initIE()
-                : new InternetExplorerDriver(defaultIEOptions()));
-    }
-    public String registerDriver(DriverTypes driverType) {
-        switch (driverType) {
+    /**
+     * Inits driver
+     * @param type - drivers type
+     * @return WebDriver
+     */
+    private static WebDriver initDriver(String type) {
+        WebDriver driver;
+        switch (type) {
             case CHROME:
-                return registerDriver(driverType, this::initChromeDriver);
+                if (DRIVER_VERSION.equals(""))
+                    setProperty("webdriver.chrome.driver", chromeDriverPath());
+                else
+                    downloadDriver(CHROME, PLATFORM, DRIVER_VERSION);
+                driver = new ChromeDriver(CHROME_OPTIONS.execute());
+                break;
             case FIREFOX:
-                return registerDriver(driverType, this::initFirefoxDriver);
+                if (DRIVER_VERSION.equals(""))
+                    setProperty("webdriver.gecko.driver", firefoxDriverPath());
+                else
+                    downloadDriver(FIREFOX, PLATFORM, DRIVER_VERSION);
+                driver = new FirefoxDriver(FIREFOX_OPTIONS.execute());
+                break;
             case IE:
-                return registerDriver(driverType, this::initIEDriver);
+                if (DRIVER_VERSION.equals(""))
+                    setProperty("webdriver.ie.driver", ieDriverPath());
+                else
+                    downloadDriver(IE, PLATFORM, DRIVER_VERSION);
+                driver = new InternetExplorerDriver(IE_OPTIONS.execute());
+                break;
+            case EDGE:
+                // TODO
+                driver = new EdgeDriver(EDGE_OPTIONS.execute());
+                break;
+            case PHANTOMJS:
+                // TODO
+                driver = new PhantomJSDriver(PHANTOM_JS_OPTIONS.execute(), new DesiredCapabilities());
+                break;
+            case OPERA:
+                // TODO
+                driver = new OperaDriver(OPERA_OPTIONS.execute());
+                break;
+            default:
+                throw exception("Unknown driver: " + type);
         }
-        throw exception("Unknown driver: " + driverType);
+        return DRIVER_SETTINGS.execute(driver);
     }
 
-    // GET DRIVER
-    private FirefoxOptions defaultFirefoxOptions() {
-        FirefoxOptions cap = new FirefoxOptions();
-        cap.setCapability(PAGE_LOAD_STRATEGY, pageLoadStrategy);
-        return cap;
-    }
-    private ChromeOptions defaultChromeOptions() {
-        ChromeOptions cap = new ChromeOptions();
-        cap.setCapability(PAGE_LOAD_STRATEGY, pageLoadStrategy);
-        return cap;
-    }
-    private InternetExplorerOptions defaultIEOptions() {
-        InternetExplorerOptions cap = new InternetExplorerOptions();
-        cap.setCapability(INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-        cap.setCapability("ignoreZoomSetting", true);
-        //cap.setCapability("requireWindowFocus", true);
-        cap.setCapability(PAGE_LOAD_STRATEGY, pageLoadStrategy);
-        return cap;
-    }
-    public String registerDriver(DriverTypes driverType, JFunc<WebDriver> driver) {
-        int numerator = 2;
-        String driverName = driverType.toString();
-        // TODO correct constant 100
-        while (drivers.keys().contains(driverName)){
-            driverName = driverType.toString() + numerator++;
-            if (numerator == 100)
-                throw exception("Can't register driver " + driverType);
-        }
-        drivers.add(driverName, driver);
-        currentDriverName = driverName;
-        return driverName;
-    }
-
-    public String registerDriver(String driverName, JFunc<WebDriver> driver) {
-        if (drivers.keys().contains(driverName))
+    /**
+     * Registers driver
+     * @param driverName - drivers name
+     * @param driver
+     * @return String - drivers name
+     */
+    public static String useDriver(String driverName, JFunc<WebDriver> driver) {
+        if (!drivers.keys().contains(driverName))
             drivers.add(driverName, driver);
         else
             throw exception("Can't register WebDriver '%s'. Driver with same name already registered", driverName);
-        currentDriverName = driverName;
+        DRIVER_NAME = driverName;
         return driverName;
     }
 
-    public WebDriver getDriver() {
+    /**
+     * Returns WebDriver
+     * @return WebDriver
+     */
+    public static WebDriver getDriver() {
         try {
-            if (!currentDriverName.equals(""))
-                return getDriver(currentDriverName);
-            registerDriver(CHROME);
-            return getDriver(CHROME.toString());
+            if (!DRIVER_NAME.equals(""))
+                return getDriver(DRIVER_NAME);
+            useDriver(CHROME);
+            return getDriver(CHROME);
         } catch (Exception ex) {
             throw exception("Can't get WebDriver. " + LINE_BREAK + ex.getMessage());
         }
     }
 
-    private WebDriver initFirefox() {
-        FirefoxDriverManager.getInstance().arch32().setup();
-        return new FirefoxDriver(defaultFirefoxOptions());
-    }
-
-    private WebDriver initChrome() {
-        ChromeDriverManager.getInstance().setup();
-        return new ChromeDriver(defaultChromeOptions());
-    }
-
-    private WebDriver initIE() {
-        InternetExplorerDriverManager.getInstance().setup();
-        return new InternetExplorerDriver(defaultIEOptions());
-    }
-
-    public static Dimension browserSizes;
-
-    public static Function<WebDriver, WebDriver> webDriverSettings = driver -> {
-        if (browserSizes == null) {
-            if (any(asList("chrome", "internetexplorer"),
-                    el -> driver.toString().toLowerCase().contains(el)))
-                driver.manage().window().maximize();
-        }
-        else
-            driver.manage().window().setSize(browserSizes);
-        return driver;
-    };
-
-    public WebDriver getDriver(String driverName) {
+    /**
+     * Gets driver by it's name
+     * @param driverName - drivers name
+     * @return WebDriver
+     */
+    public static WebDriver getDriver(String driverName) {
         if (!drivers.keys().contains(driverName))
             if (drivers.count() == 0)
-                registerDriver(driverName);
+                useDriver(driverName);
             else throw exception("Can't find driver with name '%s'", driverName);
         try {
             Lock lock = new ReentrantLock();
@@ -301,11 +174,38 @@ public class WebDriverFactory {
         }
     }
 
-    public void reopenDriver() {
-        reopenDriver(currentDriverName);
+    /**
+     * Executes js
+     * @param js - js to execute
+     * @param args - args
+     */
+    public static void jsExecute(String js, Object... args) {
+        getJSExecutor().executeScript(js, args);
     }
 
-    public void reopenDriver(String driverName) {
+    /**
+     * Gets JavascriptExecutor
+     * @return JavascriptExecutor
+     */
+    public static JavascriptExecutor getJSExecutor() {
+        if (getDriver() instanceof JavascriptExecutor)
+            return (JavascriptExecutor) getDriver();
+        else
+            throw new ClassCastException("JavaScript Executor doesn't support");
+    }
+
+    /**
+     * Reopens driver
+     */
+    public static void reopenDriver() {
+        reopenDriver(DRIVER_NAME);
+    }
+
+    /**
+     * Reopens driver
+     * @param driverName - drivers name
+     */
+    public static void reopenDriver(String driverName) {
         MapArray<String, WebDriver> rDriver = runDrivers.get();
         if (rDriver.keys().contains(driverName)) {
             rDriver.get(driverName).close();
@@ -316,59 +216,30 @@ public class WebDriverFactory {
             getDriver();
     }
 
-    public void switchToDriver(String driverName) {
+    /**
+     * Switches to driver
+     * @param driverName - drivers name
+     */
+    public static void switchToDriver(String driverName) {
         if (drivers.keys().contains(driverName))
-            currentDriverName = driverName;
+            DRIVER_NAME = driverName;
         else
             throw exception("Can't switch to Webdriver '%s'. This Driver name not registered", driverName);
     }
 
-    public void runApplication() {
-
-    }
-
-    public void closeApplication() {
-    }
-
-    public void get(String s) {
-
-    }
-
-    public String getCurrentUrl() {
-        return null;
-    }
-
-    public String getTitle() {
-        return null;
-    }
-
-    public List<WebElement> findElements(By by) {
-        return null;
-    }
-
-    public WebElement findElement(By by) {
-        return null;
-    }
-
-    public String getPageSource() {
-        return null;
-    }
-
-    public void close() {
+    /**
+     * Closes driver
+     */
+    public static void close() {
         for (Pair<String, WebDriver> driver : runDrivers.get())
             driver.value.quit();
         runDrivers.get().clear();
     }
 
-    public void quit() {
+    /**
+     * Quites driver
+     */
+    public static void quit() {
         close();
-    }
-
-    public Set<String> getWindowHandles() {
-        return null;
-    }
-
-    public String getWindowHandle() {
-        return null;
     }
 }

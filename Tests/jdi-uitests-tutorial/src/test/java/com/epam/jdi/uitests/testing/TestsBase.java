@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeSuite;
 
 import java.io.IOException;
 
-import static com.epam.jdi.tools.logger.LogLevels.INFO;
+import static com.epam.jdi.uitests.core.logger.LogLevels.INFO;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverUtils.killAllRunWebBrowsers;
 import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.init;
@@ -25,7 +25,7 @@ public abstract class TestsBase extends TestNGBase {
     }
 
     @AfterSuite(alwaysRun = true)
-    public static void tearDown() throws IOException {
+    public static void tearDown() {
         killAllRunWebBrowsers();
     }
 }

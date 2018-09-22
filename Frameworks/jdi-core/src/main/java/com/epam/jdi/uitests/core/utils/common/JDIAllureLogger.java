@@ -5,7 +5,7 @@ package com.epam.jdi.uitests.core.utils.common;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import com.epam.jdi.tools.logger.JDILogger;
+import com.epam.jdi.uitests.core.logger.JDILogger;
 import ru.yandex.qatools.allure.events.StepFinishedEvent;
 import ru.yandex.qatools.allure.events.StepStartedEvent;
 

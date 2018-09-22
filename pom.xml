@@ -4,30 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.epam.jdi</groupId>
-	<artifactId>jdi-opensource</artifactId>
-	<version>RELEASE</version>
-    <packaging>pom</packaging>
-    <name>JDI UI projects</name>
+    <groupId>com.epam.jdi</groupId>
+    <version>2.0.21</version>
+    <artifactId>jdi-2</artifactId>
+    <name>JDI UI 2.0</name>
+    <packaging>jar</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>utf8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>utf8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<testng.version>6.11</testng.version>
-		<aspectj.version>1.8.3</aspectj.version>
-    </properties>
-
-    <modules>
-        <module>Frameworks/jdi-core</module>
-        <module>Frameworks/JDIWeb/jdi-uitest-web-base</module>
-        <module>Frameworks/JDIWeb/jdi-uitest-web-testng</module>
-		<module>Frameworks/jdi-matchers</module>
-
-        <module>Tests/jdi-uitests-tutorial</module>
-        <module>Tests/jdi-uitests-unittests</module>
-        <module>Tests/jdi-webTests</module>
-    </modules>
+	
     <build>
         <plugins>
             <plugin>
@@ -41,4 +24,17 @@
             </plugin>
         </plugins>
     </build>
+
+    <modules>
+        <module>Frameworks/jdi-core</module>
+        <module>Frameworks/jdi-matchers</module>
+        <module>Frameworks/jdi-matchers-junit</module>
+        <module>Frameworks/jdi-matchers-testng</module>
+        <module>Frameworks/JDIWeb/jdi-uitest-web-base</module>
+        <module>Frameworks/JDIWeb/jdi-uitest-web-testng</module>
+        <module>Tests/jdi-uitests-tutorial</module>
+        <module>Tests/jdi-uitests-unittests</module>
+        <module>Tests/jdi-webTests</module>
+    </modules>
+
 </project>

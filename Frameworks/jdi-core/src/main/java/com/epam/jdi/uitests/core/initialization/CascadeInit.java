@@ -18,13 +18,11 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static com.epam.jdi.tools.LinqUtils.Switch;
 import static com.epam.jdi.tools.LinqUtils.foreach;
 import static com.epam.jdi.tools.ReflectionUtils.*;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
-import static com.epam.jdi.tools.Switch.Condition;
-import static com.epam.jdi.tools.Switch.Else;
 import static com.epam.jdi.tools.TryCatchUtil.tryGetResult;
+import static com.epam.jdi.tools.switcher.SwitchActions.*;
 import static com.epam.jdi.uitests.core.initialization.MapInterfaceToElement.getClassFromInterface;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static java.lang.String.format;
@@ -136,13 +134,11 @@ public abstract class CascadeInit {
         }
     }
     protected IBaseElement getElementsRules(Field field, String driverName, Class<?> type) {
-        if (field.getName().equals("actionsLog"))
-            new Object();
         IBaseElement instance = Switch(type).get(
-            Condition(isInterface(type, IEntityTable.class),
+            Case(isInterface(type, IEntityTable.class),
                 t -> initEntityTable(field)),
-            Condition(isInterface(type, List.class),
-                t -> initList(t, field)),
+            Case(isInterface(type, List.class),
+                t -> initList(field)),
             Else(t -> initElement(t, field)));
         instance.engine().setDriverName(driverName);
         return instance;
@@ -162,11 +158,11 @@ public abstract class CascadeInit {
             return (IBaseElement) elType.newInstance();
         } catch (Exception ex) { throw exception("Can't init common element for %s. Exception: %s", field.getName(), ex.getMessage()); }
     }
-    private IBaseElement initList(Class<?> type, Field field) {
+    private IBaseElement initList(Field field) {
         try {
             Class<?> elementClass = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
             if (elementClass.isInterface())
-                elementClass = getClassFromInterface(type, field.getName());
+                elementClass = getClassFromInterface(elementClass, field.getName());
                 return (IBaseElement) getClassFromInterface(IList.class, field.getName())
                     .getDeclaredConstructor(Class.class).newInstance(elementClass);
         } catch (Exception ex) { throw exception("Can't init List element for %s. Exception: %s", field.getName(), ex.getMessage()); }

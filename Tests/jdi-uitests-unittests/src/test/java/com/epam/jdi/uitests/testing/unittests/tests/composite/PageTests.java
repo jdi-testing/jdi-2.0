@@ -12,8 +12,8 @@ import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInSta
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.CONTACT_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.contactFormPage;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.homePage;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriver;
-import static com.epam.web.matcher.testng.Assert.*;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
+import static com.epam.matcher.testng.Assert.*;
 
 
 /**

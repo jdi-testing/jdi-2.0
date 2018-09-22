@@ -6,22 +6,26 @@ package com.epam.jdi.uitests.web.selenium.elements.composite;
  */
 
 import com.epam.jdi.tools.CacheValue;
-import com.epam.jdi.tools.Timer;
+import com.epam.jdi.tools.map.MapArray;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes;
 import com.epam.jdi.uitests.core.interfaces.composite.IPage;
+import com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import com.epam.jdi.uitests.web.selenium.settings.WebSettings;
 import org.openqa.selenium.Cookie;
 
 import java.util.function.Supplier;
 
-import static com.epam.jdi.tools.LinqUtils.Switch;
-import static com.epam.jdi.tools.Switch.Else;
-import static com.epam.jdi.tools.Switch.Value;
-import static com.epam.jdi.tools.logger.LogLevels.STEP;
+import static com.epam.jdi.tools.switcher.SwitchActions.Else;
+import static com.epam.jdi.tools.switcher.SwitchActions.Switch;
+import static com.epam.jdi.tools.switcher.SwitchActions.Value;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.*;
+import static com.epam.jdi.uitests.core.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getJSExecutor;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.hasRunDrivers;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.jsExecute;
 import static java.lang.String.format;
 
 public class WebPage extends BaseElement implements IPage {
@@ -50,11 +54,11 @@ public class WebPage extends BaseElement implements IPage {
     }
 
     public static String getUrl() {
-        return WebSettings.getDriver().getCurrentUrl();
+        return WebDriverFactory.getDriver().getCurrentUrl();
     }
 
     public static String getTitle() {
-        return WebSettings.getDriver().getTitle();
+        return WebDriverFactory.getDriver().getTitle();
     }
 
     public void updatePageData(String url, String title, CheckTypes checkUrlType, CheckTypes checkTitleType, String urlTemplate) {
@@ -68,11 +72,11 @@ public class WebPage extends BaseElement implements IPage {
     }
 
     public StringCheckType url() {
-        return new StringCheckType(getDriver()::getCurrentUrl, url, urlTemplate, "url", timer());
+        return new StringCheckType(getDriver()::getCurrentUrl, url, urlTemplate, "url");
     }
 
     public StringCheckType title() {
-        return new StringCheckType(getDriver()::getTitle, title, title, "title", timer());
+        return new StringCheckType(getDriver()::getTitle, title, title, "title");
     }
 
 
@@ -87,7 +91,7 @@ public class WebPage extends BaseElement implements IPage {
     }
     @Override
     public boolean isOpened() {
-        if (!WebSettings.getDriverFactory().hasRunDrivers())
+        if (!hasRunDrivers())
             return false;
         boolean result = Switch(checkUrlType).get(
             Value(EQUAL, url().check()),
@@ -134,39 +138,29 @@ public class WebPage extends BaseElement implements IPage {
     }
 
     /**
-     * Refresh current page
-     */
-    @JDIAction
-    public void refresh() {
-        //invoker.doJAction(format("Refresh page '%s", getName()),
-          //      () -> getDriver().navigate().refresh());
-    }
-    /**
      * Reload current page
      */
-    @JDIAction
-    public void reload() {
-        //invoker.doJAction(format("Reload page '%s", getName()),
-          //      () -> getDriver().navigate().refresh());
+    @JDIAction("Reload current page '{name}'")
+    public void refresh() {
+        getDriver().navigate().refresh();
     }
+    public void reload() { refresh(); }
 
     /**
      * Go back to previous page
      */
-    @JDIAction
+    @JDIAction("Go back to previous page")
     public void back() {
-        //invoker.doJAction("Go back to previous page",
-          //      () -> getDriver().navigate().back());
+        getDriver().navigate().back();
     }
 
 
     /**
      * Go forward to next page
      */
-    @JDIAction
+    @JDIAction("Go forward to next page")
     public void forward() {
-        //invoker.doJAction("Go forward to next page",
-           //     () -> getDriver().navigate().forward());
+        getDriver().navigate().forward();
     }
 
     /**
@@ -175,19 +169,55 @@ public class WebPage extends BaseElement implements IPage {
      */
     @JDIAction
     public void addCookie(Cookie cookie) {
-        //invoker.doJAction("Add cookie",
-            //    () -> getDriver().manage().addCookie(cookie));
+        getDriver().manage().addCookie(cookie);
     }
 
     /**
      * Clear browsers cache
      */
-    @JDIAction
+    @JDIAction("Delete all cookies")
     public void clearCache() {
-        //invoker.doJAction("Delete all cookies",
-            //    () -> getDriver().manage().deleteAllCookies());
+        getDriver().manage().deleteAllCookies();
     }
 
+    @JDIAction
+    public static void zoom(double factor) {
+        WebDriverFactory.jsExecute("document.body.style.transform = 'scale(' + arguments[0] + ')';" +
+                "document.body.style.transformOrigin = '0 0';", factor);
+    }
+    @JDIAction
+    public static String getHtml() {
+        return WebDriverFactory.getDriver().getPageSource();
+    }
+
+    private static void scroll(int x, int y) {
+        WebDriverFactory.jsExecute("window.scrollBy("+x+","+y+")");
+    }
+
+    @JDIAction
+    public static void  scrollDown(int value) {
+        scroll(0,value);
+    }
+    @JDIAction
+    public static void  scrollUp(int value) {
+        scroll(0,-value);
+    }
+    @JDIAction
+    public static void  scrollRight(int value) {
+        scroll(value,0);
+    }
+    @JDIAction
+    public static void scrollLeft(int value) {
+        scroll(-value,0);
+    }
+    private static MapArray<String, WebPage> pages = new MapArray<>();
+    public static void addPage(WebPage page) {
+        pages.update(page.getName(), page);
+    }
+    public static <T extends WebPage> T getPage(String name) {
+        WebPage page = pages.get(name);
+        return (T) (page == null ? pages.get(name + " Page") : page);
+    }
     @Override
     public String toString() {
         String result = getName();
@@ -202,7 +232,7 @@ public class WebPage extends BaseElement implements IPage {
         private String template;
         private String what;
 
-        StringCheckType(Supplier<String> actual, String equals, String template, String what, Timer timer) {
+        StringCheckType(Supplier<String> actual, String equals, String template, String what) {
             this.actual = actual;
             this.equals = equals;
             this.template = template;

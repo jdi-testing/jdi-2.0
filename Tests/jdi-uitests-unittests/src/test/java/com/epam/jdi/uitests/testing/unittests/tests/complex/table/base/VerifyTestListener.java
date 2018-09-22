@@ -8,7 +8,7 @@ import java.util.List;
 import static com.epam.jdi.tools.LinqUtils.select;
 import static com.epam.jdi.tools.PrintUtils.print;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
-import static com.epam.web.matcher.verify.Verify.getFails;
+import static com.epam.matcher.base.Verify.getFails;
 import static java.lang.String.format;
 import static org.testng.ITestResult.FAILURE;
 

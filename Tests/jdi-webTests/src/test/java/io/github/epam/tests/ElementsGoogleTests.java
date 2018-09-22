@@ -1,6 +1,6 @@
 package io.github.epam.tests;
 
-import com.epam.web.matcher.testng.Assert;
+import com.epam.matcher.testng.Assert;
 import com.google.custom.SearchResult;
 import io.github.epam.GoogleInit;
 import org.testng.annotations.Test;

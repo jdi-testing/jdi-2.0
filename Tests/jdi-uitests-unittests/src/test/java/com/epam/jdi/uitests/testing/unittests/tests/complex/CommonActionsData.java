@@ -9,9 +9,9 @@ import java.util.function.Supplier;
 
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.*;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriver;
-import static com.epam.web.matcher.testng.Assert.areEquals;
-import static com.epam.web.matcher.testng.Assert.assertContains;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
+import static com.epam.matcher.testng.Assert.areEquals;
+import static com.epam.matcher.testng.Assert.assertContains;
 
 /**
  * Created by Roman_Iovlev on 9/18/2015.

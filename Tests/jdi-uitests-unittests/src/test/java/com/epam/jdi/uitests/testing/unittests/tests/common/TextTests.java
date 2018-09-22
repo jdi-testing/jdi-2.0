@@ -18,8 +18,8 @@ import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.SUPPORT
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.homePage;
 import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActionsData.runParallel;
 import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActionsData.waitTimeOut;
-import static com.epam.web.matcher.testng.Assert.areEquals;
-import static com.epam.web.matcher.testng.Assert.isTrue;
+import static com.epam.matcher.testng.Assert.areEquals;
+import static com.epam.matcher.testng.Assert.isTrue;
 import static java.lang.String.format;
 
 public class TextTests extends InitTests {

@@ -10,13 +10,13 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import static com.epam.jdi.tools.LinqUtils.listEquals;
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInState;
 import static com.epam.jdi.uitests.testing.unittests.enums.Odds.SEVEN;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.metalsColorsPage;
 import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActionsData.*;
-import static com.epam.web.matcher.testng.Assert.areEquals;
-import static com.epam.web.matcher.testng.Assert.listEquals;
+import static com.epam.matcher.testng.Assert.areEquals;
 import static java.util.Arrays.asList;
 
 /**

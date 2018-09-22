@@ -6,9 +6,9 @@ package com.epam.jdi.uitests.web.selenium.elements;
  */
 
 import com.epam.jdi.tools.func.JFunc;
+import com.epam.jdi.uitests.core.exceptions.JDIUIException;
 import com.epam.jdi.uitests.core.initialization.CascadeInit;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
-import com.epam.jdi.uitests.web.selenium.driver.get.driver.DriverTypes;
 import com.epam.jdi.uitests.web.selenium.elements.actions.WebActions;
 import com.epam.jdi.uitests.web.selenium.elements.apiInteract.WebEngine;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
@@ -29,7 +29,9 @@ import java.util.List;
 import static com.epam.jdi.tools.LinqUtils.any;
 import static com.epam.jdi.tools.LinqUtils.first;
 import static com.epam.jdi.uitests.core.settings.JDIData.APP_VERSION;
-import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.currentDriverName;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.useDriver;
+import static com.epam.jdi.uitests.web.selenium.driver.get.DriverData.DRIVER_NAME;
 import static com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.currentSite;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.*;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.*;
@@ -41,12 +43,15 @@ public class WebCascadeInit extends CascadeInit {
     protected Class<?>[] decorators() { return new Class<?>[] {IBaseElement.class, List.class, WebElement.class }; }
 
     protected void fillPageFromAnnotation(Field field, IBaseElement instance, Class<?> parentType) {
+        WebPage page = (WebPage) instance;
         if (field.getType().isAnnotationPresent(JPage.class))
-            fillPageFromAnnotaiton((WebPage) instance, field.getType().getAnnotation(JPage.class), parentType);
+            fillPageFromAnnotaiton(page, field.getType().getAnnotation(JPage.class), parentType);
         else {
             if (field.isAnnotationPresent(JPage.class))
-                fillPageFromAnnotaiton((WebPage) instance, field.getAnnotation(JPage.class), parentType);
+                fillPageFromAnnotaiton(page, field.getAnnotation(JPage.class), parentType);
         }
+        page.setName(field);
+        WebPage.addPage(page);
     }
     protected IBaseElement fillInstance(IBaseElement instance, Field field) {
         BaseElement element = (BaseElement) instance;
@@ -61,16 +66,14 @@ public class WebCascadeInit extends CascadeInit {
         currentSite = site;
     }
     public static <T> T initPageObject(Class<T> clazz) {
-        return initPageObject(clazz, currentDriverName);
+        return initPageObject(clazz, DRIVER_NAME);
     }
     public static <T> T initPageObject(Class<T> clazz, JFunc<WebDriver> driver) {
         return initPageObject(clazz, useDriver(driver));
     }
-    public static <T> T initPageObject(Class<T> clazz, DriverTypes driver){
-        return initPageObject(clazz, useDriver(driver));
-    }
     public static <T> T initPageObject(Class<T> clazz, String driverName) {
         WebActions.Init();
+        initFromProperties();
         T page;
         try {
             page = clazz.newInstance();
@@ -78,7 +81,7 @@ public class WebCascadeInit extends CascadeInit {
             try {
                 page = clazz.getDeclaredConstructor(WebDriver.class).newInstance(getDriver());
             } catch (Exception ex) {
-                throw new RuntimeException("Can't init PageObject: " + clazz.getName() + ". Exception: " + ex.getMessage());
+                throw new JDIUIException("Can't init PageObject: " + clazz.getName() + ". Exception: " + ex.getMessage());
             }
         }
         new WebCascadeInit().initElements(page, driverName);
@@ -87,17 +90,12 @@ public class WebCascadeInit extends CascadeInit {
 
     @SafeVarargs
     public static <T> void initPageObject(Class<T>... clazz) {
-        initPageObject(currentDriverName, clazz);
+        initPageObject(DRIVER_NAME, clazz);
     }
     @SafeVarargs
     public static <T> void initPageObject(WebDriver driver, Class<T>... clazz) {
         initDriver();
         initPageObject(useDriver(() -> driver), clazz);
-    }
-    @SafeVarargs
-    public static <T> void initPageObject(DriverTypes driver, Class<T>... clazz){
-        initDriver();
-        initPageObject(useDriver(driver), clazz);
     }
     @SafeVarargs
     public static <T> void initPageObject(String driverName, Class<T>... classes) {

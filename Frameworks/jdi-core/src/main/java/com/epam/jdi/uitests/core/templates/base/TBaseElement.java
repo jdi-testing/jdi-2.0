@@ -7,10 +7,10 @@ package com.epam.jdi.uitests.core.templates.base;
 
 import com.epam.jdi.tools.LinqUtils;
 import com.epam.jdi.tools.Timer;
-import com.epam.jdi.tools.logger.LogLevels;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IEngine;
 import com.epam.jdi.uitests.core.interfaces.base.IHasValue;
+import com.epam.jdi.uitests.core.logger.LogLevels;
 
 import java.lang.reflect.Field;
 
@@ -18,8 +18,8 @@ import static com.epam.jdi.tools.LinqUtils.foreach;
 import static com.epam.jdi.tools.ReflectionUtils.*;
 import static com.epam.jdi.tools.StringUtils.format;
 import static com.epam.jdi.tools.StringUtils.namesEqual;
-import static com.epam.jdi.tools.logger.LogLevels.INFO;
-import static com.epam.jdi.tools.logger.LogLevels.STEP;
+import static com.epam.jdi.uitests.core.logger.LogLevels.INFO;
+import static com.epam.jdi.uitests.core.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
 
 public abstract class TBaseElement extends Named implements IBaseElement {

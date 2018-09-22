@@ -7,8 +7,8 @@ package com.epam.jdi.uitests.web.selenium.preconditions;
 
 import com.epam.jdi.uitests.core.preconditions.IPreconditions;
 
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.domain;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriver;
 
 public interface WebPreconditions extends IPreconditions {
     static boolean checkUrl(String uri) {

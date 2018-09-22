@@ -15,8 +15,8 @@ import org.openqa.selenium.support.ui.Quotes;
 import java.util.function.Consumer;
 
 import static com.epam.jdi.tools.StringUtils.format;
-import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.CONTAINS;
-import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.EQUAL;
+import static com.epam.jdi.uitests.core.interfaces.complex.tables.CheckTypes.*;
+import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.domain;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -24,12 +24,14 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
 
     public static String getUrlFromUri(String uri, Class<?> parentClass) {
         String siteDomain = domain;
-        if (parentClass.isAnnotationPresent(JSite.class)) {
+        if (parentClass != null && parentClass.isAnnotationPresent(JSite.class)) {
             siteDomain = parentClass.getAnnotation(JSite.class).value();
             if (isBlank(siteDomain))
                 siteDomain = domain;
             else domain = siteDomain;
         }
+        if (isBlank(siteDomain)) return "";
+        if (isBlank(uri)) return siteDomain;
         return siteDomain.replaceAll("/*$", "") + "/" + uri.replaceAll("^/*", "");
     }
 
@@ -43,8 +45,13 @@ public class WebAnnotationsUtil extends AnnotationsUtil {
         String urlTemplate = pageAnnotation.urlTemplate();
         CheckTypes urlCheckType = pageAnnotation.urlCheckType();
         CheckTypes titleCheckType = pageAnnotation.titleCheckType();
-        if (urlCheckType == EQUAL || urlCheckType == CONTAINS && urlTemplate.equals(""))
-            urlTemplate = url;
+        if (urlTemplate.equals("")) {
+            if (urlCheckType == EQUAL || urlCheckType == CONTAINS)
+                urlTemplate = url;
+            else throw exception("In order to validate MATCH for page '%s', please specify 'template' in @Url",
+                    page.getName());
+        }
+        else urlCheckType = MATCH;
         page.updatePageData(url, title, urlCheckType, titleCheckType, urlTemplate);
     }
 

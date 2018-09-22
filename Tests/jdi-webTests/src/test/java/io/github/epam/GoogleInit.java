@@ -5,7 +5,7 @@ import com.epam.jdi.uitests.web.testng.testRunner.TestNGBase;
 import com.google.GoogleSite;
 import org.testng.annotations.BeforeSuite;
 
-import static com.epam.jdi.tools.logger.LogLevels.INFO;
+import static com.epam.jdi.uitests.core.logger.LogLevels.INFO;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 
 public class GoogleInit extends TestNGBase {

@@ -30,7 +30,7 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
     private MapArray<String, T> elements;
     private List<T> values;
     private Class<T> classType;
-    public String titleFieldName = null;
+    public String titleFieldName = NO_TITLE_FIELD;
     public static final String NO_TITLE_FIELD = "NO TITLE FIELD";
 
     public Elements(Class<T> classType) {

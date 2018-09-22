@@ -9,6 +9,8 @@ import com.epam.jdi.tools.CacheValue;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IEngine;
+import com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory;
+import com.epam.jdi.uitests.web.selenium.driver.get.DriverData;
 import com.epam.jdi.uitests.web.selenium.elements.base.BaseElement;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 import org.openqa.selenium.By;
@@ -20,16 +22,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.epam.jdi.tools.LinqUtils.where;
+import static com.epam.jdi.tools.LinqUtils.filter;
 import static com.epam.jdi.tools.ReflectionUtils.isClass;
 import static com.epam.jdi.tools.StringUtils.format;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
 import static com.epam.jdi.uitests.core.templates.base.TBaseElement.FAILED_TO_FIND_ELEMENT_MESSAGE;
 import static com.epam.jdi.uitests.core.templates.base.TBaseElement.FIND_TO_MUCH_ELEMENTS_MESSAGE;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverByUtils.*;
+import static com.epam.jdi.uitests.web.selenium.driver.get.DriverData.DRIVER_NAME;
 import static com.epam.jdi.uitests.web.selenium.elements.apiInteract.LocatorType.DEFAULT;
 import static com.epam.jdi.uitests.web.selenium.elements.apiInteract.LocatorType.FRAME;
-import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.getDriverFactory;
 import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.hasDomain;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
@@ -55,7 +57,7 @@ public class WebEngine implements IEngine {
     public WebEngine(BaseElement element, By byLocator, LocatorType locatorType) {
         this.element = element;
         if (getDriverName().equals(""))
-            setDriverName(getDriverFactory().currentDriverName());
+            setDriverName(DRIVER_NAME);
         this.byLocator = byLocator;
         this.locatorType = locatorType;
         webElement = new CacheValue<>(this::getWebElement);
@@ -133,7 +135,7 @@ public class WebEngine implements IEngine {
     }
     private List<WebElement> getElements(Object... args) {
         List<WebElement> els = findElements(args);
-        return where(els, el -> element.getSearchCriteria().invoke(el));
+        return filter(els, el -> element.getSearchCriteria().invoke(el));
     }
     public List<WebElement> findElements(Object... args) {
         if (webElements.hasValue()) return webElements.get(ArrayList::new);
@@ -153,14 +155,14 @@ public class WebEngine implements IEngine {
             if (el.engine().hasElement())
                 return el.engine().webElement.get();
         }
-        Object p = bElement.getParent();
+        Object parent = bElement.getParent();
         By locator = bElement.getLocator();
         By frame = bElement.engine().getFrame();
         SearchContext searchContext = frame != null
             ? getFrameContext(frame)
-            : p == null || containsRoot(locator)
+            : parent == null || containsRoot(locator)
                 ? getDefaultContext()
-                : getSearchContext(p);
+                : getSearchContext(parent);
         return locator != null
             ? searchContext.findElement(correctLocator(locator))
             : searchContext;
@@ -179,7 +181,7 @@ public class WebEngine implements IEngine {
     }
     // Driver
     public WebDriver getDriver() {
-        return getDriverFactory().getDriver(driverName);
+        return WebDriverFactory.getDriver(driverName);
     }
     public String getDriverName() {
         return driverName;

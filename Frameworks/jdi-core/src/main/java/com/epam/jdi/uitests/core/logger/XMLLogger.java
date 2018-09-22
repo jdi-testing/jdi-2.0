@@ -6,42 +6,41 @@ package com.epam.jdi.uitests.core.logger;
  */
 
 import com.epam.jdi.tools.func.JAction;
-import com.epam.jdi.tools.logger.LogLevels;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.apache.logging.log4j.LogManager.getLogger;
+
 public class XMLLogger {
-
     private Logger log;
-
     private SimpleDateFormat dateFormat;
 
     public XMLLogger() {
-        this.log = Logger.getLogger("JDI");
+        this.log = getLogger("JDI");
     }
 
     public XMLLogger(String name) {
-        this.log = Logger.getLogger(name);
+        this.log = getLogger(name);
     }
 
     public XMLLogger(Class clazz) {
-        this.log = Logger.getLogger(clazz);
+        this.log = getLogger(clazz);
     }
 
     public XMLLogger(SimpleDateFormat timePatternLayout) {
-        this.log = Logger.getLogger("JDI");
+        this.log = getLogger("JDI");
         this.dateFormat = timePatternLayout;
     }
 
     public XMLLogger(String name, SimpleDateFormat timePatternLayout) {
-        this.log = Logger.getLogger(name);
+        this.log = getLogger(name);
         this.dateFormat = timePatternLayout;
     }
 
     public XMLLogger(Class clazz, SimpleDateFormat timePatternLayout) {
-        this.log = Logger.getLogger(clazz);
+        this.log = getLogger(clazz);
         this.dateFormat = timePatternLayout;
     }
 
@@ -230,6 +229,10 @@ public class XMLLogger {
         }
     }
 
+    /**
+     * Returns current formatted date
+     * @return String - formatted date
+     */
     private String getFormattedDate(){
         return dateFormat != null ? " t=\"" + dateFormat.format(new Date()) + "\"" : "";
     }

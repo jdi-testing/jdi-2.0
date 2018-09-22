@@ -9,8 +9,8 @@ import java.util.List;
  * Created by Roman_Iovlev on 5/23/2017.
  */
 public class SeleniumPage {
-    @FindBy(css = ".logo")
+    @FindBy(css = ".header__logo")
     public WebElement logo;
-    @FindBy(css = ".tile-menu>li>a")
+    @FindBy(css = ".top-navigation__list>*>*>a")
     public List<WebElement> menu;
 }

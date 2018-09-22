@@ -4,7 +4,7 @@ import com.epam.jdi.entities.Vacancy;
 import com.epam.jdi.site.epam.sections.VacancyRow;
 import com.epam.jdi.uitests.testing.TestsBase;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.EntityTable;
-import com.epam.web.matcher.testng.Assert;
+import com.epam.matcher.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,7 +15,8 @@ import static com.epam.jdi.site.epam.EpamSite.jobListingPage;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.Column.inColumn;
 import static com.epam.jdi.uitests.core.interfaces.complex.tables.TextOf.textOf;
 import static com.epam.jdi.uitests.core.utils.common.Filters.withValue;
-import static com.epam.web.matcher.testng.Assert.areEquals;
+import static com.epam.matcher.testng.Assert.areEquals;
+import static com.epam.matcher.testng.Assert.entitiesAreEquals;
 
 
 public class EntityTableExamples extends TestsBase {
@@ -52,7 +53,7 @@ public class EntityTableExamples extends TestsBase {
     public void findEntity() {
         Vacancy vacancy = jobsTable()
             .entity(withValue("Test Automation Engineer (back-end)\nST-PETERSBURG, RUSSIA"), inColumn("name"));
-        Assert.entitiesAreEquals(vacancy, new Vacancy("Test Automation Engineer (back-end)\nST-PETERSBURG, RUSSIA", "Currently we are looking for a Test Automation Engineer (back-end) for our St. Petersburg office to make the team even stronger."));
+        entitiesAreEquals(vacancy, new Vacancy("Test Automation Engineer (back-end)\nST-PETERSBURG, RUSSIA", "Currently we are looking for a Test Automation Engineer (back-end) for our St. Petersburg office to make the team even stronger."));
     }
     @Test
     public void searchContainsInTable() {

@@ -8,26 +8,31 @@ package com.epam.jdi.uitests.core.interfaces.complex;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.common.ITextField;
 
+import static com.epam.jdi.uitests.core.actions.common.TextFieldActions.clear;
+import static com.epam.jdi.uitests.core.actions.common.TextFieldActions.focus;
+import static com.epam.jdi.uitests.core.actions.common.TextFieldActions.input;
+
 public interface IComboBox<TEnum extends Enum>
         extends IDropDown<TEnum>, ITextField {
     @Override @JDIAction
     default void input(CharSequence text) {
-        ((ITextField)linked().get("value")).input(text);
-    }
-
-    @Override @JDIAction
-    default String getLabel() {
-        return ((ITextField)linked().get("value")).getLabel();
+        if (linked().has("value"))
+            ((ITextField)linked().get("value")).input(text);
+        else input.execute(this, text);
     }
 
     @JDIAction
     default void clear() {
-        ((ITextField)linked().get("value")).clear();
+        if (linked().has("value"))
+            ((ITextField)linked().get("value")).clear();
+        else clear.execute(this);
     }
 
     @JDIAction
     default void focus() {
-        ((ITextField)linked().get("value")).focus();
+        if (linked().has("value"))
+            ((ITextField)linked().get("value")).focus();
+        else focus.execute(this);
     }
 
     @Override

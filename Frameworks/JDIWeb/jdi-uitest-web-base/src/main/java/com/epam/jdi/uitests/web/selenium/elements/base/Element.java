@@ -5,19 +5,24 @@ package com.epam.jdi.uitests.web.selenium.elements.base;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+import com.codeborne.selenide.Condition;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
+import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.base.IElement;
 import com.epam.jdi.uitests.core.settings.JDISettings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.jdi.tools.ReflectionUtils.newEntity;
-import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
+import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
+import static com.epam.jdi.uitests.core.settings.JDISettings.asserter;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
+import static java.lang.String.format;
 
 public class Element extends BaseElement implements IElement, IHasElement {
 
@@ -138,4 +143,78 @@ public class Element extends BaseElement implements IElement, IHasElement {
         Element el = new Element().setLocator(locator).setParent(this);
         return el.getWebElement();
     }
+
+    @JDIAction
+    public Element higlight(String color) {
+        jsExecute("style.border='3px dashed "+color+"'");
+        return this;
+    }
+    public Element higlight() {
+        show();
+        return higlight("red");
+    }
+
+    @JDIAction
+    public Element show() {
+        jsExecute("scrollIntoView(true)");
+        return this;
+    }
+
+    //region Actions
+    @JDIAction
+    public Element dragAndDropTo(WebElement to) {
+        doActions(a -> a.clickAndHold(getElement()).moveToElement(to).release(to));
+        return this;
+    }
+    @JDIAction
+    public Element doubleClick() {
+        doActions(Actions::doubleClick);
+        return this;
+    }
+    @JDIAction
+    public Element rightClick() {
+        doActions(Actions::contextClick);
+        return this;
+    }
+    @JDIAction
+    public Element dragAndDropTo(int x, int y) {
+        doActions(a -> a.dragAndDropBy(getElement(), x, y));
+        return this;
+    }
+    public Element doActions(JFunc1<Actions, Actions> actions) {
+        actions.execute(new Actions(getDriver())).build().perform();
+        return this;
+    }
+    //endregion
+
+
+    public IBaseElement should(Condition... conditions){
+        Arrays.stream(conditions).forEach(condition ->
+                asserter.isTrue(condition.apply(getWebElement()),
+                        format("Expected: '%s' but found '%s'", condition.toString(), getWebElement().getText())
+                )
+        );
+        return this;
+    }
+    public IBaseElement shouldHave(Condition... conditions){
+        return should(conditions);
+    }
+    public IBaseElement shouldBe(Condition... conditions){
+        return should(conditions);
+    }
+    public IBaseElement shouldNot(Condition... conditions){
+        Arrays.stream(conditions).forEach(condition ->
+                asserter.isTrue(!condition.apply(getWebElement()),
+                        format("Expected: '%s' but found '%s'", condition.toString(), getWebElement().getText())
+                )
+        );
+        return this;
+    }
+    public IBaseElement shouldNotHave(Condition... conditions){
+        return shouldNot(conditions);
+    }
+    public IBaseElement shouldNotBe(Condition... conditions){
+        return shouldNot(conditions);
+    }
+
 }

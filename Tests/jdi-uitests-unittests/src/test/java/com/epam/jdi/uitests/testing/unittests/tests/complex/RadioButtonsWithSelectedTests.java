@@ -4,7 +4,7 @@ import com.epam.jdi.uitests.testing.unittests.InitTests;
 import com.epam.jdi.uitests.testing.unittests.enums.Odds;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Selector;
-import com.epam.web.matcher.testng.Check;
+import com.epam.matcher.testng.TestNG;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,7 +16,7 @@ import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInSta
 import static com.epam.jdi.uitests.testing.unittests.enums.Odds.SEVEN;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.METALS_AND_COLORS_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActionsData.*;
-import static com.epam.web.matcher.testng.Assert.*;
+import static com.epam.matcher.testng.Assert.*;
 import static java.util.Arrays.asList;
 
 /**
@@ -110,21 +110,21 @@ public class RadioButtonsWithSelectedTests extends InitTests {
     @Test
     public void waitSelectedTest() {
         odds().select(SEVEN);
-        new Check("WaitSelected")
+        new TestNG("WaitSelected")
                 .hasNoExceptions(() -> odds().waitSelected(SEVEN));
     }
 
     @Test
     public void waitSelectedEnumTest() {
         odds().select(SEVEN);
-        new Check("WaitSelected")
+        new TestNG("WaitSelected")
                 .hasNoExceptions(() -> odds().waitSelected(SEVEN));
     }
 
     @Test
     public void wait3SelectedTest() {
         runParallel(() -> odds().select(SEVEN));
-        new Check("WaitSelected")
+        new TestNG("WaitSelected")
                 .hasNoExceptions(() -> odds().waitSelected("7"));
         isTrue(getTimePassed() > waitTimeOut);
         isTrue(odds().isSelected(SEVEN));
@@ -133,7 +133,7 @@ public class RadioButtonsWithSelectedTests extends InitTests {
     @Test
     public void wait3SelectedEnumTest() {
         runParallel(() -> odds().select(SEVEN));
-        new Check("WaitSelected")
+        new TestNG("WaitSelected")
                 .hasNoExceptions(() -> odds().waitSelected(SEVEN));
         isTrue(getTimePassed() > waitTimeOut);
         isTrue(odds().isSelected(SEVEN));

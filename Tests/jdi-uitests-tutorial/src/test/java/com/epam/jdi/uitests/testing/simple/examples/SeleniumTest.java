@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
 import static com.epam.jdi.uitests.web.selenium.elements.WebCascadeInit.initPageObject;
 import static java.lang.System.setProperty;
 
@@ -21,7 +22,8 @@ public class SeleniumTest {
     SeleniumPage page;
     WebDriver chromeDriver;
     private WebDriver initDriver() {
-        String driverPath = new File("").getAbsolutePath() + "/src/main/resources/driver/chromedriver.exe";
+        String driverPath = "C:/Selenium/chromedriver.exe";
+        System.out.println("PLACE CHROME DRIVER HERE: " + driverPath);
         setProperty("webdriver.chrome.driver", driverPath);
         chromeDriver = new ChromeDriver();
         chromeDriver.manage().window().maximize();
@@ -29,13 +31,13 @@ public class SeleniumTest {
     }
 
     @BeforeMethod
-    public void before(Method method) throws IOException {
+    public void before(Method method)  {
         page = initPageObject(SeleniumPage.class, this::initDriver);
     }
 
     @Test
     public void seleniumTest() {
-        WebSettings.getDriver().navigate().to("https://www.epam.com/");
+        getDriver().navigate().to("https://www.epam.com/");
         page.logo.click();
         page.menu.get(3).click();
     }

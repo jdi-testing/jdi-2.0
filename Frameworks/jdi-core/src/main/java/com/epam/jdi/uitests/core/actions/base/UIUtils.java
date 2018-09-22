@@ -6,6 +6,7 @@ package com.epam.jdi.uitests.core.actions.base;
  */
 
 import com.epam.jdi.uitests.core.interfaces.common.IButton;
+import com.epam.jdi.uitests.core.interfaces.common.ILabel;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 
 import java.lang.reflect.Field;
@@ -58,7 +59,7 @@ public class UIUtils {
 
     public static IText getTextElement(Object obj) {
         Field textField = first(obj.getClass().getDeclaredFields(),  f ->
-            f.getType() == IText.class || f.getType() == IText.class);
+            f.getType() == IText.class || f.getType() == ILabel.class);
         if (textField == null)
             throw exception("Can't find Text Element '%s'", obj);
         return (IText) getValueField(textField, obj);

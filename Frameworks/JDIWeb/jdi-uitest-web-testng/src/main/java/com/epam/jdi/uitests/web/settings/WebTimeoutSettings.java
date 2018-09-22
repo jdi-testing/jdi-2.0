@@ -7,13 +7,13 @@ package com.epam.jdi.uitests.web.settings;
 
 import com.epam.jdi.uitests.core.settings.TimeoutSettings;
 
-import static com.epam.web.matcher.base.BaseMatcher.setDefaultTimeout;
+import static com.epam.matcher.base.Check.*;
 
 public class WebTimeoutSettings extends TimeoutSettings {
 
     @Override
     public void setCurrentTimeoutSec(int timeoutSec) {
         super.setCurrentTimeoutSec(timeoutSec);
-        setDefaultTimeout(timeoutSec);
+        WAIT_TIMEOUT = timeoutSec;
     }
 }

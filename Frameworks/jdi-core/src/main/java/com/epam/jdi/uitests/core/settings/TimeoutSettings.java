@@ -28,6 +28,9 @@ public class TimeoutSettings {
         return waitElementSec;
     }
 
+    /**
+     * Sets the current timeout to default timeout value
+     */
     public void dropTimeouts() {
         setCurrentTimeoutSec(defaultWaitTimeout);
     }

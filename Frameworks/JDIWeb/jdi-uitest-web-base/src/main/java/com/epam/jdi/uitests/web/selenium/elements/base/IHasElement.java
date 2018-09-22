@@ -9,7 +9,7 @@ import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.base.IHasParent;
 import org.openqa.selenium.WebElement;
 
-import static com.epam.jdi.tools.logger.LogLevels.DEBUG;
+import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 
 public interface IHasElement extends IHasParent {
     @JDIAction(level = DEBUG)

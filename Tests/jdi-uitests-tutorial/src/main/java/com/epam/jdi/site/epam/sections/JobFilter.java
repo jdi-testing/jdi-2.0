@@ -17,20 +17,20 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple
  */
 public class JobFilter extends Form<JobSearchFilter> {
     //Keyword or Vacancy ID
-    @Css(".job-search__input")
+    @Css(".recruiting-search__input")
     public ITextField keywords;
 
     //Skills
     @JDropdown(
-            root = @FindBy(css = ".multi-select-filter"),
-            expand = @FindBy(css = ".default-label"),
-            list = @FindBy(css = ".multi-select-dropdown li"))
+        root = @FindBy(css = ".multi-select-filter"),
+        expand = @FindBy(css = ".default-label"),
+        list = @FindBy(css = ".multi-select-dropdown li"))
     IDropDown skills;
 
     @JTree(
-            select = @FindBy(css = ".job-search__location"),
-            levels = {@FindBy(css = "[role=tree]>li"),
-                    @FindBy(xpath = "//..//li")}
+        select = @FindBy(css = ".job-search__location"),
+        levels = {@FindBy(css = "[role=tree]>li"),
+                @FindBy(xpath = "//..//li")}
     ) TreeDropdown<Locations> location;
 
 

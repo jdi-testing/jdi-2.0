@@ -23,6 +23,7 @@ public class FormsTests extends SimpleTestsInit {
         loggedIn();
         contactFormPage.shouldBeOpened();
         contactFormPage.checkOpened();
+        contactFormPage.main.contactForm.religion.clear();
         contactFormPage.main.contactForm.submit(USER_WITH_CONTACTS);
         contactFormPage.main.contactForm.check(USER_WITH_CONTACTS);
     }

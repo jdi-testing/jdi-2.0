@@ -1,18 +1,16 @@
 package com.epam.jdi.uitests.testing.simple.examples;
 
-import com.epam.web.matcher.testng.Assert;
-import com.epam.web.matcher.testng.Check;
-import com.epam.web.matcher.testng.ScreenAssert;
+import com.epam.matcher.testng.Assert;
+import com.epam.matcher.testng.TestNG;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static com.epam.web.matcher.base.DoScreen.SCREEN_ON_FAIL;
 import static java.util.Arrays.asList;
 
 
 public class MatchersExamples {
-
+/*
     @Test
     public void commonAsserts() {
         Assert.contains("Test Text", "Text");
@@ -23,9 +21,9 @@ public class MatchersExamples {
     }
     @Test
     public void differentAsserts() {
-        new Check("This important thing").contains("Test Text", "Text");
+        new TestNG("This important thing").contains("Test Text", "Text");
         ScreenAssert.matches("1352-423-85746", "\\d{4}-\\d{3}-\\d{5}");
-        new Check().doScreenshot(SCREEN_ON_FAIL).isTrue(1 == 1);
+        new TestNG().doScreenshot(SCREEN_ON_FAIL).isTrue(1 == 1);
     }
 
     @Test
@@ -68,15 +66,15 @@ public class MatchersExamples {
     private void throwException() {
         throw new RuntimeException("Test Exception");
     }
-    private void assertException() { throw Assert.exception("Assert Exception"); }
+    private void assertException() { throw Assert.exception("Assertions Exception"); }
     private void failException() { Assert.fail("Fail Exception"); }
 
     @Test
     public void exceptionAsserts() {
-        Assert.throwException(this::assertException, "Assert Exception");
+        Assert.throwException(this::assertException, "Assertions Exception");
         Assert.throwException(this::throwException, RuntimeException.class, "Test Exception");
         Assert.throwException(this::failException, "Fail Exception");
         Assert.hasNoExceptions(this::getNext);
     }
-
+*/
 }
