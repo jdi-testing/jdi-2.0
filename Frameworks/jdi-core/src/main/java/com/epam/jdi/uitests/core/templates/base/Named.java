@@ -19,19 +19,24 @@ public class Named implements INamed {
     public String getName() {
         return name != null ? name : getTypeName();
     }
+
     public void setName(Field field) {
         name = getElementName(field);
         fieldName = field.getName();
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getFieldName() {
         return fieldName != null ? fieldName : getName();
     }
+
     protected String getTypeName() {
         return (typeName != null) ? typeName : getClass().getSimpleName();
     }
+
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
