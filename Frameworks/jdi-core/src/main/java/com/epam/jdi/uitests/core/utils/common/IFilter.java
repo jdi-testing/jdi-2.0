@@ -7,5 +7,9 @@ package com.epam.jdi.uitests.core.utils.common;
 
 import com.epam.jdi.tools.func.JFunc1;
 
+/**
+ * Generic interface, extends JFunc1
+ * @param <Type>
+ */
 public interface IFilter<Type> extends JFunc1<Type, Boolean> {
 }

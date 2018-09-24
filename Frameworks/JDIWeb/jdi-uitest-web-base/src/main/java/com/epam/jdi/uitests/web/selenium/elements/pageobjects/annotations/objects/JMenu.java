@@ -15,6 +15,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface JMenu {
+    /**
+     * Returns value
+     * @return value
+     */
     FindBy[] value() default {};
+
+    /**
+     * Returns separator
+     * @return separator
+     */
     String separator() default "";
 }

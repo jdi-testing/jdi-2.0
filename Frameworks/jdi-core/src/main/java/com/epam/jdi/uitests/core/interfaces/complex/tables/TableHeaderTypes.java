@@ -12,6 +12,7 @@ public enum TableHeaderTypes {
     ROWS_HEADERS(true, false);
     public boolean row;
     public boolean column;
+
     TableHeaderTypes(boolean row, boolean column) {
         this.row = row;
         this.column = column;

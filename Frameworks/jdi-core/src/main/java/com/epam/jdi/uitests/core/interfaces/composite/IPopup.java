@@ -10,6 +10,9 @@ import com.epam.jdi.uitests.core.interfaces.base.IClickable;
 import com.epam.jdi.uitests.core.interfaces.base.IComposite;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 
+/**
+ * Interface declares methods that are common for major amount of popup windows
+ */
 public interface IPopup extends IText, IComposite {
     /**
      * Click on Button marked with annotation @OkButton or named "okButton"

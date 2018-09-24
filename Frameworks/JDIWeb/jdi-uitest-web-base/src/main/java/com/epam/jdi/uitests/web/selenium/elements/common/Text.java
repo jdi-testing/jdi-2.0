@@ -8,4 +8,7 @@ package com.epam.jdi.uitests.web.selenium.elements.common;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 
+/**
+ * Text common element
+ */
 public class Text extends Element implements IText { }

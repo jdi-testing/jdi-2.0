@@ -6,6 +6,11 @@ package com.epam.jdi.uitests.core.interfaces.complex.tables;
  */
 
 public class WithValue {
+
+    /**
+     * @param value the object to convert into String
+     * @return a string representation of the object
+     */
     public static String withValue(Object value) {
         return value.toString();
     }

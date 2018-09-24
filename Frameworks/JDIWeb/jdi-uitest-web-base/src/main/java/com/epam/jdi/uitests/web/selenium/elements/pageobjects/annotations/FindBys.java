@@ -13,5 +13,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface FindBys {
+    /**
+     * Returns value
+     * @return value
+     */
     FindBy[] value();
 }

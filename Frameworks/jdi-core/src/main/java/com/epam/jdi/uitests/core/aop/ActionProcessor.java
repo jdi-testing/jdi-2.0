@@ -19,16 +19,15 @@ import ru.yandex.qatools.allure.annotations.Step;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.epam.jdi.tools.ReflectionUtils.getFields;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.tools.StringUtils.msgFormat;
 import static com.epam.jdi.tools.StringUtils.splitLowerCase;
-import static com.epam.jdi.tools.switcher.SwitchActions.Case;
-import static com.epam.jdi.tools.switcher.SwitchActions.Default;
-import static com.epam.jdi.tools.switcher.SwitchActions.Switch;
-import static com.epam.jdi.tools.switcher.SwitchActions.Value;
+import static com.epam.jdi.tools.switcher.SwitchActions.*;
 import static com.epam.jdi.uitests.core.logger.LogLevels.*;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
@@ -38,29 +37,44 @@ import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
+/**
+ * Class handling JDIActions and Allure Steps
+ */
 @SuppressWarnings("unused")
 @Aspect
 public class ActionProcessor {
     public static String SHORT_TEMPLATE = "{element} {action}";
     public static String DEFAULT_TEMPLATE = "{action} ({element})";
 
+    /**
+     * Get template for logging
+     *
+     * @param level LogLevel of current test run
+     * @return Template for logging
+     */
     private static String getTemplate(LogLevels level) {
         return level.equalOrMoreThan(STEP) ? SHORT_TEMPLATE : DEFAULT_TEMPLATE;
     }
 
+    /**
+     * Function which writes to log beginning of {@code JDIAction} or {@code Step}
+     */
     public static JAction1<JoinPoint> jdiBefore = joinPoint -> {
         if (logger.getLogLevel() != OFF) {
             String actionName = getActionName(joinPoint);
             String logString = joinPoint.getThis() == null
-                ? actionName
-                : msgFormat(getTemplate(logger.getLogLevel()), new MapArray<>(new Object[][]{
-                    {"action", actionName },
-                    {"element", getElementName(joinPoint) }}));
+                    ? actionName
+                    : msgFormat(getTemplate(logger.getLogLevel()), new MapArray<>(new Object[][]{
+                    {"action", actionName},
+                    {"element", getElementName(joinPoint)}}));
             logString = toUpperCase(logString.charAt(0)) + logString.substring(1);
             logger.toLog(logString, logLevel(joinPoint));
         }
         logger.logOff();
     };
+    /**
+     * Function which writes to log ending of {@code JDIAction} or {@code Step}
+     */
     public static JAction2<JoinPoint, Object> jdiAfter = (joinPoint, result) -> {
         logger.logOn();
         if (logger.getLogLevel() == OFF) return;
@@ -68,36 +82,77 @@ public class ActionProcessor {
             logger.info(">>> " + result);
         logger.debug("Done");
     };
+    /**
+     * Function which throws an exception
+     * in case of an exception from {@code JDIAction} or {@code Step}
+     */
     public static JAction2<JoinPoint, Throwable> jdiError = (joinPoint, error) -> {
         throw exception("Action %s failed. Can't get result. Reason: %s", getActionName(joinPoint), error.getMessage());
     };
 
+    /**
+     * Method called when {@code JDIAction} or {@code Step} started
+     * Empty method. Does nothing.
+     */
     @Pointcut("execution(* *(..)) && " +
             "(@annotation(com.epam.jdi.uitests.core.annotations.JDIAction)" +
             "|| @annotation(ru.yandex.qatools.allure.annotations.Step))")
-    protected void logPointCut() { }
+    protected void logPointCut() {
+        // used for methods before, after and error
+    }
 
+    /**
+     * Method calling {@code jdiBefore} function before {@code JDIAction} or {@code Step} started
+     *
+     * @param joinPoint JoinPoint to call
+     */
     @Before("logPointCut()")
     public void before(JoinPoint joinPoint) {
         if (jdiBefore != null)
             jdiBefore.execute(joinPoint);
     }
 
+    /**
+     * Method calling {@code jdiAfter} function after {@code JDIAction} or {@code Step} finished
+     *
+     * @param joinPoint Finished JoinPoint
+     * @param result    Result of JoinPoint
+     */
     @AfterReturning(pointcut = "logPointCut()", returning = "result")
     public void after(JoinPoint joinPoint, Object result) {
         if (jdiAfter != null)
             jdiAfter.execute(joinPoint, result);
     }
 
+    /**
+     * Method calling {@code jdiError} function if {@code JDIAction} or {@code Step} threw exception
+     *
+     * @param joinPoint JoinPoint that threw the error
+     * @param error     Throwable from the JoinPoint
+     */
     @AfterThrowing(pointcut = "logPointCut()", throwing = "error")
     public void error(JoinPoint joinPoint, Throwable error) {
         if (jdiError != null)
             jdiError.execute(joinPoint, error);
     }
+
+    /**
+     * Get MethodSignature
+     *
+     * @param joinPoint JoinPoint to call
+     * @return Method Signature of current join point
+     */
     static MethodSignature getMethod(JoinPoint joinPoint) {
         return (MethodSignature) joinPoint.getSignature();
     }
 
+    /**
+     * This method returns value of {@code JDIAction} or {@code Step} annotation
+     * Returns method's name if annotation value is blank
+     *
+     * @param method MethodSignature of current JoinPoint
+     * @return Value of {@code JDIAction} or {@code Step} annotation
+     */
     static String methodNameTemplate(MethodSignature method) {
         try {
             Method m = method.getMethod();
@@ -117,6 +172,12 @@ public class ActionProcessor {
         }
     }
 
+    /**
+     * Defines a log level for current step
+     *
+     * @param joinPoint JoinPoint to call
+     * @return Log level
+     */
     static LogLevels logLevel(JoinPoint joinPoint) {
         Method m = getMethod(joinPoint).getMethod();
         return m.isAnnotationPresent(JDIAction.class)
@@ -124,64 +185,111 @@ public class ActionProcessor {
                 : STEP;
     }
 
+    /**
+     * Returns formatted value of the method's annotation
+     *
+     * @param joinPoint JoinPoint to call
+     * @return Formatted value of the method's annotation
+     */
     static String getActionName(JoinPoint joinPoint) {
         try {
             MethodSignature method = getMethod(joinPoint);
             String template = methodNameTemplate(method);
             return Switch(template).get(
-                Case(t -> t.contains("{0"), t -> MessageFormat.format(t, joinPoint.getArgs())),
-                Case(t -> t.contains("{"), t -> {
-                    MapArray obj = new MapArray<>("this", getElementName(joinPoint));
-                    return getActionName(method, t, obj, methodArgs(joinPoint, method), classFields(joinPoint));
-                }),
-                Case(t -> t.contains("%s"), t -> format(t, joinPoint.getArgs())),
-                Default(t -> {
-                    MapArray<String, Object> args = methodArgs(joinPoint, method);
-                    if (args.size() == 1 && args.get(0).value.getClass().isArray())
-                        return format("%s(%s)", t, arrayToString(args.get(0).value));
-                    MapArray<String, String> methodArgs = args.toMapArray(Object::toString);
-                    String stringArgs = Switch(methodArgs.size()).get(
-                        Value(0, ""),
-                        Value(1, v->"("+methodArgs.get(0).value+")"),
-                        Default(v->"("+methodArgs.toString()+")")
-                    );
-                    return format("%s%s", t, stringArgs);
-                })
+                    Case(t -> t.contains("{0"), t -> MessageFormat.format(t, joinPoint.getArgs())),
+                    Case(t -> t.contains("{"), t -> {
+                        MapArray obj = new MapArray<>("this", getElementName(joinPoint));
+                        return getActionName(method, t, obj, methodArgs(joinPoint, method), classFields(joinPoint));
+                    }),
+                    Case(t -> t.contains("%s"), t -> format(t, joinPoint.getArgs())),
+                    Default(t -> {
+                        MapArray<String, Object> args = methodArgs(joinPoint, method);
+                        if (args.size() == 1 && args.get(0).value.getClass().isArray())
+                            return format("%s(%s)", t, arrayToString(args.get(0).value));
+                        MapArray<String, String> methodArgs = args.toMapArray(Object::toString);
+                        String stringArgs = Switch(methodArgs.size()).get(
+                                Value(0, ""),
+                                Value(1, v -> "(" + methodArgs.get(0).value + ")"),
+                                Default(v -> "(" + methodArgs.toString() + ")")
+                        );
+                        return format("%s%s", t, stringArgs);
+                    })
             );
         } catch (Exception ex) {
             throw new JDIUIException("Surround method issue: " +
                     "Can't get action name: " + ex.getMessage());
         }
     }
+
+    /**
+     * Get String of comma-separated elements
+     *
+     * @param array {@code Object[]} array
+     * @return String of array's elements comma-separated
+     */
     static String arrayToString(Object array) {
-        String result = "";
-        boolean first = true;
-        for(Object a : (Object[])array) {
-            if (first) first = false;
-            else result += ",";
-            result += a.toString();
-        }
-        return result;
+        return Arrays
+                .stream((Object[]) array)
+                .map(Object::toString)
+                .collect(Collectors.joining(","));
     }
+
+    /**
+     * Get method's arguments
+     *
+     * @param joinPoint JoinPoint to call
+     * @param method    MethodSignature of current JoinPoint
+     * @return Map of parameter names to arguments
+     */
     static MapArray<String, Object> methodArgs(JoinPoint joinPoint, MethodSignature method) {
         return new MapArray<>(method.getParameterNames(), joinPoint.getArgs());
     }
+
+    /**
+     * Get fields of JoinPoint's class
+     *
+     * @param joinPoint JoinPoint to call
+     * @return Map of field names to values
+     */
     static MapArray<String, Object> classFields(JoinPoint joinPoint) {
         return new MapArray<>(getThisFields(joinPoint), Field::getName, value -> getValueField(value, joinPoint.getThis()));
     }
 
+    /**
+     * Returns {@code toString()} method of the object
+     * which called {@code JDIAction} or {@code Step} annotated method
+     *
+     * @param joinPoint JoinPoint to call
+     * @return JoinPoint's {@code toString()} or Simple Name
+     */
     static String getElementName(JoinPoint joinPoint) {
         Object obj = joinPoint.getThis();
         return obj != null
                 ? obj.toString()
                 : joinPoint.getSignature().getDeclaringType().getSimpleName();
     }
+
+    /**
+     * Returns fields of object that called {@code JDIAction} or {@code Step} annotated method
+     *
+     * @param joinPoint JoinPoint to call
+     * @return List of join point's fields
+     */
     static List<Field> getThisFields(JoinPoint joinPoint) {
         Object obj = joinPoint.getThis();
         return obj != null
                 ? getFields(obj)
                 : asList(joinPoint.getSignature().getDeclaringType().getFields());
     }
+
+    /**
+     * Formats value of {@code JDIAction} or {@code Step} annotation
+     *
+     * @param method Signature of Join Point
+     * @param value  Value of {@code JDIAction} or {@code Step} annotation
+     * @param args   Values of method arguments and class fields
+     * @return Formatted value of {@code JDIAction} or {@code Step} annotation
+     */
     static String getActionName(MethodSignature method, String value,
                                 MapArray<String, Object>... args) {
         String result;

@@ -5,5 +5,8 @@ package com.epam.jdi.uitests.web.selenium.elements.common;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+/**
+ * Input common element
+ */
 public class Input extends TextField {
 }

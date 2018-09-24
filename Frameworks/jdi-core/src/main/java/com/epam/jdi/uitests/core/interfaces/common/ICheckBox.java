@@ -11,6 +11,9 @@ import com.epam.jdi.uitests.core.interfaces.base.ISetValue;
 
 import static com.epam.jdi.uitests.core.actions.common.CheckboxActions.*;
 
+/**
+ * Interface for Checkboxes
+ */
 public interface ICheckBox extends ISelect, ISetValue {
     /**
      * Set checkbox checked
@@ -19,6 +22,7 @@ public interface ICheckBox extends ISelect, ISetValue {
     default void check() {
         check.execute(this);
     }
+
     /**
      * Set checkbox unchecked
      */
@@ -28,23 +32,32 @@ public interface ICheckBox extends ISelect, ISetValue {
     }
 
     /**
+     * Is checkbox checked
+     *
      * @return Verify is checkbox checked
      */
     @JDIAction
     default boolean isChecked() {
         return isChecked.execute(this);
     }
+
     /**
+     * Set value to Element
+     *
      * @param value Specify element value
-     *              Set value to Element
      */
     @Override
     default void setValue(String value) {
         select.execute(this, value);
     }
 
+    /**
+     * Synonym to {@code isChecked()} but returns boolean as String
+     *
+     * @return Is checkbox checked or not as String
+     */
     @Override
     default String getValue() {
-        return isChecked() ? "true" : "false";
+        return String.valueOf(isChecked());
     }
 }

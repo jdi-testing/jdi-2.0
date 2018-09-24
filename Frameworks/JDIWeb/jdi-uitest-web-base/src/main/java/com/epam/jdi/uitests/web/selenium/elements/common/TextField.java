@@ -8,5 +8,8 @@ package com.epam.jdi.uitests.web.selenium.elements.common;
 import com.epam.jdi.uitests.core.interfaces.common.ITextField;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 
+/**
+ * TextField common element
+ */
 public class TextField extends Element implements ITextField {
 }

@@ -14,22 +14,37 @@ import static com.epam.jdi.tools.TryCatchUtil.tryGetResult;
 import static com.epam.jdi.uitests.core.actions.common.LinkActions.getRef;
 import static com.epam.jdi.uitests.core.actions.common.LinkActions.getTooltip;
 
+/**
+ * Interface for Links
+ */
 public interface ILink extends IClickable, IText {
     /**
-     * @return Get link destination
+     * Get link destination
+     *
+     * @return Link destination
      */
     @JDIAction
-    default String getReference() { return getRef.execute(this); }
+    default String getReference() {
+        return getRef.execute(this);
+    }
 
     /**
-     * @return Get URL
+     * Get URL
+     *
+     * @return The URL
      */
     @JDIAction
-    default URL getURL() { return tryGetResult(() -> new URL(getReference())); }
+    default URL getURL() {
+        return tryGetResult(() -> new URL(getReference()));
+    }
 
     /**
-     * @return Get links tooltip
+     * Get links tooltip
+     *
+     * @return Links tooltip
      */
     @JDIAction
-    default String getTooltip() { return getTooltip.execute(this); }
+    default String getTooltip() {
+        return getTooltip.execute(this);
+    }
 }

@@ -5,5 +5,8 @@ package com.epam.jdi.uitests.core.interfaces.common;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+/**
+ * Interface for File input elements
+ */
 public interface IFileInput extends ITextField {
 }

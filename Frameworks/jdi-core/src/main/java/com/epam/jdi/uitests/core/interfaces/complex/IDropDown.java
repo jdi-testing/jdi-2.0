@@ -18,8 +18,9 @@ import java.util.List;
 public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, IClickable {
     default boolean isExpanded() {
         assertLinked("list", "expand");
-        return ((IBaseElement)linked().get("list")).displayedNow();
+        return ((IBaseElement) linked().get("list")).displayedNow();
     }
+
     /**
      * Expanding DropDown
      */
@@ -28,6 +29,7 @@ public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, 
         if (!isExpanded())
             click();
     }
+
     /**
      * Closing DropDown
      */
@@ -36,25 +38,28 @@ public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, 
         if (isExpanded())
             click();
     }
+
     @Override
-    default String getValue() { return getText(); }
+    default String getValue() {
+        return getText();
+    }
 
     @Override
     default void select(String name) {
         expand();
-        ((ISelector)linked().get("list")).select(name);
+        ((ISelector) linked().get("list")).select(name);
     }
 
     @Override
     default void select(int index) {
         expand();
-        ((ISelector)linked().get("list")).select(index);
+        ((ISelector) linked().get("list")).select(index);
     }
 
     @Override
     default boolean displayed(String name) {
         return isExpanded() &&
-        ((ISelector)linked().get("list")).getLabels().contains(name);
+                ((ISelector) linked().get("list")).getLabels().contains(name);
     }
 
     @Override
@@ -67,7 +72,7 @@ public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, 
      */
     @Override
     default boolean displayed() {
-        return ((IBaseElement)linked().get("value")).displayed();
+        return ((IBaseElement) linked().get("value")).displayed();
     }
 
     /**
@@ -75,18 +80,20 @@ public interface IDropDown<TEnum extends Enum> extends ISelector<TEnum>, IText, 
      */
     @Override
     default boolean vanished() {
-        return ((IBaseElement)linked().get("value")).vanished();
+        return ((IBaseElement) linked().get("value")).vanished();
     }
 
     @Override
     default List<String> getOptions() {
         expand();
-        return ((ISelector)linked().get("list")).getOptions();
+        return ((ISelector) linked().get("list")).getOptions();
     }
+
     @Override
     default void click() {
-        ((IClickable)linked().get("expander")).click();
+        ((IClickable) linked().get("expander")).click();
     }
+
     @Override
     default String getText() {
         return ((IText) linked().get("value")).getText();

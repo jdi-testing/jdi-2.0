@@ -32,18 +32,51 @@ import static com.epam.jdi.tools.EnumUtils.getEnumValue;
  */
 
 public class Row extends NameNum {
+    /**
+     * @param num index
+     * @return a row set by index
+     */
     public static Row row(int num) {
-        return (Row)new Row().set(row -> row.num = num);
+        return (Row) new Row().set(row -> row.num = num);
     }
+
+    /**
+     * @param name name
+     * @return a row set by name
+     */
     public static Row row(String name) {
-        return (Row)new Row().set(row -> row.name = name);
+        return (Row) new Row().set(row -> row.name = name);
     }
-    public static Row row(Enum name) { return row(getEnumValue(name)); }
+    
+    /**
+     * @param name Enum with row name
+     * @return a row set by name
+     */
+    public static Row row(Enum name) {
+        return row(getEnumValue(name));
+    }
+
+    /**
+     * @param num row index
+     * @return a row to search into 
+     */
     public static Row inRow(int num) {
         return row(num);
     }
+
+    /**
+     * @param name row name
+     * @return a row to search into 
+     */
     public static Row inRow(String name) {
         return row(name);
     }
-    public static Row inRow(Enum name) { return row(getEnumValue(name)); }
+
+    /**
+     * @param name Enum with the row name
+     * @return a row to search into 
+     */
+    public static Row inRow(Enum name) {
+        return row(getEnumValue(name));
+    }
 }

@@ -11,9 +11,14 @@ import com.epam.jdi.uitests.core.interfaces.base.IHasValue;
 
 import static com.epam.jdi.uitests.core.actions.common.TextActions.getText;
 
+/**
+ * Interface for elements with text
+ */
 public interface IText extends IHasValue, IElement {
     /**
-     * @return Get Element’s text
+     * Get Element’s text
+     *
+     * @return Element’s text
      */
     @JDIAction
     default String getText() {
@@ -21,8 +26,10 @@ public interface IText extends IHasValue, IElement {
     }
 
     /**
+     * Wait while Element’s text contains expected text
+     *
      * @param text Specify expected text
-     * @return Wait while Element’s text contains expected text. Returns Element’s text
+     * @return Element’s text
      */
     @JDIAction
     default String waitText(String text) {
@@ -30,8 +37,10 @@ public interface IText extends IHasValue, IElement {
     }
 
     /**
+     * Wait while Element’s text matches regEx
+     *
      * @param regEx Specify expected regular expression Text
-     * @return Wait while Element’s text matches regEx. Returns Element’s text
+     * @return Element’s text
      */
     @JDIAction
     default String waitTextMatch(String regEx) {

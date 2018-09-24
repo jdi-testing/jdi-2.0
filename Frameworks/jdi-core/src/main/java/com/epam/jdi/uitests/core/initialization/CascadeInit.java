@@ -235,11 +235,11 @@ public abstract class CascadeInit {
      */
     protected IBaseElement getElementsRules(Field field, String driverName, Class<?> type) {
         IBaseElement instance = Switch(type).get(
-                Case(isInterface(type, IEntityTable.class),
-                        t -> initEntityTable(field)),
-                Case(isInterface(type, List.class),
-                        t -> initList(field)),
-                Else(t -> initElement(t, field)));
+            Case(t -> isInterface(type, IEntityTable.class),
+                t -> initEntityTable(field)),
+            Case(t -> isInterface(type, List.class),
+                t -> initList(field)),
+            Else(t -> initElement(t, field)));
         instance.engine().setDriverName(driverName);
         return instance;
     }
