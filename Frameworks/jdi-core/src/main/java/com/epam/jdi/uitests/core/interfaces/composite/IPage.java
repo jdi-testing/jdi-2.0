@@ -15,6 +15,9 @@ import static com.epam.jdi.uitests.core.actions.composite.PageActions.openPage;
 import static com.epam.jdi.uitests.core.settings.JDISettings.*;
 import static java.lang.String.format;
 
+/**
+ * Interface declares methods that are common for major amount of pages (check if opened, open...)
+ */
 public interface IPage extends IComposite, INamed {
     /**
      * Wait while page become opened.
