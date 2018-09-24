@@ -11,7 +11,8 @@ import java.util.List;
 import static java.lang.String.format;
 
 /**
- *
+ * Class used to collect all messages from AssertionError
+ * to list and return this list.
  */
 public class Verify extends Check {
     private static List<String> fails = new LinkedList<>();
