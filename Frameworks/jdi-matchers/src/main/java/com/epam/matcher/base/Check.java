@@ -21,10 +21,14 @@ import static org.apache.commons.lang3.StringUtils.*;
 /**
  * Created by Roman Iovlev on 14.02.2018
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
+ * <p>
+ * Implements methods that are declared in interface.
+ * Provides realisation of different verifications.
  */
-
 public class Check implements IChecker {
     private String checkMessage = "";
+    public static int WAIT_TIMEOUT = 0;
+    private MatcherSettings settings = new MatcherSettings();
 
     public Check() {
     }
@@ -32,6 +36,13 @@ public class Check implements IChecker {
     public Check(String checkMessage) {
         this.checkMessage = getCheckMessage(checkMessage);
     }
+
+    /**
+     * Converts the required message to  'Check that...' message
+     *
+     * @param checkMessage required message
+     * @return String       'Check that..." message
+     */
     private String getCheckMessage(String checkMessage) {
         if (isBlank(checkMessage))
             return "";
@@ -40,32 +51,76 @@ public class Check implements IChecker {
                 ? "Check that " + checkMessage
                 : checkMessage;
     }
-    private MatcherSettings settings = new MatcherSettings();
+
+    /**
+     * Returns checker with ignoreCase = true
+     *
+     * @return IChecker
+     */
     public IChecker ignoreCase() {
         settings.ignoreCase = true;
         return this;
     }
+
+    /**
+     * Returns checker with defined timeout
+     *
+     * @param timeout timeout to define
+     * @return IChecker
+     */
     public IChecker wait(int timeout) {
         settings.timeout = timeout;
         return this;
     }
 
-    public static int WAIT_TIMEOUT = 0;
-    public void restoreTimeout() { settings.timeout = WAIT_TIMEOUT; }
+    /**
+     * Restore timeout to 0
+     */
+    public void restoreTimeout() {
+        settings.timeout = WAIT_TIMEOUT;
+    }
 
+    /**
+     * Converts string to UTF8 and to lower case if current checker has ignoreCase = true
+     *
+     * @param text string to set
+     * @return String   converted string
+     */
     private String setString(String text) {
         return toUtf8((settings.ignoreCase ? text.toLowerCase() : text));
     }
 
+    /**
+     * Converts a {@link String} to UTF8 by decoding it to array of bytes
+     * using the specified {@linkplain java.nio.charset.Charset charset}.
+     *
+     * @param text text to convert
+     * @return String   converted text
+     */
     private String toUtf8(String text) {
         try {
             return new String(text.getBytes(), "UTF-8");
-        } catch (Exception ignore) { return text; }
+        } catch (Exception ignore) {
+            return text;
+        }
     }
 
+    /**
+     * Throws error with message formatted by specified format string and arguments.
+     *
+     * @param failMessage specified format string
+     * @param args        arguments used in message
+     */
     protected void assertException(String failMessage, Object... args) {
         throw new AssertionError(format(failMessage, args));
     }
+
+    /**
+     * Throws AssertionError if {@link JFunc<Boolean>} is false
+     *
+     * @param result  the condition, false state calls assertException()
+     * @param message the assertion error message
+     */
     private void assertAction(JFunc<Boolean> result, String message) {
         if (settings.timeout > 0) {
             if (!new Timer(settings.timeout).wait(result))
@@ -73,6 +128,13 @@ public class Check implements IChecker {
         } else if (!result.execute())
             assertException(message);
     }
+
+    /**
+     * Throws AssertionError if {@link JFunc<Boolean>} is false
+     *
+     * @param check   the condition, false state calls assertException()
+     * @param message the assertion error message
+     */
     private void assertAction(JFunc<Boolean> check, JFunc<String> message) {
         if (settings.timeout > 0) {
             if (!new Timer(settings.timeout).wait(check))
@@ -80,74 +142,227 @@ public class Check implements IChecker {
         } else if (!check.execute())
             assertException(message.execute());
     }
+
+    /**
+     * Throws AssertionError if {@link boolean} is false
+     *
+     * @param result      the condition, false state calls assertException()
+     * @param failMessage the assertion error message
+     */
     private void assertAction(boolean result, String failMessage) {
         if (!result)
             assertException(failMessage);
     }
+
+    /**
+     * Composes the result message using {@link T} actual  and {@link T} expected params
+     *
+     * @param actual   actual result of checking
+     * @param action   correlation between actual and expected (equals, contains, matches...")
+     * @param expected expected result of checking
+     * @param <T>
+     * @return A formatted generified string
+     */
     private static <T> String defaultBiCheckMsg(T actual, String action, T expected) {
         return format("Check that '%s' %s '%s'", actual, action, expected);
     }
-    private static <T> String defaultCheckMsg(String suffix) {
+
+    /**
+     * Provides default check message with expected suffix.
+     *
+     * @param suffix text representing result of checking
+     * @return string   formatted string
+     */
+    private static String defaultCheckMsg(String suffix) {
         return format("Check that result %s", suffix);
     }
 
+    /**
+     * Fails a test with the given message
+     *
+     * @param failMessage the assertion error message
+     */
     public void fail(String failMessage) {
         assertException(failMessage);
     }
+
     // region areEquals
+
+    /**
+     * Asserts that two objects are equal. If they are not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      the actual value
+     * @param expected    the expected value
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     public <T> void areEquals(T actual, T expected, String failMessage) {
         assertAction(actual.equals(expected), failMessage);
     }
 
+    /**
+     * Asserts that two objects are equal. If they are not, an AssertionError is thrown.
+     *
+     * @param actual   the actual value
+     * @param expected the expected value
+     * @param <T>
+     */
     public <T> void areEquals(T actual, T expected) {
         areEquals(actual, expected, defaultBiCheckMsg(actual, "equals", expected));
     }
+
+    /**
+     * Asserts that two strings are equal. If they are not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      the actual string
+     * @param expected    the expected string
+     * @param failMessage the assertion error message
+     */
     public void areEquals(String actual, String expected, String failMessage) {
         assertAction(setString(actual).equals(setString(expected)),
                 defaultBiCheckMsg(actual, "equals", expected));
     }
+
+    /**
+     * Asserts that two strings are equal. If they are not, an AssertionError is thrown.
+     *
+     * @param actual   the actual string
+     * @param expected the expected string
+     */
     public void areEquals(String actual, String expected) {
         areEquals(actual, expected, defaultBiCheckMsg(actual, "equals", expected));
     }
+
+    /**
+     * Asserts that two objects are equal. If they are not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      the actual value
+     * @param expected    the expected value
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     public <T> void areEquals(JFunc<T> actual, T expected, JFunc1<T, String> failMessage) {
         assertAction(() -> actual.invoke().equals(expected), () -> failMessage.invoke(actual.invoke()));
     }
+
+    /**
+     * Asserts that two objects are equal. If they are not, an AssertionError is thrown.
+     *
+     * @param actual   the actual value
+     * @param expected the expected value
+     * @param <T>
+     */
     public <T> void areEquals(JFunc<T> actual, T expected) {
         areEquals(actual, expected, r -> defaultBiCheckMsg(r, "equals to", expected));
     }
+
+    /**
+     * Asserts that two objects are equal. If they are not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      the actual value
+     * @param expected    the expected value
+     * @param failMessage the assertion error message
+     */
     public void areEquals(JFunc<String> actual, String expected, JFunc1<String, String> failMessage) {
         assertAction(() -> setString(actual.invoke()).equals(setString(expected)),
                 () -> failMessage.invoke(actual.invoke()));
     }
+
+    /**
+     * Asserts that two objects are equal. If they are not, an AssertionError is thrown.
+     *
+     * @param actual   the actual value
+     * @param expected the expected value
+     */
     public void areEquals(JFunc<String> actual, String expected) {
         areEquals(actual, expected, r -> defaultBiCheckMsg(r, "equals to", expected));
     }
     // endregion
 
     // region contains
+
+    /**
+     * Asserts that actual sting contains expected. If not, an AssertionError,
+     * with the given message, is thrown. Strings are formatted.
+     *
+     * @param actual      the actual string
+     * @param expected    the expected string
+     * @param failMessage the assertion error message
+     */
     public void contains(String actual, String expected, String failMessage) {
         assertAction(setString(actual).contains(setString(expected)), failMessage);
     }
+
+    /**
+     * Asserts that actual sting contains expected. If not, an AssertionError is thrown.
+     *
+     * @param actual   the actual string
+     * @param expected the expected string
+     */
     public void contains(String actual, String expected) {
         contains(actual, expected, defaultBiCheckMsg(actual, "contains", expected));
     }
 
+    /**
+     * Asserts that actual string contains all strings from list Expected. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      the actual string
+     * @param expected    the expected string
+     * @param failMessage the assertion error message
+     */
     public void contains(String actual, List<String> expected, String failMessage) {
         for (String value : expected)
             contains(actual, value, failMessage);
     }
+
+    /**
+     * Asserts that actual string contains all strings from list Expected.
+     * If not, an AssertionError is thrown.
+     *
+     * @param actual   the actual string
+     * @param expected the expected string
+     */
     public void contains(String actual, List<String> expected) {
         for (String value : expected)
             contains(actual, value);
     }
+
+    /**
+     * Asserts that actual string contains expected. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      the actual value
+     * @param expected    the expected value
+     * @param failMessage the assertion error message
+     */
     public void contains(JFunc<String> actual, String expected, JFunc1<String, String> failMessage) {
         assertAction(() -> setString(actual.invoke()).contains(setString(expected)),
                 () -> failMessage.invoke(actual.invoke()));
     }
+
+    /**
+     * Asserts that actual string contains expected. If not, an AssertionError is thrown.
+     *
+     * @param actual   the actual value
+     * @param expected the expected value
+     */
     public void contains(JFunc<String> actual, String expected) {
         contains(actual, expected, r -> defaultBiCheckMsg(r, "contains", expected));
     }
 
+    /**
+     * Asserts that actual string contains all strings from list Expected. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      the actual string
+     * @param expected    the expected string
+     * @param failMessage the assertion error message
+     */
     public void contains(JFunc<String> actual, List<String> expected, JFunc1<String, String> failMessage) {
         assertAction(() -> {
             String actualValue = actual.invoke();
@@ -157,6 +372,14 @@ public class Check implements IChecker {
             return true;
         }, () -> failMessage.invoke(actual.invoke()));
     }
+
+    /**
+     * Asserts that actual string contains all strings from list Expected.
+     * If not, an AssertionError is thrown.
+     *
+     * @param actual   the actual string
+     * @param expected the expected string
+     */
     public void contains(JFunc<String> actual, List<String> expected) {
         contains(actual, expected, r -> defaultBiCheckMsg(r,
                 "contains all of", print(expected)));
@@ -164,56 +387,164 @@ public class Check implements IChecker {
     //endregion
 
     // region matches
+
+    /**
+     * Asserts that requested string matches to regEx. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      the actual string
+     * @param regEx       the regular expression to which string is to be matched
+     * @param failMessage the assertion error message
+     */
     public void matches(String actual, String regEx, String failMessage) {
         assertAction(setString(actual).matches(setString(regEx)), failMessage);
     }
+
+    /**
+     * Asserts that requested string matches to regEx. If not, an AssertionError is thrown.
+     *
+     * @param actual the actual string
+     * @param regEx  the regular expression to which string is to be matched
+     */
     public void matches(String actual, String regEx) {
         contains(actual, regEx, defaultBiCheckMsg(actual, "matches", regEx));
     }
+
+    /**
+     * Asserts that requested string matches to regEx. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      the actual string
+     * @param regEx       the regular expression to which string is to be matched
+     * @param failMessage the assertion error message
+     */
     public void matches(JFunc<String> actual, String regEx, JFunc1<String, String> failMessage) {
         assertAction(() -> setString(actual.invoke()).matches(setString(regEx)),
                 () -> failMessage.invoke(actual.invoke()));
     }
+
+    /**
+     * Asserts that requested string matches to regEx. If not, an AssertionError,
+     * with formatted message, is thrown.
+     *
+     * @param actual the actual string
+     * @param regEx  the regular expression to which string is to be matched
+     */
     public void matches(JFunc<String> actual, String regEx) {
         contains(actual, regEx, r -> defaultBiCheckMsg(r, "matches", regEx));
     }
     // endregion
 
     // region isTrue
+
+    /**
+     * Asserts that a condition is true. If it isn't, an AssertionError, with the given message, is
+     * thrown.
+     *
+     * @param condition   the condition to evaluate
+     * @param failMessage the assertion error message
+     */
     public void isTrue(Boolean condition, String failMessage) {
         assertAction(condition, failMessage);
     }
+
+    /**
+     * Asserts that a condition is true. If it isn't, an AssertionError is thrown.
+     *
+     * @param condition the condition to evaluate
+     */
     public void isTrue(Boolean condition) {
         isTrue(condition, defaultCheckMsg("is true but false"));
     }
+
+    /**
+     * Asserts that a condition is true. If it isn't, an AssertionError, with the given message, is
+     *
+     * @param condition   the condition to evaluate
+     * @param failMessage the assertion error message
+     */
     public void isTrue(JFunc<Boolean> condition, String failMessage) {
         assertAction(condition, failMessage);
     }
+
+    /**
+     * Asserts that a condition is true. If it isn't, an AssertionError is thrown.
+     *
+     * @param condition the condition to evaluate
+     */
     public void isTrue(JFunc<Boolean> condition) {
-        isTrue(condition, defaultCheckMsg( "is true but false"));
+        isTrue(condition, defaultCheckMsg("is true but false"));
     }
     // endregion
 
     // region isFalse
+
+    /**
+     * Asserts that a condition is false. If it isn't, an AssertionError, with the given message, is
+     * thrown.
+     *
+     * @param condition   the condition to evaluate
+     * @param failMessage the assertion error message
+     */
     public void isFalse(Boolean condition, String failMessage) {
         assertAction(!condition, failMessage);
     }
+
+    /**
+     * Asserts that a condition is false. If it isn't, an AssertionError is thrown.
+     *
+     * @param condition the condition to evaluate
+     */
     public void isFalse(Boolean condition) {
         isFalse(condition, defaultCheckMsg("is false but true"));
     }
+
+    /**
+     * Asserts that a condition is false. If it isn't, an AssertionError, with the given message, is
+     * thrown.
+     *
+     * @param condition   the condition to evaluate
+     * @param failMessage the assertion error message
+     */
     public void isFalse(JFunc<Boolean> condition, String failMessage) {
         assertAction(() -> !condition.invoke(), failMessage);
     }
+
+    /**
+     * Asserts that a condition is false. If it isn't, an AssertionError is thrown.
+     *
+     * @param condition the condition to evaluate
+     */
     public void isFalse(JFunc<Boolean> condition) {
-        isFalse(condition, defaultCheckMsg( "is false but true"));
+        isFalse(condition, defaultCheckMsg("is false but true"));
     }
     // endregion
 
     // region Exceptions
+
+    /**
+     * Utility method is used when actionName is not defined.
+     * Returns checkMessage or "Action".
+     *
+     * @return String
+     */
+    private String getPrefix() {
+        return isNotBlank(checkMessage) ? checkMessage : "Action";
+    }
+
+    /**
+     * Asserts if method throws required exception. If not, an AssertionError is thrown.
+     *
+     * @param actionName     name of action to catch required exception
+     * @param action         action to catch required exception
+     * @param exceptionClass required exception class
+     * @param exceptionText  required exception text
+     * @param <E>
+     */
     public <E extends Exception> void throwException(String actionName, JAction action, Class<E> exceptionClass, String exceptionText) {
         try {
             action.invoke();
-        } catch (Exception | Error ex) {
+        } catch (Exception ex) {
             if (exceptionClass != null)
                 areEquals(ex.getClass(), exceptionClass);
             if (exceptionText != null)
@@ -225,26 +556,51 @@ public class Check implements IChecker {
                 exceptionClass == null ? "" : exceptionClass.getName() + ", ",
                 exceptionText);
     }
-    private String getPrefix() {
-        return isNotBlank(checkMessage) ? checkMessage : "Action";
-    }
+
+    /**
+     * Asserts if method throws required exception. If not, an AssertionError is thrown.
+     *
+     * @param action         action to catch required exception
+     * @param exceptionClass required exception class
+     * @param exceptionText  required exception text
+     * @param <E>
+     */
     public <E extends Exception> void throwException(JAction action, Class<E> exceptionClass, String exceptionText) {
         throwException(getPrefix(), action, exceptionClass, exceptionText);
     }
+
+    /**
+     * Asserts that required action has no exceptions
+     *
+     * @param actionName the name of requested action
+     * @param action     the requested action
+     */
     public void hasNoExceptions(String actionName, JAction action) {
         try {
             action.invoke();
-        } catch (Exception | Error ex) {
+        } catch (Exception ex) {
             assertException(actionName + " throws exception: " + ex.getMessage());
         }
     }
 
+    /**
+     * Asserts that required action has no exceptions
+     *
+     * @param action the requested action
+     */
     public void hasNoExceptions(JAction action) {
         hasNoExceptions(getPrefix(), action);
     }
     // endregion
 
     // region Objects
+
+    /**
+     * Checks whether the object is empty or not.
+     *
+     * @param obj object to verify
+     * @return boolean
+     */
     private boolean isObjEmpty(Object obj) {
         if (obj == null)
             return true;
@@ -255,34 +611,98 @@ public class Check implements IChecker {
         return obj.getClass().isArray() && getLength(obj) == 0;
     }
 
+    /**
+     * Asserts that the object is empty. If NOT, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param obj         object to verify
+     * @param failMessage the assertion error message
+     */
     public void isEmpty(Object obj, String failMessage) {
         assertAction(isObjEmpty(obj), failMessage);
     }
+
+    /**
+     * Asserts that the object is empty. If NOT, an AssertionError is thrown.
+     *
+     * @param obj object to verify
+     */
     public void isEmpty(Object obj) {
         isEmpty(obj, "Check that Object is empty");
     }
+
+    /**
+     * Asserts that the object is NOT empty. If empty, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param obj         object to verify
+     * @param failMessage the assertion error message
+     */
     public void isNotEmpty(Object obj, String failMessage) {
         assertAction(!isObjEmpty(obj), failMessage);
     }
+
+    /**
+     * Asserts that the object is NOT empty. If empty, an AssertionError is thrown.
+     *
+     * @param obj object to verify
+     */
     public void isNotEmpty(Object obj) {
         isNotEmpty(obj, "Check that Object is NOT empty");
     }
 
+    /**
+     * Asserts that the object is empty. If NOT, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param obj         object to verify
+     * @param failMessage the assertion error message
+     */
     public void isEmpty(JFunc<Object> obj, String failMessage) {
         assertAction(() -> isObjEmpty(obj.invoke()), failMessage);
     }
+
+    /**
+     * Asserts that the object is empty. If NOT, an AssertionError is thrown.
+     *
+     * @param obj object to verify
+     */
     public void isEmpty(JFunc<Object> obj) {
         isEmpty(obj, "Check that Object is empty");
     }
+
+    /**
+     * Asserts that the object is NOT empty. If empty, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param obj         object to verify
+     * @param failMessage the assertion error message
+     */
     public void isNotEmpty(JFunc<Object> obj, String failMessage) {
         assertAction(() -> !isObjEmpty(obj.invoke()), failMessage);
     }
+
+    /**
+     * Asserts that the object is NOT empty. If empty, an AssertionError is thrown.
+     *
+     * @param obj object to verify
+     */
     public void isNotEmpty(JFunc<Object> obj) {
         isNotEmpty(obj, "Check that Object is NOT empty");
     }
     // endregion
 
     // region Lists
+
+    /**
+     * Asserts if two collections of {@link T} are equals. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      actual collection of T
+     * @param expected    expected collection of T
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     public <T> void listEquals(Collection<T> actual, Collection<T> expected, String failMessage) {
         if (actual != null && expected != null && actual.size() != expected.size()) {
             assertException(failMessage);
@@ -290,6 +710,14 @@ public class Check implements IChecker {
         }
         listContains(actual, expected, failMessage);
     }
+
+    /**
+     * Asserts if two collections of {@link T} are equals. If not, an AssertionError is thrown.
+     *
+     * @param actual   actual collection of T
+     * @param expected expected collection of T
+     * @param <T>
+     */
     public <T> void listEquals(Collection<T> actual, Collection<T> expected) {
         if (actual != null && expected != null && actual.size() != expected.size()) {
             assertException("Collections are not equals because has different sizes. " +
@@ -299,15 +727,33 @@ public class Check implements IChecker {
         }
         listContains(actual, expected);
     }
+
+    /**
+     * Asserts that actual collection contains expected. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      actual collection of T
+     * @param expected    expected collection of T
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     public <T> void listContains(Collection<T> actual, Collection<T> expected, String failMessage) {
-        if (actual == null || expected == null || actual.size() == 0 || expected.size() == 0) {
+        if (actual == null || expected == null || actual.isEmpty() || expected.isEmpty()) {
             assertException(failMessage);
             return;
         }
         assertAction(any(expected, el -> !actual.contains(el)), failMessage);
     }
+
+    /**
+     * Asserts that actual collection contains expected. If not, an AssertionError is thrown.
+     *
+     * @param actual   actual collection of T
+     * @param expected expected collection of T
+     * @param <T>
+     */
     public <T> void listContains(Collection<T> actual, Collection<T> expected) {
-        if (actual == null || expected == null || actual.size() == 0 || expected.size() == 0) {
+        if (actual == null || expected == null || actual.isEmpty() || expected.isEmpty()) {
             assertException("Actual or expected list is empty");
             return;
         }
@@ -315,10 +761,19 @@ public class Check implements IChecker {
         for (T el : expected)
             if (!actual.contains(el))
                 notEquals.add(el.toString());
-        assertAction(notEquals.size() == 0,
+        assertAction(notEquals.isEmpty(),
                 format("Not all Expected elements are in Actual: {%s}", print(notEquals)));
     }
 
+    /**
+     * Asserts that two arrays are equals. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param actual      actual array
+     * @param expected    expected array
+     * @param failMessage the assertion error message
+     * @param <T>
+     */
     public <T> void arrayEquals(T[] actual, T[] expected, String failMessage) {
         if (actual == null || expected == null || actual.length == 0 || expected.length == 0) {
             assertException(failMessage);
@@ -334,6 +789,14 @@ public class Check implements IChecker {
                 return;
             }
     }
+
+    /**
+     * Asserts that two arrays are equals. If not, an AssertionError is thrown.
+     *
+     * @param actual   actual array
+     * @param expected expected array
+     * @param <T>
+     */
     public <T> void arrayEquals(T[] actual, T[] expected) {
         if (actual == null || expected == null || actual.length == 0 || expected.length == 0) {
             assertException("Actual or expected array is empty");
@@ -350,105 +813,199 @@ public class Check implements IChecker {
             if (!actual[i].equals(expected[i]))
                 notEquals.add(format("%s: Actual(%s) != Expected(%s)",
                         i, actual[i], expected[i]));
-        assertAction(notEquals.size() == 0,
-                format("Following elements are not equal: {%s}",print(notEquals)));
+        assertAction(notEquals.isEmpty(),
+                format("Following elements are not equal: {%s}", print(notEquals)));
     }
     // endregion
 
     // TODO entityIncludeMapArray
 
     // region Sort Array Integer
+
+    /**
+     * Check that array is sorted ascending. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param array       array to check sorting order
+     * @param failMessage the assertion error message
+     */
     public void isSortedByAsc(int[] array, String failMessage) {
         if (array == null || array.length == 0) {
             assertException(failMessage);
             return;
         }
         for (int i = 1; i < array.length; i++)
-            if (array[i-1] > array[i])
+            if (array[i - 1] > array[i])
                 assertException(failMessage);
     }
+
+    /**
+     * Check that array is sorted ascending. If not, an AssertionError is thrown.
+     *
+     * @param array array to check sorting order
+     */
     public void isSortedByAsc(int[] array) {
         if (array == null || array.length == 0) {
             assertException("Array have no elements or null");
             return;
         }
         for (int i = 1; i < array.length; i++)
-            if (array[i-1] > array[i])
+            if (array[i - 1] > array[i])
                 assertException("Array not sorted by ascending. a[%s](%s) > a[%s](%s)",
-                        i-1, array[i-1], i, array[i]);
+                        i - 1, array[i - 1], i, array[i]);
     }
+
+    /**
+     * Check that array is sorted descending. If not, an AssertionError,
+     * with the given message, is thrown.
+     *
+     * @param array       array to check sorting order
+     * @param failMessage the assertion error message
+     */
     public void isSortedByDesc(int[] array, String failMessage) {
         if (array == null || array.length == 0) {
             assertException(failMessage);
             return;
         }
         for (int i = 1; i < array.length; i++)
-            if (array[i-1] < array[i])
+            if (array[i - 1] < array[i])
                 assertException(failMessage);
     }
+
+    /**
+     * Check that array is sorted descending. If not, an AssertionError is thrown.
+     *
+     * @param array array to check sorting order
+     */
     public void isSortedByDesc(int[] array) {
         if (array == null || array.length == 0) {
             assertException("Array have no elements or null");
             return;
         }
         for (int i = 1; i < array.length; i++)
-            if (array[i-1] < array[i])
+            if (array[i - 1] < array[i])
                 assertException("Array not sorted by descending. a[%s](%s) < a[%s](%s)",
-                        i-1, array[i-1], i, array[i]);
+                        i - 1, array[i - 1], i, array[i]);
     }
     // endregion
 
     // ListProcessor
+
+    /**
+     * Creates exemplar of ListChecker with collection for assertions
+     * @param list  collection that need assertions
+     * @param <T>   class of objects in collection
+     * @return      ListChecker
+     */
     public <T> Check.ListChecker each(Collection<T> list) {
         return new Check.ListChecker<>(list);
     }
+
+    /**
+     * Creates exemplar of ListChecker with collection for assertions
+     * @param array array that need assertions
+     * @param <T>   class of objects in collection
+     * @return      ListChecker
+     */
     public <T> Check.ListChecker each(T[] array) {
         return each(asList(array));
     }
 
+    /**
+     * Class represents asserts for collections
+     *
+     * @param <T> class of objects in collection
+     */
     public final class ListChecker<T> {
         Collection<T> list;
 
+        /**
+         * Constructor creates exemplar of ListChecker with collection for assertions
+         *
+         * @param list
+         */
         private ListChecker(Collection<T> list) {
-            if (list == null || list.size() == 0)
+            if (list == null || list.isEmpty())
                 assertException("List %s is empty", print(select(list, Object::toString)));
             this.list = list;
         }
 
+        /**
+         * Implements assertEquals for collections.
+         * Elements are equal in collection and have required value.
+         * If collections are not equal, an AssertionError, with the given message, is thrown.
+         *
+         * @param expected    expected value
+         * @param failMessage the assertion error message
+         */
         public void areEquals(T expected, String failMessage) {
             assertAction(all(list, el -> el.equals(expected)), failMessage);
         }
+
+        /**
+         * Implements assertEquals for collections. Elements are equal
+         * in collection and have required value. If collections are not equal,
+         * an AssertionError, with list of not equal elements, is thrown.
+         *
+         * @param expected expected value
+         */
         public void areEquals(T expected) {
             List<String> notEquals = new ArrayList<>();
             for (Object el : list)
                 if (!el.equals(expected))
                     notEquals.add(el.toString());
-            assertAction(notEquals.size() == 0, format("Elements {%s} are not equal to %s",
+            assertAction(notEquals.isEmpty(), format("Elements {%s} are not equal to %s",
                     print(notEquals), expected));
         }
 
+        /**
+         * Implements assertContains for collection. Elements contains required value.
+         * Otherwise an AssertionError, with the given message, is thrown.
+         *
+         * @param expected    expected value
+         * @param failMessage the assertion error message
+         */
         public void areContains(String expected, String failMessage) {
             assertAction(all(list, el -> el.toString().contains(expected)), failMessage);
         }
+
+        /**
+         * Implements assertContains for collection. Elements contains required value.
+         * Otherwise an AssertionError, with list of elements that doesn't contain value,
+         * is thrown.
+         *
+         * @param expected  expected value
+         */
         public void areContains(String expected) {
             List<String> notContains = new ArrayList<>();
             for (Object el : list)
                 if (!el.toString().contains(expected))
                     notContains.add(el.toString());
-            assertAction(notContains.size() == 0, format("Elements {%s} are not contains %s",
+            assertAction(notContains.isEmpty(), format("Elements {%s} are not contains %s",
                     print(notContains), expected));
         }
 
+        /**
+         * Implements assertMatches for collection. Elements match required regEx.
+         * Otherwise an AssertionError, with the given message, is thrown.
+         * @param regEx         expected regular expression to verify matching
+         * @param failMessage   the assertion error message
+         */
         public void areMatches(String regEx, String failMessage) {
             assertAction(all(list, el -> el.toString().matches(regEx)), failMessage);
         }
 
+        /**
+         * Implements assertMatches for collection. Elements match required regEx.
+         * Otherwise an AssertionError, with list of unmatched elements, is thrown.
+         * @param regEx         expected regular expression to verify matching
+         */
         public void areMatches(String regEx) {
             List<String> notMatch = new ArrayList<>();
             for (Object el : list)
                 if (!el.toString().matches(regEx))
                     notMatch.add(el.toString());
-            assertAction(notMatch.size() == 0, format("Elements {%s} are not match to %s",
+            assertAction(notMatch.isEmpty(), format("Elements {%s} are not match to %s",
                     print(notMatch), regEx));
         }
 
