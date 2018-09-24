@@ -16,9 +16,29 @@ import static com.epam.jdi.uitests.core.utils.common.Filters.*;
 public class TableFilter {
     private String name;
     private IFilter<String> filter;
-    public String getName() { return name; }
-    public IFilter<String> getFilter() { return filter; }
 
+    /**
+     * @return filter name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return IFilter filter
+     */
+    public IFilter<String> getFilter() {
+        return filter;
+    }
+
+    /**
+     * @param template filtering criterion in format columnName=columnValue<br>
+     *                 = - Equals
+     *                 ~= - Contains
+     *                 *= - Match RegEx
+     *                 e.g. rows("Name=Roman", "Profession=QA") <br>
+     *                 e.g. rows("Name*=.* +*", "Profession~=Test") <br>
+     */
     public TableFilter(String template) {
         String[] split;
         if (template.matches("[^=]+\\*=[^=]*")) {
@@ -47,6 +67,11 @@ public class TableFilter {
         }
         throw exception("Wrong searchCriteria for Cells: " + template);
     }
+
+    /**
+     * @param filters an array of filtering criteria
+     * @return a list of table filters
+     */
     public static List<TableFilter> getFilters(String[] filters) {
         List<TableFilter> result = new ArrayList<>();
         for (String colNameValue : filters)

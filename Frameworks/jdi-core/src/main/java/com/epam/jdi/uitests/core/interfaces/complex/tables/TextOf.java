@@ -8,6 +8,10 @@ package com.epam.jdi.uitests.core.interfaces.complex.tables;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 
 public class TextOf {
+    /**
+     * @param textElement IText element with text
+     * @return text of the Element
+     */
     public static String textOf(IText textElement) {
         return textElement.getText();
     }

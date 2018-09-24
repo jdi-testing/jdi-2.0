@@ -14,40 +14,61 @@ import static com.epam.jdi.tools.LinqUtils.*;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelected;
 import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelectedByIndex;
 
-public interface IDropList<TEnum extends Enum>
-        extends IDropDown<TEnum>, IListSelector<TEnum>, IText {
+public interface IDropList<TEnum extends Enum> extends IDropDown<TEnum>, IListSelector<TEnum>, IText {
     @Override
     default String getValue() {
         return getText();
     }
+
     /**
-     * Expanding DropDown
+     * Expands DropDown
      */
-    @Override @JDIAction
+    @Override
+    @JDIAction
     default void expand() {
         if (!isExpanded())
             click();
     }
+
+    /**
+     * Marks dropdown value as selected
+     * @param value a value to set
+     */
     @Override
     default void setValue(String value) {
         check(value.split(getSeparator()));
     }
 
-    @Override @JDIAction
+    /**
+     * Expands dropdown and clicks on multiple values whether they are already selected or not
+     * @param names values to select
+     */
+    @Override
+    @JDIAction
     default void select(String... names) {
         assertLinked("list", "select");
         expand();
-        ((IListSelector)linked().get("list")).select(names);
+        ((IListSelector) linked().get("list")).select(names);
     }
 
-    @Override @JDIAction
+    /**
+     * Expands dropdown and clicks on multiple values by their indices whether they already selected or not
+     * @param indexes indexes of values to select
+     */
+    @Override
+    @JDIAction
     default void select(Integer... indexes) {
         assertLinked("list", "select");
         expand();
-        ((IListSelector)linked().get("list")).select(indexes);
+        ((IListSelector) linked().get("list")).select(indexes);
     }
 
-    @Override @JDIAction
+    /**
+     * Expands dropdown and selects multiple values, that are not already selected
+     * @param names values to mark as selected
+     */
+    @Override
+    @JDIAction
     default void check(String... names) {
         assertLinked("list", "select");
         expand();
@@ -55,7 +76,12 @@ public interface IDropList<TEnum extends Enum>
         select(toStringArray(deselected));
     }
 
-    @Override @JDIAction
+    /**
+     * Expands dropdown and selects multiple values, that are not already selected
+     * @param  indexes indexes of values to select
+     */
+    @Override
+    @JDIAction
     default void check(Integer... indexes) {
         assertLinked("list", "select");
         expand();
@@ -63,7 +89,12 @@ public interface IDropList<TEnum extends Enum>
         select(toIntegerArray(deselected));
     }
 
-    @Override @JDIAction
+    /**
+     * Expands dropdown and deselects multiple values, that are selected
+     * @param  names values to deselect
+     */
+    @Override
+    @JDIAction
     default void uncheck(String... names) {
         assertLinked("list", "select");
         expand();
@@ -71,7 +102,12 @@ public interface IDropList<TEnum extends Enum>
         select(toStringArray(selected));
     }
 
-    @Override @JDIAction
+    /**
+     * Expands dropdown and deselects multiple values, that are selected
+     * @param  indexes indexes of values to deselect
+     */
+    @Override
+    @JDIAction
     default void uncheck(Integer... indexes) {
         assertLinked("list", "select");
         expand();
@@ -81,9 +117,10 @@ public interface IDropList<TEnum extends Enum>
     }
 
     /**
-     * @return Get names of checked options
+     * @return list with names of selected options
      */
-    @Override @JDIAction
+    @Override
+    @JDIAction
     default List<String> areSelected() {
         assertLinked("list", "select");
         expand();
