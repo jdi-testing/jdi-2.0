@@ -10,6 +10,9 @@ import com.epam.jdi.uitests.core.annotations.JDIAction;
 import static com.epam.jdi.uitests.core.actions.base.ElementActions.*;
 import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
 
+/**
+ * Actions common for most elements
+ */
 public interface IElement extends IBaseElement {
     /**
      * Get element attribute
@@ -21,10 +24,12 @@ public interface IElement extends IBaseElement {
     default String getAttribute(String name) {
         return getAttribute.execute(this, name);
     }
+
     /**
+     * Waits while attribute gets expected value. Return false if this not happens
+     *
      * @param name  Specify attribute name
      * @param value Specify attribute value
-     * Waits while attribute gets expected value. Return false if this not happens
      */
     @JDIAction("Wait attribute {0} with value {1}")
     default void waitAttribute(String name, String value) {
@@ -32,9 +37,10 @@ public interface IElement extends IBaseElement {
     }
 
     /**
+     * Sets attribute value for Element
+     *
      * @param attributeName Specify attribute name
      * @param value         Specify attribute value
-     *                      Sets attribute value for Element
      */
     @JDIAction(value = "Set attribute {0} = {1}", level = DEBUG)
     default void setAttribute(String attributeName, String value) {
@@ -42,7 +48,10 @@ public interface IElement extends IBaseElement {
     }
 
     /**
-     *  Get specified application element
+     * Get specified application element
+     *
+     * @param args Arguments for element searching
+     * @return the element
      */
     @JDIAction(level = DEBUG)
     default <T> T getElement(Object... args) {
@@ -50,9 +59,11 @@ public interface IElement extends IBaseElement {
     }
 
     /**
-     *  Focus on this element
+     * Focus on this element
      */
     @JDIAction("Focus on element")
-    default void focus() { focus.execute(this); }
+    default void focus() {
+        focus.execute(this);
+    }
 
 }

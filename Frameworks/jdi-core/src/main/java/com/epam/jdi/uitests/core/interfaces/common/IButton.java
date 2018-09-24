@@ -7,5 +7,8 @@ package com.epam.jdi.uitests.core.interfaces.common;
 
 import com.epam.jdi.uitests.core.interfaces.base.IClickable;
 
+/**
+ * Interface for Buttons
+ */
 public interface IButton extends IClickable, IText {
 }
