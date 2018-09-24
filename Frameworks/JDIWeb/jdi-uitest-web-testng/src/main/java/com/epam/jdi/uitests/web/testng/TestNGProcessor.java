@@ -17,6 +17,9 @@ import org.aspectj.lang.reflect.MethodSignature;
 import static com.epam.jdi.uitests.core.logger.LogLevels.STEP;
 import static com.epam.jdi.uitests.web.settings.JDITestNGSettings.logger;
 
+/**
+ * Class for TestNG Processor, includes before and after calls and timer
+ */
 @SuppressWarnings("unused")
 @Aspect
 public class TestNGProcessor {
@@ -32,6 +35,7 @@ public class TestNGProcessor {
         }
         logger.step("=== START %s %s===", getTestName(joinPoint), paramsString);
     };
+
     public static JAction1<JoinPoint> testNGAfter = joinPoint -> {
         String time = timer.get().timePassed();
         MethodSignature method = getMethod(joinPoint);
@@ -39,21 +43,41 @@ public class TestNGProcessor {
         logger.step("=== END %s (%s) ===", getTestName(joinPoint), time);
     };
 
+    /**
+     * Calls joinpoint from testNGBefore, if the latest is not null
+     * @param joinPoint JoinPoint to call
+     */
     @Before("execution(* *(..)) && @annotation(org.testng.annotations.Test)")
     public void before(JoinPoint joinPoint) {
         if (testNGBefore != null)
             testNGBefore.execute(joinPoint);
     }
+
+    /**
+     * Calls joinpoint from testNGAfter, if the latest is not null
+     * @param joinPoint JoinPoint to call
+     */
     @After("execution(* *(..)) && @annotation(org.testng.annotations.Test)")
     public void after(JoinPoint joinPoint) {
         if (testNGAfter != null)
             testNGAfter.execute(joinPoint);
     }
+
+    /**
+     * Returns name of test for JoinPoint
+     * @param joinPoint JoinPoint to get test name from
+     * @return test name: SimpleName + name.
+     */
     static String getTestName(JoinPoint joinPoint) {
         return joinPoint.getSignature().getDeclaringType().getSimpleName()
                 + "." + getMethod(joinPoint).getName();
     }
 
+    /**
+     * Returns Signature of passed joinpoint
+     * @param joinPoint joinpoint to get signature from
+     * @return Signature of joinpoint
+     */
     static MethodSignature getMethod(JoinPoint joinPoint) {
         return (MethodSignature) joinPoint.getSignature();
     }

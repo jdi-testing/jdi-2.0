@@ -9,8 +9,17 @@ import com.epam.jdi.uitests.core.settings.TimeoutSettings;
 
 import static com.epam.matcher.base.Check.*;
 
+/**
+ * Setting class for WebTimeoutSettings, extends TimeoutSettings class. Includes override of setting
+ * current timeout in seconds
+ */
 public class WebTimeoutSettings extends TimeoutSettings {
 
+    /**
+     * Sets Timeout in seconds from TimeoutSettings class, and pass that timeout to WAIT_TIMEOUT of Check class
+     *
+     * @param timeoutSec the timeout value in seconds
+     */
     @Override
     public void setCurrentTimeoutSec(int timeoutSec) {
         super.setCurrentTimeoutSec(timeoutSec);
