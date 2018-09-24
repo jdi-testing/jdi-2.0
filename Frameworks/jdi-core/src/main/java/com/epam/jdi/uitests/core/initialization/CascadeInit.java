@@ -144,11 +144,13 @@ public abstract class CascadeInit {
         return instance;
     }
     private IBaseElement initEntityTable(Field field) {
-        Type[] types = ((ParameterizedType) field.getGenericType())
-                .getActualTypeArguments();
+        Field[] fields = field.getType().getDeclaredFields();
+        Class firstArg = fields[1].getGenericType().getClass();
+        Class secondArg = fields[2].getGenericType().getClass();
         try {
             return (IBaseElement) getClassFromInterface(IEntityTable.class, field.getName())
-                    .getDeclaredConstructor(Class.class, Class.class).newInstance(types[0], types[1]);
+                    .getDeclaredConstructor(Class.class, Class.class)
+                    .newInstance(firstArg, secondArg);
         } catch (Exception ex) { throw exception("Can't init EntityTable for %s. Exception: %s", field.getName(), ex.getMessage()); }
     }
 
