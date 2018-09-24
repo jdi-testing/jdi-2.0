@@ -510,9 +510,22 @@ public interface IChecker {
     void isSortedByDesc(int[] array);
     // endregion
 
-    // ListProcessor todo: javadoc
+    // ListProcessor
+
+    /**
+     * Creates exemplar of ListChecker with collection for assertions
+     * @param list  collection that need assertions
+     * @param <T>   class of objects in collection
+     * @return      ListChecker
+     */
     <T> Check.ListChecker each(Collection<T> list);
 
+    /**
+     * Creates exemplar of ListChecker with collection for assertions
+     * @param array array that need assertions
+     * @param <T>   class of objects in collection
+     * @return      ListChecker
+     */
     default <T> Check.ListChecker each(T[] array) {
         return each(asList(array));
     }
