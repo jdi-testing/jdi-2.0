@@ -13,10 +13,24 @@ import static com.epam.jdi.tools.StringUtils.format;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static ru.yandex.qatools.allure.Allure.LIFECYCLE;
 
+/**
+ * Logger class for Allure, extends JDILogger
+ */
 public class JDIAllureLogger extends JDILogger {
+
+    /**
+     * Allure logger constructor from name, extended from JDILogger
+     * @param name String, logger name
+     */
     public JDIAllureLogger(String name) {
         super(name);
     }
+
+    /**
+     * Logs test step
+     * @param s - record to be logged
+     * @param args - args
+     */
     @Override
     public void step(String s, Object... args) {
         try {

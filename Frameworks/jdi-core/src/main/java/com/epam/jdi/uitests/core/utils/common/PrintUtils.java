@@ -20,6 +20,12 @@ import static java.lang.reflect.Array.getLength;
 public final class PrintUtils {
     private PrintUtils() {
     }
+
+  /**
+   * Gets MapArray from passed object, empty MapArray if object is null
+   * @param obj Object to convert
+   * @return MapArray
+   */
     public static MapArray<String, String> getMapFromObject(Object obj) {
         if (obj == null)
             return new MapArray<>();
@@ -40,6 +46,11 @@ public final class PrintUtils {
             });
     }
 
+  /**
+   * Prints object as an array
+   * @param array Object to print
+   * @return String
+   */
     public static String printObjectAsArray(Object array) {
         List<String> elements = new ArrayList<>();
         for (int i = 0; i <= getLength(array); i++)
