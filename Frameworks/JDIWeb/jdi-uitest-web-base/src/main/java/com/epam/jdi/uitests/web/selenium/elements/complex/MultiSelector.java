@@ -12,11 +12,26 @@ import java.util.List;
 
 import static com.epam.jdi.tools.LinqUtils.where;
 
+/**
+ * MultiSelector complex element
+ * @param <TEnum> selector
+ */
 public abstract class MultiSelector<TEnum extends Enum>
         extends BaseSelector implements IListSelector<TEnum> {
 
     private String separator = ", ";
+
+    /**
+     * Gets separator
+     * @return separator
+     */
     public String getSeparator() { return separator; }
+
+    /**
+     * Set value separator
+     * @param separator separator
+     * @return MultiSelector
+     */
     public MultiSelector<TEnum> setValuesSeparator(String separator) {
         this.separator = separator;
         return this;

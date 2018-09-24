@@ -15,10 +15,39 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface JPagination {
+    /**
+     * Returns root
+     * @return root
+     */
     FindBy root()  default @FindBy();
+
+    /**
+     * Returns next
+     * @return next
+     */
     FindBy next()  default @FindBy();
+
+    /**
+     * Returns prev
+     * @return prev
+     */
     FindBy prev()  default @FindBy();
+
+    /**
+     * Returns first
+     * @return first
+     */
     FindBy first() default @FindBy();
+
+    /**
+     * Returns last
+     * @return last
+     */
     FindBy last()  default @FindBy();
+
+    /**
+     * Returns page
+     * @return page
+     */
     FindBy page()  default @FindBy();
 }

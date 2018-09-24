@@ -21,33 +21,37 @@ import static com.epam.jdi.uitests.core.actions.complex.SelectActions.isSelected
 import static java.util.Arrays.asList;
 
 public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
-    default void expand() {}
-    /**
-     * @param names Specify names
-     *              Select options with name (use text) from list (change their state selected/deselected)
-     */
-    @JDIAction
-    default void select(String... names) {
-        expand(); select.execute(this, names);
+    default void expand() {
     }
 
     /**
-     * @param names Specify names
-     *              Select options with name (use enum) from list (change their state selected/deselected)
+     * @param names names of the list options to select (change their state selected/deselected)
      */
     @JDIAction
-    default void select(TEnum... names) { select(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));}
+    default void select(String... names) {
+        expand();
+        select.execute(this, names);
+    }
 
     /**
-     * @param indexes Specify indexes
-     *                Select options with name (use index) from list (change their state selected/deselected)
+     * @param names enums with names of the list options to select (change their state selected/deselected)
      */
     @JDIAction
-    default void select(Integer... indexes) { expand(); selectByIndex.execute(this, indexes);}
+    default void select(TEnum... names) {
+        select(toStringArray(LinqUtils.select(names, EnumUtils::getEnumValue)));
+    }
 
     /**
-     * @param names Specify names
-     *              Check only specified options (use text) from list (all other options unchecked)
+     * @param indexes indexes of the list options to select (change their state selected/deselected)
+     */
+    @JDIAction
+    default void select(Integer... indexes) {
+        expand();
+        selectByIndex.execute(this, indexes);
+    }
+
+    /**
+     * @param names names of the list options to check (all other options set as unchecked)
      */
     @JDIAction
     default void check(String... names) {
@@ -60,8 +64,7 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * @param names Specify names
-     *              Check only specified options (use enum) from list (all other options unchecked)
+     * @param names enums with names of the list options to check (all other options set as unchecked)
      */
     @JDIAction
     default void check(TEnum... names) {
@@ -69,21 +72,19 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * @param indexes Specify indexes
-     *                Check only specified options (use index) from list (all other options unchecked)
+     * @param indexes indexes of the list options to check (all other options set as unchecked)
      */
     @JDIAction
     default void check(Integer... indexes) {
         expand();
-        for (int i=0; i <= getOptions().size(); i++)
+        for (int i = 0; i <= getOptions().size(); i++)
             if (asList(indexes).contains(i) && !isSelected(i)
                     || !asList(indexes).contains(i) && isSelected(i))
                 select(i);
     }
 
     /**
-     * @param names Specify names
-     *              Uncheck only specified options (use text) from list (all other options checked)
+     * @param names names of the list options to uncheck (all other options set as checked)
      */
     @JDIAction
     default void uncheck(String... names) {
@@ -91,13 +92,12 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
         List<String> options = getOptions();
         for (String o : options)
             if (asList(names).contains(o) && isSelected(o)
-            || !asList(names).contains(o) && !isSelected(o))
+                    || !asList(names).contains(o) && !isSelected(o))
                 select(o);
     }
 
     /**
-     * @param names Specify names
-     *              Uncheck only specified options (use enum) from list (all other options checked)
+     * @param names enums with names of the list options to uncheck (all other options set as checked)
      */
     @JDIAction
     default void uncheck(TEnum... names) {
@@ -105,20 +105,19 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * @param indexes Specify indexes
-     *                Uncheck only specified options (use index) from list (all other options checked)
+     * @param indexes indexes of the list options to uncheck (all other options set as checked)
      */
     @JDIAction
     default void uncheck(Integer... indexes) {
         expand();
-        for (int i=0; i <= getOptions().size(); i++)
+        for (int i = 0; i <= getOptions().size(); i++)
             if (asList(indexes).contains(i) && isSelected(i)
-            || !asList(indexes).contains(i) && !isSelected(i))
+                    || !asList(indexes).contains(i) && !isSelected(i))
                 select(i);
     }
 
     /**
-     * @return Get names of checked options
+     * @return a list with names of checked options
      */
     @JDIAction
     default List<String> areSelected() {
@@ -128,8 +127,8 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * @param names Specify names
-     * Wait while all options with names (use text) selected. Return false if this not happens
+     * Waits until all options with the names are selected
+     * @param names options names
      */
     @JDIAction
     default void waitSelected(String... names) {
@@ -138,8 +137,8 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * @param names Specify names
-     * Wait while all options with names (use enum) selected. Return false if this not happens
+     * Waits until all options with the names are selected
+     * @param names enums with options names
      */
     @JDIAction
     default void waitSelected(TEnum... names) {
@@ -147,7 +146,7 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * @return Get names of unchecked options
+     * @return a list with names of unchecked options
      */
     @JDIAction
     default List<String> areDeselected() {
@@ -155,10 +154,12 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
         return where((List<String>) getNames(),
                 name -> !isChecked.execute(this, name));
     }
+
     JFunc2<Object, String, Boolean> isChecked = isSelected;
+
     /**
-     * @param names Specify names
-     * Wait while all options with names (use text) deselected. Return false if this not happens
+     * Waits until all options with the names are deselected
+     * @param names options names
      */
     @JDIAction
     default void waitDeselected(String... names) {
@@ -166,8 +167,8 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * @param names Specify names
-     * Wait while all options with names (use enum) deselected. Return false if this not happens
+     * Waits until all options with the names are deselected
+     * @param names enums with options names
      */
     @JDIAction
     default void waitDeselected(TEnum... names) {
@@ -175,13 +176,15 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * Set all options checked
+     * Sets all options checked
      */
     @JDIAction
-    default void checkAll() { check(toStringArray(getOptions())); }
+    default void checkAll() {
+        check(toStringArray(getOptions()));
+    }
 
     /**
-     * Set all options checked
+     * Sets all options checked
      */
     @JDIAction
     default void selectAll() {
@@ -189,25 +192,40 @@ public interface IListSelector<TEnum extends Enum> extends IBaseSelector {
     }
 
     /**
-     * Set all options unchecked
+     * Sets all options unchecked
      */
     @JDIAction
-    default void clear() { uncheckAll(); }
+    default void clear() {
+        uncheckAll();
+    }
 
     /**
-     * Set all options unchecked
+     * Sets all options unchecked
      */
     @JDIAction
     default void uncheckAll() {
         uncheck(toStringArray(getOptions()));
     }
+
+    /**
+     * @return a String with with names of checked options
+     */
     @Override
     default String getValue() {
         return print(areSelected());
     }
+
+    /**
+     * Selects multiple options
+     * @param value a String with options names separated by the separator
+     */
     @Override
     default void setValue(String value) {
         select(value.split(getSeparator()));
     }
+
+    /**
+     * @return Returns options names separator
+     */
     String getSeparator();
 }

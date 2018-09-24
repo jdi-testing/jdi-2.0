@@ -21,18 +21,27 @@ import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static java.lang.String.format;
 
 public interface IBaseSelector<TEnum extends Enum> extends IBaseElement, ISetValue {
+
+    /**
+     * Asserts that the {@code @JDropdown} attribute needed to perform the action is specified
+     * @param name name of the attribute to check
+     * @param actionName name of the action that needs the attribute to be specified
+     */
     default void assertLinked(String name, String actionName) {
         if (!linked().has(name))
             throw exception(format("You must specify '%s' in Dropdown annotation in order to perform %s action", name, actionName));
     }
-    /**
-     * @return Get labels of all options (same as getValues, getLabels and getNames)
-     */
-    @JDIAction
-    default List<String> getOptions() { return getOptions.execute(this); }
 
     /**
-     * @return Get all options names (same as getOptions, getLabels and getValues)
+     * @return Gets labels of all options (same as getValues, getLabels and getNames)
+     */
+    @JDIAction
+    default List<String> getOptions() {
+        return getOptions.execute(this);
+    }
+
+    /**
+     * @return Gets all options names (same as getOptions, getLabels and getValues)
      */
     @JDIAction
     default List<String> getNames() {
@@ -40,7 +49,7 @@ public interface IBaseSelector<TEnum extends Enum> extends IBaseElement, ISetVal
     }
 
     /**
-     * @return Get all values (same as getOptions, getLabels and getNames)
+     * @return Gets all values (same as getOptions, getLabels and getNames)
      */
     @JDIAction
     default List<String> getValues() {
@@ -48,7 +57,7 @@ public interface IBaseSelector<TEnum extends Enum> extends IBaseElement, ISetVal
     }
 
     /**
-     * @return Get all labels (same as getOptions, getValues and getNames)
+     * @return Gets all labels (same as getOptions, getValues and getNames)
      */
     @JDIAction
     default List<String> getLabels() {
@@ -56,7 +65,7 @@ public interface IBaseSelector<TEnum extends Enum> extends IBaseElement, ISetVal
     }
 
     /**
-     * @return Get all options labels in one string separated with “; ”
+     * @return Gets all options labels in one string separated with “; ”
      */
     @JDIAction
     default String getOptionsAsText() {
@@ -64,34 +73,37 @@ public interface IBaseSelector<TEnum extends Enum> extends IBaseElement, ISetVal
     }
 
     /**
-     *  Get specified application elements
+     * Gets specified application elements
      */
     @JDIAction(level = DEBUG)
     default <T> List<T> getElements(Object... args) {
-        return map(getElements.execute(this, args), el -> (T)el); }
+        return map(getElements.execute(this, args), el -> (T) el);
+    }
+
     /**
-     *  Get specified application element
+     * Gets specified application element
      */
     @JDIAction(level = DEBUG)
     default <T> T getElement(String name) {
         T el = first(getElements(),
-            e -> eGetText.execute(e).equals(name));
+                e -> eGetText.execute(e).equals(name));
         if (el == null)
             throw exception("Can't find element '%s'", name);
         return el;
     }
+
     /**
-     * @param name Specify name using string
-     * @return Is option selected?
+     * @param name String name of the option to check
+     * @return boolean Returns 'true' if the option is selected
      */
     @JDIAction
     default boolean isSelected(String name) {
-        return isSelected.execute(this,name);
+        return isSelected.execute(this, name);
     }
 
     /**
-     * @param name Specify name using enum
-     * @return Is option selected?
+     * @param name TEnum name of the option to check
+     * @return boolean Returns 'true' if the option is selected
      */
     @JDIAction
     default boolean isSelected(TEnum name) {
@@ -99,22 +111,37 @@ public interface IBaseSelector<TEnum extends Enum> extends IBaseElement, ISetVal
     }
 
     /**
-     * @param index Specify name using enum
-     * @return Is option selected?
+     * @param index int index of the option to check
+     * @return boolean Returns 'true' if the option is selected
      */
     @JDIAction
     default boolean isSelected(int index) {
         return isSelectedByIndex.execute(this, index);
     }
 
+    /**
+     * @param name a name of the element to be checked
+     * @return boolean Returns 'true' if the element is visible
+     */
     @JDIAction
     default boolean displayed(String name) {
         return eDisplayed.execute(getElement(name));
     }
+
+    /**
+     * @param name TEnum a name of the element to be checked
+     * @return boolean Returns 'true' if the element is visible
+     */
     @JDIAction
     default boolean displayed(TEnum name) {
         return displayed(getEnumValue(name));
     }
+
+    /**
+     * Checks that the index is within the allowed range and returns 'true' if the element is visible
+     * @param index positive index of the element to be checked
+     * @return boolean
+     */
     @JDIAction
     default boolean displayed(int index) {
         if (index <= 0)
@@ -124,10 +151,12 @@ public interface IBaseSelector<TEnum extends Enum> extends IBaseElement, ISetVal
             throw exception("Can't check displayed for '%s' because found only %s elements", index, els.size());
         return eDisplayed.execute(els.get(index));
     }
+
     /**
-     * @return Check is Element visible
+     * @return boolean Returns 'true' if the element is visible
      */
-    @Override @JDIAction
+    @Override
+    @JDIAction
     default boolean displayedNow() {
         return any(getElements(), el -> eDisplayed.execute(el));
     }

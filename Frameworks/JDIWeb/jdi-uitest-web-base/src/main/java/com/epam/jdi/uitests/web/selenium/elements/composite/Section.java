@@ -8,5 +8,8 @@ package com.epam.jdi.uitests.web.selenium.elements.composite;
 import com.epam.jdi.uitests.core.interfaces.base.IComposite;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
 
+/**
+ * Section composite element
+ */
 public class Section extends Element implements IComposite {
 }

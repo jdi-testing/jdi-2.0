@@ -5,6 +5,12 @@ package com.epam.jdi.uitests.web.selenium.elements.complex.table;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
+/**
+ * DynamicTable complex element
+ */
 public class DynamicTable extends Table {
+    /**
+     * Constructs DynamicTable
+     */
     public DynamicTable() { useCache(false); }
 }

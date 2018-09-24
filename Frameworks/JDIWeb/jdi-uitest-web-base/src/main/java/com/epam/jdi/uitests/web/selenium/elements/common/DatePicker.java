@@ -7,5 +7,8 @@ package com.epam.jdi.uitests.web.selenium.elements.common;
 
 import com.epam.jdi.uitests.core.interfaces.common.IDatePicker;
 
+/**
+ * DatePicker common element
+ */
 public class DatePicker extends TextField implements IDatePicker {
 }

@@ -13,5 +13,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface JSite {
+    /**
+     * Returns value
+     * @return value
+     */
     String value();
 }

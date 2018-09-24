@@ -16,9 +16,15 @@ import java.text.MessageFormat;
 
 import static com.epam.jdi.tools.StringUtils.splitCamelCase;
 
+/**
+ * Class responsible for logging methods annotated with {@code Print} annotation
+ */
 @Aspect
 public class PrintProcessor {
-    public static JFunc2<String, ProceedingJoinPoint, Object> action = (text, action) -> {
+    /**
+     * Function doing logging and action execution
+     */
+    public static JFunc2<String, ProceedingJoinPoint, Object> printAndExecute = (text, action) -> {
         System.out.println(text);
         try {
             return action.proceed();
@@ -26,8 +32,18 @@ public class PrintProcessor {
             throw new RuntimeException(ex);
         }
     };
-    public static String DEFAULT_PRINT = "Do %s action";
 
+    /**
+     * Default logging pattern
+     */
+    public static final String DEFAULT_PRINT = "Do %s action";
+
+    /**
+     * Method, which defines what to write into log
+     *
+     * @param joinPoint Proceeding JoinPoint
+     * @return Result of join point
+     */
     @Around("execution(* *(..)) && @annotation(com.epam.jdi.uitests.core.annotations.Print)")
     public Object action(ProceedingJoinPoint joinPoint) {
         MethodSignature method = (MethodSignature) joinPoint.getSignature();
@@ -37,7 +53,7 @@ public class PrintProcessor {
                 : printAnnotation.value();
         if (joinPoint.getArgs().length > 0)
             actionName = MessageFormat.format(actionName, joinPoint.getArgs());
-        return action.execute(actionName, joinPoint);
+        return printAndExecute.execute(actionName, joinPoint);
     }
 
 }

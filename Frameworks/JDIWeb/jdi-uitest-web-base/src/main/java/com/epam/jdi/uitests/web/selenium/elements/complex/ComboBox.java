@@ -17,7 +17,15 @@ import static com.epam.jdi.uitests.web.selenium.elements.base.LinkedSetup.setupD
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;
 
+/**
+ * ComboBox complex element
+ * @param <TEnum> selector
+ */
 public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements IComboBox<TEnum> {
+    /**
+     * Sets up element
+     * @param field field
+     */
     @Override
     public void setup(Field field) {
         if (!fieldHasAnnotation(field, JComboBox.class, IComboBox.class))
@@ -26,6 +34,11 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
         setupDropElement(this, findByToBy(j.root()), findByToBy(j.value()),
             findByToBy(j.list()), findByToBy(j.expand()));
     }
+
+    /**
+     * Sends text to element
+     * @param text text
+     */
     @Override
     public void input(CharSequence text) {
         if (linked().has("value"))
@@ -35,6 +48,11 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
             el.sendKeys(text);
         }
     }
+
+    /**
+     * Clears element's text and send new
+     * @param text Specify text to input to TextField
+     */
     @Override
     public void newInput(CharSequence text) {
         if (linked().has("value"))
@@ -45,6 +63,11 @@ public class ComboBox<TEnum extends Enum> extends Dropdown<TEnum> implements ICo
             el.sendKeys(text);
         }
     }
+
+    /**
+     * Gets element text
+     * @return
+     */
     @Override
     public String getText() {
         return linked().has("value")

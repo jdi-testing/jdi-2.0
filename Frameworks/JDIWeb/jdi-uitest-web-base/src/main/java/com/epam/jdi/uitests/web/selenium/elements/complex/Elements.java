@@ -26,6 +26,10 @@ import static com.epam.jdi.tools.EnumUtils.getEnumValue;
 import static com.epam.jdi.tools.ReflectionUtils.getValueField;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 
+/**
+ * Elements complex element
+ * @param <T> type
+ */
 public class Elements<T extends BaseElement> extends BaseElement implements IList<T> {
     private MapArray<String, T> elements;
     private List<T> values;
@@ -33,19 +37,37 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
     public String titleFieldName = NO_TITLE_FIELD;
     public static final String NO_TITLE_FIELD = "NO TITLE FIELD";
 
+    /**
+     * Constructs Elements with type
+     * @param classType type
+     */
     public Elements(Class<T> classType) {
         this.classType = classType != null ? classType : (Class<T>) Button.class;
         elements = new MapArray<>();
         values = new ArrayList<>();
         setUseCache(true);
     }
+
+    /**
+     * Refreshes Elements
+     */
     public void refresh() {
         elements.clear();
         values.clear();
     }
+
+    /**
+     * Gets Elements
+     * @return WebElements
+     */
     private List<WebElement> getWebElements() {
         return getElements();
     }
+
+    /**
+     * Gets values
+     * @return values
+     */
     public List<T> values() {
         if (isUseCache()) {
             if (!values.isEmpty())
@@ -55,6 +77,11 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
         } else values.clear();
         return values = LinqUtils.select(getWebElements(), this::initElement);
     }
+
+    /**
+     * Returns all elements
+     * @return elements
+     */
     public MapArray<String, T> getAll() {
         if (isUseCache())
             if (!elements.isEmpty())
@@ -68,11 +95,21 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
                 LinqUtils.select(getWebElements(), this::elementTitle),
                 values);
     }
+
+    /**
+     * Checks if Elements is empty
+     * @return true if empty, otherwise false
+     */
     @Override
     public boolean isEmpty() {
         return getWebElements().size() == 0;
     }
 
+    /**
+     * Returns element's title
+     * @param el element
+     * @return title
+     */
     private String elementTitle(WebElement el) {
         if (titleFieldName == null)
             identifyTitleField();
@@ -80,6 +117,13 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
                 ? el.getText()
                 : getElementTitle(el, titleFieldName);
     }
+
+    /**
+     * Gets element's title
+     * @param el element
+     * @param titleField title field
+     * @return title
+     */
     private String getElementTitle(WebElement el, String titleField) {
         T element = initElement(el);
         Field field = null;
@@ -88,6 +132,11 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
         return ((IText) getValueField(field, element)).getText();
     }
 
+    /**
+     * Initializes element
+     * @param el element
+     * @return type
+     */
     private T initElement(WebElement el) {
         try {
             T element = classType.newInstance();
@@ -100,18 +149,46 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
         }
     }
 
+    /**
+     * Converts Elements to List
+     * @param entityClass entity class
+     * @param <E> type
+     * @return
+     */
     public <E> List<E> asData(Class<E> entityClass) {
         return map((k, v) -> v.asEntity(entityClass));
     }
+
+    /**
+     * Checks if element is text element
+     * @param field field
+     * @return true if element is text element, otherwise false
+     */
     private boolean isTextElement(Field field) {
         return field.getType().equals(Text.class) || field.getType().equals(IText.class);
     }
+
+    /**
+     * Checks if element is label element
+     * @param field field
+     * @return true if element is label element, otherwise false
+     */
     private boolean isLabelElement(Field field) {
         return field.getType().equals(Label.class) || field.getType().equals(ILabel.class);
     }
+
+    /**
+     * Gets element by name
+     * @param name name
+     * @return element
+     */
     public T get(String name) {
         return getAll().get(name);
     }
+
+    /**
+     * Identifies title field
+     */
     private void identifyTitleField() {
         Field[] fields = classType.getFields();
 
@@ -129,6 +206,11 @@ public class Elements<T extends BaseElement> extends BaseElement implements ILis
             : NO_TITLE_FIELD;
     }
 
+    /**
+     * Gets enum value by name
+     * @param name name
+     * @return value
+     */
     public T get(Enum name) {
         return get(getEnumValue(name));
     }

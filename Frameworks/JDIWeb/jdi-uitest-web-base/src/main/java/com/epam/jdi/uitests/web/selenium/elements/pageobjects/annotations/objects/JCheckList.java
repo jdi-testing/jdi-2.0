@@ -15,6 +15,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface JCheckList {
+    /**
+     * Returns value
+     * @return value
+     */
     FindBy value() default @FindBy();
+
+    /**
+     * Returns isSelected
+     * @return isSelected
+     */
     FindBy isSelected() default @FindBy();
 }

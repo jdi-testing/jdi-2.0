@@ -18,8 +18,15 @@ import static com.epam.jdi.uitests.web.selenium.elements.base.LinkedSetup.setUpL
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.WebAnnotationsUtil.findByToBy;
 import static com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.FillFromAnnotationRules.fieldHasAnnotation;
 
+/**
+ * Pagination complex element
+ */
 public class Pagination extends Element implements IPagination, ISetup {
 
+    /**
+     * Sets up element
+     * @param field field
+     */
     public void setup(Field field) {
         if (!fieldHasAnnotation(field, JPagination.class, IDropDown.class))
             return;

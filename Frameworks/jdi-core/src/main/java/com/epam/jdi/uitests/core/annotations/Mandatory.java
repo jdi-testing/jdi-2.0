@@ -5,11 +5,12 @@ package com.epam.jdi.uitests.core.annotations;
  * Email: roman.iovlev.jdi@gmail.com; Skype: roman.iovlev
  */
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
+/**
+ * Annotation {@code @Mandatory} is used in forms in order to indicate that field is mandatory for filling
+ */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 public @interface Mandatory {
