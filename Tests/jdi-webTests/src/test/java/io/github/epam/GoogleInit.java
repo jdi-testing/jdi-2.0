@@ -9,6 +9,7 @@ import static com.epam.jdi.uitests.core.logger.LogLevels.INFO;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
 
 public class GoogleInit extends TestNGBase {
+
     @BeforeSuite(alwaysRun = true)
     public static void setUp() {
         logger.setLogLevel(INFO);

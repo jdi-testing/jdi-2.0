@@ -7,6 +7,7 @@ import static io.github.epam.entities.Users.DEFAULT_USER;
  * Created by Roman_Iovlev on 3/1/2018.
  */
 public class Preconditions {
+
     public static void loggedIn() {
         if (!header.piterChailovskii.displayedNow()) {
             header.userIcon.click();
