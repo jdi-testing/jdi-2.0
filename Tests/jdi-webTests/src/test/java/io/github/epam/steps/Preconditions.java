@@ -5,6 +5,8 @@ import static io.github.epam.entities.Users.DEFAULT_USER;
 
 /**
  * Created by Roman_Iovlev on 3/1/2018.
+ * <p>
+ * Preconditions steps
  */
 public class Preconditions {
 

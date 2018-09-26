@@ -13,7 +13,9 @@ import static io.github.epam.enums.Vegetables.Onion;
 import static io.github.epam.enums.Vegetables.Tomato;
 import static io.github.epam.steps.Preconditions.loggedIn;
 
-
+/**
+ * Tests epam.github complex elements
+ */
 public class ComplexElementsTests extends SimpleTestsInit {
 
     @BeforeMethod

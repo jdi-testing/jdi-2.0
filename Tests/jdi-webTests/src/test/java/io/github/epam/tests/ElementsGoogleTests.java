@@ -12,6 +12,8 @@ import static com.google.GoogleSite.searchPage;
 
 /**
  * Created by Roman_Iovlev on 3/2/2018.
+ * <p>
+ * Tests google's basic elements
  */
 public class ElementsGoogleTests extends GoogleInit {
 

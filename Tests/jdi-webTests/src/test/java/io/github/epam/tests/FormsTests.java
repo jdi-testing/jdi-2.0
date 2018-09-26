@@ -10,6 +10,9 @@ import static io.github.epam.entities.Users.USER_WITH_CONTACTS;
 import static io.github.epam.steps.Preconditions.loggedIn;
 import static io.github.epam.steps.Preconditions.loggedOut;
 
+/**
+ * Tests epam.github forms
+ */
 public class FormsTests extends SimpleTestsInit {
 
     @Test
