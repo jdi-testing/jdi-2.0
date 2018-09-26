@@ -39,7 +39,7 @@ public class ChecklistTests extends InitTests {
     private  CheckListOfTypeOne natureExtended() {return metalsColorsPage.natureExtended; }
 
     @BeforeMethod
-    public void before(Method method) throws IOException {
+    public void before(Method method) {
         isInState(METALS_AND_COLORS_PAGE);
     }
 
