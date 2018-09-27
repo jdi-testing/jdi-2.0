@@ -19,7 +19,7 @@ import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.log
 public class InitTests extends TestNGBase {
 
     @BeforeSuite(alwaysRun = true)
-    public static void setUp() throws Exception {
+    public static void setUp() {
         WebSite.init(EpamJDISite.class);
         homePage.open();
         login.submit(User.DEFAULT);

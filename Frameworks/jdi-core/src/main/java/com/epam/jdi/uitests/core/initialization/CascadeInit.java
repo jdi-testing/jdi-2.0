@@ -168,7 +168,7 @@ public abstract class CascadeInit {
                 return (IBaseElement) getClassFromInterface(IList.class, field.getName())
                         .getDeclaredConstructor(Class.class).newInstance(elementClass);
             }
-            return (IBaseElement) elementClass.getConstructor().newInstance();
+            return (IBaseElement) elementClass.getConstructor(Class.class).newInstance(elementClass);
         } catch (Exception ex) { throw exception("Can't init List element for %s. Exception: %s", field.getName(), ex.getMessage()); }
     }
 

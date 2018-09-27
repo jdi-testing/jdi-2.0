@@ -12,10 +12,6 @@ import com.epam.jdi.uitests.core.interfaces.common.IText;
 
 import java.util.List;
 
-import static com.epam.jdi.tools.LinqUtils.map;
-import static com.epam.jdi.uitests.core.actions.base.ElementActions.getElements;
-import static com.epam.jdi.uitests.core.logger.LogLevels.DEBUG;
-
 public interface ITextList extends IList<IText>, IBaseElement {
 
     /**

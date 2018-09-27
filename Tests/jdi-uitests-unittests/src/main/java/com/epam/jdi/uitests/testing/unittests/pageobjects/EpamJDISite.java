@@ -3,7 +3,7 @@ package com.epam.jdi.uitests.testing.unittests.pageobjects;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.pages.*;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.Footer;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.Header;
-import com.epam.jdi.uitests.web.selenium.elements.complex.TextList;
+import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.LogsPanel;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JPage;
@@ -40,9 +40,5 @@ public class EpamJDISite extends WebSite {
     @FindBy(css = ".footer-content")
     public static Footer footer;
 
-    @FindBy(css = ".logs li")
-    public static TextList actionsLog;
-
-    @FindBy(css = ".results")
-    public static TextList resultsLog;
+    public static LogsPanel logsPanel;
 }
