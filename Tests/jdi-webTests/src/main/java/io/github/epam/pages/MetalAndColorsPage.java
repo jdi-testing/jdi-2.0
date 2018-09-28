@@ -11,6 +11,7 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.object
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JDropdown;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.XPath;
+
 import io.github.epam.enums.ColorsList;
 import io.github.epam.enums.Metals;
 import io.github.epam.enums.Vegetables;

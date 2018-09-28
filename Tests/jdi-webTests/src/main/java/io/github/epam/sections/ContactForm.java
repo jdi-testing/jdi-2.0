@@ -12,8 +12,12 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JDropList;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.XPath;
+
 import io.github.epam.entities.User;
 
+/**
+ * Contact form section extends form composite element
+ */
 public class ContactForm extends Form<User> {
 	@Css("select[ui=dropdown]") public Dropdown gender;
 	@Css("div[ui=combobox] input") public ComboBox religion;

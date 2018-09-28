@@ -5,8 +5,12 @@ import com.epam.jdi.uitests.web.selenium.elements.common.TextField;
 import com.epam.jdi.uitests.web.selenium.elements.composite.Form;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.XPath;
+
 import io.github.epam.entities.User;
 
+/**
+ * Login form section extends form composite element
+ */
 public class LoginForm extends Form<User> {
 	@XPath(".//button[@type='submit']") public Button enter;
 	@Css("input[type=text]") public TextField name;
