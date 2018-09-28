@@ -22,24 +22,27 @@ import static com.epam.jdi.tools.LinqUtils.foreach;
 import static com.epam.jdi.tools.ReflectionUtils.*;
 import static com.epam.jdi.tools.StringUtils.LINE_BREAK;
 import static com.epam.jdi.tools.TryCatchUtil.tryGetResult;
-import static com.epam.jdi.tools.switcher.SwitchActions.Else;
-import static com.epam.jdi.tools.switcher.SwitchActions.Switch;
+import static com.epam.jdi.tools.switcher.SwitchActions.*;
 import static com.epam.jdi.uitests.core.initialization.MapInterfaceToElement.getClassFromInterface;
 import static com.epam.jdi.uitests.core.settings.JDISettings.exception;
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
 
+/**
+ * Class represents cascade initialization for app described as pageObj model,
+ * with pages and all elements on the pages up to 5 level.
+ */
 public abstract class CascadeInit {
     protected Class<?>[] decorators() {
         return new Class<?>[]{IBaseElement.class, List.class};
     }
 
     /**
-     * Init non static fields
+     * Initializes non static fields
      *
-     * @param parent
-     * @param driverName
+     * @param parent     parent of fields to be initialized.
+     * @param driverName driver name
      */
     public synchronized void initElements(Object parent, String driverName) {
         setFieldsForInit(parent, getFields(parent, decorators(), stopTypes()), parent.getClass(), driverName);
@@ -54,10 +57,10 @@ public abstract class CascadeInit {
     protected abstract void fillPageFromAnnotation(Field field, IBaseElement instance, Class<?> parentType);
 
     /**
-     * Get instance page
+     * Initializes static pages
      *
-     * @param parentType
-     * @param driverName
+     * @param parentType parent type (site)
+     * @param driverName driver name
      */
     public synchronized void initStaticPages(Class<?> parentType, String driverName) {
         setFieldsForInit(null,
@@ -68,10 +71,10 @@ public abstract class CascadeInit {
     /**
      * Set fields for init
      *
-     * @param parent
-     * @param fields
-     * @param parentType
-     * @param driverName
+     * @param parent     parent of fields
+     * @param fields     fields to init
+     * @param parentType type of parent
+     * @param driverName driver name
      */
     private void setFieldsForInit(Object parent, List<Field> fields, Class<?> parentType, String driverName) {
         foreach(fields, field -> setElement(parent, parentType, field, driverName));
@@ -80,8 +83,8 @@ public abstract class CascadeInit {
     /**
      * Init site as instance
      *
-     * @param site
-     * @param driverName
+     * @param site       site obj to be initialized
+     * @param driverName driver name
      */
     public synchronized <T> T initPages(Class<T> site, String driverName) {
         T instance = tryGetResult(site::newInstance);
@@ -91,10 +94,10 @@ public abstract class CascadeInit {
 
     /**
      * Set field for init
-     * @param parent
-     * @param parentType
-     * @param field
-     * @param driverName
+     *
+     * @param parent     parent of field
+     * @param field      field to init
+     * @param driverName driver name
      */
     private void setElement(Object parent, Class<?> parentType, Field field, String driverName) {
         try {
@@ -117,10 +120,11 @@ public abstract class CascadeInit {
 
     /**
      * Get instance page
-     * @param parent
-     * @param field
-     * @param type
-     * @param parentType
+     *
+     * @param parent     parent of field
+     * @param field      field to init
+     * @param type       type of field
+     * @param parentType parent type
      * @return IBaseElement
      */
     private IBaseElement getInstancePage(Object parent, Field field, Class<?> type, Class<?> parentType) throws IllegalAccessException, InstantiationException {
@@ -133,11 +137,12 @@ public abstract class CascadeInit {
 
     /**
      * Get instance element
-     * @param parent
-     * @param type
-     * @param parentType
-     * @param field
-     * @param driverName
+     *
+     * @param parent     parent of field
+     * @param type       type of field to init
+     * @param parentType parent type
+     * @param field      field to init
+     * @param driverName driver name
      * @return IBaseElement
      */
     private IBaseElement getInstanceElement(Object parent, Class<?> type, Class<?> parentType, Field field, String driverName) {
@@ -146,10 +151,11 @@ public abstract class CascadeInit {
 
     /**
      * Apply specific action
-     * @param instance
-     * @param field
-     * @param parent
-     * @param type
+     *
+     * @param instance instance of element to apply action
+     * @param field    field
+     * @param parent   parent object
+     * @param type     type of field
      * @return IBaseElement
      */
     protected IBaseElement specificAction(IBaseElement instance, Field field, Object parent, Class<?> type) {
@@ -158,8 +164,9 @@ public abstract class CascadeInit {
 
     /**
      * Fill from JDI annotation
-     * @param instance
-     * @param field
+     *
+     * @param instance instance of element
+     * @param field    field
      * @return IBaseElement
      */
     protected IBaseElement fillFromJDIAnnotation(IBaseElement instance, Field field) {
@@ -168,11 +175,12 @@ public abstract class CascadeInit {
 
     /**
      * Create child from static field
-     * @param parent
-     * @param parentClass
-     * @param field
-     * @param type
-     * @param driverName
+     *
+     * @param parent      parent of field
+     * @param parentClass parent class
+     * @param field       field to create child
+     * @param type        type of field
+     * @param driverName  driver name
      * @return IBaseElement
      */
     private IBaseElement createChildFromFieldStatic(Object parent, Class<?> parentClass, Field field, Class<?> type, String driverName) {
@@ -196,9 +204,10 @@ public abstract class CascadeInit {
 
     /**
      * Get element instance
-     * @param field
-     * @param driverName
-     * @param parent
+     *
+     * @param field      field
+     * @param driverName driver name
+     * @param parent     parent obj
      * @return IBaseElement
      */
     private IBaseElement getElementInstance(Field field, String driverName, Object parent) {
@@ -215,7 +224,8 @@ public abstract class CascadeInit {
 
     /**
      * Get new locator
-     * @param field
+     *
+     * @param field field to get locator
      */
     protected <T> T getNewLocator(Field field) {
         try {
@@ -228,25 +238,27 @@ public abstract class CascadeInit {
 
     /**
      * Get element rules
-     * @param field
-     * @param driverName
-     * @param type
+     *
+     * @param field      field to get rules
+     * @param driverName driver name
+     * @param type       type of field
      * @return IBaseElement
      */
     protected IBaseElement getElementsRules(Field field, String driverName, Class<?> type) {
         IBaseElement instance = Switch(type).get(
-            Case(t -> isInterface(type, IEntityTable.class),
-                t -> initEntityTable(field)),
-            Case(t -> isInterface(type, List.class),
-                t -> initList(field)),
-            Else(t -> initElement(t, field)));
+                Case(t -> isInterface(type, IEntityTable.class),
+                        t -> initEntityTable(field)),
+                Case(t -> isInterface(type, List.class),
+                        t -> initList(field)),
+                Else(t -> initElement(t, field)));
         instance.engine().setDriverName(driverName);
         return instance;
     }
 
     /**
      * Init entity table
-     * @param field
+     *
+     * @param field field to init table for
      * @return IBaseElement
      */
     private IBaseElement initEntityTable(Field field) {
@@ -262,8 +274,9 @@ public abstract class CascadeInit {
 
     /**
      * Init element
-     * @param type
-     * @param field
+     *
+     * @param type  type to init element
+     * @param field field to init element for
      * @return IBaseElement
      */
     private IBaseElement initElement(Class<?> type, Field field) {
@@ -277,7 +290,8 @@ public abstract class CascadeInit {
 
     /**
      * Init list
-     * @param field
+     *
+     * @param field field to init list for
      * @return IBaseElement
      */
     private IBaseElement initList(Field field) {
@@ -294,8 +308,9 @@ public abstract class CascadeInit {
 
     /**
      * Fill from annotation
-     * @param instance
-     * @param field
+     *
+     * @param instance  instance to setup field
+     * @param field     field to fill
      */
     protected static void fillFromAnnotation(IBaseElement instance, Field field) {
         try {
