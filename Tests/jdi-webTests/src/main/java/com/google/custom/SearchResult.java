@@ -21,7 +21,7 @@ public class SearchResult extends Section {
 
     /**
      * Prints search results info
-     * @return
+     * @return String formatted search result
      */
     public String print() {
         return logger.logOff(() -> "SearchResult{" +
