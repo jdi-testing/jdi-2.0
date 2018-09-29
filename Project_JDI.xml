@@ -1,0 +1,11 @@
+<code_scheme name="Project_JDI" version="173">
+    <JavaCodeStyleSettings>
+        <option name="JD_DO_NOT_WRAP_ONE_LINE_COMMENTS" value="true" />
+    </JavaCodeStyleSettings>
+    <codeStyleSettings language="JAVA">
+        <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
+        <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="true" />
+        <option name="KEEP_SIMPLE_LAMBDAS_IN_ONE_LINE" value="true" />
+        <option name="KEEP_SIMPLE_CLASSES_IN_ONE_LINE" value="true" />
+    </codeStyleSettings>
+</code_scheme>
