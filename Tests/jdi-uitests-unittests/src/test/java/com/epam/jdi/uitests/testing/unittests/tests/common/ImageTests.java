@@ -2,6 +2,7 @@ package com.epam.jdi.uitests.testing.unittests.tests.common;
 
 import com.epam.jdi.uitests.core.interfaces.common.IImage;
 import com.epam.jdi.uitests.testing.unittests.InitTests;
+import com.epam.jdi.uitests.testing.unittests.enums.Navigation;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite;
 import com.epam.jdi.uitests.web.selenium.elements.common.Image;
 import org.testng.annotations.BeforeMethod;
@@ -29,10 +30,10 @@ public class ImageTests extends InitTests {
     }
 
     @Test
-    public void clickTest() throws InterruptedException {
-        EpamJDISite.contactFormPage.open();
+    public void clickTest() {
+        EpamJDISite.navigation.select(Navigation.ContactForm);
         clickableItem().click();
-        EpamJDISite.homePage.checkOpened();
+        homePage.checkOpened();
     }
 
     @Test
