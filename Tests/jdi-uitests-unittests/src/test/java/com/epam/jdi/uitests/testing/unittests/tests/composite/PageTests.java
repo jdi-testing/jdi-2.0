@@ -1,6 +1,8 @@
 package com.epam.jdi.uitests.testing.unittests.tests.composite;
 
 import com.epam.jdi.uitests.testing.unittests.InitTests;
+import com.epam.jdi.uitests.testing.unittests.enums.Navigation;
+import com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite;
 import org.openqa.selenium.Cookie;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -36,7 +38,7 @@ public class PageTests extends InitTests {
 
     @Test
     public void backTest(){
-        homePage.open();
+        EpamJDISite.navigation.select(Navigation.Home);
         homePage.checkOpened();
         homePage.back();
         contactFormPage.checkOpened();

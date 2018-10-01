@@ -14,6 +14,7 @@ public class JdiSearch extends Search {
     @FindBy(css = ".search-field input")
     public ITextField searchInput;
     //It does not work for now
+    //TODO 1/10/2018 still not working
     @FindBy(xpath = "//span[@class='icon-search active']")
     public IButton searchButton;
 

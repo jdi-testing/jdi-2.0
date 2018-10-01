@@ -21,6 +21,7 @@ public class SearchTests extends InitTests {
 
     //@Test
     public void fillTest() {
+        //TODO 1/10/2018 still not implemented
         header.jdiSearch.find("Jenkins, Allure, Custom");
         supportPage.checkOpened();
     }
