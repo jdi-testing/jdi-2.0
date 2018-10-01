@@ -21,7 +21,7 @@ public class InitTests extends TestNGBase {
     @BeforeSuite(alwaysRun = true)
     public static void setUp() throws Exception {
         WebSite.init(EpamJDISite.class);
-        homePage.open();
+        EpamJDISite.open();
         login.submit(User.DEFAULT);
         Verify.getFails();
         logger.info("Run Tests");
