@@ -74,7 +74,7 @@ public class ChecklistTests extends InitTests {
     public void select2StringTest() {
         nature().select("Water", "Fire");
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1), "Water: condition changed to true");
 
     }
 
@@ -82,14 +82,14 @@ public class ChecklistTests extends InitTests {
     public void select2IndexTest() {
         nature().select(1, 4);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1), "Water: condition changed to true");
     }
 
     @Test
     public void select2EnumTest() {
         nature().select(WATER, FIRE);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1), "Water: condition changed to true");
     }
 
     @Test
@@ -114,7 +114,7 @@ public class ChecklistTests extends InitTests {
     public void check2StringTest() {
         nature().check("Water", "Fire");
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1), "Water: condition changed to true");
 
     }
 
@@ -122,20 +122,20 @@ public class ChecklistTests extends InitTests {
     public void check2IndexTest() {
         nature().check(1, 4);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1), "Water: condition changed to true");
     }
 
     @Test
     public void check2EnumTest() {
         nature().check(WATER, FIRE);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1), "Water: condition changed to true");
     }
 
     @Test
     public void selectAllTest() {
         nature().selectAll();
-        List<String> log = actionsLog.asText();
+        List<String> log = actionsLog.values();
         assertContains(log.get(3), "Water: condition changed to true");
         assertContains(log.get(2), "Earth: condition changed to true");
         assertContains(log.get(1), "Wind: condition changed to true");
@@ -146,7 +146,7 @@ public class ChecklistTests extends InitTests {
     @Test
     public void checkAllTest() {
         nature().checkAll();
-        List<String> log = actionsLog.asText();
+        List<String> log = actionsLog.values();
         assertContains(log.get(3), "Water: condition changed to true");
         assertContains(log.get(2), "Earth: condition changed to true");
         assertContains(log.get(1), "Wind: condition changed to true");

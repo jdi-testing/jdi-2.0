@@ -29,10 +29,10 @@ public class _SimpleTests extends InitTests {
         metalsColorsPage.summary.odds.select("5");
         metalsColorsPage.summary.even.select(Even.FOUR);
         metalsColorsPage.calculateButton.click();
-        assertContains(() -> resultsLog.firstText(), "Summary: 9");
+        assertContains(resultsLog::first, "Summary: 9");
         metalsColorsPage.colors.select(ColorsList.Blue);
         metalsColorsPage.nature.select(Nature.FIRE, Nature.EARTH);
-        assertContains(actionsLog::firstText, "Earth: condition changed to true");
+        assertContains(actionsLog::first, "Earth: condition changed to true");
     }
 
 }
