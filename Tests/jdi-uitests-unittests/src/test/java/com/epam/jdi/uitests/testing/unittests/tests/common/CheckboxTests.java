@@ -1,5 +1,6 @@
 package com.epam.jdi.uitests.testing.unittests.tests.common;
 
+import com.epam.jdi.uitests.core.actions.common.CheckboxActions;
 import com.epam.jdi.uitests.testing.unittests.InitTests;
 import com.epam.jdi.uitests.testing.unittests.tests.common.dataProviders.CheckBoxDP;
 import com.epam.jdi.uitests.web.selenium.elements.common.CheckBox;
@@ -19,38 +20,41 @@ import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActions
  * Created by Dmitry_Lebedev1 on 15/12/2015.
  */
 public class CheckboxTests extends InitTests {
+    //TODO 1/10/2018 failed: executor cannot reach @Override public boolean isChecked() in metalsColorsPage.cbWater
 
-    public CheckBox checkBox() {
+    private CheckBox checkBox() {
         return metalsColorsPage.cbWater;
     }
 
     @BeforeMethod
-    public void before(final Method method) throws IOException {
+    public void before(final Method method) {
         isInState(METALS_AND_COLORS_PAGE, method);
     }
 
     @Test
-    public void checkSingleTest() throws InterruptedException {
+    public void checkSingleTest() {
         checkBox().check();
         checkAction("Water: condition changed to true");
     }
 
     @Test
-    public void uncheckSingleTest() throws InterruptedException {
+    public void uncheckSingleTest() {
+        //TODO 1/10/2018 failed because of non-implemented ITextList
         checkBox().click();
         checkBox().uncheck();
         checkAction("");
     }
 
     @Test
-    public void isCheckTest() throws Exception {
+    public void isCheckTest() {
         Assert.isFalse(checkBox().isChecked());
         checkBox().click();
         Assert.isTrue(checkBox().isChecked());
     }
 
     @Test
-    public void multiUncheckTest() throws Exception {
+    public void multiUncheckTest() {
+        //TODO 1/10/2018 failed because of non-implemented ITextList
         checkBox().click();
         checkBox().uncheck();
         checkBox().uncheck();
@@ -58,14 +62,16 @@ public class CheckboxTests extends InitTests {
     }
 
     @Test
-    public void multiCheckTest() throws Exception {
+    public void multiCheckTest() {
+        //TODO 1/10/2018 failed because of non-implemented ITextList
         checkBox().check();
         checkBox().check();
         checkAction("Water: condition changed to true");
     }
 
     @Test
-    public void clickTest() throws Exception {
+    public void clickTest() {
+        //TODO 1/10/2018 failed because of non-implemented ITextList
         checkBox().click();
         checkAction("Water: condition changed to true");
         checkBox().click();
