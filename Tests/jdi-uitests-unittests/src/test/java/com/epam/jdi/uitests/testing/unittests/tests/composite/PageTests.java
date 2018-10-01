@@ -1,8 +1,6 @@
 package com.epam.jdi.uitests.testing.unittests.tests.composite;
 
 import com.epam.jdi.uitests.testing.unittests.InitTests;
-import com.epam.jdi.uitests.testing.unittests.enums.Navigation;
-import com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite;
 import org.openqa.selenium.Cookie;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -11,9 +9,9 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInState;
+import static com.epam.jdi.uitests.testing.unittests.enums.Navigation.Home;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.CONTACT_PAGE;
-import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.contactFormPage;
-import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.homePage;
+import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.*;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverFactory.getDriver;
 import static com.epam.matcher.testng.Assert.*;
 
@@ -38,7 +36,7 @@ public class PageTests extends InitTests {
 
     @Test
     public void backTest(){
-        EpamJDISite.navigation.select(Navigation.Home);
+        navigation.select(Home);
         homePage.checkOpened();
         homePage.back();
         contactFormPage.checkOpened();

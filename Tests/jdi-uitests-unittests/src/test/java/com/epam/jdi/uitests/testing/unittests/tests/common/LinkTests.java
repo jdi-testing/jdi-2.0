@@ -13,6 +13,7 @@ import java.net.URL;
 
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInState;
 import static com.epam.jdi.uitests.core.settings.JDISettings.logger;
+import static com.epam.jdi.uitests.testing.unittests.enums.Navigation.Home;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.SUPPORT_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.*;
@@ -66,16 +67,16 @@ public class LinkTests extends InitTests {
     @Test
     public void waitReferenceTest() {
         isInState(SUPPORT_PAGE);
-        runParallel(homePage::open);
+        runParallel(() -> navigation.select(Home));
         areEquals(link().wait(() -> link().getReference(),
-            ref -> ref.contains("page3.html")), supportPage.url);
+            ref -> ref.contains("support.html")), supportPage.url);
         isTrue(CommonActionsData.timer.timePassedInMSec() > waitTimeOut);
     }
 
     @Test
     public void waitMatchReferenceTest() {
         isInState(SUPPORT_PAGE);
-        runParallel(homePage::open);
+        runParallel(() -> navigation.select(Home));
         areEquals(link().wait(() -> link().getReference(),
                 ref -> ref.matches(".*html")), supportPage.url);
         isTrue(CommonActionsData.timer.timePassedInMSec() > waitTimeOut);

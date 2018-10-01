@@ -2,8 +2,6 @@ package com.epam.jdi.uitests.testing.unittests.tests.common;
 
 import com.epam.jdi.uitests.core.interfaces.common.IImage;
 import com.epam.jdi.uitests.testing.unittests.InitTests;
-import com.epam.jdi.uitests.testing.unittests.enums.Navigation;
-import com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite;
 import com.epam.jdi.uitests.web.selenium.elements.common.Image;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -11,8 +9,10 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInState;
+import static com.epam.jdi.uitests.testing.unittests.enums.Navigation.ContactForm;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.HOME_PAGE;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.homePage;
+import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.navigation;
 import static com.epam.jdi.uitests.testing.unittests.tests.complex.CommonActionsData.checkText;
 
 /**
@@ -31,7 +31,7 @@ public class ImageTests extends InitTests {
 
     @Test
     public void clickTest() {
-        EpamJDISite.navigation.select(Navigation.ContactForm);
+        navigation.select(ContactForm);
         clickableItem().click();
         homePage.checkOpened();
     }
