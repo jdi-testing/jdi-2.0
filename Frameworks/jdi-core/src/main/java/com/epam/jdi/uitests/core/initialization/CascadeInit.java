@@ -64,8 +64,8 @@ public abstract class CascadeInit {
      */
     public synchronized void initStaticPages(Class<?> parentType, String driverName) {
         setFieldsForInit(null,
-            getFields(asList(parentType.getDeclaredFields()), decorators(), f -> isStatic(f.getModifiers())),
-            parentType, driverName);
+                getFields(asList(parentType.getDeclaredFields()), decorators(), f -> isStatic(f.getModifiers())),
+                parentType, driverName);
     }
 
     /**
@@ -103,8 +103,8 @@ public abstract class CascadeInit {
         try {
             Class<?> type = field.getType();
             IBaseElement instance = isInterface(type, IPage.class)
-                ? getInstancePage(parent, field, type, parentType)
-                : getInstanceElement(parent, type, parentType, field, driverName);
+                    ? getInstancePage(parent, field, type, parentType)
+                    : getInstanceElement(parent, type, parentType, field, driverName);
             instance.setName(field);
             if (parent != null)
                 instance.setDriverName(driverName);
@@ -114,7 +114,7 @@ public abstract class CascadeInit {
                 initElements(instance, driverName);
         } catch (Exception ex) {
             throw exception("Error in setElement for field '%s' with parent '%s'", field.getName(),
-                parentType == null ? "NULL Class" : parentType.getSimpleName() + LINE_BREAK + ex.getMessage());
+                    parentType == null ? "NULL Class" : parentType.getSimpleName() + LINE_BREAK + ex.getMessage());
         }
     }
 
@@ -187,16 +187,16 @@ public abstract class CascadeInit {
         IBaseElement instance = (IBaseElement) getValueField(field, parent);
         try {
             instance = instance == null
-                ? getElementInstance(field, driverName, parent)
-                : fillInstance(instance, field);
+                    ? getElementInstance(field, driverName, parent)
+                    : fillInstance(instance, field);
         } catch (Exception ex) {
             throw exception(format("Can't create child for parent '%s' with type '%s'. Exception: %s",
-                parentClass.getSimpleName(), field.getType().getSimpleName(),
-                ex.getMessage()));
+                    parentClass.getSimpleName(), field.getType().getSimpleName(),
+                    ex.getMessage()));
         }
         instance.setParent(field.isAnnotationPresent(Root.class)
-            ? null
-            : parent);
+                ? null
+                : parent);
         instance = fillFromJDIAnnotation(instance, field);
         instance = specificAction(instance, field, parent, type);
         return instance;
@@ -216,9 +216,9 @@ public abstract class CascadeInit {
             return getElementsRules(field, driverName, type);
         } catch (Exception ex) {
             throw exception("Error in getElementInstance for field '%s'%s with type '%s'",
-                field.getName(),
-                parent != null ? "in " + parent.getClass().getSimpleName() : "",
-                type.getSimpleName() + LINE_BREAK + ex.getMessage());
+                    field.getName(),
+                    parent != null ? "in " + parent.getClass().getSimpleName() : "",
+                    type.getSimpleName() + LINE_BREAK + ex.getMessage());
         }
     }
 
@@ -232,7 +232,7 @@ public abstract class CascadeInit {
             return getNewLocatorFromField(field);
         } catch (Exception ex) {
             throw exception("Error in get locator for type '%s'", field.getType().getName()
-                + LINE_BREAK + ex.getMessage());
+                    + LINE_BREAK + ex.getMessage());
         }
     }
 
@@ -246,11 +246,11 @@ public abstract class CascadeInit {
      */
     protected IBaseElement getElementsRules(Field field, String driverName, Class<?> type) {
         IBaseElement instance = Switch(type).get(
-            Case(t -> isInterface(type, IEntityTable.class),
-                t -> initEntityTable(field)),
-            Case(t -> isInterface(type, List.class),
-                t -> initList(field)),
-            Else(t -> initElement(t, field)));
+                Case(t -> isInterface(type, IEntityTable.class),
+                        t -> initEntityTable(field)),
+                Case(t -> isInterface(type, List.class),
+                        t -> initList(field)),
+                Else(t -> initElement(t, field)));
         instance.engine().setDriverName(driverName);
         return instance;
     }
@@ -262,13 +262,11 @@ public abstract class CascadeInit {
      * @return IBaseElement
      */
     private IBaseElement initEntityTable(Field field) {
-        Field[] fields = field.getType().getDeclaredFields();
-        Class firstArg = fields[1].getGenericType().getClass();
-        Class secondArg = fields[2].getGenericType().getClass();
+        Type[] types = ((ParameterizedType) field.getGenericType())
+                .getActualTypeArguments();
         try {
             return (IBaseElement) getClassFromInterface(IEntityTable.class, field.getName())
-                .getDeclaredConstructor(Class.class, Class.class)
-                .newInstance(firstArg, secondArg);
+                    .getDeclaredConstructor(Class.class, Class.class).newInstance(types[0], types[1]);
         } catch (Exception ex) {
             throw exception("Can't init EntityTable for %s. Exception: %s", field.getName(), ex.getMessage());
         }
@@ -298,13 +296,11 @@ public abstract class CascadeInit {
      */
     private IBaseElement initList(Field field) {
         try {
-            Class<?> elementClass = field.getType();
-            if (elementClass.isInterface()) {
+            Class<?> elementClass = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+            if (elementClass.isInterface())
                 elementClass = getClassFromInterface(elementClass, field.getName());
-                return (IBaseElement) getClassFromInterface(IList.class, field.getName())
+            return (IBaseElement) getClassFromInterface(IList.class, field.getName())
                     .getDeclaredConstructor(Class.class).newInstance(elementClass);
-            }
-            return (IBaseElement) elementClass.getConstructor(Class.class).newInstance(elementClass);
         } catch (Exception ex) {
             throw exception("Can't init List element for %s. Exception: %s", field.getName(), ex.getMessage());
         }
@@ -313,8 +309,8 @@ public abstract class CascadeInit {
     /**
      * Fill from annotation
      *
-     * @param instance instance to setup field
-     * @param field    field to fill
+     * @param instance  instance to setup field
+     * @param field     field to fill
      */
     protected static void fillFromAnnotation(IBaseElement instance, Field field) {
         try {

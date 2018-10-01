@@ -73,7 +73,7 @@ public class CommonActionsData {
     }
 
     public static void checkAction(String text) {
-        assertContains(() -> actionsLog.first().getText(), text);
+        assertContains(actionsLog::firstText, text);
     }
 
     public static void looseFocus() {

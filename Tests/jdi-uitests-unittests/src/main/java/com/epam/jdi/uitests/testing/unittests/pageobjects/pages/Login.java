@@ -11,7 +11,7 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy
  * Created by Maksim_Palchevskii on 9/9/2015.
  */
 public class Login extends Form<User> {
-    @FindBy(id = "Name")
+    @FindBy(id = "Login")
     private ITextField login;
     @FindBy(id = "Password")
     private ITextField password;
