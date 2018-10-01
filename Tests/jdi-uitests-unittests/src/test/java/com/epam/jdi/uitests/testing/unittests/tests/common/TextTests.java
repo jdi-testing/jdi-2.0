@@ -59,7 +59,7 @@ public class TextTests extends InitTests {
     }
 
     @Test
-    public void getValueTest() throws Exception {
+    public void getValueTest() {
         areEquals(textItem.get()::getValue, expectedText);
     }
 
@@ -78,11 +78,13 @@ public class TextTests extends InitTests {
 
     @Test
     public void waitText() {
+        //TODO failed
         areEquals(textItem.get().waitText(contains), expectedText);
     }
 
     @Test
     public void waitTextParallel() {
+        //TODO failed
         isInState(SUPPORT_PAGE);
         runParallel(page::open);
         areEquals(textItem.get().waitText(contains), expectedText);
