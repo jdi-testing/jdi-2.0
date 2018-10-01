@@ -4,6 +4,7 @@ import com.epam.jdi.uitests.core.interfaces.complex.ICheckList;
 import com.epam.jdi.uitests.testing.unittests.InitTests;
 import com.epam.jdi.uitests.testing.unittests.custom.CheckListOfTypeOne;
 import com.epam.jdi.uitests.testing.unittests.enums.Nature;
+import com.epam.jdi.uitests.web.selenium.elements.common.Text;
 import com.epam.matcher.testng.Assert;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
@@ -74,7 +75,7 @@ public class ChecklistTests extends InitTests {
     public void select2StringTest() {
         nature().select("Water", "Fire");
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1).getText(), "Water: condition changed to true");
 
     }
 
@@ -82,14 +83,14 @@ public class ChecklistTests extends InitTests {
     public void select2IndexTest() {
         nature().select(1, 4);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1).getText(), "Water: condition changed to true");
     }
 
     @Test
     public void select2EnumTest() {
         nature().select(WATER, FIRE);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1).getText(), "Water: condition changed to true");
     }
 
     @Test
@@ -114,7 +115,7 @@ public class ChecklistTests extends InitTests {
     public void check2StringTest() {
         nature().check("Water", "Fire");
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1).getText(), "Water: condition changed to true");
 
     }
 
@@ -122,35 +123,35 @@ public class ChecklistTests extends InitTests {
     public void check2IndexTest() {
         nature().check(1, 4);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1).getText(), "Water: condition changed to true");
     }
 
     @Test
     public void check2EnumTest() {
         nature().check(WATER, FIRE);
         checkAction("Fire: condition changed to true");
-        assertContains(() -> actionsLog.asText().get(1), "Water: condition changed to true");
+        assertContains(() -> actionsLog.values().get(1).getText(), "Water: condition changed to true");
     }
 
     @Test
     public void selectAllTest() {
         nature().selectAll();
-        List<String> log = actionsLog.asText();
-        assertContains(log.get(3), "Water: condition changed to true");
-        assertContains(log.get(2), "Earth: condition changed to true");
-        assertContains(log.get(1), "Wind: condition changed to true");
-        assertContains(log.get(0), "Fire: condition changed to true");
+        List<Text> log = actionsLog.values();
+        assertContains(log.get(3).getText(), "Water: condition changed to true");
+        assertContains(log.get(2).getText(), "Earth: condition changed to true");
+        assertContains(log.get(1).getText(), "Wind: condition changed to true");
+        assertContains(log.get(0).getText(), "Fire: condition changed to true");
         checkAllChecked();
     }
 
     @Test
     public void checkAllTest() {
         nature().checkAll();
-        List<String> log = actionsLog.asText();
-        assertContains(log.get(3), "Water: condition changed to true");
-        assertContains(log.get(2), "Earth: condition changed to true");
-        assertContains(log.get(1), "Wind: condition changed to true");
-        assertContains(log.get(0), "Fire: condition changed to true");
+        List<Text> log = actionsLog.values();
+        assertContains(log.get(3).getText(), "Water: condition changed to true");
+        assertContains(log.get(2).getText(), "Earth: condition changed to true");
+        assertContains(log.get(1).getText(), "Wind: condition changed to true");
+        assertContains(log.get(0).getText(), "Fire: condition changed to true");
         checkAllChecked();
     }
 

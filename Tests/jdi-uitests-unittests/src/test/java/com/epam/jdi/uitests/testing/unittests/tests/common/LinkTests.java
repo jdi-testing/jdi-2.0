@@ -68,7 +68,7 @@ public class LinkTests extends InitTests {
         isInState(SUPPORT_PAGE);
         runParallel(homePage::open);
         areEquals(link().wait(() -> link().getReference(),
-            ref -> ref.contains("page3.htm")), supportPage.url);
+            ref -> ref.contains("page3.html")), supportPage.url);
         isTrue(CommonActionsData.timer.timePassedInMSec() > waitTimeOut);
     }
 
@@ -77,7 +77,7 @@ public class LinkTests extends InitTests {
         isInState(SUPPORT_PAGE);
         runParallel(homePage::open);
         areEquals(link().wait(() -> link().getReference(),
-                ref -> ref.matches(".*htm")), supportPage.url);
+                ref -> ref.matches(".*html")), supportPage.url);
         isTrue(CommonActionsData.timer.timePassedInMSec() > waitTimeOut);
     }
 
