@@ -96,7 +96,7 @@ public class WebEngine implements IEngine {
 
     /**
      * Copies WebElement by locator
-     * @param locatorlocator
+     * @param locator
      * @return WebElement
      */
     // Copy

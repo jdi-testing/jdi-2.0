@@ -76,7 +76,7 @@ public class WebCascadeInit extends CascadeInit {
      * Fills Instance
      * @param instance instance
      * @param field field
-     * @return
+     * @return IBaseElement
      */
     protected IBaseElement fillInstance(IBaseElement instance, Field field) {
         BaseElement element = (BaseElement) instance;

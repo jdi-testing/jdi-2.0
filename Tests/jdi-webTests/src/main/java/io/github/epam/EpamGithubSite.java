@@ -5,6 +5,7 @@ import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JPage;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.simple.Css;
+
 import io.github.epam.enums.Navigation;
 import io.github.epam.pages.ContactFormPage;
 import io.github.epam.pages.HomePage;
@@ -15,6 +16,7 @@ import io.github.epam.sections.NavigationSidebar;
 
 @JSite("https://epam.github.io/JDI/")
 public class EpamGithubSite extends WebSite {
+
 	@JPage(url = "/metals-colors.html", title = "Metal and Colors")
 	public static MetalAndColorsPage metalAndColorsPage;
 	@JPage(url = "/contacts.html", title = "Contact Form")
