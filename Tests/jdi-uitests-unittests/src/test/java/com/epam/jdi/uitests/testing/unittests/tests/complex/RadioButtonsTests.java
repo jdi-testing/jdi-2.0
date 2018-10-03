@@ -30,7 +30,7 @@ public class RadioButtonsTests extends InitTests {
     }
 
     @BeforeMethod
-    public void before(Method method) throws IOException {
+    public void before(Method method) {
         isInState(METALS_AND_COLORS_PAGE, method);
     }
 
@@ -42,7 +42,7 @@ public class RadioButtonsTests extends InitTests {
 
     @Test
     public void selectIndexTest() {
-        odds().select(4);
+        odds().select(3);
         checkAction("Summary (Odd): value changed to 7");
     }
 
@@ -69,7 +69,7 @@ public class RadioButtonsTests extends InitTests {
 
     @Test
     public void getOptionsAsTextTest() {
-        areEquals(odds().getOptionsAsText(), "1, 3, 5, 7");
+        areEquals(odds().getOptionsAsText(), "1,3,5,7");
     }
 
     @Test

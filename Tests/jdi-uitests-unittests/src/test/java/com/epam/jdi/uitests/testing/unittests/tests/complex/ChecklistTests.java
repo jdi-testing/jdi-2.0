@@ -7,12 +7,14 @@ import com.epam.jdi.uitests.testing.unittests.enums.Nature;
 import com.epam.jdi.uitests.web.selenium.elements.common.Text;
 import com.epam.matcher.testng.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.epam.jdi.tools.LinqUtils.first;
 import static com.epam.jdi.tools.LinqUtils.listEquals;
@@ -138,22 +140,22 @@ public class ChecklistTests extends InitTests {
     @Test
     public void selectAllTest() {
         nature().selectAll();
-        List<Text> log = actionsLog.values();
-        assertContains(log.get(3).getText(), "Water: condition changed to true");
-        assertContains(log.get(2).getText(), "Earth: condition changed to true");
-        assertContains(log.get(1).getText(), "Wind: condition changed to true");
-        assertContains(log.get(0).getText(), "Fire: condition changed to true");
+        List<String> log = actionsLog.values().stream().map(WebElement::getText).collect(Collectors.toList());
+        assertContains(log.get(3), "Water: condition changed to true");
+        assertContains(log.get(2), "Earth: condition changed to true");
+        assertContains(log.get(1), "Wind: condition changed to true");
+        assertContains(log.get(0), "Fire: condition changed to true");
         checkAllChecked();
     }
 
     @Test
     public void checkAllTest() {
         nature().checkAll();
-        List<Text> log = actionsLog.values();
-        assertContains(log.get(3).getText(), "Water: condition changed to true");
-        assertContains(log.get(2).getText(), "Earth: condition changed to true");
-        assertContains(log.get(1).getText(), "Wind: condition changed to true");
-        assertContains(log.get(0).getText(), "Fire: condition changed to true");
+        List<String> log = actionsLog.values().stream().map(WebElement::getText).collect(Collectors.toList());
+        assertContains(log.get(3), "Water: condition changed to true");
+        assertContains(log.get(2), "Earth: condition changed to true");
+        assertContains(log.get(1), "Wind: condition changed to true");
+        assertContains(log.get(0), "Fire: condition changed to true");
         checkAllChecked();
     }
 

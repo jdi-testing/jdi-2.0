@@ -109,7 +109,7 @@ public abstract class WebActions {
             return new Button().setWebElement(element);
         };
         getClickableByIndex = (o, index) -> {
-            if (index <= 0)
+            if (index < 0)
                 throw exception("Check isSelected by index failed. Index '%s' must be more than 0", index);
             List<WebElement> els = webElements(o);
             if (index > els.size())
@@ -129,7 +129,7 @@ public abstract class WebActions {
             return ((BaseSelector)o).isSelected(element);
         };
         isSelectedByIndex = (o, index) -> {
-            if (index <= 0)
+            if (index < 0)
                 throw exception("Check isSelected by index failed. Index '%s' must be more than 0", index);
             List<WebElement> els = webElements(o);
             if (index > els.size())

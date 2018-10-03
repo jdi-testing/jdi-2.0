@@ -14,9 +14,7 @@ import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.METALS_
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.*;
 import static com.epam.matcher.testng.Assert.assertContains;
 
-/**
- * Created by Roman_Iovlev on 11/14/2016.
- */
+/** Created by Roman_Iovlev on 11/14/2016. */
 public class _SimpleTests extends InitTests {
 
     @BeforeMethod
@@ -29,10 +27,9 @@ public class _SimpleTests extends InitTests {
         metalsColorsPage.summary.odds.select("5");
         metalsColorsPage.summary.even.select(Even.FOUR);
         metalsColorsPage.calculateButton.click();
-        assertContains(() -> resultsLog.first().getText(), "Summary: 9");
+        assertContains(resultsLog.first().getText(), "Summary: 9");
         metalsColorsPage.colors.select(ColorsList.Blue);
         metalsColorsPage.nature.select(Nature.FIRE, Nature.EARTH);
-        assertContains(() -> actionsLog.first().getText(), "Earth: condition changed to true");
+        assertContains(actionsLog.first().getText(), "Earth: condition changed to true");
     }
-
 }
