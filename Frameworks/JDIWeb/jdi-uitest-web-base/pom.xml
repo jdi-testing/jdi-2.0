@@ -9,6 +9,10 @@
     <artifactId>jdi-web-base</artifactId>
     <name>JDI UI testing Web Base</name>
     <packaging>jar</packaging>
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>

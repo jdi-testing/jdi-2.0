@@ -144,6 +144,7 @@ public class MetalsColorsPage extends WebPage {
             return el.getInvisibleElement().getAttribute("checked") != null;
         }
     };
+
     @JComboBox(
         root = @FindBy(css = ".metals"),
         expand = @FindBy(css = ",caret"),

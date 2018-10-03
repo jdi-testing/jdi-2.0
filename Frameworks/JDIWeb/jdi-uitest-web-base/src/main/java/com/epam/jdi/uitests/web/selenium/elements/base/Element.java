@@ -6,6 +6,8 @@ package com.epam.jdi.uitests.web.selenium.elements.base;
  */
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Driver;
+import com.codeborne.selenide.impl.WebDriverThreadLocalContainer;
 import com.epam.jdi.tools.func.JFunc1;
 import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
@@ -297,17 +299,19 @@ public class Element extends BaseElement implements IElement, IHasElement {
         actions.execute(new Actions(getDriver())).build().perform();
         return this;
     }
-    //endregion
+  // endregion
 
+  /**
+   * @param driver Asserts conditions
+   * @param conditions conditions
+   * @return Element
+   */
 
-    /**
-     * Asserts conditions
-     * @param conditions conditions
-     * @return Element
-     */
-    public IBaseElement should(Condition... conditions){
+  public IBaseElement should(Driver driver, Condition... conditions) {
+
         Arrays.stream(conditions).forEach(condition ->
-                asserter.isTrue(condition.apply(getWebElement()),
+
+                asserter.isTrue(condition.apply( driver, getWebElement()),
                         format("Expected: '%s' but found '%s'", condition.toString(), getWebElement().getText())
                 )
         );
@@ -319,8 +323,8 @@ public class Element extends BaseElement implements IElement, IHasElement {
      * @param conditions conditions
      * @return Element
      */
-    public IBaseElement shouldHave(Condition... conditions){
-        return should(conditions);
+    public IBaseElement shouldHave(Driver driver,Condition... conditions){
+        return should(driver, conditions);
     }
 
     /**
@@ -328,8 +332,8 @@ public class Element extends BaseElement implements IElement, IHasElement {
      * @param conditions conditions
      * @return Element
      */
-    public IBaseElement shouldBe(Condition... conditions){
-        return should(conditions);
+    public IBaseElement shouldBe(Driver driver,Condition... conditions){
+        return should(driver, conditions);
     }
 
     /**
@@ -337,9 +341,9 @@ public class Element extends BaseElement implements IElement, IHasElement {
      * @param conditions conditions
      * @return Element
      */
-    public IBaseElement shouldNot(Condition... conditions){
+    public IBaseElement shouldNot(Driver driver,Condition... conditions){
         Arrays.stream(conditions).forEach(condition ->
-                asserter.isTrue(!condition.apply(getWebElement()),
+                asserter.isTrue(!condition.apply(driver, getWebElement()),
                         format("Expected: '%s' but found '%s'", condition.toString(), getWebElement().getText())
                 )
         );
@@ -351,8 +355,8 @@ public class Element extends BaseElement implements IElement, IHasElement {
      * @param conditions conditions
      * @return Element
      */
-    public IBaseElement shouldNotHave(Condition... conditions){
-        return shouldNot(conditions);
+    public IBaseElement shouldNotHave(Driver driver,Condition... conditions){
+        return shouldNot(driver, conditions);
     }
 
     /**
@@ -360,8 +364,8 @@ public class Element extends BaseElement implements IElement, IHasElement {
      * @param conditions conditions
      * @return Element
      */
-    public IBaseElement shouldNotBe(Condition... conditions){
-        return shouldNot(conditions);
+    public IBaseElement shouldNotBe(Driver driver, Condition... conditions){
+        return shouldNot(driver, conditions);
     }
 
 }

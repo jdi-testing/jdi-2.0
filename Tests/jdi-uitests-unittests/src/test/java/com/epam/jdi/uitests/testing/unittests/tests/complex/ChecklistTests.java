@@ -29,6 +29,8 @@ import static java.util.Arrays.asList;
  * Created by Roman_Iovlev on 9/15/2015.
  */
 public class ChecklistTests extends InitTests {
+    //TODO 3/10/2018 failed because of List init problems
+
     private static final List<String> natureOptions = asList("Water", "Earth", "Wind", "Fire");
     private static final String allValues = "Water, Earth, Wind, Fire";
 

@@ -17,13 +17,13 @@ import static com.epam.matcher.testng.Assert.assertContains;
  * Created by Roman_Iovlev on 9/18/2015.
  */
 public class CommonActionsData {
-    public static final String noElementsMessage = "No elements selected. Override getSelectedAction or place locator to <select> tag";
+    static final String noElementsMessage = "No elements selected. Override getSelectedAction or place locator to <select> tag";
     public static final long waitTimeOut = 1000;
     public static Timer timer;
     private static String _name = null;
     private static String _path = null;
 
-    public static void checkActionThrowError(JAction action, String msg) {
+    static void checkActionThrowError(JAction action, String msg) {
         try {
             action.invoke();
         } catch (Exception | AssertionError ex) {
@@ -33,7 +33,7 @@ public class CommonActionsData {
         throw exception("Exception not thrown");
     }
 
-    public static long getTimePassed() {
+    static long getTimePassed() {
         return timer.timePassedInMSec();
     }
 
