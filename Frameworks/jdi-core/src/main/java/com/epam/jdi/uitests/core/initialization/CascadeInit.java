@@ -298,13 +298,11 @@ public abstract class CascadeInit {
      */
     private IBaseElement initList(Field field) {
         try {
-            Class<?> elementClass = field.getType();
-            if (elementClass.isInterface()) {
+            Class<?> elementClass = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+            if (elementClass.isInterface())
                 elementClass = getClassFromInterface(elementClass, field.getName());
-                return (IBaseElement) getClassFromInterface(IList.class, field.getName())
-                    .getDeclaredConstructor(Class.class).newInstance(elementClass);
-            }
-            return (IBaseElement) elementClass.getConstructor(Class.class).newInstance(elementClass);
+            return (IBaseElement) getClassFromInterface(IList.class, field.getName())
+                .getDeclaredConstructor(Class.class).newInstance(elementClass);
         } catch (Exception ex) {
             throw exception("Can't init List element for %s. Exception: %s", field.getName(), ex.getMessage());
         }

@@ -6,6 +6,7 @@ import com.epam.jdi.uitests.testing.unittests.enums.Navigation;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.pages.*;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.Footer;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.Header;
+import com.epam.jdi.uitests.web.selenium.elements.common.Text;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Menu;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
@@ -45,10 +46,10 @@ public class EpamJDISite extends WebSite {
     public static Footer footer;
 
     @FindBy(css = ".logs li")
-    public static IList<String> actionsLog;
+    public static IList<Text> actionsLog;
 
     @FindBy(css = ".results")
-    public static IList<String> resultsLog;
+    public static IList<Text> resultsLog;
 
     @Css("[ui=label]")
     public static Menu<Navigation> navigation;
