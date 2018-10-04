@@ -22,7 +22,8 @@ public class SupportTableTestsBase extends InitTests {
     }
 
     protected EntityTable<SupportEntity,?> entityTable() {
-        return supportPage.entityTable;
+       // return supportPage.entityTable;
+        return null; // TODO 04.10.2018 implement proper entityTable
     }
 
     @BeforeMethod

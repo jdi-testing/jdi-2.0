@@ -25,6 +25,9 @@ public class TTable extends TBaseElement implements ITable {
             this, ((IElement)linked().get("cell")).getElement(x, y), x, y); }
     protected List<ICell> getCells(String name) { return getCells(name, null); }
     protected List<ICell> getCells(String name, Integer index) {
+        if (linked().isEmpty()) {
+            return null;
+        }
         return map(((IBaseSelector)linked().get(name)).getElements(index),
             el -> toCell.execute(this, el, 0, 0)); }
     protected TableRow rows = new TableRow(this,

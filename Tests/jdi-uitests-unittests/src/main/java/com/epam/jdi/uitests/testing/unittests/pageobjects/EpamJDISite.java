@@ -16,7 +16,7 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
 
 @JSite("https://epam.github.io/JDI/")
 public class EpamJDISite extends WebSite {
-    @JPage(url = "/index.html", title = "Index Page")
+    @JPage(url = "/index.html", title = "Home Page")
     public static HomePage homePage;
 
     @JPage(url = "/contacts.html", title = "Contact Form")
