@@ -262,14 +262,14 @@ public abstract class CascadeInit {
      * @return IBaseElement
      */
     private IBaseElement initEntityTable(Field field) {
-        Field[] fields = field.getType().getDeclaredFields();
-        Class firstArg = fields[1].getGenericType().getClass();
-        Class secondArg = fields[2].getGenericType().getClass();
+        Type[] types = ((ParameterizedType) field.getGenericType())
+            .getActualTypeArguments();
         try {
             return (IBaseElement) getClassFromInterface(IEntityTable.class, field.getName())
-                    .getDeclaredConstructor(Class.class, Class.class)
-                    .newInstance(firstArg, secondArg);
-        } catch (Exception ex) { throw exception("Can't init EntityTable for %s. Exception: %s", field.getName(), ex.getMessage()); }
+                .getDeclaredConstructor(Class.class, Class.class).newInstance(types[0], types[1]);
+        } catch (Exception ex) {
+            throw exception("Can't init EntityTable for %s. Exception: %s", field.getName(), ex.getMessage());
+        }
     }
 
     /**
@@ -296,14 +296,14 @@ public abstract class CascadeInit {
      */
     private IBaseElement initList(Field field) {
         try {
-            Class<?> elementClass = field.getType();
-            if (elementClass.isInterface()) {
+            Class<?> elementClass = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+            if (elementClass.isInterface())
                 elementClass = getClassFromInterface(elementClass, field.getName());
-                return (IBaseElement) getClassFromInterface(IList.class, field.getName())
-                        .getDeclaredConstructor(Class.class).newInstance(elementClass);
-            }
-            return (IBaseElement) elementClass.getConstructor(Class.class).newInstance(elementClass);
-        } catch (Exception ex) { throw exception("Can't init List element for %s. Exception: %s", field.getName(), ex.getMessage()); }
+            return (IBaseElement) getClassFromInterface(IList.class, field.getName())
+                .getDeclaredConstructor(Class.class).newInstance(elementClass);
+        } catch (Exception ex) {
+            throw exception("Can't init List element for %s. Exception: %s", field.getName(), ex.getMessage());
+        }
     }
 
     /**
