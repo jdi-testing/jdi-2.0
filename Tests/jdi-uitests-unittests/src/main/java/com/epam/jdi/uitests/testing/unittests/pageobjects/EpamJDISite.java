@@ -1,9 +1,9 @@
 package com.epam.jdi.uitests.testing.unittests.pageobjects;
 
-import com.epam.jdi.uitests.core.interfaces.complex.ITextList;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.pages.*;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.Footer;
 import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.Header;
+import com.epam.jdi.uitests.testing.unittests.pageobjects.sections.LogsPanel;
 import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.FindBy;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JPage;
@@ -16,30 +16,29 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
 
 @JSite("https://epam.github.io/JDI/")
 public class EpamJDISite extends WebSite {
-    @JPage(url = "/index.htm", title = "Index Page")
+    @JPage(url = "/index.html", title = "Home Page")
     public static HomePage homePage;
-    @JPage(url = "/page1.htm", title = "Contact Form")
+
+    @JPage(url = "/contacts.html", title = "Contact Form")
     public static ContactPage contactFormPage;
-    @JPage(url = "/page2.htm", title = "Metal and Colors")
+
+    @JPage(url = "/metals-colors.html", title = "Metal and Colors")
     public static MetalsColorsPage metalsColorsPage;
-    @JPage(url = "/page3.htm", title = "Support")
+
+    @JPage(url = "/support.html", title = "Support")
     public static SupportPage supportPage;
-    @JPage(url = "/page3.htm", title = "Support")
-    public static SortingTablePage sortingTablePage;
-    @JPage(url = "/page6.htm", title = "Simple Table")
+
+    @JPage(url = "/dates.html", title = "Dates")
     public static DatesPage dates;
+
     @FindBy(css = ".uui-profile-menu")
     public static Login login;
+
     @FindBy(css = ".uui-header")
     public static Header header;
+
     @FindBy(css = ".footer-content")
     public static Footer footer;
-    @FindBy(css = ".logs li")
-    public static ITextList actionsLog;
-    @FindBy(css = ".results")
-    public static ITextList resultsLog;
 
-
-
-
+    public static LogsPanel logsPanel;
 }

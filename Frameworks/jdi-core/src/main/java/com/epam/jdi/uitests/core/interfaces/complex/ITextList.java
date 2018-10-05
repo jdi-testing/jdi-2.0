@@ -6,15 +6,18 @@ package com.epam.jdi.uitests.core.interfaces.complex;
  */
 
 import com.epam.jdi.tools.LinqUtils;
+import com.epam.jdi.uitests.core.annotations.JDIAction;
 import com.epam.jdi.uitests.core.interfaces.base.IBaseElement;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 
 import java.util.List;
 
 public interface ITextList extends IList<IText>, IBaseElement {
+
     /**
      * @return list of texts from all elements
      */
+    @JDIAction
     default List<String> asText() {
         return LinqUtils.map(getAll().values(), IText::getText);
     }
@@ -22,6 +25,7 @@ public interface ITextList extends IList<IText>, IBaseElement {
     /**
      * @return text of the first element of the list
      */
+    @JDIAction
     default String firstText() {
         return first().getText();
     }
@@ -29,6 +33,7 @@ public interface ITextList extends IList<IText>, IBaseElement {
     /**
      * @return text of the last element of the list
      */
+    @JDIAction
     default String lastText() {
         return last().getText();
     }
@@ -37,6 +42,7 @@ public interface ITextList extends IList<IText>, IBaseElement {
      * @param index index of the element
      * @return text of the element specified by index
      */
+    @JDIAction
     default String getText(int index) {
         return get(index).getText();
     }

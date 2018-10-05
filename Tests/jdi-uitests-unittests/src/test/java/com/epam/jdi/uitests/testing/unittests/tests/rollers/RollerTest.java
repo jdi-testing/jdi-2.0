@@ -13,8 +13,8 @@ import java.lang.reflect.Method;
 
 import static com.epam.jdi.uitests.core.preconditions.PreconditionsState.isInState;
 import static com.epam.jdi.uitests.testing.unittests.enums.Preconditions.DATES_PAGE;
-import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.actionsLog;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.dates;
+import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.logsPanel;
 
 
 /**
@@ -38,7 +38,7 @@ public class RollerTest extends InitTests {
     public void leftRollerChangeTest(int rollerPosition) {
         ContactForm contactForm = (ContactForm) form.get();
         contactForm.setLeftRollerPosition(rollerPosition);
-        new TestNG("Actual Log Info").matches(actionsLog.getText(0), "([0-9]{2}:){2}[0-9]{2} Range 2\\(From\\):" + rollerPosition + " link clicked");
+        new TestNG("Actual Log Info").matches(logsPanel.getLastActionsLog(), "([0-9]{2}:){2}[0-9]{2} Range 2\\(From\\):" + rollerPosition + " link clicked");
     }
 
 
@@ -46,7 +46,7 @@ public class RollerTest extends InitTests {
     public void rightRollerChangeTest(int rollerPosition) {
         ContactForm contactForm = (ContactForm) form.get();
         contactForm.setRightRollerPosition(rollerPosition);
-        new TestNG("Actual Log Info").matches(actionsLog.getText(0), "([0-9]{2}:){2}[0-9]{2} Range 2\\(To\\):" + rollerPosition + " link clicked");
+        new TestNG("Actual Log Info").matches(logsPanel.getLastActionsLog(), "([0-9]{2}:){2}[0-9]{2} Range 2\\(To\\):" + rollerPosition + " link clicked");
     }
 
 
@@ -54,9 +54,9 @@ public class RollerTest extends InitTests {
     public void bothRollersChangeTest(int leftRollerPosition, int rightRollerPosition) {
         ContactForm contactForm = (ContactForm) form.get();
         contactForm.setLeftRollerPosition(leftRollerPosition);
-        new TestNG("Actual Log Info").matches(actionsLog.getText(0), "([0-9]{2}:){2}[0-9]{2} Range 2\\(From\\):" + leftRollerPosition + " link clicked");
+        new TestNG("Actual Log Info").matches(logsPanel.getLastActionsLog(), "([0-9]{2}:){2}[0-9]{2} Range 2\\(From\\):" + leftRollerPosition + " link clicked");
         contactForm.setRightRollerPosition(rightRollerPosition);
-        new TestNG("Actual Log Info").matches(actionsLog.getText(0), "([0-9]{2}:){2}[0-9]{2} Range 2\\(To\\):" + rightRollerPosition + " link clicked");
+        new TestNG("Actual Log Info").matches(logsPanel.getLastActionsLog(), "([0-9]{2}:){2}[0-9]{2} Range 2\\(To\\):" + rightRollerPosition + " link clicked");
     }
 
 }
