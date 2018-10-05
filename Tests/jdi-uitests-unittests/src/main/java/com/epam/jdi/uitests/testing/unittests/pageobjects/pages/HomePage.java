@@ -23,7 +23,7 @@ public class HomePage extends WebPage {
     public IMenu menu1;
 
     @FindBy(css = ".main-title")
-    public Label title;
+    public Label titleLabel;
     @FindBy(css = ".main-txt")
     public Text text;
     @FindBy(css = ".epam-logo img")
