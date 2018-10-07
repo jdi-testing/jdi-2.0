@@ -114,7 +114,7 @@ public abstract class WebActions {
             List<WebElement> els = webElements(o);
             if (index > els.size())
                 throw exception("Check isSelected by index failed. Index '%s' more than amount of found element '%s' less than ", index, els.size());
-            return new Button().setWebElement(els.get(index));
+            return new Button().setWebElement(els.get(index - 1));
         };
     }
 

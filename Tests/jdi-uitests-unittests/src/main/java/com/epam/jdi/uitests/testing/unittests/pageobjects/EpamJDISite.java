@@ -28,6 +28,9 @@ public class EpamJDISite extends WebSite {
     @JPage(url = "/support.html", title = "Support")
     public static SupportPage supportPage;
 
+    @JPage(url = "/complex-table.html", title = "Complex Table")
+    public static ComplexTablePage complexTablePage;
+
     @JPage(url = "/dates.html", title = "Dates")
     public static DatesPage dates;
 

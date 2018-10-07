@@ -12,10 +12,13 @@ public class JMenuDP {
 
 
     public static List<String> listMenu =
-            Stream.of("HOME", "CONTACT FORM", "SERVICE", "", "", "", "", "", "", "METALS & COLORS" )
+            Stream.of("HOME", "CONTACT FORM", "SERVICE", "METALS & COLORS" )
                     .collect(Collectors.toList());
 
-    public static String optionsAsText = "HOME, CONTACT FORM, SERVICE, , , , , , , METALS & COLORS";
+    public static String optionsAsText = "HOME\n" +
+        "CONTACT FORM\n" +
+        "SERVICE\n" +
+        "METALS & COLORS";
 
     @DataProvider(name = "menuData")
     public static Object[][] inputData() {

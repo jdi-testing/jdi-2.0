@@ -20,7 +20,7 @@ public class JMenuTests extends InitTests {
         menu.select("CONTACT FORM");
         new TestNG().isTrue(menu.isSelected("CONTACT FORM"));
 
-        new TestNG().areEquals(menu .getOptions(), list);
+        new TestNG().areEquals(menu.getOptions(), list);
 
 
 

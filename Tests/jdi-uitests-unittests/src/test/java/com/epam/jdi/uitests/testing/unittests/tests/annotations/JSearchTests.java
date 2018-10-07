@@ -6,8 +6,8 @@ import com.epam.jdi.uitests.testing.unittests.tests.common.dataProviders.JSearch
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.complexTablePage;
 import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.homePage;
-import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.supportPage;
 
 public class JSearchTests extends InitTests {
     @BeforeMethod
@@ -20,7 +20,7 @@ public class JSearchTests extends InitTests {
     public void findTestForJSearchWithRootInputSearchButton(ISearch search, Boolean option) {
         search.clear();
         search.find("JDI");
-        supportPage.checkOpened();
+        complexTablePage.checkOpened();
     }
 
 

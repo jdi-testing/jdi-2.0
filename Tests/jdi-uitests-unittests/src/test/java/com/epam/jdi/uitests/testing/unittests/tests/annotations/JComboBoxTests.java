@@ -20,7 +20,7 @@ public class JComboBoxTests extends InitTests {
     public void comboBoxTest(IComboBox comboBox, Boolean option) {
         new JUnit().areEquals(comboBox.getText(), "Colors");
         new JUnit().areEquals(comboBox.getValue(), "Colors");
-        new JUnit().areEquals(comboBox.getOptionsAsText(), "Colors, Red, Green, Blue, Yellow");
+        new JUnit().areEquals(comboBox.getOptionsAsText(), "Colors,Red,Green,Blue,Yellow");
         new JUnit().areEquals(comboBox.getOptions(), "[Colors, Red, Green, Blue, Yellow]");
         new JUnit().areEquals(comboBox.getValues(), "[Colors, Red, Green, Blue, Yellow]");
 
