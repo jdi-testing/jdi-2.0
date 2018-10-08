@@ -1,4 +1,4 @@
-package com.epam.jdi.uitests.testing.unittests.dataproviders;
+package com.epam.jdi.uitests.testing.unittests.tests.common;
 
 import com.epam.jdi.uitests.testing.unittests.W3CInit;
 import com.epam.matcher.testng.Assert;

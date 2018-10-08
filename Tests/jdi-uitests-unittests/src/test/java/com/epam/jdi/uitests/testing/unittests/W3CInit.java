@@ -20,10 +20,10 @@ import static org.openqa.selenium.remote.BrowserType.CHROME;
 public class W3CInit extends TestNGBase {
 
     @BeforeSuite(alwaysRun = true)
-    public static void setUp() throws Exception {
+    public static void setUp() {
         domain = "http://www.w3schools.com";
-        init(W3cSite.class, useDriver(CHROME));
-        init(EpamJDISite.class, useDriver(CHROME));
+        init(W3cSite.class);
+        init(EpamJDISite.class);
         framePage.open();
         Verify.getFails();
         logger.info("Run Tests");
