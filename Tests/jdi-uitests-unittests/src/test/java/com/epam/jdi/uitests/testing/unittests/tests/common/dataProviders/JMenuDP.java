@@ -11,9 +11,7 @@ import static com.epam.jdi.uitests.testing.unittests.pageobjects.EpamJDISite.hom
 public class JMenuDP {
 
 
-    public static List<String> listMenu =
-            Stream.of("HOME", "CONTACT FORM", "SERVICE", "METALS & COLORS" )
-                    .collect(Collectors.toList());
+    public static List<String> listMenu = asList("HOME", "CONTACT FORM", "SERVICE", "METALS & COLORS");
 
     public static String optionsAsText = "HOME\n" +
         "CONTACT FORM\n" +
