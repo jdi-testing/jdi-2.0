@@ -68,7 +68,7 @@ public class LinkTests extends InitTests {
         isInState(SUPPORT_PAGE);
         runParallel(homePage::open);
         areEquals(link().wait(() -> link().getReference(),
-            ref -> ref.contains("page3.html")), supportPage.url);
+            ref -> ref.contains("support.html")), supportPage.url);
         isTrue(CommonActionsData.timer.timePassedInMSec() > waitTimeOut);
     }
 

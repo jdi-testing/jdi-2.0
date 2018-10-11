@@ -69,7 +69,7 @@ public class RadioButtonsWithSelectedTests extends InitTests {
 
     @Test
     public void getOptionsAsTextTest() {
-        areEquals(odds().getOptionsAsText(), "1, 3, 5, 7");
+        areEquals(odds().getOptionsAsText(), "1,3,5,7");
     }
 
     @Test
@@ -80,7 +80,7 @@ public class RadioButtonsWithSelectedTests extends InitTests {
 
     @Test
     public void getNameTest() {
-        areEquals(odds().getName(), "Odds RWith Selected");
+        areEquals(odds().getName(), "Odds R With Selected");
     }
 
     @Test

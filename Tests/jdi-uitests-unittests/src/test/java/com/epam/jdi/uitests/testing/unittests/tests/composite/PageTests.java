@@ -28,7 +28,7 @@ public class PageTests extends InitTests {
     @Test
     public void refreshTest(){
         contactFormPage.contactSubmit.click();
-        areEquals(contactFormPage.result::getText, "Summary: 3");
+        contains(contactFormPage.result::getText, "Summary: 3");
         contactFormPage.refresh();
         areEquals(contactFormPage.result::getText, "");
         contactFormPage.checkOpened();

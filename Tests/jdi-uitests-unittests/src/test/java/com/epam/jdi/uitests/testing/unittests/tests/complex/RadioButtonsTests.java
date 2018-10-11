@@ -69,7 +69,7 @@ public class RadioButtonsTests extends InitTests {
 
     @Test
     public void getOptionsAsTextTest() {
-        areEquals(odds().getOptionsAsText(), "1, 3, 5, 7");
+        areEquals(odds().getOptionsAsText(), "1,3,5,7");
     }
 
     @Test

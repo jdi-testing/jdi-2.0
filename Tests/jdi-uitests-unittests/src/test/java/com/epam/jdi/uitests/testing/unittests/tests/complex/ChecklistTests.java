@@ -28,7 +28,7 @@ import static java.util.Arrays.asList;
  */
 public class ChecklistTests extends InitTests {
     private static final List<String> natureOptions = asList("Water", "Earth", "Wind", "Fire");
-    private static final String allValues = "Water, Earth, Wind, Fire";
+    private static final String allValues = "Water,Earth,Wind,Fire";
 
     private ICheckList<Nature> nature() {
         return metalsColorsPage.nature;
