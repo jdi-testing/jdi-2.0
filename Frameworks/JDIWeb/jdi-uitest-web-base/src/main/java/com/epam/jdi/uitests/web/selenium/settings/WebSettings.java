@@ -14,6 +14,7 @@ import com.epam.jdi.uitests.core.interfaces.common.*;
 import com.epam.jdi.uitests.core.interfaces.complex.*;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.IEntityTable;
 import com.epam.jdi.uitests.core.interfaces.complex.tables.ITable;
+import com.epam.jdi.uitests.core.interfaces.composite.IPopup;
 import com.epam.jdi.uitests.core.logger.JDILogger;
 import com.epam.jdi.uitests.core.settings.JDISettings;
 import com.epam.jdi.uitests.web.selenium.elements.base.Element;
@@ -22,6 +23,7 @@ import com.epam.jdi.uitests.web.selenium.elements.common.*;
 import com.epam.jdi.uitests.web.selenium.elements.complex.*;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.EntityTable;
 import com.epam.jdi.uitests.web.selenium.elements.complex.table.Table;
+import com.epam.jdi.uitests.web.selenium.elements.composite.Popup;
 import org.openqa.selenium.*;
 
 import java.util.List;
@@ -150,7 +152,8 @@ public class WebSettings extends JDISettings {
             {IDatePicker.class, DatePicker.class},
             {IEntityTable.class, EntityTable.class},
             {IList.class, Elements.class},
-            {List.class, Elements.class}
+            {List.class, Elements.class},
+            {IPopup.class, Popup.class }
     };
 
     /**

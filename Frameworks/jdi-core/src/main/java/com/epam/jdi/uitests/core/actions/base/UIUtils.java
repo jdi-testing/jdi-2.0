@@ -46,7 +46,7 @@ public class UIUtils {
         if (fields.size() == 1)
             return (IButton) getValueField(fields.get(0), obj);
         Collection<IButton> buttons = select(fields, f -> (IButton) getValueField(f, obj));
-        String name = funcName.name + "button";
+        String name = funcName.toString().toLowerCase() + "button";
         IButton button = first(buttons, b -> {
             String bName = b.getName().toLowerCase();
             bName = bName.toLowerCase().contains("button") ? bName : bName + "button";

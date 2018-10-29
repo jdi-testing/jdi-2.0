@@ -10,22 +10,25 @@ import com.epam.jdi.uitests.core.interfaces.base.IClickable;
 import com.epam.jdi.uitests.core.interfaces.base.IComposite;
 import com.epam.jdi.uitests.core.interfaces.common.IText;
 
+import static com.epam.jdi.uitests.core.actions.base.Functions.*;
+import static com.epam.jdi.uitests.core.actions.base.UIUtils.getButton;
+
 public interface IPopup extends IText, IComposite {
     /**
      * Click on Button marked with annotation @OkButton or named "okButton"
      */
     @JDIAction
-    default void ok() { ((IClickable)linked().get("ok")).click(); }
+    default void ok() { getButton(this, OK).click(); }
 
     /**
      * Click on Button marked with annotation @CancelButton or named "cancelButton"
      */
     @JDIAction
-    default void cancel() { ((IClickable)linked().get("cancel")).click(); ;}
+    default void cancel() { getButton(this, CANCEL).click();}
 
     /**
      * Click on Button marked with annotation @CloseButton or named "closeButton"
      */
     @JDIAction
-    default void close() { ((IClickable)linked().get("close")).click(); ;}
+    default void close() { ((IClickable)linked().get("close")).click();}
 }
