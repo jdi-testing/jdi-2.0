@@ -204,7 +204,7 @@ public class Element extends BaseElement implements IElement, IHasElement {
     }
     public IBaseElement shouldNot(Condition... conditions){
         Arrays.stream(conditions).forEach(condition ->
-                asserter.isTrue(!condition.apply(getWebElement()),
+                asserter.isTrue(!condition.apply(, getWebElement()),
                         format("Expected: '%s' but found '%s'", condition.toString(), getWebElement().getText())
                 )
         );

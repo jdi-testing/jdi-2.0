@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>RELEASE</version>
+            <version>4.11.2</version>
         </dependency>
     </dependencies>
 
