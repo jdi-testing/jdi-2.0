@@ -33,6 +33,7 @@ public class ComplexElementsTests extends SimpleTestsInit {
         contactFormPage.checkOpened();
         navigation.select(Home);
         homePage.checkOpened();
+        navigation.select(Service);
         navigation.select(ComplexTable);
     }
 }

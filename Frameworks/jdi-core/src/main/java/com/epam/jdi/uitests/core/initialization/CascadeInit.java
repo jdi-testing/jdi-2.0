@@ -34,7 +34,7 @@ public abstract class CascadeInit {
 
     // init non static fields
     public synchronized void initElements(Object parent, String driverName) {
-        setFieldsForInit(parent, getFields(parent, decorators(), stopTypes()), parent.getClass(), driverName);
+        setFieldsForInit(parent, fieldsForInit(parent, decorators(), stopTypes()), parent.getClass(), driverName);
     }
 
     protected abstract Class<?>[] stopTypes();

@@ -13,7 +13,7 @@ import static com.epam.jdi.uitests.web.selenium.settings.WebSettings.logger;
  * Created by Roman_Iovlev on 8/23/2017.
  */
 public class SearchResult extends Section {
-    @Title @Css("h3>a") public ILabel name;
+    @Title @Css("h3") public ILabel name;
     @Css(".st")  public IText description;
     @Css("cite") public ILink link;
 

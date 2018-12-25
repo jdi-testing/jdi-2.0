@@ -16,6 +16,7 @@ import static com.google.GoogleSite.searchPage;
 public class ElementsGoogleTests extends GoogleInit {
     @Test
     public void resultsAsList() {
+        homePage.open();
         Assert.contains(homePage.getDriver().getCurrentUrl(),
                 "https://www.google.");
         homePage.search("jdi");
